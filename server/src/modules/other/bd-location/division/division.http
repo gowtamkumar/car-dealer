@@ -1,0 +1,26 @@
+### Get list of all divisions
+GET http://localhost:3900/api/v1/divisions
+
+### Get single divisions
+GET http://localhost:3900/api/v1/divisions/b67e0133-92c6-4e5f-bc6b-1bd15b5a1c4f
+
+### Create a new division
+POST  http://localhost:3900/api/v1/divisions
+Content-Type: application/json
+
+{
+  "name": "sdfsadf",
+  "bnName": "jashore",
+}
+
+### Update a division
+PUT  http://localhost:3900/api/v1/divisions/b67e0133-92c6-4e5f-bc6b-1bd15b5a1c4f
+Content-Type: application/json
+
+{
+  "name": "sdfsadf",
+  "bnName": "jashore",
+}
+
+### Delete a division
+DELETE  http://localhost:3900/api/v1/divisions/b67e0133-92c6-4e5f-bc6b-1bd15b5a1c4f

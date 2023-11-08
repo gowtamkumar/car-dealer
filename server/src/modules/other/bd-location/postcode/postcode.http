@@ -1,0 +1,31 @@
+### Get list of all postcodes
+GET http://localhost:3900/api/v1/postcodes
+
+### Get single postcodes
+GET http://localhost:3900/api/v1/postcodes/b67e0133-92c6-4e5f-bc6b-1bd15b5a1c4f
+
+### Create a new postcode
+POST  http://localhost:3900/api/v1/postcodes
+Content-Type: application/json
+
+{
+  "divisionId": "sdfsadf",
+  "districtId": "jashore",
+  "upazilaId": "sdfsadf",
+  "postOffice": "jashore",
+  "postCode": "sdfsadf",
+  "lat": "jashore",
+  "long": "jashore",
+}
+
+### Update a postcode
+PUT  http://localhost:3900/api/v1/postcodes/b67e0133-92c6-4e5f-bc6b-1bd15b5a1c4f
+Content-Type: application/json
+
+{
+  "name": "sdfsadf",
+  "bnName": "jashore",
+}
+
+### Delete a postcode
+DELETE  http://localhost:3900/api/v1/postcodes/b67e0133-92c6-4e5f-bc6b-1bd15b5a1c4f

@@ -1,0 +1,28 @@
+### Get list of all unions
+GET http://localhost:3900/api/v1/unions
+
+### Get single unions
+GET http://localhost:3900/api/v1/unions/2615bd0e-956d-4192-9364-a5a00717a8d8
+
+### Create a new union
+POST  http://localhost:3900/api/v1/unions
+Content-Type: application/json
+
+{
+  "divisionId": "Jonota",
+  "name": "sdfsadf",
+  "bnName": "jashore",
+}
+
+### Update a union
+PUT  http://localhost:3900/api/v1/unions/2615bd0e-956d-4192-9364-a5a00717a8d8
+Content-Type: application/json
+
+{
+  "divisionId": "Jonota",
+  "name": "sdfsadf",
+  "bnName": "jashore",
+}
+
+### Delete a union
+DELETE  http://localhost:3900/api/v1/unions/2615bd0e-956d-4192-9364-a5a00717a8d8

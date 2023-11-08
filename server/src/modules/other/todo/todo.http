@@ -1,0 +1,25 @@
+### Get list of all tasks
+GET http://localhost:3900/api/v1/tasks
+
+### Get a single note by id
+GET http://localhost:3900/api/v1/tasks/dc090666-8f60-4399-ad09-33754a606f96
+
+### Create a note
+POST  http://localhost:3900/api/v1/tasks
+Content-Type: application/json
+
+{
+  "type": "Email",
+  "title": "title"
+}
+
+### Update a note by id
+PUT   http://localhost:3900/api/v1/tasks/101641e2-bd11-4e49-83d9-72895fa511ef
+Content-Type: application/json
+
+{
+  "title": "title"
+}
+
+### Delete a note by id
+DELETE   http://localhost:3900/api/v1/tasks/28bac04b-0150-4cc0-a49e-823abb9dae77

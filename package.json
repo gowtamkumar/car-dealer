@@ -11,7 +11,7 @@
     "build": "npm run build --prefix server && npm run build --prefix client",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "npm run start:prod --prefix server",
-    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "dev": "concurrently \"npm run client\" \"npm run server\"",
     "client": "npm start --prefix client",
     "server": "npm run start:dev --prefix server",
     "seeder:down": "npm run seeder:down --prefix server",

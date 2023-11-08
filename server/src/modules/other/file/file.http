@@ -1,0 +1,30 @@
+### Create a new file
+POST http://localhost:3900/api/v1/files
+Content-Type: application/json
+
+{
+  "name": "Operator"
+}
+
+
+### Find all filtered files
+GET http://localhost:3900/api/v1/files
+
+
+### Find a file by id
+GET http://localhost:3900/api/v1/files/38b844e7-aaa6-4165-a3ed-5687b64bd8df
+
+### Update a file 
+PUT http://localhost:3900/api/v1/files/ec18070b-02c2-4fbc-9b28-7756574a1c74
+Content-Type: application/json
+
+{
+  "level": 3,
+  "colorCode": "#ddd"
+}
+
+
+### Delete a file by id
+DELETE http://localhost:3900/api/v1/files/367d0017-0c9c-4417-81f9-47edd470dd83
+
+

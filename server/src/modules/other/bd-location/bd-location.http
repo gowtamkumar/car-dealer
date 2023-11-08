@@ -1,0 +1,6 @@
+### Get list of all bd-locations
+GET http://localhost:3900/api/v1/bd-locations
+
+
+### Post list of all bd-locations 
+POST http://localhost:3900/api/v1/bd-locations/initiate

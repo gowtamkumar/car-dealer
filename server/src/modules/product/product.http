@@ -1,0 +1,24 @@
+### Get All Products
+GET http://localhost:3900/api/v1/products
+
+### GET a single Product
+GET http://localhost:3900/api/v1/products/d855b39f-c23e-403e-a3a6-258f3db925b8
+
+### Create a Product
+POST http://localhost:3900/api/v1/products
+Content-Type: application/json
+
+{
+   "name":"Ruhit Hassan"
+}
+
+### Update a Product
+PUT http://localhost:3900/api/v1/products/d855b39f-c23e-403e-a3a6-258f3db925b8
+Content-Type: application/json
+
+{
+    "name":"Rafi"
+}
+
+### Delete a Product
+DELETE http://localhost:3900/api/v1/products/d855b39f-c23e-403e-a3a6-258f3db925b8

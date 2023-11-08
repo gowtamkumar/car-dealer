@@ -1,0 +1,28 @@
+### Get list of all upazilas
+GET http://localhost:3900/api/v1/upazilas
+
+### Get single upazilas
+GET http://localhost:3900/api/v1/upazilas/2615bd0e-956d-4192-9364-a5a00717a8d8
+
+### Create a new upazila
+POST  http://localhost:3900/api/v1/upazilas
+Content-Type: application/json
+
+{
+  "divisionId": "Jonota",
+  "name": "sdfsadf",
+  "bnName": "jashore",
+}
+
+### Update a upazila
+PUT  http://localhost:3900/api/v1/upazilas/2615bd0e-956d-4192-9364-a5a00717a8d8
+Content-Type: application/json
+
+{
+  "divisionId": "Jonota",
+  "name": "sdfsadf",
+  "bnName": "jashore",
+}
+
+### Delete a upazila
+DELETE  http://localhost:3900/api/v1/upazilas/2615bd0e-956d-4192-9364-a5a00717a8d8

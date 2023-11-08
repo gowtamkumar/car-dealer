@@ -1,0 +1,28 @@
+### Get list of all districts
+GET http://localhost:3900/api/v1/districts
+
+### Get single districts
+GET http://localhost:3900/api/v1/districts/2615bd0e-956d-4192-9364-a5a00717a8d8
+
+### Create a new district
+POST  http://localhost:3900/api/v1/districts
+Content-Type: application/json
+
+{
+  "divisionId": "Jonota",
+  "name": "sdfsadf",
+  "bnName": "jashore",
+}
+
+### Update a district
+PUT  http://localhost:3900/api/v1/districts/2615bd0e-956d-4192-9364-a5a00717a8d8
+Content-Type: application/json
+
+{
+  "divisionId": "Jonota",
+  "name": "sdfsadf",
+  "bnName": "jashore",
+}
+
+### Delete a district
+DELETE  http://localhost:3900/api/v1/districts/2615bd0e-956d-4192-9364-a5a00717a8d8

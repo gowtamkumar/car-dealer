@@ -26,11 +26,13 @@ import {
   UsersIcon,
   FolderIcon,
   Square3Stack3DIcon,
+  HomeIcon,
 } from '@heroicons/react/24/outline'
 // import Image from 'next/image'
 // import UserDropDwon from './UserDropDwon'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import UserDropDwon from '../ui/UserDropDwon'
 
 const navListMenuItems = [
   {
@@ -69,6 +71,8 @@ const navListMenuItems = [
     description: 'All the stuff that we dan from legal made us add.',
   },
 ]
+
+const token = true
 
 function NavListMenu() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false)
@@ -142,19 +146,39 @@ function NavListMenu() {
 function NavList() {
   return (
     <List className="mb-6 mt-4 p-0 lg:mb-0 lg:mt-0 lg:flex-row lg:p-1">
-      <Typography as="a" href="/products" variant="small" color="blue-gray" className="font-normal">
+      <Typography as={Link} href="/about" variant="small" color="blue-gray" className="font-normal">
+        <ListItem className="flex items-center gap-2 py-2 pr-4">
+          <UserCircleIcon className="h-[18px] w-[18px]" />
+          About Us
+        </ListItem>
+      </Typography>
+      <Typography
+        as={Link}
+        href="/products"
+        variant="small"
+        color="blue-gray"
+        className="font-normal"
+      >
         <ListItem className="flex items-center gap-2 py-2 pr-4">
           <CubeTransparentIcon className="h-[18px] w-[18px]" />
           Products
         </ListItem>
       </Typography>
       <NavListMenu />
-      <Typography as="a" href="#" variant="small" color="blue-gray" className="font-normal">
-        <ListItem className="flex items-center gap-2 py-2 pr-4">
-          <UserCircleIcon className="h-[18px] w-[18px]" />
-          Account
-        </ListItem>
-      </Typography>
+      {token && (
+        <Typography
+          as={Link}
+          href="/dashboard"
+          variant="small"
+          color="blue-gray"
+          className="font-normal"
+        >
+          <ListItem className="flex items-center gap-2 py-2 pr-4">
+            <HomeIcon className="h-[18px] w-[18px]" />
+            Dashboard
+          </ListItem>
+        </Typography>
+      )}
     </List>
   )
 }
@@ -176,21 +200,19 @@ export default function NavbarMenu() {
 
   return (
     <Navbar className="fixed inset-0 top-0 z-50 h-max max-w-full rounded-none px-4 py-2 shadow-sm lg:px-8">
-      <div className="text-blue-gray-900 container mx-auto flex items-center justify-between">
-        <Typography as="a" href="/" variant="h6" className="mr-4 cursor-pointer py-1.5 lg:ml-2">
-          {/* <Image src="/logo-full.png" width={150} height={12} alt="" /> */}
+      <div className="container mx-auto flex items-center justify-between text-blue-gray-900">
+        <Typography as={Link} href="/" variant="h6" className="mr-4 cursor-pointer py-1.5 lg:ml-2">
           Logo
         </Typography>
-        {/* <div className="hidden lg:block"></div> */}
         <div className="hidden items-center gap-2 lg:flex">
           <NavList />
           <div className="relative me-3 flex w-full gap-2 md:w-max">
             <Input
               type="search"
               label="Search here..."
-              className="pr-20"
+              className="pr-20 focus:border-[1px]"
               containerProps={{
-                className: 'min-w-[250px]',
+                className: 'min-w-[250px] focus:border-[1px]',
               }}
               value={query}
               onChange={(e) => setQuery(e.target.value)}
@@ -199,30 +221,31 @@ export default function NavbarMenu() {
               Search
             </Button>
           </div>
-          <div className="flex items-center gap-2">
-            <Typography
-              as={Link}
-              href="/"
-              variant="small"
-              color="blue-gray"
-              className="font-normal hover:underline"
-            >
-              Sign In
-            </Typography>
-            <span>|</span>
-            <Typography
-              as={Link}
-              href="/"
-              variant="small"
-              color="blue-gray"
-              className="font-normal hover:underline"
-            >
-              Sign Up
-            </Typography>
-          </div>
-          {/* <div>
+          {token ? (
             <UserDropDwon />
-          </div> */}
+          ) : (
+            <div className="flex items-center gap-2">
+              <Typography
+                as={Link}
+                href="/"
+                variant="small"
+                color="blue-gray"
+                className="font-normal hover:underline"
+              >
+                Sign In
+              </Typography>
+              <span>|</span>
+              <Typography
+                as={Link}
+                href="/"
+                variant="small"
+                color="blue-gray"
+                className="font-normal hover:underline"
+              >
+                Sign Up
+              </Typography>
+            </div>
+          )}
         </div>
         <IconButton
           variant="text"
@@ -237,16 +260,34 @@ export default function NavbarMenu() {
           )}
         </IconButton>
       </div>
+
       <Collapse open={openNav}>
         <NavList />
-        <div className="flex w-full flex-nowrap items-center gap-2 lg:hidden">
-          <Button variant="outlined" size="sm" color="blue-gray" fullWidth>
-            Sign In
-          </Button>
-          <Button variant="gradient" size="sm" fullWidth>
-            Sign Up
+        <div className="relative me-3 flex w-full gap-2 md:w-max">
+          <Input
+            type="search"
+            label="Search here..."
+            className="pr-20 focus:border-[1px]"
+            containerProps={{
+              className: 'min-w-[250px] focus:border-[1px]',
+            }}
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+          />
+          <Button size="sm" className="!absolute right-1 top-1 rounded bg-red-400">
+            Search
           </Button>
         </div>
+        {token ? null : (
+          <div className="flex w-full flex-nowrap items-center gap-2 lg:hidden">
+            <Button variant="outlined" size="sm" color="blue-gray" fullWidth>
+              Sign In
+            </Button>
+            <Button variant="gradient" size="sm" fullWidth>
+              Sign Up
+            </Button>
+          </div>
+        )}
       </Collapse>
     </Navbar>
   )

@@ -1,11 +1,17 @@
-'use client'
-import React from 'react'
+'use client' // Error components must be Client Components
 
-export default function GlobalError({ error }) {
+import { useEffect } from 'react'
+
+export default function Error({ error, reset }) {
+  useEffect(() => {
+    // Log the error to an error reporting service
+    console.error(error)
+  }, [error])
+
   return (
-    <div className="flex h-[calc(100vh-160px)] w-full flex-col items-center justify-center gap-y-4">
-      <h2 className=" text-destructive text-5xl font-bold">Oops, Something Went Wrong!</h2>
-      <button onClick={() => reset()}>Try Again</button>
+    <div>
+      <h2>Something went wrong!</h2>
+      <button onClick={() => reset()}>Try again</button>
     </div>
   )
 }

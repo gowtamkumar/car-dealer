@@ -1,101 +1,135 @@
 ## User
 
-[] firstName `string`
-[] lastName
-[] username
-[] dob
-[] address
-[] password
-[] phone
-[] email
-[] photo
-[] status
-[] role `admin/oparator/seller`
-[] isAdmin
-[] createAt
-[] updateAt
+    [] firstName
+    [] lastName
+    [] username
+    [] password
+    [] dob
+    [] address
+    [] phone
+    [] email
+    [] photo
+    [] status
+    [] role ["admin","oparator","seller"]
+    [] isAdmin
+    [] createAt
+    [] updateAt
 
 ## products
 
-[] name
-[] brandId
-[] modelId
-[] modelCodeId
-[] condition
-[] startDate
-[] endtDate
-[] fuelType `Enum`
-[] bodytype `Enum`
-[] steering `Enum`
-[] transmission `Enum`
-[] manufactureDate `Date` ??
-[] registrationDate `Date` ??
-[] price
-[] milleage
-[] engCc
-[] drivetrain
-[] color
-[] noOfPass
-[] loadCapacity
-[] cdPlayer `boleen`
-[] sunRoof `boleen`
-[] leatherSeat `boleen`
-[] alloyWheels `boleen`
-[] powerSteering `boleen`
-[] powerWindow `boleen`
-[] ac `boleen`
-[] abs `boleen`
-[] airBag `boleen`
-[] radio `boleen`
-[] cdChanger `boleen`
-[] dvd `boleen`
-[] tv `boleen`
-[] powerSeat `boleen`
-[] powerSeat `boleen`
-[] backTire `boleen`
-[] grillGuard `boleen`
-[] rearSpoiler `boleen`
-[] centerLocking `boleen`
-[] jack `boleen`
-[] spareTire `boleen`
-[] wheelSpanner `boleen`
-[] fogLight `boleen`
-[] backCamera `boleen`
-[] pushStart `boleen`
-[] keyLess Entry `boleen`
-[] esc `boleen`
-[] 360DCamera `boleen`
-[] bodyKit `boleen`
-[] sideAirbag `boleen`
-[] powerMirror `boleen`
-[] sideSkirts `boleen`
-[] fontLipSpoiler `boleen`
-[] navigation `boleen`
-[] turbo `boleen`
-[] nonSmoker `boleen`
-[] oneOwner `boleen`
-[] premiumClass `boleen`
-[] createAt
-[] updateAt
+    [] condition["new", "recondition", "used"]
+    [] name
+    [] brandId
+    [] modelId
+    [] modelCodeId
+    [] edition/Package
+    [] auction(boolean)
+    [] manufactureDate `years`
+    [] registrationDate `years`
+    [] fuelType `Enum`
+    [] transmission `Enum`
+    [] bodytype `Enum`
+    [] steering `Enum`
+    [] color
+    [] price
+    [] noOfPass
+    [] milleage
+    [] loadCapacity
+    [] engCc
+    [] noOfseat
+    [] noOfowner
+
+    [] features:
+        [
+        "drivetrain"
+        "cdPlayer"
+        "sunRoof"
+        "alloyWheels"
+        "powerSteering"
+        "powerWindow"
+        "ac"
+        "abs"
+        'air Bag'
+        "radio"
+        "cdChanger"
+        "dvd"
+        "tv"
+        "powerSeat"
+        "powerSeat"
+        "backTire"
+        "grillGuard"
+        "rearSpoiler"
+        "centerLocking"
+        "jack"
+        "spareTire"
+        "wheelSpanner"
+        "fogLight"
+        "backCamera"
+        "pushStart"
+        "keyLessentry"
+        "esc"
+        "360DCamera"
+        "bodyKit"
+        "sideAirbag"
+        "powerMirror"
+        "sideSkirts"
+        "fontLipSpoiler"
+        "navigation"
+        "turbo"
+        "nonSmoker"
+        ]
+    [] exteriorColor
+    [] startDate? why adde?
+    [] endtDate? why?
+    [] description
+    [] division
+    [] district
+    [] thana
+    [] createAt
+    [] updateAt
+    [] userId
 
 ## brands
 
-[] name
-[] status
-[] createAt
-[] updateAt
+    [] name
+    [] logo
+    [] status
+    [] userId
 
 ## model
 
-[] name
-[] status
-[] createAt
-[] updateAt
+    [] name
+    [] brandId
+    [] status
+    [] userId
 
 ## modelCode
 
-[] name
-[] modelId
-[] status
-[] createAt
-[] updateAt
+    [] name
+    [] modelId
+    [] status
+    [] userId
+
+## review
+
+    [] name
+    [] productId
+    [] status["approved", "rejected"]
+    [] createAt
+    [] updateAt
+    [] userId
+
+## setting
+
+    [] companyName
+    [] address
+    [] logo
+    [] phone
+    [] email
+
+## ui
+
+    []
+    []
+    []
+    []

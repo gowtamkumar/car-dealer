@@ -8,10 +8,10 @@ const swaggerOptions = {
 
 export function setupSwagger(app: INestApplication, api: IApiOptions): void {
   const options = new DocumentBuilder()
-    .setTitle('Inventory Management')
-    .setDescription('Inventory Management System')
+    .setTitle('rmj-auto-website')
+    .setDescription('rmj-auto-website')
     .setVersion(api.version)
-    .addTag('inventory')
+    .addTag('rmj-auto')
     .addBearerAuth()
     .addCookieAuth()
     .build()

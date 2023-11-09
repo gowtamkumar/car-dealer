@@ -1,10 +1,10 @@
 import './globals.css'
 import { Inter } from 'next/font/google'
-import { appConfig } from '@/config'
 import { Suspense } from 'react'
+import { appConfig } from '../config'
 import Loading from './loading'
-import NavbarMenu from '@/components/layout/Header'
-import Footer from '@/components/layout/Footer'
+import NavbarMenu from '../components/layout/Header'
+import Footer from '../components/layout/Footer'
 
 const fontSans = Inter({
   subsets: ['latin'],
@@ -31,9 +31,9 @@ export const metadata = {
     images: [],
   },
   icons: {
-    icon: '/favicon.jpg',
-    shortcut: '/favicon-16x16.png',
-    apple: '/apple-touch-icon.png',
+    icon: '/favicon.ico',
+    // shortcut: '/favicon-16x16.png',
+    // apple: '/apple-touch-icon.png',
   },
   metadataBase: new URL(appConfig.url),
 }

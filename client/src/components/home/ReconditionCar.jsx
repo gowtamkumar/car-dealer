@@ -9,15 +9,15 @@ import { Typography } from '@material-tailwind/react'
 
 const newCarData = [{ carouselData }, { carouselData }, { carouselData }, { carouselData }]
 
-const NewCarSection = () => {
+const ReconditionCar = () => {
   return (
-    <section className="my-5 bg-red-50/20 lg:my-10">
+    <section className="mx-auto my-5 lg:my-10">
       <div className="container mx-auto">
         <div className="flex items-center justify-between">
-          <h1 className="py-2 text-2xl font-semibold">
+          <h1 className="py-3 text-2xl font-semibold">
             <FireIcon className="me-2 inline-block h-[24px] w-[24px] text-red-500" />
             <span className="italic text-red-400">Featured</span>{' '}
-            <span className="font-light">New Car</span>
+            <span className="font-light">Recondition Car</span>
           </h1>
 
           <Typography
@@ -43,4 +43,4 @@ const NewCarSection = () => {
   )
 }
 
-export default NewCarSection
+export default ReconditionCar

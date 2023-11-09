@@ -32,7 +32,7 @@ const FilterSection = () => {
       <div>
         <div className="flex items-center justify-between">
           <h1 className="font-karol-sans flex-grow text-lg font-semibold lg:text-3xl">
-            Find your <span className="font-gill-sans-nova italic text-blue-400">Perfect</span> car
+            Find your <span className="font-gill-sans-nova italic text-red-400">Perfect</span> car
           </h1>
           <Typography
             as={Link}
@@ -44,7 +44,6 @@ const FilterSection = () => {
             <BiSearchAlt className="inline-block transition-all duration-150 ease-linear group-hover/item:-translate-x-2" />
             <span>Advanced Search</span>
           </Typography>
-          <h1 className=""></h1>
         </div>
 
         <div className="my-5 flex h-20 items-center justify-between gap-3 rounded-md border p-3">

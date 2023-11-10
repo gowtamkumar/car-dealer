@@ -40,6 +40,7 @@ export class ProductService {
     this.logger.log(`${this.createProduct.name}Service Called`)
 
     const result = this.productRepo.create(createProductDto)
+    result.userId = ctx.user.id
     return this.productRepo.save(result)
   }
 

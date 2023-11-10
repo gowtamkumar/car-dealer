@@ -6,6 +6,5 @@ export class FilterModelCodeDto {
   name: string
 
   @IsString()
-  brandId: string
-
+  modelId: string
 }

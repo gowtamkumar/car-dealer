@@ -7,6 +7,6 @@ export class UpdateModelCodeDto {
   name: string
 
   @IsUUID()
-  brandId: string
+  modelId: string
 
 }

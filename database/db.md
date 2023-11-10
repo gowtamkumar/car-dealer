@@ -22,26 +22,35 @@
     [] brandId
     [] modelId
     [] modelCodeId
-    [] edition/Package
+    [] edition `string`
     [] auction(boolean)
     [] manufactureDate `years`
     [] registrationDate `years`
-    [] fuelType `Enum`
-    [] transmission `Enum`
-    [] bodytype `Enum`
-    [] steering `Enum`
-    [] color
+    [] fuelType [diesel,Petrol, CNG, Hybrid, Electric, Octane,LPG,Other]
+    [] transmission [automatic,manual,semiautomatic,CVT,DCT,Sport AT, Other]
+    [] bodytype [MPV, Hypercar, Supercar, Electric, Convertible,Coupe,Pickup, Compact, Mini MPV, Vagon, Off Roader, Van, MIniVan, Hatchback, Crossover, SUV, Sedan]
+
+    [] steering [Left, Right]
+    [] color[gray, Lime Green, Pink, Purple, Beige, Gold,Brown, Yellow, Orange, Dark Green, Green, Sky Blue, Mica Blue,Dark Blue, Blue, Red, Navy Blue,Grey, Silver, Red Wine, Pearl, Black, White]
     [] price
     [] noOfPass
     [] milleage
     [] loadCapacity
     [] engCc
+    [] engCode
     [] noOfseat
     [] noOfowner
+    [] drivetrain [2 Wheel Drive, 4 Wheel Drive]
+    [] description
+    [] division ?
+    [] district ?
+    [] thana ?
+    [] createAt
+    [] updateAt
+    [] userId
 
-    [] features:
+## productFeatures:
         [
-        "drivetrain"
         "cdPlayer"
         "sunRoof"
         "alloyWheels"
@@ -78,16 +87,7 @@
         "turbo"
         "nonSmoker"
         ]
-    [] exteriorColor
-    [] startDate? why adde?
-    [] endtDate? why?
-    [] description
-    [] division
-    [] district
-    [] thana
-    [] createAt
-    [] updateAt
-    [] userId
+  
 
 ## brands
 

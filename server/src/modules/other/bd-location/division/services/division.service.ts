@@ -117,7 +117,7 @@ export class DivisionService {
         `${__dirname}/../../../../../../mock-data/bd-location/divisions.json`,
         'utf-8',
       ),
-    )
+    )    
 
     const divisions = this.divisionRepo.create(divisionData)
 

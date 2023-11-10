@@ -1,7 +1,6 @@
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
 import { DistrictEntity } from '../../district/entities/district.entity'
-import { PostcodeEntity } from '../../postcode/entities/postcode.entity'
-import { UnionEntity } from '../../union/entities/union.entity'
+import { ProductEntity } from '@modules/product/entities/product.entity'
 
 @Entity('upazilas')
 export class UpazilaEntity {
@@ -33,9 +32,7 @@ export class UpazilaEntity {
   district: DistrictEntity
 
   // relations
-  @OneToMany((_type) => UnionEntity, (union) => union.upazila)
-  unions: UnionEntity[]
 
-  @OneToMany((_type) => PostcodeEntity, (postcode) => postcode.upazila)
-  postcodes: PostcodeEntity[]
+  @OneToMany((_type) => ProductEntity, (product) => product.upazila)
+  products: ProductEntity[]
 }

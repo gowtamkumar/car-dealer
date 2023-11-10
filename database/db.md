@@ -4,13 +4,13 @@
     [] lastName
     [] username
     [] password
+    [] email
     [] dob
     [] address
     [] phone
-    [] email
     [] photo
     [] status
-    [] role ["admin","oparator","seller"]
+    [] roles ["admin","oparator","seller"]
     [] isAdmin
     [] createAt
     [] updateAt
@@ -94,21 +94,18 @@
     [] name
     [] logo
     [] status
-    [] userId
 
 ## model
 
     [] name
     [] brandId
     [] status
-    [] userId
 
 ## modelCode
 
     [] name
     [] modelId
     [] status
-    [] userId
 
 ## review
 

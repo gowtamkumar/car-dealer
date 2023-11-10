@@ -1,4 +1,3 @@
-import { Serialize } from '@common/interceptors/serialize.interceptor'
 import {
   Body,
   Controller,
@@ -32,9 +31,7 @@ import {
 import { RequestContext } from '@common/decorators/request-context.decorator'
 import { RequestContextDto } from '@common/dtos/request-context.dto'
 import { Express } from 'express'
-
 import 'multer'
-
 import { FileTypeEnum } from '@common/enums/file-type.enum'
 import { CustomMulterOptions } from 'src/config/multer.config'
 import { BaseApiSuccessResponse } from '@common/dtos/base-api-response.dto'
@@ -170,9 +167,7 @@ export class FileController {
     @Body() updateFileDto: UpdateFileDto,
   ) {
     this.logger.verbose(`User "${ctx.user.username}" updating many files.`)
-
     // console.log(typeof JSON.parse(filenames+''));
-
     return this.fileService.updateManyFile(ctx, JSON.parse(filenames + ''), updateFileDto)
   }
 
@@ -224,8 +219,6 @@ export class FileController {
     // @Body() createFileDto: CreateFileDto
   ) {
     this.logger.verbose(`User "${ctx.user.username}" creating a File.`)
-
-    console.log(files)
 
     return files
   }

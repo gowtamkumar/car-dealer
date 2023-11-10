@@ -10,6 +10,7 @@ import { DatabaseModule } from './database/database.module'
 import { BrandModule } from '@modules/brand/brand.module'
 import { OtherModule } from '@modules/other/other.module'
 import { AdminModule } from '@admin/admin.module'
+import { ModelModule } from '@modules/model/model.module'
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { AdminModule } from '@admin/admin.module'
     AdminModule,
     BrandModule,
     ProductModule,
+    ModelModule,
     OtherModule,
   ],
   controllers: [AppController],

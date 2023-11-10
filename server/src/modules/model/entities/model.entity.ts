@@ -1,5 +1,5 @@
 import { StatusEnum } from '@common/enums/status-enum'
-import { ModelEntity } from '@modules/model/entities/model.entity'
+import { BrandEntity } from '@modules/brand/entities/brand.entity'
 import {
   AfterInsert,
   AfterRemove,
@@ -8,41 +8,44 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
-  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm'
 
-@Entity('brands')
-export class BrandEntity {
+@Entity('models')
+export class ModelEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string
 
   @Column()
   name: string
 
-  @Column({ nullable: true })
-  logo: string
+  @Column({ name: 'brand_id', type: 'uuid', nullable: true })
+  brandId: string
+  @JoinColumn({ name: 'brand_id' })
+  @ManyToOne((_type) => BrandEntity, {
+    onUpdate: 'CASCADE',
+    onDelete: 'SET NULL',
+  })
+  brand: BrandEntity
 
   @Column({ type: 'enum', enum: StatusEnum, default: 'Active' })
   status: StatusEnum
 
   // relations
-  @OneToMany(() => ModelEntity, (model) => model.brand, { eager: true })
-  models: ModelEntity[]
 
   // hooks
   @AfterInsert()
   logInsert() {
-    console.log(`Inserted Brand with id ${this.id}`)
+    console.log(`Inserted Model with id ${this.id}`)
   }
 
   @AfterUpdate()
   logUpdate() {
-    console.log(`Updated Brand with id ${this.id}`)
+    console.log(`Updated Model with id ${this.id}`)
   }
 
   @AfterRemove()
   logRemove() {
-    console.log(`Removed Brand`)
+    console.log(`Removed Model`)
   }
 }

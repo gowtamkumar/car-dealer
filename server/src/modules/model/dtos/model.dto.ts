@@ -1,8 +1,7 @@
 import { StatusEnum } from '@common/enums/status-enum'
 import { Expose } from 'class-transformer'
 
-export class BrandDto {
-
+export class ModelDto {
   @Expose()
   id: string
 
@@ -10,9 +9,5 @@ export class BrandDto {
   name: string
 
   @Expose()
-  logo: string
-
-  @Expose()
   status: StatusEnum
-
 }

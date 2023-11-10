@@ -108,12 +108,13 @@
 
 ## review
 
-    [] name
+    [] description
     [] productId
-    [] status["approved", "rejected"]
+    [] rating
+    [] status["approved","Pending", "rejected"]
+    [] userId
     [] createAt
     [] updateAt
-    [] userId
 
 ## setting
 

@@ -11,6 +11,7 @@ import { BrandModule } from '@modules/brand/brand.module'
 import { OtherModule } from '@modules/other/other.module'
 import { AdminModule } from '@admin/admin.module'
 import { ModelModule } from '@modules/model/model.module'
+import { ReviewModule } from '@modules/review/review.module'
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { ModelModule } from '@modules/model/model.module'
     BrandModule,
     ProductModule,
     ModelModule,
+    ReviewModule,
     OtherModule,
   ],
   controllers: [AppController],

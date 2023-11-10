@@ -13,7 +13,7 @@ const FilterSection = () => {
   ]
 
   return (
-    <section className="container relative z-20 mx-auto min-h-[15vh] w-[90%] rounded-md bg-gray-50 p-5 shadow-lg lg:-mt-12 lg:min-h-[20vh] lg:w-3/5">
+    <section className="container relative z-20 mx-auto w-[90%] rounded-md bg-gray-50 p-5 shadow-lg lg:-mt-12 lg:w-3/5">
       <div className="absolute -top-8 left-0 z-10">
         <div className="flex items-center">
           {filterBy.map(({ title, key }, idx) => (
@@ -30,7 +30,7 @@ const FilterSection = () => {
         </div>
       </div>
       <div>
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col items-center justify-between lg:flex-row">
           <h1 className="font-karol-sans flex-grow text-lg font-semibold lg:text-3xl">
             Find your <span className="font-gill-sans-nova italic text-red-400">Perfect</span> car
           </h1>
@@ -46,7 +46,7 @@ const FilterSection = () => {
           </Typography>
         </div>
 
-        <div className="my-5 flex h-20 items-center justify-between gap-3 rounded-md border p-3">
+        <div className="my-5 flex h-20 flex-col items-center justify-between gap-3 rounded-md border p-3 lg:flex-row">
           <div className="flex-grow">
             <Select variant="outlined" label="Select Brand">
               <Option>HTML</Option>

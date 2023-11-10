@@ -6,11 +6,11 @@ import { carouselData } from '../../config'
 
 const CardProduct = ({ data }) => {
   return (
-    <Card className="my-10 w-full">
+    <Card className="my-10 w-full border">
       <CardHeader color="blue-gray" className="relative h-56">
         <CustomCarousel navigation={true} height="h-56" data={carouselData} />
       </CardHeader>
-      <Link href="/products/1">
+      <Link href={`/products/${'Product Name'.toLowerCase()}`}>
         <CardBody>
           <Typography variant="small" color="blue-gray">
             Toyota

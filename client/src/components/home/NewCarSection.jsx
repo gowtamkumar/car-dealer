@@ -33,7 +33,7 @@ const NewCarSection = () => {
         </div>
         <div className="grid grid-cols-12 gap-5">
           {newCarData.map((item, idx) => (
-            <div key={idx} className="col-span-6 lg:col-span-3">
+            <div key={idx} className="col-span-12 lg:col-span-3">
               <CardProduct data={newCarData} />
             </div>
           ))}

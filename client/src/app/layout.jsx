@@ -31,7 +31,7 @@ export const metadata = {
     images: [],
   },
   icons: {
-    icon: '/favicon.ico',
+    icon: '/logo.ico',
     // shortcut: '/favicon-16x16.png',
     // apple: '/apple-touch-icon.png',
   },
@@ -41,7 +41,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={fontSans.variable}>
+      <body suppressHydrationWarning={true} className={fontSans.variable}>
         <Suspense fallback={<Loading />}>
           <div className="cscroll relative z-10 flex min-h-screen flex-col overflow-auto">
             <NavbarMenu />

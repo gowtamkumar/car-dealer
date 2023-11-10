@@ -30,7 +30,7 @@ import {
 } from '@heroicons/react/24/outline'
 // import Image from 'next/image'
 // import UserDropDwon from './UserDropDwon'
-import { useRouter } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import Link from 'next/link'
 import UserDropDwon from '../ui/UserDropDwon'
 
@@ -186,7 +186,7 @@ function NavList() {
 export default function NavbarMenu() {
   const [openNav, setOpenNav] = React.useState(false)
   const [query, setQuery] = React.useState('')
-  const router = useRouter()
+  const pathname = usePathname()
 
   // const handleSearch = () => {
   //   if (!query) return
@@ -206,21 +206,23 @@ export default function NavbarMenu() {
         </Typography>
         <div className="hidden items-center gap-2 lg:flex">
           <NavList />
-          <div className="relative me-3 flex w-full gap-2 md:w-max">
-            <Input
-              type="search"
-              label="Search here..."
-              className="pr-20 focus:border-[1px]"
-              containerProps={{
-                className: 'min-w-[250px] focus:border-[1px]',
-              }}
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-            />
-            <Button size="sm" className="!absolute right-1 top-1 rounded">
-              Search
-            </Button>
-          </div>
+          {pathname !== '/products' && (
+            <div className="relative me-3 flex w-full gap-2 md:w-max">
+              <Input
+                type="search"
+                label="Search here..."
+                className="pr-20 focus:border-[1px]"
+                containerProps={{
+                  className: 'min-w-[250px] focus:border-[1px]',
+                }}
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+              />
+              <Button size="sm" className="!absolute right-1 top-1 rounded">
+                Search
+              </Button>
+            </div>
+          )}
           {token ? (
             <UserDropDwon />
           ) : (

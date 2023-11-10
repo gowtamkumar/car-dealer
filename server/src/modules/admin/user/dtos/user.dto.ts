@@ -1,35 +1,43 @@
-import { ApiProperty } from "@nestjs/swagger";
-import { Expose } from "class-transformer";
-import { IsEmail } from "class-validator";
-import { UserRole } from "../enums/user-role.enum";
-import { UserStatus } from "../enums/user-status.enum";
-
+import { ApiProperty } from '@nestjs/swagger'
+import { Expose } from 'class-transformer'
+import { UserRole } from '../enums/user-role.enum'
+import { UserStatus } from '../enums/user-status.enum'
 
 export class UserDto {
+  @Expose()
+  id: string
 
   @Expose()
-  id: string;
+  name: string
 
   @Expose()
-  name: string;
+  username: string
 
   @Expose()
-  @IsEmail()
-  email: string;
+  password: string
 
   @Expose()
-  username: string;
+  email: string
 
   @Expose()
-  password: string;
+  dob: string
 
   @Expose()
-  isAdmin: boolean;
+  address: string
 
   @Expose()
-  roles: UserRole[];
-  
-  @Expose()
-  status: UserStatus;
+  phone: string
 
+  @Expose()
+  photo: string
+
+  // system super admin
+  @Expose()
+  isAdmin: boolean
+
+  @Expose()
+  roles: UserRole[]
+
+  @Expose()
+  status: UserStatus
 }

@@ -90,12 +90,16 @@ export class AuthService {
   async updatePassword(ctx: RequestContextDto, updatePasswordDto: UpdatePasswordDto)
   : Promise<UserEntity> {
     this.logger.log(`${this.updatePassword.name}Service Called`);
+    console.log("ssss");
+    console.log("ctx.user", ctx.user);
+    
     if(!ctx.user){
       throw new UnauthorizedException();
     }
+  
+    
     return this.userService.updatePassword(ctx, ctx.user.id, updatePasswordDto);
   }
-
 
 
   // TODO
@@ -107,7 +111,6 @@ export class AuthService {
   // TODO
   async resetPassword(ctx: RequestContextDto, resetPasswordDto: ResetPasswordDto) {
     this.logger.log(`${this.deleteMe.name}Service Called`);
-
     return "reset pass"
   }
 

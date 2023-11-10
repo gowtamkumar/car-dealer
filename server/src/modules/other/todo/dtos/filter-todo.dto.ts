@@ -1,5 +1,10 @@
-export class FilterTodoDto {
-  type?: string
+import { StatusEnum } from '@common/enums/status-enum'
+import { IsBoolean, IsEnum, IsNumber, IsString, IsUUID } from 'class-validator'
 
-  title?: string
+export class FilterTodoDto {
+  @IsString()
+  name: string
+
+  @IsEnum(StatusEnum)
+  status: StatusEnum
 }

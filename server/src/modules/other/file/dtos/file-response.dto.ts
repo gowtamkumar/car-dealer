@@ -4,38 +4,33 @@ export class FileResponseDto {
   @Expose()
   id: string
 
-
-
   @Expose()
   fieldname: string
 
   @Expose()
   originalname: string
 
-   @Expose()
+  @Expose()
   encoding: string
 
-   @Expose()
+  @Expose()
   mimetype: string
 
-   @Expose()
+  @Expose()
   destination: string
 
-   @Expose()
+  @Expose()
   filename: string
 
-   @Expose()
+  @Expose()
   path: string
 
-   @Expose()
+  @Expose()
   size: number
 
   @Expose()
   isActive: boolean
 
-
-  
   @Expose()
   productId: string
-
 }

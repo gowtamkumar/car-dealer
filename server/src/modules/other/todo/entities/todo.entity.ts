@@ -1,3 +1,4 @@
+import { StatusEnum } from '@common/enums/status-enum'
 import {
   AfterInsert,
   AfterRemove,
@@ -6,7 +7,6 @@ import {
   Entity,
   PrimaryGeneratedColumn,
 } from 'typeorm'
-import { TodoStatusEnum } from '../enums'
 
 @Entity('todos')
 export class TodoEntity {
@@ -16,14 +16,11 @@ export class TodoEntity {
   @Column()
   name: string
 
-  @Column({ type: 'text', nullable: true })
+  @Column({ nullable: true })
   description: string
 
-  @Column({ type: 'enum', enum: TodoStatusEnum, default: TodoStatusEnum.Pending })
-  status: TodoStatusEnum
-
-  @Column({ name: 'is_active', default: true })
-  isActive: boolean
+  @Column({ type: 'enum', enum: StatusEnum, default: 'Active' })
+  status: StatusEnum
 
   // relations
 
@@ -40,6 +37,6 @@ export class TodoEntity {
 
   @AfterRemove()
   logRemove() {
-    console.log(`Removed Todo with id ${this.id}`)
+    console.log(`Removed Todo`)
   }
 }

@@ -1,5 +1,5 @@
 import Joi from 'joi'
-
+// env file validation
 export const configValidationSchema = Joi.object({
   API_PORT: Joi.number().default(3900).required(),
   API_PREFIX: Joi.string().required(),

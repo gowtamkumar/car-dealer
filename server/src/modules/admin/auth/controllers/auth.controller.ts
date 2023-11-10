@@ -36,14 +36,14 @@ export class AuthController {
   ): Promise<BaseApiSuccessResponse<AuthenticationResponseDto>>{
     this.logger.verbose(`New User Registring`); 
     
-    const authPayload = await this.authService.register(ctx, registerCredentialsDto);
-    this.buildCookieTokenResponse(ctx, res, authPayload.token);  
+    const result = await this.authService.register(ctx, registerCredentialsDto);
+    this.buildCookieTokenResponse(ctx, res, result.token);  
     
     return { 
       success: true,
       statusCode: 201,
       message: `Registration successfull`,
-      data: authPayload
+      data: result
     };
   }
 
@@ -56,14 +56,14 @@ export class AuthController {
   ): Promise<BaseApiSuccessResponse<AuthenticationResponseDto>>{
     this.logger.verbose(`User Login`); 
 
-    const authPayload = await this.authService.login(ctx, loginCredentialsDto);
-    this.buildCookieTokenResponse(ctx, res, authPayload.token);
+    const result = await this.authService.login(ctx, loginCredentialsDto);
+    this.buildCookieTokenResponse(ctx, res, result.token);
 
     return { 
       success: true,
       statusCode: 200,
       message: `Login successfull`,
-      data: authPayload
+      data: result
     };
   }
 
@@ -90,13 +90,13 @@ export class AuthController {
   : Promise<BaseApiSuccessResponse<UserResponseDto>> {
     this.logger.verbose(`User ${ctx.user.username} retriving his profile.`);     
 
-    const myProfile = await this.authService.getMe(ctx);
+    const result = await this.authService.getMe(ctx);
 
     return { 
       success: true,
       statusCode: 200,
       message: `Get current user`,
-      data: myProfile,
+      data: result,
     };
   }
 
@@ -105,16 +105,17 @@ export class AuthController {
   : Promise<BaseApiSuccessResponse<UserResponseDto>>  {
     this.logger.verbose(`Delete current User`); 
 
-    const myDeletedProfile = await this.authService.deleteMe(ctx);
+    const result = await this.authService.deleteMe(ctx);
 
     return { 
       success: true,
       statusCode: 200,
       message: `Delete current user`,
-      data: myDeletedProfile,
+      data: result,
     };
   }
 
+  @UseGuards(JwtAuthGuard)
   @Patch('/update-details')
   async updateDetails(
     @RequestContext() ctx: RequestContextDto, 
@@ -122,25 +123,26 @@ export class AuthController {
   ): Promise<BaseApiSuccessResponse<UserResponseDto>> {
     this.logger.verbose(`Update current user details`); 
 
-    const myDetails = await this.authService.updateDetails(ctx, updateUserDto);
+    const result = await this.authService.updateDetails(ctx, updateUserDto);
 
     return { 
       success: true,
       statusCode: 200,
       message: `My details updated`,
-      data: myDetails,
+      data: result,
     };
   }
 
 
-  @Patch('/update-password')
+  @UseGuards(JwtAuthGuard)
+  @Patch('/update-password/:id')
   async updatePassword(
     @RequestContext() ctx: RequestContextDto,
     @Body() updatePasswordDto: UpdatePasswordDto
   ): Promise<BaseApiSuccessResponse<null>> {
     this.logger.verbose(`Update current user password`); 
     
-    const data = await this.authService.updatePassword(ctx, updatePasswordDto);
+    await this.authService.updatePassword(ctx, updatePasswordDto);
 
     return { 
       success: true,
@@ -157,13 +159,13 @@ export class AuthController {
   ){
     this.logger.verbose(`Forgot password`); 
 
-    const mailPayload = await this.authService.forgotPassword(ctx, forgotPasswordDto);
+    const result = await this.authService.forgotPassword(ctx, forgotPasswordDto);
 
     return { 
       success: true,
       statusCode: ``,
       message: `An email is sent to ${forgotPasswordDto.email} with next instructions on resetting your password`,
-      data: mailPayload,
+      data: result,
     };
   }
 

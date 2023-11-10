@@ -66,7 +66,6 @@ export class FileController {
     this.logger.verbose(`User "${ctx.user.username}" retieving uesr File info. of Id: ${id}`)
     return this.fileService.getFile(id)
   }
-
   @UseInterceptors(
     FileFieldsInterceptor(
       [
@@ -125,6 +124,45 @@ export class FileController {
     return this.fileService.updateFile(id, updateFileDto)
   }
 
+  // recomanded single or multiple file
+  @UseInterceptors(
+    FileFieldsInterceptor(
+      [
+        { name: 'avatar', maxCount: 1 },
+        { name: 'photo', maxCount: 1 },
+        { name: 'images', maxCount: 6 },
+        { name: 'file', maxCount: 1 },
+        { name: 'signature', maxCount: 1 },
+        { name: 'doc', maxCount: 1 },
+        { name: 'front', maxCount: 1 },
+        { name: 'back', maxCount: 1 },
+      ],
+      CustomMulterOptions.getConfig(FileTypeEnum.ANY),
+    ),
+  )
+  @Post('/uploads')
+  async uploadMultipleFile(
+    @RequestContext() ctx: RequestContextDto,
+    @UploadedFiles()
+    files: {
+      avatar?: Express.Multer.File[]
+      photo?: Express.Multer.File[]
+      images?: Express.Multer.File[]
+      signature?: Express.Multer.File[]
+      nid?: Express.Multer.File[]
+      birth_certificate?: Express.Multer.File[]
+      kyc?: Express.Multer.File[]
+      license?: Express.Multer.File[]
+      contact?: Express.Multer.File[]
+      other?: Express.Multer.File[]
+    },
+  ) {
+    this.logger.verbose(`User "${ctx.user?.username}" uploading files.`)
+
+    await this.fileService.createManyFile(ctx, files)
+    return files
+  }
+
   @Patch('/update-many')
   updateManyFile(
     @RequestContext() ctx: RequestContextDto,
@@ -175,47 +213,6 @@ export class FileController {
     // @Body() createFileDto: CreateFileDto
   ) {
     this.logger.verbose(`User "${ctx.user.username}" uploading files`)
-
-    // console.log(files);
-
-    return files
-  }
-
-  // recomanded
-  @UseInterceptors(
-    FileFieldsInterceptor(
-      [
-        { name: 'avatar', maxCount: 1 },
-        { name: 'photo', maxCount: 1 },
-        { name: 'signature', maxCount: 1 },
-        { name: 'file', maxCount: 1 },
-        { name: 'doc', maxCount: 1 },
-        { name: 'front', maxCount: 1 },
-        { name: 'back', maxCount: 1 },
-      ],
-      CustomMulterOptions.getConfig(FileTypeEnum.ANY),
-    ),
-  )
-  @Post('/uploads')
-  async uploadMultipleFile(
-    @RequestContext() ctx: RequestContextDto,
-    @UploadedFiles()
-    files: {
-      avatar?: Express.Multer.File[]
-      photo?: Express.Multer.File[]
-      signature?: Express.Multer.File[]
-      nid?: Express.Multer.File[]
-      birth_certificate?: Express.Multer.File[]
-      kyc?: Express.Multer.File[]
-      license?: Express.Multer.File[]
-      contact?: Express.Multer.File[]
-      other?: Express.Multer.File[]
-    },
-  ) {
-    this.logger.verbose(`User "${ctx.user?.username}" uploading files.`)
-
-    await this.fileService.createManyFile(ctx, files)
-
     return files
   }
 

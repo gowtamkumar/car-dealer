@@ -9,7 +9,6 @@ import { ProductModule } from '@modules/product/product.module'
 import { DatabaseModule } from './database/database.module'
 import { BrandModule } from '@modules/brand/brand.module'
 import { OtherModule } from '@modules/other/other.module'
-import { TodoModule } from '@modules/todo/todo.module'
 import { AdminModule } from '@admin/admin.module'
 
 @Module({
@@ -31,7 +30,6 @@ import { AdminModule } from '@admin/admin.module'
     BrandModule,
     ProductModule,
     OtherModule,
-    TodoModule,
   ],
   controllers: [AppController],
   providers: [AppService],

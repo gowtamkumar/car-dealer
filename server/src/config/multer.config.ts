@@ -37,10 +37,11 @@ export class CustomMulterOptions implements MulterOptionsFactory {
       // Storage properties
       storage: diskStorage({
         // Destination storage path details
-        destination: (req: any, file: any, cb: any) => {
+        destination: async(req: any, file: any, cb: any) => {
           const uploadPath = process.env.UPLOAD_PATH || 'public/uploads'
           // Create folder if doesnt exist
           if (!existsSync(uploadPath)) {
+            // await sharp(req.file.buffer).resize(300, 300).toFile(path);
             mkdirSync(uploadPath)
           }
           cb(null, uploadPath)

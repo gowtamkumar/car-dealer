@@ -1,25 +1,17 @@
-import { IsEnum, IsNotEmpty, IsOptional, IsString } from 'class-validator'
-import { ActivityTypeEnum, TodoStatusEnum } from '../enums'
+import { StatusEnum } from '@common/enums/status-enum'
+import { IsEnum, IsNotEmpty, IsOptional, IsString, IsUUID } from 'class-validator'
 
 export class UpdateTodoDto {
-  @IsEnum(ActivityTypeEnum)
-  type: ActivityTypeEnum
-
   @IsString()
   @IsNotEmpty()
   name: string
 
   @IsString()
-  @IsNotEmpty()
   @IsOptional()
   description: string
 
-  @IsEnum(TodoStatusEnum)
+  @IsEnum(StatusEnum)
   @IsOptional()
-  status: TodoStatusEnum
+  status: StatusEnum
 
-  @IsString()
-  @IsNotEmpty()
-  @IsOptional()
-  feedback: string
 }

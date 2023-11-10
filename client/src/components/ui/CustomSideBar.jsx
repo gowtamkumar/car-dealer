@@ -50,32 +50,32 @@ export default function CustomSideBar() {
         >
           <ListItem className="p-0" selected={open === 1}>
             <AccordionHeader onClick={() => handleOpen(1)} className="border-b-0 p-3">
-              <ListItemPrefix>
+              {/* <ListItemPrefix>
                 <PresentationChartBarIcon className="h-5 w-5" />
-              </ListItemPrefix>
+              </ListItemPrefix> */}
               <Typography color="blue-gray" className="mr-auto font-normal">
-                Dashboard
+                Brand
               </Typography>
             </AccordionHeader>
           </ListItem>
           <AccordionBody className="py-1">
             <List className="p-0">
               <ListItem>
-                <ListItemPrefix>
+                {/* <ListItemPrefix>
                   <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
-                </ListItemPrefix>
+                </ListItemPrefix> */}
                 Analytics
               </ListItem>
               <ListItem>
-                <ListItemPrefix>
+                {/* <ListItemPrefix>
                   <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
-                </ListItemPrefix>
+                </ListItemPrefix> */}
                 Reporting
               </ListItem>
               <ListItem>
-                <ListItemPrefix>
+                {/* <ListItemPrefix>
                   <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
-                </ListItemPrefix>
+                </ListItemPrefix> */}
                 Projects
               </ListItem>
             </List>
@@ -118,7 +118,7 @@ export default function CustomSideBar() {
           </AccordionBody>
         </Accordion>
         <hr className="my-2 border-blue-gray-50" />
-        <ListItem>
+        {/* <ListItem>
           <ListItemPrefix>
             <InboxIcon className="h-5 w-5" />
           </ListItemPrefix>
@@ -144,7 +144,7 @@ export default function CustomSideBar() {
             <PowerIcon className="h-5 w-5" />
           </ListItemPrefix>
           Log Out
-        </ListItem>
+        </ListItem> */}
       </List>
     </Card>
   )

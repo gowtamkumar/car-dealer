@@ -17,7 +17,7 @@ const Products = () => {
 
   return (
     <section className="container mx-auto py-3">
-      <div className="my-5 w-full rounded-md border bg-white px-2 shadow-sm lg:px-0">
+      <div className="my-5 w-full rounded-md border bg-white px-4 shadow-sm">
         <div className="flex flex-col items-start p-4 px-5 lg:h-20 lg:flex-row lg:items-center lg:justify-between lg:p-0">
           <div className="mb-2 flex-grow">
             <h1 className="text-lg font-bold ">Searching for “mobile phone”</h1>
@@ -39,7 +39,7 @@ const Products = () => {
               </Select>
             </div>
             <div className="flex items-center gap-2">
-              <span className="hidden lg:block">View :</span>
+              {/* <span className="hidden lg:block">View :</span> */}
               <IconButton
                 onClick={() => handleClick('list')}
                 color={!isGrid ? 'red' : 'gray'}

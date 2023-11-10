@@ -2,7 +2,7 @@ import { IsDefined, IsEnum, IsNotEmpty, IsOptional, IsString, IsUUID } from 'cla
 import { Transform } from 'class-transformer'
 import { StatusEnum } from '@common/enums/status-enum'
 
-export class CreateModelDto {
+export class CreateModelCodeDto {
   @IsString()
   @IsNotEmpty()
   @IsDefined()
@@ -11,9 +11,5 @@ export class CreateModelDto {
   @IsUUID()
   @IsDefined()
   brandId: string
-
-  @IsEnum(StatusEnum)
-  @IsOptional()
-  status: StatusEnum
 
 }

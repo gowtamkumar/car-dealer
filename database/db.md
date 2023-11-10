@@ -105,7 +105,6 @@
 
     [] name
     [] modelId
-    [] status
 
 ## review
 

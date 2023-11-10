@@ -27,7 +27,7 @@ export class BrandEntity {
   status: StatusEnum
 
   // relations
-  @OneToMany(() => ModelEntity, (model) => model.brand, { eager: true })
+  @OneToMany(() => ModelEntity, (model) => model.brand)
   models: ModelEntity[]
 
   // hooks

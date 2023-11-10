@@ -12,6 +12,7 @@ import { OtherModule } from '@modules/other/other.module'
 import { AdminModule } from '@admin/admin.module'
 import { ModelModule } from '@modules/model/model.module'
 import { ReviewModule } from '@modules/review/review.module'
+import { ModelCodeModule } from '@modules/model-code/model-code.module'
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { ReviewModule } from '@modules/review/review.module'
     BrandModule,
     ProductModule,
     ModelModule,
+    ModelCodeModule,
     ReviewModule,
     OtherModule,
   ],

@@ -10,6 +10,6 @@ export class CreateModelCodeDto {
 
   @IsUUID()
   @IsDefined()
-  brandId: string
+  modelId: string
 
 }

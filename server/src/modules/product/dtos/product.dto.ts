@@ -1,6 +1,15 @@
-import { StatusEnum } from '@common/enums/status-enum'
 import { Expose } from 'class-transformer'
-import { TaxEnum } from '../enums/tax.enum'
+import {
+  BodyTypeEnum,
+  ColorEnum,
+  ConditionEnum,
+  DrivetrainEnum,
+  FuelTypeEnum,
+  ProductStatusEnum,
+  SteeringEnum,
+  TransmissionEnum,
+} from '../enums'
+import { IsArray } from 'class-validator'
 
 export class ProductDto {
   @Expose()
@@ -10,38 +19,89 @@ export class ProductDto {
   name: string
 
   @Expose()
-  code: string
+  condition: ConditionEnum
 
   @Expose()
-  qtyAlert: number
+  auction: boolean
 
   @Expose()
   brandId: string
 
   @Expose()
-  barcodeSymbology: string
+  modelId: string
 
   @Expose()
-  itemBarcode: string
+  modelCodeId: string
 
   @Expose()
-  purchasePrice: number
+  edition: string
 
   @Expose()
-  purchaseTax: TaxEnum
+  manufactureDate: string
 
   @Expose()
-  salePrice: number
+  registrationDate: string
 
   @Expose()
-  mrp: number
+  fuelType: FuelTypeEnum
+
+  @Expose()
+  transmission: TransmissionEnum
+
+  @Expose()
+  bodyType: BodyTypeEnum
+
+  @Expose()
+  steering: SteeringEnum
+
+  @Expose()
+  color: ColorEnum
+
+  @Expose()
+  price: number
+
+  @Expose()
+  noOfPass: number
+
+  @Expose()
+  milleage: number
+
+  @Expose()
+  loadCapacity: string
+
+  @Expose()
+  engCc: string
+
+  @Expose()
+  engCode: string
+
+  @Expose()
+  noOfseat: number
+
+  @Expose()
+  noOfOwner: number
+
+  @Expose()
+  drivetrain: DrivetrainEnum
 
   @Expose()
   description: string
 
-  @Expose()
-  photo: string
+  @IsArray()
+  photos: string[]
 
   @Expose()
-  status: StatusEnum
+  divisionId: number
+
+  @Expose()
+  districtId: number
+
+  @Expose()
+  upazilaId: number
+
+  @Expose()
+  userId: string
+
+  @Expose()
+  status: ProductStatusEnum
 }

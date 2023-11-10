@@ -1,6 +1,6 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
 import { DistrictEntity } from '../../district/entities/district.entity'
-import { PostcodeEntity } from '../../postcode/entities/postcode.entity'
+import { ProductEntity } from '@modules/product/entities/product.entity'
 
 @Entity('divisions')
 export class DivisionEntity {
@@ -29,6 +29,7 @@ export class DivisionEntity {
   @OneToMany((_type) => DistrictEntity, (district) => district.division)
   districts: DistrictEntity[]
 
-  @OneToMany((_type) => PostcodeEntity, (postcode) => postcode.division)
-  postcodes: PostcodeEntity[]
+
+  @OneToMany((_type) => ProductEntity, (product) => product.division)
+  products: ProductEntity[]
 }

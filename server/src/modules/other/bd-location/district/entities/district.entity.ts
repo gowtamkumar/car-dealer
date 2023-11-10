@@ -1,7 +1,7 @@
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
 import { DivisionEntity } from '../../division/entities/division.entity'
-import { PostcodeEntity } from '../../postcode/entities/postcode.entity'
 import { UpazilaEntity } from '../../upazila/entities/upazila.entity'
+import { ProductEntity } from '@modules/product/entities/product.entity'
 
 @Entity('districts')
 export class DistrictEntity {
@@ -36,8 +36,9 @@ export class DistrictEntity {
   @OneToMany((_type) => UpazilaEntity, (upazila) => upazila.district)
   upazilas: UpazilaEntity[]
 
-  @OneToMany((_type) => PostcodeEntity, (postcode) => postcode.district)
-  postcodes: PostcodeEntity[]
+
+  @OneToMany((_type) => ProductEntity, (product) => product.district)
+  products: ProductEntity[]
 
   // @OneToMany((_type) => BranchEntity, (branch) => branch.district)
   // branches: BranchEntity[];

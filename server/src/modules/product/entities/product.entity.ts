@@ -10,9 +10,24 @@ import {
   JoinColumn,
   ManyToOne,
   OneToMany,
+  CreateDateColumn,
+  UpdateDateColumn,
 } from 'typeorm'
-import { TaxEnum } from '../enums/tax.enum'
 import { BrandEntity } from '@modules/brand/entities/brand.entity'
+import {
+  BodyTypeEnum,
+  ColorEnum,
+  ConditionEnum,
+  DrivetrainEnum,
+  FuelTypeEnum,
+  ProductStatusEnum,
+  SteeringEnum,
+  TransmissionEnum,
+} from '../enums'
+import { UserEntity } from '@admin/user/entities/user.entity'
+import { DistrictEntity } from '@modules/other/bd-location/district/entities/district.entity'
+import { DivisionEntity } from '@modules/other/bd-location/division/entities/division.entity'
+import { UpazilaEntity } from '@modules/other/bd-location/upazila/entities/upazila.entity'
 @Entity('products')
 export class ProductEntity {
   @PrimaryGeneratedColumn('uuid')
@@ -21,55 +36,130 @@ export class ProductEntity {
   @Column()
   name: string
 
-  @Column({ nullable: true })
-  code: string
+  @Column({ type: 'enum', enum: ConditionEnum })
+  condition: ConditionEnum
 
-  @Column({ name: 'qty_alert', type: 'numeric', nullable: true })
-  qtyAlert: number
+  @Column({ type: 'boolean', nullable: true })
+  auction: boolean
 
-  @Column({ name: 'brand_id', type: 'uuid', nullable: true })
+  @Column({ name: 'brand_id', type: 'uuid' })
   brandId: string
   @JoinColumn({ name: 'brand_id' })
   @ManyToOne((_type) => BrandEntity, {
-    eager: true,
     onUpdate: 'CASCADE',
     onDelete: 'SET NULL',
   })
   brand: BrandEntity
 
-  @Column({ name: 'barcode_symbology', nullable: true })
-  barcodeSymbology: string
+  @Column({ name: 'model_id', type: 'uuid' })
+  modelId: string
 
-  @Column({ name: 'item_barcode', nullable: true })
-  itemBarcode: string
+  @Column({ name: 'model_code_id', type: 'uuid' })
+  modelCodeId: string
 
-  @Column({ name: 'purchase_price', type: 'numeric', precision: 9, scale: 2, nullable: true })
-  purchasePrice: number
+  @Column({ nullable: true })
+  edition: string
 
-  @Column({ name: 'purchase_tax', type: 'enum', enum: TaxEnum, nullable: true })
-  purchaseTax: TaxEnum
+  @Column({ name: 'manufacture_date', nullable: true })
+  manufactureDate: string
 
-  @Column({ name: 'sale_price', type: 'numeric', precision: 9, scale: 2, nullable: true })
-  salePrice: number
+  @Column({ name: 'registration_date', nullable: true })
+  registrationDate: string
 
-  @Column({ name: 'sale_tax', type: 'enum', enum: TaxEnum, nullable: true })
-  saleTax: TaxEnum
+  @Column({ name: 'fuel_type', type: 'enum', enum: FuelTypeEnum })
+  fuelType: FuelTypeEnum
 
-  @Column({ type: 'numeric', precision: 9, scale: 2, nullable: true })
-  mrp: number
+  @Column({ type: 'enum', enum: TransmissionEnum })
+  transmission: TransmissionEnum
+
+  @Column({ name: 'body_type', type: 'enum', enum: BodyTypeEnum })
+  bodyType: BodyTypeEnum
+
+  @Column({ type: 'enum', enum: SteeringEnum })
+  steering: SteeringEnum
+
+  @Column({ type: 'enum', enum: ColorEnum })
+  color: ColorEnum
+
+  @Column({ type: 'numeric', precision: 9, scale: 2 })
+  price: number
+
+  @Column({ name: 'no_of_pass' })
+  noOfPass: number
+
+  @Column()
+  milleage: number
+
+  @Column({ name: 'load_capacity', nullable: true })
+  loadCapacity: string
+
+  @Column({ name: 'eng_cc', nullable: true })
+  engCc: string
+
+  @Column({ name: 'eng_code', nullable: true })
+  engCode: string
+
+  @Column({ name: 'no_of_seat' })
+  noOfseat: number
+
+  @Column({ name: 'no_of_owner' })
+  noOfOwner: number
+
+  @Column({ type: 'enum', enum: DrivetrainEnum })
+  drivetrain: DrivetrainEnum
 
   @Column({ type: 'text', nullable: true })
   description: string
 
-  @Column({ nullable: true })
-  photo: string
+  @Column({ type: 'simple-array', nullable: true })
+  photos: string[]
 
-  @Column({ type: 'enum', enum: StatusEnum, default: StatusEnum.Active })
-  status: StatusEnum
+  @Column({ name: 'division_id' })
+  divisionId: number
+  @JoinColumn({ name: 'division_id' })
+  @ManyToOne((_type) => DivisionEntity, (division) => division.products, {
+    onUpdate: 'CASCADE',
+    onDelete: 'SET NULL',
+  })
+  division: DivisionEntity
+
+  @Column({ name: 'district_id' })
+  districtId: number
+  @JoinColumn({ name: 'district_id' })
+  @ManyToOne((_type) => DistrictEntity, (district) => district.products, {
+    onUpdate: 'CASCADE',
+    onDelete: 'SET NULL',
+  })
+  district: DistrictEntity
+
+  @Column({ name: 'upazila_id' })
+  upazilaId: number
+  @JoinColumn({ name: 'upazila_id' })
+  @ManyToOne((_type) => UpazilaEntity, (upazila) => upazila.products, {
+    onUpdate: 'CASCADE',
+    onDelete: 'SET NULL',
+  })
+  upazila: UpazilaEntity
+
+  @Column({ name: 'user_id', type: 'uuid' })
+  userId: string
+  @JoinColumn({ name: 'user_id' })
+  @ManyToOne((_type) => UserEntity, {
+    onDelete: 'CASCADE',
+  })
+  user: UserEntity
+
+  @Column({ type: 'enum', enum: ProductStatusEnum, default: ProductStatusEnum.Pending })
+  status: ProductStatusEnum
+
+  @CreateDateColumn({ type: 'timestamptz' })
+  createdAt: Date
+
+  @UpdateDateColumn({ type: 'timestamptz', onUpdate: 'CURRENT_TIMESTAMP(6)' })
+  updatedAt: Date
 
   // relations
-
-  @OneToMany(() => FileEntity, (file) => file.product, { eager: true })
+  @OneToMany(() => FileEntity, (file) => file.product)
   files: FileEntity[]
 
   // hooks

@@ -1,6 +1,26 @@
-import { TaxEnum } from './../enums/tax.enum';
 import { Transform } from 'class-transformer'
-import { IsDefined, IsEnum, IsNotEmpty, IsNumber, IsOptional, IsString, IsUUID, ValidateIf } from 'class-validator'
+import {
+  IsArray,
+  IsBoolean,
+  IsDateString,
+  IsDefined,
+  IsEnum,
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsString,
+  IsUUID,
+} from 'class-validator'
+import {
+  BodyTypeEnum,
+  ColorEnum,
+  ConditionEnum,
+  DrivetrainEnum,
+  FuelTypeEnum,
+  SteeringEnum,
+  TransmissionEnum,
+} from '../enums'
+import { ToBoolean } from '@common/decorators/transforms.decorator'
 
 export class CreateProductDto {
   @IsString()
@@ -8,64 +28,136 @@ export class CreateProductDto {
   @IsDefined()
   name: string
 
-  @Transform(({ value }) => value || null)
+  @IsEnum(ConditionEnum)
+  @IsDefined()
+  condition: ConditionEnum
+
+  @IsBoolean()
+  @ToBoolean()
+  @IsOptional()
+  auction: boolean
+
+  @IsUUID()
+  @IsNotEmpty()
+  @IsDefined()
+  brandId: string
+
+  @IsUUID()
+  @IsNotEmpty()
+  @IsDefined()
+  modelId: string
+
+  @IsUUID()
+  @IsNotEmpty()
+  @IsDefined()
+  modelCodeId: string
+
   @IsString()
   @IsNotEmpty()
   @IsOptional()
-  code: string
+  edition: string
 
-  @Transform(({ value }) => value && Number(value))
+  @IsDateString()
+  @IsNotEmpty()
+  @IsOptional()
+  manufactureDate: string
+
+  @IsDateString()
+  @IsNotEmpty()
+  @IsOptional()
+  registrationDate: string
+
+  @IsEnum(FuelTypeEnum)
+  @IsDefined()
+  fuelType: FuelTypeEnum
+
+  @IsEnum(TransmissionEnum)
+  @IsDefined()
+  transmission: TransmissionEnum
+
+  @IsEnum(BodyTypeEnum)
+  @IsDefined()
+  bodyType: BodyTypeEnum
+
+  @IsEnum(SteeringEnum)
+  @IsDefined()
+  steering: SteeringEnum
+
+  @IsEnum(ColorEnum)
+  @IsDefined()
+  color: ColorEnum
+
+  @Transform(({ value }) => Number(value))
   @IsNumber()
-  @IsOptional()
-  qtyAlert: number
+  @IsNotEmpty()
+  @IsDefined()
+  price: number
 
-  @IsUUID('4')
-  @IsOptional()
-  brandId: string
+  @Transform(({ value }) => Number(value))
+  @IsNumber()
+  @IsNotEmpty()
+  @IsDefined()
+  noOfPass: number
+
+  @Transform(({ value }) => Number(value))
+  @IsNumber()
+  @IsDefined()
+  milleage: number
 
   @Transform(({ value }) => value || null)
   @IsString()
   @IsOptional()
-  barcodeSymbology: string
+  loadCapacity: string
 
   @Transform(({ value }) => value || null)
   @IsString()
   @IsOptional()
-  itemBarcode: string
+  engCc: string
 
-  @Transform(({ value }) => value && Number(value))
+  @Transform(({ value }) => value || null)
+  @IsString()
+  @IsOptional()
+  engCode: string
+
+  @Transform(({ value }) => Number(value))
   @IsNumber()
-  @IsOptional()
-  purchasePrice: number
+  @IsNotEmpty()
+  @IsDefined()
+  noOfseat: number
 
-  @ValidateIf(o => o.purchasePrice ? true : o.purchaseTax=null)
-  @IsEnum(TaxEnum)
-  @IsOptional()
-  purchaseTax: TaxEnum
-
-  @Transform(({ value }) => value && Number(value))
+  @Transform(({ value }) => Number(value))
   @IsNumber()
-  @IsOptional()
-  salePrice: number
+  @IsNotEmpty()
+  @IsDefined()
+  noOfOwner: number
 
-  @ValidateIf(o => o.salePrice ? true : o.saleTax=null)
-  @IsEnum(TaxEnum)
-  @IsOptional()
-  saleTax: TaxEnum
-
-  @Transform(({ value }) => value && Number(value))
-  @IsNumber()
-  @IsOptional()
-  mrp: number
+  @IsEnum(DrivetrainEnum)
+  @IsDefined()
+  drivetrain: DrivetrainEnum
 
   @Transform(({ value }) => value || null)
   @IsString()
   @IsOptional()
   description: string
 
-  @Transform(({ value }) => value || null)
-  @IsString()
+  @IsArray()
   @IsOptional()
-  photo: string
+  photos: string[]
+
+  @IsNumber()
+  @IsNotEmpty()
+  @IsDefined()
+  divisionId: number
+
+  @IsNumber()
+  @IsNotEmpty()
+  @IsDefined()
+  districtId: number
+
+  @IsNumber()
+  @IsNotEmpty()
+  @IsDefined()
+  upazilaId: number
 
 }
+

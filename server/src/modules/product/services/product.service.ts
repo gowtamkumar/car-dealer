@@ -20,7 +20,17 @@ export class ProductService {
   ): Promise<ProductEntity[]> {
     this.logger.log(`${this.getProducts.name}Service Called`)
 
-    return this.productRepo.find()
+    const start = process.hrtime() //time Start
+
+    const qb = this.productRepo.createQueryBuilder('product')
+    qb.select(['product', 'productFeature'])
+    qb.leftJoin('product.productFeature', 'productFeature')
+    const result = await qb.getMany()
+
+    const stop = process.hrtime(start)
+    this.logger.log(`Time of getting Products   ${(stop[0] * 1e9 + stop[1]) / 1e6} ms`) //time end
+
+    return result
   }
 
   async getProduct(ctx: RequestContextDto, id: string): Promise<ProductEntity> {

@@ -1,4 +1,4 @@
-import { Transform } from 'class-transformer'
+import { Transform, Type } from 'class-transformer'
 import {
   IsArray,
   IsBoolean,
@@ -6,7 +6,9 @@ import {
   IsDefined,
   IsEnum,
   IsNotEmpty,
+  IsNotEmptyObject,
   IsNumber,
+  IsObject,
   IsOptional,
   IsString,
   IsUUID,
@@ -21,6 +23,7 @@ import {
   TransmissionEnum,
 } from '../enums'
 import { ToBoolean } from '@common/decorators/transforms.decorator'
+import { CreateProductFeatureDto } from '@modules/product-feature/dtos'
 
 export class CreateProductDto {
   @IsString()
@@ -158,6 +161,9 @@ export class CreateProductDto {
   @IsNotEmpty()
   @IsDefined()
   upazilaId: number
-
+  
+  @IsObject()
+  @Type(()=> CreateProductFeatureDto)
+  @IsNotEmptyObject()
+  productFeature: CreateProductFeatureDto
 }
-

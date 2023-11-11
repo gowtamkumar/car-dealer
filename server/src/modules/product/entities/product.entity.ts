@@ -30,6 +30,8 @@ import { DistrictEntity } from '@modules/other/bd-location/district/entities/dis
 import { DivisionEntity } from '@modules/other/bd-location/division/entities/division.entity'
 import { UpazilaEntity } from '@modules/other/bd-location/upazila/entities/upazila.entity'
 import { ProductFeatureEntity } from '@modules/product-feature/entities/product-feature.entity'
+import { ModelEntity } from '@modules/model/entities/model.entity'
+import { ModelCodeEntity } from '@modules/model-code/entities/model-code.entity'
 @Entity('products')
 export class ProductEntity {
   @PrimaryGeneratedColumn('uuid')
@@ -55,9 +57,21 @@ export class ProductEntity {
 
   @Column({ name: 'model_id', type: 'uuid' })
   modelId: string
+  @JoinColumn({ name: 'model_id' })
+  @ManyToOne((_type) => ModelEntity, {
+    onUpdate: 'CASCADE',
+    onDelete: 'SET NULL',
+  })
+  model: ModelEntity
 
   @Column({ name: 'model_code_id', type: 'uuid' })
   modelCodeId: string
+  @JoinColumn({ name: 'model_code_id' })
+  @ManyToOne((_type) => ModelCodeEntity, {
+    onUpdate: 'CASCADE',
+    onDelete: 'SET NULL',
+  })
+  modelCode: ModelCodeEntity
 
   @Column({ nullable: true })
   edition: string

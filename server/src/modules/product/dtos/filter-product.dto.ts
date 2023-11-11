@@ -9,6 +9,7 @@ import {
   SteeringEnum,
   TransmissionEnum,
 } from '../enums'
+import { Transform } from 'class-transformer'
 
 export class FilterProductDto {
   @IsString()
@@ -94,4 +95,9 @@ export class FilterProductDto {
 
   @IsEnum(ProductStatusEnum)
   status: ProductStatusEnum
+
+  // product Feature
+  @IsBoolean()
+  @Transform(({ obj, key }) => obj[key] === 'true')
+  ac: boolean
 }

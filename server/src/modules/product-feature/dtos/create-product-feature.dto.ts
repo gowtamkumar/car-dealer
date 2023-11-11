@@ -1,148 +1,149 @@
-import { IsBoolean, IsDefined, IsEnum, IsNotEmpty, IsOptional, IsString, IsUUID } from 'class-validator'
-
+import {
+  IsBoolean,
+  IsDefined,
+  IsNotEmpty,
+  IsUUID,
+} from 'class-validator'
 
 export class CreateProductFeatureDto {
-
-    
   @IsUUID()
   @IsNotEmpty()
   @IsDefined()
   productId: string
 
   @IsBoolean()
-  @IsOptional()
+  @IsDefined()
   cdPlayer: boolean
 
   @IsBoolean()
-  @IsOptional()
+  @IsDefined()
   sunRoof: boolean
 
   @IsBoolean()
-  @IsOptional()
+  @IsDefined()
   alloyWheels: boolean
 
   @IsBoolean()
-  @IsOptional()
+  @IsDefined()
   powerSteering: boolean
 
   @IsBoolean()
-  @IsOptional()
+  @IsDefined()
   powerWindow: boolean
 
   @IsBoolean()
-  @IsOptional()
+  @IsDefined()
   ac: boolean
 
   @IsBoolean()
-  @IsOptional()
+  @IsDefined()
   abs: boolean
 
   @IsBoolean()
-  @IsOptional()
+  @IsDefined()
   airBag: boolean
 
   @IsBoolean()
-  @IsOptional()
+  @IsDefined()
   radio: boolean
 
   @IsBoolean()
-  @IsOptional()
+  @IsDefined()
   cdChanger: boolean
 
   @IsBoolean()
-  @IsOptional()
+  @IsDefined()
   dvd: boolean
 
   @IsBoolean()
-  @IsOptional()
+  @IsDefined()
   tv: boolean
 
   @IsBoolean()
-  @IsOptional()
+  @IsDefined()
   powerSeat: boolean
 
   @IsBoolean()
-  @IsOptional()
+  @IsDefined()
   backTire: boolean
 
   @IsBoolean()
-  @IsOptional()
+  @IsDefined()
   grillGuard: boolean
 
   @IsBoolean()
-  @IsOptional()
+  @IsDefined()
   rearSpoiler: boolean
 
   @IsBoolean()
-  @IsOptional()
+  @IsDefined()
   centerLocking: boolean
 
   @IsBoolean()
-  @IsOptional()
+  @IsDefined()
   jack: boolean
 
   @IsBoolean()
-  @IsOptional()
+  @IsDefined()
   spareTire: boolean
 
   @IsBoolean()
-  @IsOptional()
+  @IsDefined()
   wheelSpanner: boolean
 
   @IsBoolean()
-  @IsOptional()
+  @IsDefined()
   fogLight: boolean
 
   @IsBoolean()
-  @IsOptional()
+  @IsDefined()
   backCamera: boolean
 
   @IsBoolean()
-  @IsOptional()
+  @IsDefined()
   pushStart: boolean
 
   @IsBoolean()
-  @IsOptional()
+  @IsDefined()
   keyLessentry: boolean
 
   @IsBoolean()
-  @IsOptional()
+  @IsDefined()
   esc: boolean
 
   @IsBoolean()
-  @IsOptional()
+  @IsDefined()
   camera360d: boolean
 
   @IsBoolean()
-  @IsOptional()
+  @IsDefined()
   bodyKit: boolean
 
   @IsBoolean()
-  @IsOptional()
+  @IsDefined()
   sideAirbag: boolean
 
   @IsBoolean()
-  @IsOptional()
+  @IsDefined()
   powerMirror: boolean
 
   @IsBoolean()
-  @IsOptional()
+  @IsDefined()
   sideSkirts: boolean
 
   @IsBoolean()
-  @IsOptional()
+  @IsDefined()
   fontLipSpoiler: boolean
 
   @IsBoolean()
-  @IsOptional()
+  @IsDefined()
   navigation: boolean
 
   @IsBoolean()
-  @IsOptional()
+  @IsDefined()
   turbo: boolean
 
   @IsBoolean()
-  @IsOptional()
+  @IsDefined()
   nonSmoker: boolean
-
 }

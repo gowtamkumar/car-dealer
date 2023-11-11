@@ -4,6 +4,8 @@ import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 import { CreateProductDto, FilterProductDto, UpdateProductDto } from '../dtos'
 import { ProductEntity } from '../entities/product.entity'
+import { ProductFeatureService } from '@modules/product-feature/services/product-feature.service'
+import { Transactional } from 'typeorm-transactional-cls-hooked'
 
 @Injectable()
 export class ProductService {
@@ -12,6 +14,7 @@ export class ProductService {
   constructor(
     @InjectRepository(ProductEntity)
     private readonly productRepo: Repository<ProductEntity>,
+    private readonly productFeatureService: ProductFeatureService,
   ) {}
 
   async getProducts(
@@ -19,12 +22,26 @@ export class ProductService {
     filterProductDto: FilterProductDto,
   ): Promise<ProductEntity[]> {
     this.logger.log(`${this.getProducts.name}Service Called`)
-
-    const start = process.hrtime() //time Start
+    const { condition, auction, brandId, modelCodeId, modelId, manufactureDate, ac } =
+      filterProductDto
+    // service time Start
+    const start = process.hrtime()
+    console.log(typeof ac);
+    
 
     const qb = this.productRepo.createQueryBuilder('product')
-    qb.select(['product', 'productFeature'])
+    qb.select(['product', 'productFeature', 'brand.name', 'model.name', 'modelCode.name'])
     qb.leftJoin('product.productFeature', 'productFeature')
+    qb.leftJoin('product.brand', 'brand')
+    qb.leftJoin('product.model', 'model')
+    qb.leftJoin('product.modelCode', 'modelCode')
+    // if (ac) qb.where('a.productFeature IN (:...productFeature)', { productFeature:  ac  })
+    if (condition) qb.where({ condition })
+    if (auction) qb.where({ auction })
+    if (brandId) qb.where({ brandId })
+    if (modelCodeId) qb.where({ modelCodeId })
+    if (modelId) qb.where({ modelId })
+    if (manufactureDate) qb.where({ manufactureDate })
     const result = await qb.getMany()
 
     const stop = process.hrtime(start)
@@ -43,15 +60,27 @@ export class ProductService {
     return result
   }
 
+  @Transactional()
   async createProduct(
     ctx: RequestContextDto,
     createProductDto: CreateProductDto,
   ): Promise<ProductEntity> {
     this.logger.log(`${this.createProduct.name}Service Called`)
+    const { productFeature } = createProductDto
 
     const result = this.productRepo.create(createProductDto)
+
     result.userId = ctx.user.id
-    return this.productRepo.save(result)
+    const product = await this.productRepo.save(result)
+
+    if (product.id) {
+      await this.productFeatureService.createProductFeature(ctx, {
+        ...productFeature,
+        productId: product.id,
+      })
+    }
+
+    return product
   }
 
   async updateProduct(

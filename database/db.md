@@ -111,7 +111,7 @@
     [] description
     [] productId
     [] rating
-    [] status["approved","Pending", "rejected"]
+    [] status["Approved","Pending", "Rejected"]
     [] userId
     [] createAt
     [] updateAt

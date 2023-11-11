@@ -50,6 +50,7 @@
     [] userId
 
 ## productFeatures:
+
         [
         "cdPlayer"
         "sunRoof"
@@ -87,7 +88,6 @@
         "turbo"
         "nonSmoker"
         ]
-  
 
 ## brands
 

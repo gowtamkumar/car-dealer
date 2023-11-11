@@ -1,14 +1,12 @@
-'use client'
+import { Carousel, Dialog, DialogHeader, IconButton } from '@material-tailwind/react'
 import React, { useState } from 'react'
-import { Carousel, Dialog, IconButton } from '@material-tailwind/react'
 
-const CustomCarousel = ({ data, height, navigation, arrow, opacity, view }) => {
+const ProductImage = ({ data }) => {
   const [open, setOpen] = useState(false)
   const [active, setActive] = useState(null)
   const [imgList, setImgList] = useState([])
 
   const handleOpen = (key) => {
-    if (!view) return
     setOpen(!open)
     if (!open) {
       setImgList(data)
@@ -18,13 +16,14 @@ const CustomCarousel = ({ data, height, navigation, arrow, opacity, view }) => {
       setActive(null)
     }
   }
+
   return (
-    <div>
+    <div className="col-span-12 p-5 lg:col-span-5 lg:p-0">
       <Carousel
         autoplay
         loop={true}
+        autoplayDelay={6000}
         prevArrow={({ handlePrev }) => {
-          if (!arrow) return
           return (
             <IconButton
               variant="text"
@@ -51,7 +50,6 @@ const CustomCarousel = ({ data, height, navigation, arrow, opacity, view }) => {
           )
         }}
         nextArrow={({ handleNext }) => {
-          if (!arrow) return
           return (
             <IconButton
               variant="text"
@@ -78,7 +76,6 @@ const CustomCarousel = ({ data, height, navigation, arrow, opacity, view }) => {
           )
         }}
         navigation={({ setActiveIndex, activeIndex, length }) => {
-          if (!navigation) return
           return (
             <div className="absolute bottom-4 left-2/4 z-50 flex -translate-x-2/4 gap-2">
               {new Array(length).fill('').map((_, i) => (
@@ -95,20 +92,21 @@ const CustomCarousel = ({ data, height, navigation, arrow, opacity, view }) => {
         }}
       >
         {(data || []).map((item, idx) => (
-          <div key={idx} onClick={() => handleOpen(idx)} className="relative h-full w-full">
+          <div
+            onClick={() => handleOpen(idx)}
+            key={idx}
+            className="relative h-full w-full overflow-hidden rounded-md"
+          >
             <img
               src={item.img}
               alt={`Banner ${idx}`}
-              className={` ${height} w-full  object-cover `}
+              className={`h-96 w-full cursor-pointer rounded-md object-cover `}
             />
-            <div
-              className={`absolute inset-0 grid h-full w-full place-items-center ${
-                opacity && 'bg-black/40'
-              }`}
-            ></div>
+            <div className={`absolute inset-0 grid h-full w-full place-items-center`}></div>
           </div>
         ))}
       </Carousel>
+
       <Dialog size="xl" className="min-h-[70vh] overflow-hidden" open={open} handler={handleOpen}>
         <div className="h-[60vh] w-full">
           <img
@@ -138,4 +136,4 @@ const CustomCarousel = ({ data, height, navigation, arrow, opacity, view }) => {
   )
 }
 
-export default CustomCarousel
+export default ProductImage

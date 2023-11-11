@@ -14,6 +14,7 @@ import {
   MenuItem,
   Chip,
   Input,
+  ListItemPrefix,
 } from '@material-tailwind/react'
 import {
   ChevronDownIcon,
@@ -33,6 +34,7 @@ import {
 import { usePathname, useRouter } from 'next/navigation'
 import Link from 'next/link'
 import UserDropDwon from '../ui/UserDropDwon'
+import DashboardRoute from '../dashboard/_dashboardRoute'
 
 const navListMenuItems = [
   {
@@ -165,13 +167,30 @@ function NavList() {
         </ListItem>
       </Typography>
       <NavListMenu />
+
+      {DashboardRoute.filter((item) => item.isMenuItem).map((item, idx) => (
+        <Typography
+          as={Link}
+          key={idx}
+          href={item.path}
+          variant="small"
+          color="blue-gray"
+          className="block font-normal lg:hidden"
+        >
+          <ListItem className="flex items-center gap-2 py-2 pr-4">
+            <item.icon className="h-[18px] w-[18px]" />
+            {item.title}
+          </ListItem>
+        </Typography>
+      ))}
+
       {token && (
         <Typography
           as={Link}
           href="/dashboard"
           variant="small"
           color="blue-gray"
-          className="font-normal"
+          className="hidden font-normal lg:block"
         >
           <ListItem className="flex items-center gap-2 py-2 pr-4">
             <HomeIcon className="h-[18px] w-[18px]" />

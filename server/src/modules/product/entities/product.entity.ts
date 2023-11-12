@@ -32,6 +32,7 @@ import { UpazilaEntity } from '@modules/other/bd-location/upazila/entities/upazi
 import { ProductFeatureEntity } from '@modules/product-feature/entities/product-feature.entity'
 import { ModelEntity } from '@modules/model/entities/model.entity'
 import { ModelCodeEntity } from '@modules/model-code/entities/model-code.entity'
+import { ReviewEntity } from '@modules/review/entities/review.entity'
 @Entity('products')
 export class ProductEntity {
   @PrimaryGeneratedColumn('uuid')
@@ -110,7 +111,7 @@ export class ProductEntity {
   loadCapacity: string
 
   @Column({ name: 'eng_cc', nullable: true })
-  engCc: string
+  engCc: number
 
   @Column({ name: 'eng_code', nullable: true })
   engCode: string
@@ -177,6 +178,9 @@ export class ProductEntity {
   // relations
   @OneToMany(() => FileEntity, (file) => file.product)
   files: FileEntity[]
+
+  @OneToMany(() => ReviewEntity, (review) => review.product)
+  reviews: ReviewEntity[]
 
   @OneToOne(() => ProductFeatureEntity, (productFeature) => productFeature.product)
   productFeature: ProductFeatureEntity

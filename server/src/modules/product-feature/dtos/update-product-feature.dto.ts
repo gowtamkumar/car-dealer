@@ -2,11 +2,10 @@ import { StatusEnum } from '@common/enums/status-enum'
 import { IsBoolean, IsEnum, IsNotEmpty, IsOptional, IsString, IsUUID } from 'class-validator'
 
 export class UpdateProductFeatureDto {
+  // @IsUUID()
+  // @IsNotEmpty()
+  // productId: string
 
-  @IsUUID()
-  @IsNotEmpty()
-  productId: string
- 
   @IsBoolean()
   @IsOptional()
   cdPlayer: boolean

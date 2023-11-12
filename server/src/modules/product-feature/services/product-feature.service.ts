@@ -14,7 +14,10 @@ export class ProductFeatureService {
     private readonly productFeatureRepo: Repository<ProductFeatureEntity>,
   ) {}
 
-  getProductFeatures(ctx: RequestContextDto, filterProductFeatureDto: FilterProductFeatureDto): Promise<ProductFeatureEntity[]> {
+  getProductFeatures(
+    ctx: RequestContextDto,
+    filterProductFeatureDto: FilterProductFeatureDto,
+  ): Promise<ProductFeatureEntity[]> {
     this.logger.log(`${this.getProductFeatures.name} Service Called`)
 
     return this.productFeatureRepo.find()
@@ -30,7 +33,10 @@ export class ProductFeatureService {
     return result
   }
 
-  async createProductFeature(ctx: RequestContextDto, createProductFeatureDto: CreateProductFeatureDto): Promise<ProductFeatureEntity> {
+  async createProductFeature(
+    ctx: RequestContextDto,
+    createProductFeatureDto: CreateProductFeatureDto,
+  ): Promise<ProductFeatureEntity> {
     this.logger.log(`${this.createProductFeature.name} Service Called`)
 
     const result = this.productFeatureRepo.create(createProductFeatureDto)
@@ -53,6 +59,24 @@ export class ProductFeatureService {
     return await this.productFeatureRepo.save(result)
   }
 
+  async updateProductFeatureById(
+    ctx: RequestContextDto,
+    id: string,
+    updateProductFeatureDto: UpdateProductFeatureDto,
+  ): Promise<ProductFeatureEntity> {
+    this.logger.log(`${this.updateProductFeatureById.name} Service Called`)
+
+    const result = await this.productFeatureRepo.findOne({ where: { productId: id } })
+    if (!result) {
+      throw new NotFoundException(`Product Feature of id ${id} not found.`)
+    }
+
+    console.log('product Featutue', result)
+    console.log('updateProductFeatureDto', updateProductFeatureDto)
+
+    this.productFeatureRepo.merge(result, updateProductFeatureDto)
+    return await this.productFeatureRepo.save(result)
+  }
   async deleteProductFeature(ctx: RequestContextDto, id: string): Promise<ProductFeatureEntity> {
     this.logger.log(`${this.deleteProductFeature.name} Service Called`)
 

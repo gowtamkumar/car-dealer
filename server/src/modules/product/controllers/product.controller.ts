@@ -18,12 +18,11 @@ import { RequestContextDto } from '@common/dtos/request-context.dto'
 import { CreateProductDto, FilterProductDto, ProductDto, UpdateProductDto } from '../dtos'
 import { ProductService } from '../services/product.service'
 
-@UseGuards(JwtAuthGuard)
 @Controller('products')
 export class ProductController {
   private logger = new Logger(ProductController.name)
 
-  constructor(private readonly companyService: ProductService) {}
+  constructor(private readonly productService: ProductService) {}
 
   @Get('/')
   async getProducts(
@@ -32,12 +31,13 @@ export class ProductController {
   ): Promise<BaseApiSuccessResponse<ProductDto[]>> {
     this.logger.verbose(`User "${ctx.user?.username}" retieving products.`)
 
-    const result = await this.companyService.getProducts(ctx, filterProductDto)
+    const result = await this.productService.getProducts(ctx, filterProductDto)
 
     return {
       success: true,
       statusCode: 200,
       message: `List of Products`,
+      totalRecords: result.length,
       data: result,
     }
   }
@@ -47,9 +47,9 @@ export class ProductController {
     @RequestContext() ctx: RequestContextDto,
     @Param('id', ParseUUIDPipe) id: string,
   ): Promise<BaseApiSuccessResponse<ProductDto>> {
-    this.logger.verbose(`User "${ctx.user?.username}" retieving company. Id: ${id}`)
+    this.logger.verbose(`User "${ctx.user?.username}" retieving product. Id: ${id}`)
 
-    const result = await this.companyService.getProduct(ctx, id)
+    const result = await this.productService.getProduct(ctx, id)
 
     return {
       success: true,
@@ -59,14 +59,15 @@ export class ProductController {
     }
   }
 
+  @UseGuards(JwtAuthGuard)
   @Post('/')
   async createProduct(
     @RequestContext() ctx: RequestContextDto,
     @Body() createProductDto: CreateProductDto,
   ): Promise<BaseApiSuccessResponse<ProductDto>> {
-    this.logger.verbose(`User "${ctx.user?.username}" creating company.`)
+    this.logger.verbose(`User "${ctx.user?.username}" creating product.`)
 
-    const result = await this.companyService.createProduct(ctx, createProductDto)
+    const result = await this.productService.createProduct(ctx, createProductDto)
 
     return {
       success: true,
@@ -76,15 +77,16 @@ export class ProductController {
     }
   }
 
+  @UseGuards(JwtAuthGuard)
   @Put('/:id')
   async updateProduct(
     @RequestContext() ctx: RequestContextDto,
     @Param('id', ParseUUIDPipe) id: string,
     @Body() updateProductDto: UpdateProductDto,
   ): Promise<BaseApiSuccessResponse<ProductDto>> {
-    this.logger.verbose(`User "${ctx.user?.username}" updating company.`)
+    this.logger.verbose(`User "${ctx.user?.username}" updating product.`)
 
-    const result = await this.companyService.updateProduct(ctx, id, updateProductDto)
+    const result = await this.productService.updateProduct(ctx, id, updateProductDto)
 
     return {
       success: true,
@@ -94,14 +96,15 @@ export class ProductController {
     }
   }
 
+  @UseGuards(JwtAuthGuard)
   @Delete('/:id')
   async deleteProduct(
     @RequestContext() ctx: RequestContextDto,
     @Param('id', ParseUUIDPipe) id: string,
   ): Promise<BaseApiSuccessResponse<ProductDto>> {
-    this.logger.verbose(`User "${ctx.user?.username}" deleting company.`)
+    this.logger.verbose(`User "${ctx.user?.username}" deleting product.`)
 
-    const result = await this.companyService.deleteProduct(ctx, id)
+    const result = await this.productService.deleteProduct(ctx, id)
 
     return {
       success: true,

@@ -1,5 +1,5 @@
 import { StatusEnum } from '@common/enums/status-enum'
-import { Transform } from 'class-transformer'
+import { Transform, Type } from 'class-transformer'
 import {
   IsArray,
   IsBoolean,
@@ -7,7 +7,9 @@ import {
   IsDefined,
   IsEnum,
   IsNotEmpty,
+  IsNotEmptyObject,
   IsNumber,
+  IsObject,
   IsOptional,
   IsString,
   IsUUID,
@@ -24,6 +26,7 @@ import {
   TransmissionEnum,
 } from '../enums'
 import { ToBoolean } from '@common/decorators/transforms.decorator'
+import { CreateProductFeatureDto } from '@modules/product-feature/dtos'
 
 export class UpdateProductDto {
   @IsString()
@@ -99,10 +102,10 @@ export class UpdateProductDto {
   @IsOptional()
   loadCapacity: string
 
-  @Transform(({ value }) => value || null)
-  @IsString()
+  @Transform(({ value }) => Number(value) || null)
+  @IsNumber()
   @IsOptional()
-  engCc: string
+  engCc: number
 
   @Transform(({ value }) => value || null)
   @IsString()
@@ -143,10 +146,12 @@ export class UpdateProductDto {
   @IsNotEmpty()
   upazilaId: number
 
-  @IsUUID()
-  @IsNotEmpty()
-  userId: string
-
   @IsEnum(ProductStatusEnum)
   status: ProductStatusEnum
+
+  @IsObject()
+  @Type(() => CreateProductFeatureDto)
+  @IsNotEmptyObject()
+  @IsOptional()
+  productFeature: CreateProductFeatureDto
 }

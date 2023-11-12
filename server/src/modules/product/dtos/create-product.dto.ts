@@ -98,7 +98,6 @@ export class CreateProductDto {
 
   @Transform(({ value }) => Number(value))
   @IsNumber()
-  @IsNotEmpty()
   @IsDefined()
   noOfPass: number
 
@@ -112,10 +111,10 @@ export class CreateProductDto {
   @IsOptional()
   loadCapacity: string
 
-  @Transform(({ value }) => value || null)
-  @IsString()
+  @Transform(({ value }) => Number(value) || null)
+  @IsNumber()
   @IsOptional()
-  engCc: string
+  engCc: number
 
   @Transform(({ value }) => value || null)
   @IsString()

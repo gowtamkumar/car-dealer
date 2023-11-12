@@ -70,7 +70,7 @@ export class ProductDto {
   loadCapacity: string
 
   @Expose()
-  engCc: string
+  engCc: number
 
   @Expose()
   engCode: string

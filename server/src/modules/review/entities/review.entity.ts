@@ -24,9 +24,8 @@ export class ReviewEntity {
   @Column({ name: 'product_id', type: 'uuid' })
   productId: string
   @JoinColumn({ name: 'product_id' })
-  @ManyToOne((_type) => ProductEntity, {
-    onUpdate: 'CASCADE',
-    onDelete: 'SET NULL',
+  @ManyToOne((_type) => ProductEntity, (product) => product.reviews, {
+    onDelete: 'CASCADE',
   })
   product: ProductEntity
 

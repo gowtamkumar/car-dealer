@@ -25,6 +25,9 @@ const DashboardRoute = [
     isMenuItem: role === 'seller',
     icon: PresentationChartBarIcon,
   },
+  
+  
+  
   {
     title: 'Add Product',
     path: '/dashboard/add-product/new',

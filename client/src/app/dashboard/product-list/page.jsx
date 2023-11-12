@@ -57,27 +57,25 @@ const ProductList = () => {
     switch (field) {
       case 'status':
         return status === 'Approved' ? (
-          <span className="rounded-md border border-green-600 px-2 py-1 text-sm font-semibold text-green-500">
+          <small className="rounded-md border border-green-600 px-2 py-1 text-sm font-semibold text-green-500">
             {status}
-          </span>
+          </small>
         ) : status === 'Rejected' ? (
-          <span className="rounded-md border border-red-600 px-2 py-1 text-sm font-semibold text-red-500">
+          <small className="rounded-md border border-red-600 px-2 py-1 text-sm font-semibold text-red-500">
             {status}
-          </span>
+          </small>
         ) : (
-          <span className="rounded-md border border-yellow-600 px-2 py-1 text-sm font-semibold text-yellow-500">
+          <small className="rounded-md border border-yellow-600 px-2 py-1 text-sm font-semibold text-yellow-500">
             {status}
-          </span>
+          </small>
         )
       case 'action':
         return (
           <Menu>
             <MenuHandler>
-              <div className="flex items-center gap-1">
+              <div className="flex cursor-pointer items-center gap-1">
                 <span>{rowIndex + 1}</span> <BiDotsHorizontalRounded />
               </div>
-              {/* <Button variant="text" size="sm" >
-              </Button> */}
             </MenuHandler>
             <MenuList className="max-w-[200px] p-1">
               <MenuItem className="py-0">
@@ -107,15 +105,27 @@ const ProductList = () => {
   }
 
   return (
-    <div>
-      <div className="flex items-center justify-between border-b py-2">
+    <div className="border-b">
+      {/* <div className="flex items-center justify-between border-b py-2 lg:hidden">
         <h1 className="text-2xl font-bold">Product List</h1>
-        <Button color="red" size="sm" variant="gradient" className="block capitalize lg:hidden">
+        <Button color="red" size="sm" variant="gradient" className="capitalize">
           Add Product
         </Button>
-      </div>
-      <div className="my-3 flex items-center justify-between">
-        <div>aa</div>
+      </div> */}
+
+      <div className="my-3 flex flex-col items-center justify-between lg:flex-row">
+        <div className="flex flex-grow items-center justify-start gap-3 py-3">
+          <div className="cursor-pointer rounded-md bg-blue-100 px-2 py-1 font-bold text-blue-700">
+            Approved
+          </div>
+          <div className="cursor-pointer rounded-md px-2 py-1 font-bold hover:bg-blue-100 hover:text-blue-700">
+            Pendding
+          </div>
+          <div className="cursor-pointer rounded-md px-2 py-1 font-bold hover:bg-blue-100 hover:text-blue-700">
+            Rejected
+          </div>
+        </div>
+
         <div className="flex items-center gap-4">
           <IconButton
             size="sm"
@@ -156,7 +166,7 @@ const ProductList = () => {
         currentPageReportTemplate="Showing {first} to {last} of {totalRecords}"
         rowHover
         showGridlines
-        stripedRows
+        stripedRows={true}
         sortMode="multiple"
         responsive="true"
         resizableColumns={true}
@@ -165,7 +175,6 @@ const ProductList = () => {
         emptyMessage={<div className="text-center">{true ? 'loading..' : 'No records found'}</div>}
         // header={header}
         ref={dt}
-        autoLayout
         className="p-datatable-sm rounded-md border text-center"
       >
         <Column

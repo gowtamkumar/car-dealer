@@ -12,9 +12,7 @@ import {
   MenuHandler,
   MenuList,
   MenuItem,
-  Chip,
   Input,
-  ListItemPrefix,
 } from '@material-tailwind/react'
 import {
   ChevronDownIcon,
@@ -25,7 +23,6 @@ import {
   Square3Stack3DIcon,
   HomeIcon,
 } from '@heroicons/react/24/outline'
-import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 import UserDropDwon from '../ui/UserDropDwon'
 import dashboardRoute from '../dashboard/_dashboardRoute'
@@ -41,7 +38,7 @@ function NavListMenu() {
     .map(({ icon, title, path }, key) => (
       <Link href={path} key={key}>
         <MenuItem className="flex items-center gap-3 rounded-lg hover:border-none">
-          <div className={`rounded-lg bg-indigo-500/10 p-3 text-indigo-500`}>
+          <div className={`rounded-lg bg-red-500/10 p-3 text-red-300`}>
             {React.createElement(icon, {
               strokeWidth: 2,
               className: 'h-6 w-6',
@@ -88,8 +85,10 @@ function NavListMenu() {
             </ListItem>
           </Typography>
         </MenuHandler>
-        <MenuList className="hidden max-w-screen-xl rounded-xl hover:border-none lg:block">
-          <ul className="grid grid-cols-3 gap-y-2 border-none">{renderItems}</ul>
+        <MenuList className="hidden max-w-screen-xl rounded-xl border-none lg:block">
+          <ul className="grid gap-y-2 border-none md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
+            {renderItems}
+          </ul>
         </MenuList>
       </Menu>
       <div className="block lg:hidden">
@@ -158,7 +157,6 @@ function NavList() {
 export default function NavbarMenu() {
   const [openNav, setOpenNav] = React.useState(false)
   const [query, setQuery] = React.useState('')
-  const pathname = usePathname()
 
   React.useEffect(() => {
     window.addEventListener('resize', () => window.innerWidth >= 960 && setOpenNav(false))

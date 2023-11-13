@@ -1,8 +1,9 @@
 'use client'
 import React, { useState } from 'react'
-import { Button, Option, Select, Typography } from '@material-tailwind/react'
+import { Button, Typography } from '@material-tailwind/react'
 import { BiSearchAlt } from 'react-icons/bi'
 import Link from 'next/link'
+import { Select } from 'antd'
 const FilterSection = () => {
   const [active, setActive] = useState('used')
 
@@ -48,21 +49,43 @@ const FilterSection = () => {
 
         <div className="my-5 flex h-20 flex-col items-center justify-between gap-3 rounded-md border p-3 lg:flex-row">
           <div className="flex-grow">
-            <Select variant="outlined" label="Select Brand">
-              <Option>HTML</Option>
-              <Option>React</Option>
-              <Option>Vue</Option>
-              <Option>Angular</Option>
-              <Option>Svelte</Option>
+            <Select
+              id="brandId"
+              className="w-full"
+              size="large"
+              showSearch
+              allowClear
+              placeholder="Select Brand"
+              optionFilterProp="children"
+              filterOption={(input, option) =>
+                option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+              }
+            >
+              {[].map((item, idx) => (
+                <Select.Option key={idx} value={item.id}>
+                  {item.name}
+                </Select.Option>
+              ))}
             </Select>
           </div>
           <div className="flex-grow">
-            <Select variant="outlined" label="Select Model">
-              <Option>HTML</Option>
-              <Option>React</Option>
-              <Option>Vue</Option>
-              <Option>Angular</Option>
-              <Option>Svelte</Option>
+            <Select
+              id="modelId"
+              className="w-full"
+              size="large"
+              showSearch
+              allowClear
+              placeholder="Select Model"
+              optionFilterProp="children"
+              filterOption={(input, option) =>
+                option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+              }
+            >
+              {[].map((item, idx) => (
+                <Select.Option key={idx} value={item.id}>
+                  {item.name}
+                </Select.Option>
+              ))}
             </Select>
           </div>
           <div className="flex-grow">

@@ -7,9 +7,10 @@ import './globals.css'
 import { Inter } from 'next/font/google'
 import { Suspense } from 'react'
 import { appConfig } from '../config'
-import Loading from './loading'
+
 import NavbarMenu from '../components/layout/Header'
 import Footer from '../components/layout/Footer'
+import Loading from './loading'
 
 const fontSans = Inter({
   subsets: ['latin'],

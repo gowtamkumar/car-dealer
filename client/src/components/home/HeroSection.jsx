@@ -7,7 +7,6 @@ const HeroSection = () => {
   return (
     <section className="min-h-[30vh] lg:min-h-[65vh]">
       <CustomCarousel
-        // navigation={true}
         view={false}
         opacity={true}
         arrow={true}

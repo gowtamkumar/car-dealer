@@ -7,7 +7,7 @@ export const metadata = {
 
 export default function DashboardLayout({ children }) {
   return (
-    <section className="min-h-[90vh]">
+    <section className="min-h-screen">
       <div className="container mx-auto py-5">
         <div className="grid grid-cols-1 gap-5">
           <Suspense fallback={'Loading...'}>{children}</Suspense>

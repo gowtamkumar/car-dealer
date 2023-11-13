@@ -11,6 +11,7 @@
   "dependencies": {
     "@heroicons/react": "^2.0.18",
     "@material-tailwind/react": "^2.1.4",
+    "antd": "^5.11.1",
     "next": "14.0.1",
     "primeicons": "^6.0.1",
     "primereact": "^10.0.9",

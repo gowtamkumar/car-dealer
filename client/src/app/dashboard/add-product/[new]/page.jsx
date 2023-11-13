@@ -1,64 +1,774 @@
 'use client'
-import { Option, Select } from '@material-tailwind/react'
-import React from 'react'
+import { DatePicker, Divider, Form, Input, InputNumber, Select, Upload, Modal } from 'antd'
+import React, { useState } from 'react'
+import productEnum from '../../../../lib/utils'
+import { Button } from '@material-tailwind/react'
+import { PlusOutlined } from '@ant-design/icons'
 
 const AddProduct = () => {
+  const [formValues, setFormValues] = useState({})
+  const [loading, setLoading] = useState({})
+  const [previewOpen, setPreviewOpen] = useState(false)
+  const [previewImage, setPreviewImage] = useState('')
+  const [previewTitle, setPreviewTitle] = useState('')
+  const [fileList, setFileList] = useState([])
+
+  const handleCancel = () => setPreviewOpen(false)
+
+  const handlePreview = async (file) => {
+    if (!file.url && !file.preview) {
+      file.preview = await getBase64(file.originFileObj)
+    }
+    setPreviewImage(file.url || file.preview)
+    setPreviewOpen(true)
+    setPreviewTitle(file.name || file.url.substring(file.url.lastIndexOf('/') + 1))
+  }
+
+  const handleChange = ({ fileList: newFileList }) => setFileList(newFileList)
+
+  const uploadButton = (
+    <div>
+      <PlusOutlined />
+      <div
+        style={{
+          marginTop: 8,
+        }}
+      >
+        Upload
+      </div>
+    </div>
+  )
+
+  const [form] = Form.useForm()
+
+  // useEffect(() => {
+  //   const newData = { ...action.payload }
+
+  //   setFormData(newData)
+  //   return () => {
+  //     setFormValues({})
+  //     form.resetFields()
+  //   }
+  // }, [action.type])
+
+  const handleSubmit = async (values) => {
+    const newData = { ...values }
+
+    return console.log('Submit', newData)
+    // setLoading({ save: true })
+    // setTimeout(async () => {
+    //   const result = newData.id ? await updateProduct(newData) : await createProduct(newData)
+    //   setLoading({ save: false })
+    //   if (result.error) return errorMsg('Error')
+    //   successMsg(`Product ${newData.id ? 'Updated' : 'Created'} Successfully`)
+    //   setAction({})
+    // }, 100)
+  }
+
+  const setFormData = (v) => {
+    const { ...newData } = v
+    form.setFieldsValue(newData)
+    setFormValues(form.getFieldsValue())
+  }
+
+  const resetFormData = () => {
+    form.resetFields()
+    // const { batchNo, expiryDate, ...newData } = { ...action.payload }
+
+    // if (newData.id) {
+    //   if (expiryDate) {
+    //     newData.expiryDate = moment(expiryDate)
+    //     newData.isExpiryDate = true
+    //   }
+
+    //   if (batchNo) newData.isBatchNo = true
+    //   if (newData.photo) {
+    //     const file = {
+    //       uid: Math.random() * 1000 + '',
+    //       name: 'Photo',
+    //       status: 'done',
+    //       url: `${config.apiBaseUrl}/uploads/${newData.photo}`,
+    //     }
+    //     newData.fileList = [file]
+    //   }
+    //   form.setFieldsValue(newData)
+    // }
+    // setFormValues(form.getFieldsValue())
+  }
+
   return (
-    <section>
-      <div className="grid grid-cols-12 gap-3">
-        <div className="col-span-12 mb-2 border-b">
-          <code className="py-3 text-2xl font-semibold italic text-pink-400">Product Info.</code>
+    <Form
+      layout="vertical"
+      form={form}
+      onFinish={handleSubmit}
+      onValuesChange={(_v, values) => setFormValues(values)}
+      autoComplete="off"
+      scrollToFirstError={true}
+      initialValues={{
+        status: 'Active',
+        itemBarcode: (Math.random() * 10000000000).toFixed(0),
+      }}
+    >
+      <Form.Item name="id" hidden>
+        <Input />
+      </Form.Item>
+
+      <div className="grid grid-cols-12 gap-3 px-3 lg:px-0">
+        <div className="col-span-12">
+          <Divider className="m-0 p-0" orientation="left">
+            <code>
+              <span className="text-lg text-red-400">1.</span> Car Informations
+            </code>
+          </Divider>
         </div>
-        <div className="col-span-12 mb-2 lg:col-span-3">
-          <Select
-            error={false}
-            onChange={(value) => console.log('condition', value)}
-            variant="standard"
-            label="Conditions *"
+
+        <div className="col-span-12 lg:col-span-3">
+          <label className="mb-1" htmlFor="condition">
+            Condition <span className="text-red-500">*</span>
+          </label>
+          <Form.Item
+            className="mb-1"
+            name="condition"
+            rules={[
+              {
+                required: true,
+                message: 'Condition is required',
+              },
+            ]}
           >
-            <Option value="new">New</Option>
-            <Option value="used">Used</Option>
-            <Option value="recondition">Recondition</Option>
-          </Select>
+            <Select
+              id="condition"
+              showSearch
+              allowClear
+              placeholder="Select Condition"
+              optionFilterProp="children"
+              filterOption={(input, option) =>
+                option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+              }
+            >
+              {productEnum.condition.map((item, idx) => (
+                <Select.Option key={idx} value={item}>
+                  {item}
+                </Select.Option>
+              ))}
+            </Select>
+          </Form.Item>
         </div>
-        <div className="col-span-12 mb-2 lg:col-span-3">
-          <Select
-            error={false}
-            onChange={(value) => console.log('brandId', value)}
-            variant="standard"
-            label="Brands *"
+
+        <div className="col-span-12 lg:col-span-3">
+          <label className="mb-1" htmlFor="brandId">
+            Brand <span className="text-red-500">*</span>
+          </label>
+          <Form.Item
+            className="mb-1"
+            name="brandId"
+            rules={[
+              {
+                required: false, // true
+                message: 'Brand is required',
+              },
+            ]}
           >
-            <Option value="new">New</Option>
-            <Option value="used">Used</Option>
-            <Option value="recondition">Recondition</Option>
-          </Select>
+            <Select
+              id="brandId"
+              showSearch
+              allowClear
+              placeholder="Select Brand"
+              optionFilterProp="children"
+              filterOption={(input, option) =>
+                option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+              }
+            >
+              {[].map((item, idx) => (
+                <Select.Option key={idx} value={item.id}>
+                  {item.name}
+                </Select.Option>
+              ))}
+            </Select>
+          </Form.Item>
         </div>
-        <div className="col-span-12 mb-2 lg:col-span-3">
-          <Select
-            error={false}
-            onChange={(value) => console.log('modelId', value)}
-            variant="standard"
-            label="Model *"
+
+        <div className="col-span-12 lg:col-span-3">
+          <label className="mb-1" htmlFor="modelId">
+            Model <span className="text-red-500">*</span>
+          </label>
+          <Form.Item
+            className="mb-1"
+            name="modelId"
+            rules={[
+              {
+                required: false, // true
+                message: 'Model is required',
+              },
+            ]}
           >
-            <Option value="new">New</Option>
-            <Option value="used">Used</Option>
-            <Option value="recondition">Recondition</Option>
-          </Select>
+            <Select
+              id="modelId"
+              showSearch
+              allowClear
+              placeholder="Select Model"
+              optionFilterProp="children"
+              filterOption={(input, option) =>
+                option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+              }
+            >
+              {[].map((item, idx) => (
+                <Select.Option key={idx} value={item.id}>
+                  {item.name}
+                </Select.Option>
+              ))}
+            </Select>
+          </Form.Item>
         </div>
-        <div className="col-span-12 mb-2 lg:col-span-3">
-          <Select
-            error={false}
-            onChange={(value) => console.log('modelId', value)}
-            variant="standard"
-            label="Model Code *"
+
+        <div className="col-span-12 lg:col-span-3">
+          <label className="mb-1" htmlFor="modelCodeId">
+            Model Code <span className="text-red-500">*</span>
+          </label>
+          <Form.Item
+            className="mb-1"
+            name="modelCodeId"
+            rules={[
+              {
+                required: false, // true
+                message: 'Model Code is required',
+              },
+            ]}
           >
-            <Option value="new">New</Option>
-            <Option value="used">Used</Option>
-            <Option value="recondition">Recondition</Option>
-          </Select>
+            <Select
+              id="modelCodeId"
+              showSearch
+              allowClear
+              placeholder="Select Model"
+              optionFilterProp="children"
+              filterOption={(input, option) =>
+                option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+              }
+            >
+              {[].map((item, idx) => (
+                <Select.Option key={idx} value={item.id}>
+                  {item.name}
+                </Select.Option>
+              ))}
+            </Select>
+          </Form.Item>
+        </div>
+
+        <div className="col-span-12 lg:col-span-3">
+          <label className="mb-1" htmlFor="edition">
+            Edition
+          </label>
+          <Form.Item className="mb-1" name="edition">
+            <Input id="edition" placeholder="Enter Edition" />
+          </Form.Item>
+        </div>
+
+        <div className="col-span-12 lg:col-span-3">
+          <label className="mb-1" htmlFor="manufactureDate">
+            Manufacture Year
+          </label>
+          <Form.Item className="mb-1" name="manufactureDate">
+            <DatePicker
+              picker="year"
+              id="manufactureDate"
+              className="w-full"
+              placeholder="Select Manufacture Year"
+            />
+          </Form.Item>
+        </div>
+
+        <div className="col-span-12 lg:col-span-3">
+          <label className="mb-1" htmlFor="registrationDate">
+            Registration Year
+          </label>
+          <Form.Item className="mb-1" name="registrationDate">
+            <DatePicker
+              picker="year"
+              className="w-full"
+              id="registrationDate"
+              placeholder="Select Registration Year"
+            />
+          </Form.Item>
+        </div>
+
+        <div className="col-span-12 lg:col-span-3">
+          <label className="mb-1" htmlFor="fuelType">
+            Fuel Type <span className="text-red-500">*</span>
+          </label>
+          <Form.Item
+            className="mb-1"
+            name="fuelType"
+            rules={[
+              {
+                required: true,
+                message: 'Fuel Type is required',
+              },
+            ]}
+          >
+            <Select
+              id="fuelType"
+              showSearch
+              allowClear
+              placeholder="Select Fuel Type"
+              optionFilterProp="children"
+              filterOption={(input, option) =>
+                option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+              }
+            >
+              {productEnum.fuelType.map((item, idx) => (
+                <Select.Option key={idx} value={item}>
+                  {item}
+                </Select.Option>
+              ))}
+            </Select>
+          </Form.Item>
+        </div>
+
+        <div className="col-span-12 lg:col-span-3">
+          <label className="mb-1" htmlFor="transmission">
+            Transmission <span className="text-red-500">*</span>
+          </label>
+          <Form.Item
+            className="mb-1"
+            name="transmission"
+            rules={[
+              {
+                required: true,
+                message: 'Transmission is required',
+              },
+            ]}
+          >
+            <Select
+              id="transmission"
+              showSearch
+              allowClear
+              placeholder="Select Transmission"
+              optionFilterProp="children"
+              filterOption={(input, option) =>
+                option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+              }
+            >
+              {productEnum.transmission.map((item, idx) => (
+                <Select.Option key={idx} value={item}>
+                  {item}
+                </Select.Option>
+              ))}
+            </Select>
+          </Form.Item>
+        </div>
+
+        <div className="col-span-12 lg:col-span-3">
+          <label className="mb-1" htmlFor="bodyType">
+            Body Type <span className="text-red-500">*</span>
+          </label>
+          <Form.Item
+            className="mb-1"
+            name="bodyType"
+            rules={[
+              {
+                required: true,
+                message: 'Body Type is required',
+              },
+            ]}
+          >
+            <Select
+              id="bodyType"
+              showSearch
+              allowClear
+              placeholder="Select Body Type"
+              optionFilterProp="children"
+              filterOption={(input, option) =>
+                option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+              }
+            >
+              {productEnum.bodyType.map((item, idx) => (
+                <Select.Option key={idx} value={item}>
+                  {item}
+                </Select.Option>
+              ))}
+            </Select>
+          </Form.Item>
+        </div>
+
+        <div className="col-span-12 lg:col-span-3">
+          <label className="mb-1" htmlFor="steering">
+            Steering <span className="text-red-500">*</span>
+          </label>
+          <Form.Item
+            className="mb-1"
+            name="steering"
+            rules={[
+              {
+                required: true,
+                message: 'Steering is required',
+              },
+            ]}
+          >
+            <Select
+              id="steering"
+              showSearch
+              allowClear
+              placeholder="Select Steering"
+              optionFilterProp="children"
+              filterOption={(input, option) =>
+                option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+              }
+            >
+              {productEnum.steering.map((item, idx) => (
+                <Select.Option key={idx} value={item}>
+                  {item}
+                </Select.Option>
+              ))}
+            </Select>
+          </Form.Item>
+        </div>
+
+        <div className="col-span-12 lg:col-span-3">
+          <label className="mb-1" htmlFor="color">
+            Color <span className="text-red-500">*</span>
+          </label>
+          <Form.Item
+            className="mb-1"
+            name="color"
+            rules={[
+              {
+                required: true,
+                message: 'Color is required',
+              },
+            ]}
+          >
+            <Select
+              id="color"
+              showSearch
+              allowClear
+              placeholder="Select Color"
+              optionFilterProp="children"
+              filterOption={(input, option) =>
+                option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+              }
+            >
+              {productEnum.color.map((item, idx) => (
+                <Select.Option key={idx} value={item}>
+                  {item}
+                </Select.Option>
+              ))}
+            </Select>
+          </Form.Item>
+        </div>
+
+        <div className="col-span-12 lg:col-span-3">
+          <label className="mb-1" htmlFor="price">
+            Price <span className="text-red-500">*</span>
+          </label>
+          <Form.Item
+            className="mb-1"
+            name="price"
+            rules={[
+              {
+                required: true,
+                message: 'Price is required',
+              },
+            ]}
+          >
+            <InputNumber id="price" placeholder="Enter Amount" className="w-full" />
+          </Form.Item>
+        </div>
+
+        <div className="col-span-12 lg:col-span-3">
+          <label className="mb-1" htmlFor="noOfPass">
+            No Of Pass. <span className="text-red-500">*</span>
+          </label>
+          <Form.Item
+            className="mb-1"
+            name="noOfPass"
+            rules={[
+              {
+                required: true,
+                message: 'No Of Pass. is required',
+              },
+            ]}
+          >
+            <InputNumber id="noOfPass" placeholder="Enter Passenser" className="w-full" />
+          </Form.Item>
+        </div>
+
+        <div className="col-span-12 lg:col-span-3">
+          <label className="mb-1" htmlFor="milleage">
+            Milleage <span className="text-red-500">*</span>
+          </label>
+          <Form.Item
+            className="mb-1"
+            name="milleage"
+            rules={[
+              {
+                required: true,
+                message: 'Milleage is required',
+              },
+            ]}
+          >
+            <InputNumber id="milleage" placeholder="Enter Milleage" className="w-full" />
+          </Form.Item>
+        </div>
+
+        <div className="col-span-12 lg:col-span-3">
+          <label className="mb-1" htmlFor="loadCapacity">
+            Load Capacity
+          </label>
+          <Form.Item className="mb-1" name="loadCapacity">
+            <Input id="loadCapacity" placeholder="Enter Load Capacity" />
+          </Form.Item>
+        </div>
+
+        <div className="col-span-12 lg:col-span-3">
+          <label className="mb-1" htmlFor="engCc">
+            Eng Cc
+          </label>
+          <Form.Item className="mb-1" name="engCc">
+            <Input id="engCc" placeholder="Enter Eng Cc" />
+          </Form.Item>
+        </div>
+
+        <div className="col-span-12 lg:col-span-3">
+          <label className="mb-1" htmlFor="engCode">
+            Eng Code
+          </label>
+          <Form.Item className="mb-1" name="engCode">
+            <Input id="engCode" placeholder="Enter Eng Code" />
+          </Form.Item>
+        </div>
+
+        <div className="col-span-12 lg:col-span-3">
+          <label className="mb-1" htmlFor="noOfseat">
+            No Of seat <span className="text-red-500">*</span>
+          </label>
+          <Form.Item
+            className="mb-1"
+            name="noOfseat"
+            rules={[
+              {
+                required: true,
+                message: 'No Of seat is required',
+              },
+            ]}
+          >
+            <InputNumber id="noOfseat" placeholder="Enter No Of seat" className="w-full" />
+          </Form.Item>
+        </div>
+
+        <div className="col-span-12 lg:col-span-3">
+          <label className="mb-1" htmlFor="noOfOwner">
+            No Of Owner <span className="text-red-500">*</span>
+          </label>
+          <Form.Item
+            className="mb-1"
+            name="noOfOwner"
+            rules={[
+              {
+                required: true,
+                message: 'No Of Owner is required',
+              },
+            ]}
+          >
+            <InputNumber id="noOfOwner" placeholder="Enter No Of Owner" className="w-full" />
+          </Form.Item>
+        </div>
+
+        <div className="col-span-12 lg:col-span-3">
+          <label className="mb-1" htmlFor="drivetrain">
+            Drivetrain <span className="text-red-500">*</span>
+          </label>
+          <Form.Item
+            className="mb-1"
+            name="drivetrain"
+            rules={[
+              {
+                required: true,
+                message: 'Drivetrain is required',
+              },
+            ]}
+          >
+            <Select
+              id="drivetrain"
+              showSearch
+              allowClear
+              placeholder="Select Drivetrain"
+              optionFilterProp="children"
+              filterOption={(input, option) =>
+                option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+              }
+            >
+              {productEnum.drivetrain.map((item, idx) => (
+                <Select.Option key={idx} value={item}>
+                  {item}
+                </Select.Option>
+              ))}
+            </Select>
+          </Form.Item>
+        </div>
+
+        <div className="col-span-12 lg:col-span-3">
+          <label className="mb-1" htmlFor="productFeature">
+            Product Features <span className="text-red-500">*</span>
+          </label>
+          <Form.Item
+            className="mb-1"
+            name="productFeature"
+            rules={[
+              {
+                required: true,
+                message: 'Product Feature is required',
+              },
+            ]}
+          >
+            <Select
+              id="productFeature"
+              showSearch
+              allowClear
+              placeholder="Select Product Feature"
+              optionFilterProp="children"
+              filterOption={(input, option) =>
+                option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+              }
+            >
+              {productEnum.drivetrain.map((item, idx) => (
+                <Select.Option key={idx} value={item}>
+                  {item}
+                </Select.Option>
+              ))}
+            </Select>
+          </Form.Item>
         </div>
       </div>
-    </section>
+
+      <div className="grid grid-cols-12 gap-3 px-3 lg:px-0">
+        <div className="col-span-12 lg:col-span-6 ">
+          <Divider className="m-0 p-0" orientation="left">
+            <code>
+              <span className="text-lg text-red-400">2. </span>Additional Information
+            </code>
+          </Divider>
+
+          <div className="grid grid-cols-2 gap-3">
+            <div className="col-span-2 lg:col-span-1">
+              <label className="mb-1" htmlFor="divisionId">
+                Division <span className="text-red-500">*</span>
+              </label>
+              <Form.Item
+                className="mb-1"
+                name="divisionId"
+                rules={[
+                  {
+                    required: false, // true
+                    message: 'Division is required',
+                  },
+                ]}
+              >
+                <Select
+                  id="divisionId"
+                  showSearch
+                  allowClear
+                  placeholder="Select Division"
+                  optionFilterProp="children"
+                  filterOption={(input, option) =>
+                    option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                  }
+                >
+                  {[].map((item, idx) => (
+                    <Select.Option key={idx} value={item.id}>
+                      {item.name}
+                    </Select.Option>
+                  ))}
+                </Select>
+              </Form.Item>
+            </div>
+
+            <div className="col-span-2 lg:col-span-1">
+              <label className="mb-1" htmlFor="districtId">
+                District <span className="text-red-500">*</span>
+              </label>
+              <Form.Item
+                className="mb-1"
+                name="districtId"
+                rules={[
+                  {
+                    required: false, // true
+                    message: 'District is required',
+                  },
+                ]}
+              >
+                <Select
+                  id="districtId"
+                  showSearch
+                  allowClear
+                  placeholder="Select District"
+                  optionFilterProp="children"
+                  filterOption={(input, option) =>
+                    option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                  }
+                >
+                  {[].map((item, idx) => (
+                    <Select.Option key={idx} value={item.id}>
+                      {item.name}
+                    </Select.Option>
+                  ))}
+                </Select>
+              </Form.Item>
+            </div>
+
+            <div className="col-span-2">
+              <label className="mb-1" htmlFor="description">
+                Description
+              </label>
+              <Form.Item className="mb-1" name="description">
+                <Input.TextArea placeholder="Description" />
+              </Form.Item>
+            </div>
+            <div className="col-span-2">
+              <div className="text-red-500">
+                (<span className="text-xl"> * </span> অবশ্যই পূরণ করতে হবে)
+              </div>
+              <div className="my-2">
+                <Button type="submit" variant="gradient" color="blue">
+                  Submit
+                </Button>
+                <Button className="mx-2" onClick={resetFormData} variant="gradient" color="gray">
+                  Reset
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="col-span-12 lg:col-span-6 ">
+          <Divider className="m-0 p-0" orientation="left">
+            <code>
+              <span className="text-lg text-red-400">3.</span> Product Images
+            </code>
+          </Divider>
+
+          <div className="grid grid-cols-1 gap-3 px-3">
+            <Upload
+              action="https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188"
+              listType="picture-card"
+              fileList={fileList}
+              onPreview={handlePreview}
+              onChange={handleChange}
+            >
+              {fileList.length >= 10 ? null : uploadButton}
+            </Upload>
+            <Modal open={previewOpen} title={previewTitle} footer={null} onCancel={handleCancel}>
+              <img
+                alt="example"
+                style={{
+                  width: '100%',
+                }}
+                src={previewImage}
+              />
+            </Modal>
+          </div>
+        </div>
+      </div>
+    </Form>
   )
 }
 

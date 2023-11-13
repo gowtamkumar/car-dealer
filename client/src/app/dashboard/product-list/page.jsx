@@ -11,14 +11,7 @@ import {
 } from '@material-tailwind/react'
 import { DataTable } from 'primereact/datatable'
 import { Column } from 'primereact/column'
-import { BsFileExcel } from 'react-icons/bs'
-import {
-  AiOutlineEdit,
-  AiOutlineEye,
-  AiOutlineFileExcel,
-  AiOutlineForm,
-  AiOutlineRest,
-} from 'react-icons/ai'
+import { AiOutlineEye, AiOutlineFileExcel, AiOutlineForm, AiOutlineRest } from 'react-icons/ai'
 import { BiDotsHorizontalRounded } from 'react-icons/bi'
 
 const ProductList = () => {
@@ -49,7 +42,7 @@ const ProductList = () => {
   // jsx funcitons
   const bodyTemplate = ({ rowData, field, rowIndex }) => {
     const { status } = rowData
-    console.log('status:', status)
+    // console.log('status:', status)
     // Pending = 'Pending',
     // Approved = 'Approved',
     // Rejected = 'Rejected',

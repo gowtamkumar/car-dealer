@@ -1,56 +1,65 @@
 'use client'
+import { Option, Select } from '@material-tailwind/react'
 import React from 'react'
-import { Stepper, Step, Button, Typography } from '@material-tailwind/react'
-import { CogIcon, UserIcon, BuildingLibraryIcon } from '@heroicons/react/24/outline'
 
-export default function AddProduct() {
-  const [activeStep, setActiveStep] = React.useState(0)
-  const [isLastStep, setIsLastStep] = React.useState(false)
-  const [isFirstStep, setIsFirstStep] = React.useState(false)
-
-  const handleNext = () => !isLastStep && setActiveStep((cur) => cur + 1)
-  const handlePrev = () => !isFirstStep && setActiveStep((cur) => cur - 1)
-
+const AddProduct = () => {
   return (
-    <div className="w-full px-10 py-4 lg:px-24">
-      <Stepper
-        activeStep={activeStep}
-        isLastStep={(value) => setIsLastStep(value)}
-        isFirstStep={(value) => setIsFirstStep(value)}
-      >
-        <Step onClick={() => setActiveStep(0)}>
-          <UserIcon className="h-5 w-5" />
-          <div className="absolute -bottom-[2rem] w-max text-center">
-            <Typography variant="h6" color={activeStep === 0 ? 'blue-gray' : 'gray'}>
-              Deatils
-            </Typography>
-          </div>
-        </Step>
-        <Step onClick={() => setActiveStep(1)}>
-          <UserIcon className="h-5 w-5" />
-          <div className="absolute -bottom-[2rem] w-max text-center">
-            <Typography variant="h6" color={activeStep === 1 ? 'blue-gray' : 'gray'}>
-              Pictures
-            </Typography>
-          </div>
-        </Step>
-        <Step onClick={() => setActiveStep(2)}>
-          <UserIcon className="h-5 w-5" />
-          <div className="absolute -bottom-[2rem] w-max text-center">
-            <Typography variant="h6" color={activeStep === 2 ? 'blue-gray' : 'gray'}>
-              Preview
-            </Typography>
-          </div>
-        </Step>
-      </Stepper>
-      <div className="mt-32 flex justify-between">
-        <Button onClick={handlePrev} variant="outlined" disabled={isFirstStep}>
-          Prev
-        </Button>
-        <Button onClick={handleNext} variant="outlined" disabled={isLastStep}>
-          Next
-        </Button>
+    <section>
+      <div className="grid grid-cols-12 gap-3">
+        <div className="col-span-12 mb-2 border-b">
+          <code className="py-3 text-2xl font-semibold italic text-pink-400">Product Info.</code>
+        </div>
+        <div className="col-span-12 mb-2 lg:col-span-3">
+          <Select
+            error={false}
+            onChange={(value) => console.log('condition', value)}
+            variant="standard"
+            label="Conditions *"
+          >
+            <Option value="new">New</Option>
+            <Option value="used">Used</Option>
+            <Option value="recondition">Recondition</Option>
+          </Select>
+        </div>
+        <div className="col-span-12 mb-2 lg:col-span-3">
+          <Select
+            error={false}
+            onChange={(value) => console.log('brandId', value)}
+            variant="standard"
+            label="Brands *"
+          >
+            <Option value="new">New</Option>
+            <Option value="used">Used</Option>
+            <Option value="recondition">Recondition</Option>
+          </Select>
+        </div>
+        <div className="col-span-12 mb-2 lg:col-span-3">
+          <Select
+            error={false}
+            onChange={(value) => console.log('modelId', value)}
+            variant="standard"
+            label="Model *"
+          >
+            <Option value="new">New</Option>
+            <Option value="used">Used</Option>
+            <Option value="recondition">Recondition</Option>
+          </Select>
+        </div>
+        <div className="col-span-12 mb-2 lg:col-span-3">
+          <Select
+            error={false}
+            onChange={(value) => console.log('modelId', value)}
+            variant="standard"
+            label="Model Code *"
+          >
+            <Option value="new">New</Option>
+            <Option value="used">Used</Option>
+            <Option value="recondition">Recondition</Option>
+          </Select>
+        </div>
       </div>
-    </div>
+    </section>
   )
 }
+
+export default AddProduct

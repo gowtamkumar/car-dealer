@@ -114,10 +114,10 @@ const AddProduct = () => {
       </Form.Item>
 
       <div className="grid grid-cols-12 gap-3 px-3 lg:px-0">
-        <div className="col-span-12">
+        <div className="col-span-12 p-0">
           <Divider className="m-0 p-0" orientation="left">
             <code>
-              <span className="text-lg text-red-400">1.</span> Car Informations
+              <span className="text-lg font-semibold text-red-400">1.</span> Car Informations
             </code>
           </Divider>
         </div>
@@ -358,39 +358,6 @@ const AddProduct = () => {
         </div>
 
         <div className="col-span-12 lg:col-span-3">
-          <label className="mb-1" htmlFor="bodyType">
-            Body Type <span className="text-red-500">*</span>
-          </label>
-          <Form.Item
-            className="mb-1"
-            name="bodyType"
-            rules={[
-              {
-                required: true,
-                message: 'Body Type is required',
-              },
-            ]}
-          >
-            <Select
-              id="bodyType"
-              showSearch
-              allowClear
-              placeholder="Select Body Type"
-              optionFilterProp="children"
-              filterOption={(input, option) =>
-                option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-              }
-            >
-              {productEnum.bodyType.map((item, idx) => (
-                <Select.Option key={idx} value={item}>
-                  {item}
-                </Select.Option>
-              ))}
-            </Select>
-          </Form.Item>
-        </div>
-
-        <div className="col-span-12 lg:col-span-3">
           <label className="mb-1" htmlFor="steering">
             Steering <span className="text-red-500">*</span>
           </label>
@@ -415,39 +382,6 @@ const AddProduct = () => {
               }
             >
               {productEnum.steering.map((item, idx) => (
-                <Select.Option key={idx} value={item}>
-                  {item}
-                </Select.Option>
-              ))}
-            </Select>
-          </Form.Item>
-        </div>
-
-        <div className="col-span-12 lg:col-span-3">
-          <label className="mb-1" htmlFor="color">
-            Color <span className="text-red-500">*</span>
-          </label>
-          <Form.Item
-            className="mb-1"
-            name="color"
-            rules={[
-              {
-                required: true,
-                message: 'Color is required',
-              },
-            ]}
-          >
-            <Select
-              id="color"
-              showSearch
-              allowClear
-              placeholder="Select Color"
-              optionFilterProp="children"
-              filterOption={(input, option) =>
-                option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-              }
-            >
-              {productEnum.color.map((item, idx) => (
                 <Select.Option key={idx} value={item}>
                   {item}
                 </Select.Option>
@@ -644,7 +578,7 @@ const AddProduct = () => {
         <div className="col-span-12 lg:col-span-6 ">
           <Divider className="m-0 p-0" orientation="left">
             <code>
-              <span className="text-lg text-red-400">2. </span>Additional Information
+              <span className="text-lg font-semibold text-red-400">2. </span>Additional Information
             </code>
           </Divider>
 
@@ -715,6 +649,72 @@ const AddProduct = () => {
               </Form.Item>
             </div>
 
+            <div className="col-span-2 lg:col-span-1">
+              <label className="mb-1" htmlFor="bodyType">
+                Body Type <span className="text-red-500">*</span>
+              </label>
+              <Form.Item
+                className="mb-1"
+                name="bodyType"
+                rules={[
+                  {
+                    required: true,
+                    message: 'Body Type is required',
+                  },
+                ]}
+              >
+                <Select
+                  id="bodyType"
+                  showSearch
+                  allowClear
+                  placeholder="Select Body Type"
+                  optionFilterProp="children"
+                  filterOption={(input, option) =>
+                    option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                  }
+                >
+                  {productEnum.bodyType.map((item, idx) => (
+                    <Select.Option key={idx} value={item}>
+                      {item}
+                    </Select.Option>
+                  ))}
+                </Select>
+              </Form.Item>
+            </div>
+
+            <div className="col-span-2 lg:col-span-1">
+              <label className="mb-1" htmlFor="color">
+                Color <span className="text-red-500">*</span>
+              </label>
+              <Form.Item
+                className="mb-1"
+                name="color"
+                rules={[
+                  {
+                    required: true,
+                    message: 'Color is required',
+                  },
+                ]}
+              >
+                <Select
+                  id="color"
+                  showSearch
+                  allowClear
+                  placeholder="Select Color"
+                  optionFilterProp="children"
+                  filterOption={(input, option) =>
+                    option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                  }
+                >
+                  {productEnum.color.map((item, idx) => (
+                    <Select.Option key={idx} value={item}>
+                      {item}
+                    </Select.Option>
+                  ))}
+                </Select>
+              </Form.Item>
+            </div>
+
             <div className="col-span-2">
               <label className="mb-1" htmlFor="description">
                 Description
@@ -723,26 +723,13 @@ const AddProduct = () => {
                 <Input.TextArea placeholder="Description" />
               </Form.Item>
             </div>
-            <div className="col-span-2">
-              <div className="text-red-500">
-                (<span className="text-xl"> * </span> অবশ্যই পূরণ করতে হবে)
-              </div>
-              <div className="my-2">
-                <Button type="submit" variant="gradient" color="blue">
-                  Submit
-                </Button>
-                <Button className="mx-2" onClick={resetFormData} variant="gradient" color="gray">
-                  Reset
-                </Button>
-              </div>
-            </div>
           </div>
         </div>
 
         <div className="col-span-12 lg:col-span-6 ">
           <Divider className="m-0 p-0" orientation="left">
             <code>
-              <span className="text-lg text-red-400">3.</span> Product Images
+              <span className="text-lg font-semibold text-red-400">3.</span> Product Images
             </code>
           </Divider>
 
@@ -765,6 +752,22 @@ const AddProduct = () => {
                 src={previewImage}
               />
             </Modal>
+          </div>
+        </div>
+
+        <div className="col-span-12">
+          <div className="flex flex-col items-center lg:items-end">
+            <div className="text-red-500">
+              (<span className="text-xl"> * </span> অবশ্যই পূরণ করতে হবে)
+            </div>
+            <div className="my-2">
+              <Button type="submit" variant="gradient" color="blue">
+                Submit
+              </Button>
+              <Button className="mx-2" onClick={resetFormData} variant="gradient" color="gray">
+                Reset
+              </Button>
+            </div>
           </div>
         </div>
       </div>

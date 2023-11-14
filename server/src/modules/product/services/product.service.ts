@@ -1,7 +1,7 @@
 import { RequestContextDto } from '@common/dtos/request-context.dto'
 import { Injectable, Logger, NotFoundException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { Repository } from 'typeorm'
+import { Brackets, Repository } from 'typeorm'
 import { CreateProductDto, FilterProductDto, UpdateProductDto } from '../dtos'
 import { ProductEntity } from '../entities/product.entity'
 import { ProductFeatureService } from '@modules/product-feature/services/product-feature.service'
@@ -18,12 +18,14 @@ export class ProductService {
     private readonly productFeatureService: ProductFeatureService,
   ) {}
 
+
   async getProducts(
     ctx: RequestContextDto,
     filterProductDto: FilterProductDto,
   ): Promise<ProductEntity[]> {
     this.logger.log(`${this.getProducts.name}Service Called`)
     const {
+      search,
       condition,
       registrationDate,
       fuelType,
@@ -155,6 +157,17 @@ export class ProductService {
     if (navigation) qb.andWhere('productFeature.navigation =:navigation', { navigation: true })
     if (turbo) qb.andWhere('productFeature.turbo =:turbo', { turbo: true })
     if (nonSmoker) qb.andWhere('productFeature.nonSmoker =:nonSmoker', { nonSmoker: true })
+
+    if (search) {
+      qb.andWhere(
+        new Brackets((db) => {
+          db.where('LOWER(product.name) ILIKE LOWER(:search)', { search: `%${search}%` })
+          db.orWhere('LOWER(brand.name) ILIKE LOWER(:search)', { search: `%${search}%` })
+          db.orWhere('LOWER(model.name) ILIKE LOWER(:search)', { search: `%${search}%` })
+          db.orWhere('LOWER(modelCode.name) ILIKE LOWER(:search)', { search: `%${search}%` })
+        }),
+      )
+    }
 
     const result = await qb.getMany()
 

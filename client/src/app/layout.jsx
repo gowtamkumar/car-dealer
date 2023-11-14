@@ -11,6 +11,8 @@ import { appConfig } from '../config'
 import NavbarMenu from '../components/layout/Header'
 import Footer from '../components/layout/Footer'
 import Loading from './loading'
+// import { getServerSession } from 'next-auth'
+// import { SessionProvider, useSession } from 'next-auth/react'
 
 const fontSans = Inter({
   subsets: ['latin'],
@@ -45,6 +47,8 @@ export const metadata = {
 }
 
 export default function RootLayout({ children }) {
+  // const session = useSession()
+  // console.log('🚀 ~ session:', session)
   return (
     <html lang="en">
       <body suppressHydrationWarning={true} className={fontSans.variable}>

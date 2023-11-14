@@ -1,5 +1,5 @@
 'use client'
-import React, { Suspense, useState } from 'react'
+import { Suspense, useEffect, useState } from 'react'
 import { IconButton, Option, Select } from '@material-tailwind/react'
 import { ListBulletIcon, Squares2X2Icon } from '@heroicons/react/24/outline'
 import CustomSideBar from '../../components/ui/CustomSideBar'
@@ -8,8 +8,27 @@ import Loading from '../loading'
 
 const newCarData = [{}, {}, {}, {}, {}, {}, {}, {}, {}]
 
-const Products = () => {
+async function getProducts() {
+  const res = await fetch('http://localhost:3900/api/v1/products')
+
+  if (!res.ok) {
+    throw new Error('Failed to fetch data')
+  }
+  const data = await res.json()
+  return data
+}
+
+const Products = async () => {
   const [isGrid, setIsGrid] = useState(true)
+  const [products, setProducts] = useState([])
+
+  useEffect(() => {
+    ;(async () => {
+      const data = await getProducts()
+      // console.log('🚀 ~ data:', data.data)
+      setProducts(data.data)
+    })()
+  }, [])
 
   const handleClick = (type) => {
     type === 'list' ? setIsGrid(false) : setIsGrid(true)

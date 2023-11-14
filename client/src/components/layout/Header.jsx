@@ -196,7 +196,7 @@ export default function NavbarMenu() {
             <div className="flex items-center gap-2">
               <Typography
                 as={Link}
-                href="/"
+                href="/auth/login"
                 variant="small"
                 color="blue-gray"
                 className="font-normal hover:underline"
@@ -206,7 +206,7 @@ export default function NavbarMenu() {
               <span>|</span>
               <Typography
                 as={Link}
-                href="/"
+                href="/auth/signup"
                 variant="small"
                 color="blue-gray"
                 className="font-normal hover:underline"

@@ -8,8 +8,6 @@ import { Inter } from 'next/font/google'
 import { Suspense } from 'react'
 import { appConfig } from '../config'
 
-import NavbarMenu from '../components/layout/Header'
-import Footer from '../components/layout/Footer'
 import Loading from './loading'
 // import { getServerSession } from 'next-auth'
 // import { SessionProvider, useSession } from 'next-auth/react'
@@ -20,7 +18,7 @@ const fontSans = Inter({
 })
 
 export const metadata = {
-  title: appConfig.title + ' ' + '| Home',
+  title: appConfig.title,
   description: appConfig.description,
   keywords: ['Car'],
   authors: [
@@ -39,7 +37,7 @@ export const metadata = {
     images: [],
   },
   icons: {
-    icon: '/logo.ico',
+    icon: '/favicon.ico',
     // shortcut: '/favicon-16x16.png',
     // apple: '/apple-touch-icon.png',
   },
@@ -52,13 +50,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body suppressHydrationWarning={true} className={fontSans.variable}>
-        <Suspense fallback={<Loading />}>
-          <div className="cscroll relative z-10 flex min-h-screen flex-col overflow-auto">
-            <NavbarMenu />
-            <main className="mt-14 flex-grow">{children}</main>
-            <Footer />
-          </div>
-        </Suspense>
+        <Suspense fallback={<Loading />}>{children}</Suspense>
       </body>
     </html>
   )

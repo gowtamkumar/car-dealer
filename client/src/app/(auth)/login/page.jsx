@@ -2,7 +2,7 @@
 import { Card, Input, Checkbox, Button, Typography } from '@material-tailwind/react'
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
-import { useSession, signIn, signOut, getSession } from 'next-auth/react'
+import { signIn, signOut, getSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 
 export default function Login() {
@@ -13,7 +13,7 @@ export default function Login() {
   useEffect(() => {
     ;(async () => {
       const session = await getSession()
-      // console.log('🚀 ~ session:', session)
+      console.log('🚀 ~ new sesson:', session)
       if (session) {
         router.push('/')
       }
@@ -32,7 +32,6 @@ export default function Login() {
         password,
         redirect: false,
       })
-
       // console.log('🚀 ~ result:', result)
       if (result.error) {
         setError(result)

@@ -1,4 +1,5 @@
 // Prime React
+
 import 'primereact/resources/themes/lara-light-indigo/theme.css'
 import 'primereact/resources/primereact.min.css'
 import 'primeicons/primeicons.css'
@@ -10,7 +11,8 @@ import { appConfig } from '../config'
 
 import Loading from './loading'
 // import { getServerSession } from 'next-auth'
-// import { SessionProvider, useSession } from 'next-auth/react'
+import SessionProvider from '../lib/SessionProvider'
+import { getServerSession } from 'next-auth'
 
 const fontSans = Inter({
   subsets: ['latin'],
@@ -44,13 +46,15 @@ export const metadata = {
   metadataBase: new URL(appConfig.url),
 }
 
-export default function RootLayout({ children }) {
-  // const session = useSession()
-  // console.log('🚀 ~ session:', session)
+export default async function RootLayout({ children }) {
+  const session = await getServerSession()
+  console.log('🚀 ~  session:', session)
   return (
     <html lang="en">
       <body suppressHydrationWarning={true} className={fontSans.variable}>
-        <Suspense fallback={<Loading />}>{children}</Suspense>
+        <SessionProvider session={session}>
+          <Suspense fallback={<Loading />}>{children}</Suspense>
+        </SessionProvider>
       </body>
     </html>
   )

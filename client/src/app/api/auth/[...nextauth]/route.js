@@ -6,16 +6,12 @@ const handler = NextAuth({
     CredentialsProvider({
       name: 'Credentials',
       async authorize(credentials) {
-        console.log('credentials', credentials)
-
         const res = await fetch('http://localhost:3900/api/v1/auth/login', {
           method: 'POST',
           body: JSON.stringify(credentials),
           headers: { 'Content-Type': 'application/json' },
         })
         const user = await res.json()
-        console.log('🚀 ~ user:', user)
-
         if (res.ok && user) {
           return user.data.user
         } else {
@@ -32,8 +28,8 @@ const handler = NextAuth({
   //     newUser: '/auth/new-user', // New users will be directed here on first sign in (leave the property out if not of interest)
   //   },
   callbacks: {
-    async session({ session, token, user }) {
-      return session
+    async session({ session, token }) {
+      return { session, token }
     },
     async jwt({ token, user }) {
       return token

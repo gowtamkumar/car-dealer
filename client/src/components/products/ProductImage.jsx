@@ -1,4 +1,4 @@
-import { Carousel, Dialog, DialogHeader, IconButton } from '@material-tailwind/react'
+import { Carousel, Dialog, IconButton } from '@material-tailwind/react'
 import React, { useState } from 'react'
 
 const ProductImage = ({ data }) => {

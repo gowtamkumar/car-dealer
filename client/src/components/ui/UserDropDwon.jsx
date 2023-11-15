@@ -1,14 +1,17 @@
 import { Menu, MenuHandler, MenuList, MenuItem, Avatar, Typography } from '@material-tailwind/react'
-import {
-  Cog6ToothIcon,
-  PowerIcon,
-  InboxArrowDownIcon,
-  UserCircleIcon,
-  LifebuoyIcon,
-} from '@heroicons/react/24/outline'
+import { PowerIcon, UserCircleIcon } from '@heroicons/react/24/outline'
 import Link from 'next/link'
+import { signOut } from 'next-auth/react'
+import { useRouter } from 'next/navigation'
 
 export default function UserDropDwon() {
+  const router = useRouter()
+
+  const handleSignOut = () => {
+    signOut()
+    router.refresh()
+  }
+
   return (
     <Menu>
       <MenuHandler>
@@ -30,7 +33,10 @@ export default function UserDropDwon() {
           </Link>
         </MenuItem>
         <hr className="my-2 border-blue-gray-50" />
-        <MenuItem className="flex items-center gap-2 bg-red-400 py-2 text-white">
+        <MenuItem
+          onClick={handleSignOut}
+          className="flex items-center gap-2 bg-red-400 py-2 text-white"
+        >
           <PowerIcon strokeWidth={2} className="h-4 w-4" />
           <Typography variant="small" className="m-0 font-normal">
             Sign Out

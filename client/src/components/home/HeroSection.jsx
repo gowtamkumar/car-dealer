@@ -10,6 +10,7 @@ const HeroSection = () => {
         view={false}
         opacity={true}
         arrow={true}
+        autoPlay={true}
         height={'h-[30vh] lg:h-[65vh]'}
         data={carouselData}
       />

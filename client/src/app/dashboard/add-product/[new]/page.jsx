@@ -4,6 +4,7 @@ import React, { useState } from 'react'
 import productEnum from '../../../../lib/utils'
 import { Button } from '@material-tailwind/react'
 import { PlusOutlined } from '@ant-design/icons'
+import { useRouter } from 'next/navigation'
 
 const AddProduct = () => {
   const [formValues, setFormValues] = useState({})
@@ -12,6 +13,8 @@ const AddProduct = () => {
   const [previewImage, setPreviewImage] = useState('')
   const [previewTitle, setPreviewTitle] = useState('')
   const [fileList, setFileList] = useState([])
+
+  const router = useRouter()
 
   const handleCancel = () => setPreviewOpen(false)
 
@@ -761,11 +764,14 @@ const AddProduct = () => {
               (<span className="text-xl"> * </span> অবশ্যই পূরণ করতে হবে)
             </div>
             <div className="my-2">
-              <Button type="submit" variant="gradient" color="blue">
-                Submit
+              <Button onClick={() => router.back()} variant="outlined" color="gray">
+                {'<<'} Back
               </Button>
               <Button className="mx-2" onClick={resetFormData} variant="gradient" color="gray">
                 Reset
+              </Button>
+              <Button type="submit" variant="gradient" color="blue">
+                Submit
               </Button>
             </div>
           </div>

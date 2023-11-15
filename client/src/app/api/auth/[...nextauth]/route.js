@@ -14,7 +14,6 @@ const handler = NextAuth({
           headers: { 'Content-Type': 'application/json' },
         })
         const user = await res.json()
-        console.log('🚀 ~ user:', user)
 
         if (res.ok && user) {
           return user.data.user

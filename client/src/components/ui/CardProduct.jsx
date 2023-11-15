@@ -8,7 +8,14 @@ const CardProduct = ({ data }) => {
   return (
     <Card className="my-10 w-full border">
       <CardHeader color="blue-gray" className="relative h-56">
-        <CustomCarousel view={true} navigation={true} height="h-56" data={carouselData} />
+        <CustomCarousel
+          arrow={true}
+          autoPlay={false}
+          view={true}
+          navigation={false}
+          height="h-56"
+          data={carouselData}
+        />
       </CardHeader>
       <Link href={`/products/${'Product Name'.toLowerCase()}`}>
         <CardBody>

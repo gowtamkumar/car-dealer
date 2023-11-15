@@ -17,8 +17,8 @@ const page = () => {
         <FilterSection />
         <BrandListSection />
         <NewCarSection />
-        <UsedCarSection />
         <ReconditionCar />
+        <UsedCarSection />
         <SellerAds />
       </main>
       <Footer />

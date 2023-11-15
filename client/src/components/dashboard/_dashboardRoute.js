@@ -36,8 +36,8 @@ const DashboardRoute = [
     color: 'red',
   },
   {
-    title: 'Product List',
-    path: '/dashboard/product-list',
+    title: 'Car List',
+    path: '/dashboard/cars-list',
     isMenuItem: true,
     icon: QueueListIcon,
     color: 'red',

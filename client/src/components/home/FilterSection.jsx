@@ -5,12 +5,12 @@ import { BiSearchAlt } from 'react-icons/bi'
 import Link from 'next/link'
 import { Select } from 'antd'
 const FilterSection = () => {
-  const [active, setActive] = useState('used')
+  const [active, setActive] = useState('new')
 
   const filterBy = [
-    { key: 'used', title: 'Used' },
     { key: 'new', title: 'New' },
     { key: 'reconditon', title: 'Reconditon' },
+    { key: 'used', title: 'Used' },
   ]
 
   return (

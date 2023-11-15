@@ -2,7 +2,7 @@
 import React, { useState } from 'react'
 import { Carousel, Dialog, IconButton } from '@material-tailwind/react'
 
-const CustomCarousel = ({ data, height, navigation, arrow, opacity, view }) => {
+const CustomCarousel = ({ data, height, navigation, arrow, opacity, view, autoPlay }) => {
   const [open, setOpen] = useState(false)
   const [active, setActive] = useState(null)
   const [imgList, setImgList] = useState([])
@@ -21,8 +21,8 @@ const CustomCarousel = ({ data, height, navigation, arrow, opacity, view }) => {
   return (
     <div>
       <Carousel
-        autoplay
-        loop={true}
+        autoplay={autoPlay}
+        loop={autoPlay}
         prevArrow={({ handlePrev }) => {
           if (!arrow) return
           return (

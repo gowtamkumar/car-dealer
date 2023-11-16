@@ -1,7 +1,7 @@
 import NextAuth from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
 
-const handler = NextAuth({
+export const authOptions = {
   providers: [
     CredentialsProvider({
       name: 'Credentials',
@@ -12,7 +12,7 @@ const handler = NextAuth({
           headers: { 'Content-Type': 'application/json' },
         })
         const user = await res.json()
-        console.log('🚀 ~ user:', user)
+        // console.log('🚀 ~ user:', user)
 
         if (res.ok && user) {
           return user.data.user
@@ -22,6 +22,7 @@ const handler = NextAuth({
       },
     }),
   ],
+  secret: process.env.NEXTAUTH_SECRET,
   //   pages: {
   //     signIn: '/auth/signin',
   //     signOut: '/auth/signout',
@@ -30,13 +31,15 @@ const handler = NextAuth({
   //     newUser: '/auth/new-user', // New users will be directed here on first sign in (leave the property out if not of interest)
   //   },
   callbacks: {
-    async session({ session, token }) {
-      return { session, token }
-    },
     async jwt({ token, user }) {
       return token
     },
+    async session({ session, token }) {
+      return { session, token }
+    },
   },
-})
+}
+
+const handler = NextAuth(authOptions)
 
 export { handler as GET, handler as POST }

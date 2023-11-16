@@ -11,8 +11,9 @@ import { appConfig } from '../config'
 
 import Loading from './loading'
 // import { getServerSession } from 'next-auth'
-import SessionProvider from '../lib/SessionProvider'
+import AuthProvider from '../lib/SessionProvider'
 import { getServerSession } from 'next-auth'
+import { authOptions } from './api/auth/[...nextauth]/route'
 
 const fontSans = Inter({
   subsets: ['latin'],
@@ -47,14 +48,14 @@ export const metadata = {
 }
 
 export default async function RootLayout({ children }) {
-  const session = await getServerSession()
+  const session = await getServerSession(authOptions)
   console.log('🚀 ~  session:', session)
   return (
     <html lang="en">
       <body suppressHydrationWarning={true} className={fontSans.variable}>
-        <SessionProvider session={session}>
+        <AuthProvider session={session}>
           <Suspense fallback={<Loading />}>{children}</Suspense>
-        </SessionProvider>
+        </AuthProvider>
       </body>
     </html>
   )

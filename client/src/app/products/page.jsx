@@ -5,6 +5,7 @@ import { ListBulletIcon, Squares2X2Icon } from '@heroicons/react/24/outline'
 import CustomSideBar from '../../components/ui/CustomSideBar'
 import CardProduct from '../../components/ui/CardProduct'
 import Loading from '../loading'
+import { getSession, useSession } from 'next-auth/react'
 
 const newCarData = [{}, {}, {}, {}, {}, {}, {}, {}, {}]
 
@@ -25,7 +26,6 @@ const Products = async () => {
   useEffect(() => {
     ;(async () => {
       const data = await getProducts()
-      // console.log('🚀 ~ data:', data.data)
       setProducts(data.data)
     })()
   }, [])
@@ -33,6 +33,9 @@ const Products = async () => {
   const handleClick = (type) => {
     type === 'list' ? setIsGrid(false) : setIsGrid(true)
   }
+
+  const session = await useSession()
+  console.log('🚀 ~ session product:', session)
 
   return (
     <section className="container mx-auto py-3">

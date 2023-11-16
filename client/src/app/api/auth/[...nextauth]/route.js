@@ -5,15 +5,14 @@ export const authOptions = {
   providers: [
     CredentialsProvider({
       name: 'Credentials',
+
       async authorize(credentials) {
-        const res = await fetch('http://localhost:3900/api/v1/auth/login', {
+        const res = await fetch(`${process.env.NEXT_SERVER_URL}/api/v1/auth/login`, {
           method: 'POST',
           body: JSON.stringify(credentials),
           headers: { 'Content-Type': 'application/json' },
         })
         const user = await res.json()
-        // console.log('🚀 ~ user:', user)
-
         if (res.ok && user) {
           return user.data.user
         } else {
@@ -30,12 +29,38 @@ export const authOptions = {
   //     verifyRequest: '/auth/verify-request', // (used for check email message)
   //     newUser: '/auth/new-user', // New users will be directed here on first sign in (leave the property out if not of interest)
   //   },
+  // callbacks: {
+  //   async jwt({ token, user }) {
+  //     return token
+  //   },
+  //   async session({ session, token }) {
+  //     return { session, token }
+  //   },
+  // },
+
+  session: { strategy: 'jwt' },
   callbacks: {
-    async jwt({ token, user }) {
-      return token
+    async session({ session, token, user }) {
+      // set user all data
+      const sanitizedToken = Object.keys(token).reduce((p, c) => {
+        if (c !== 'iat' && c !== 'exp' && c !== 'jti') {
+          return { ...p, [c]: token[c] }
+        } else {
+          return p
+        }
+      }, {})
+      // auth all data
+      return {
+        ...session,
+        user: sanitizedToken,
+        token: { exp: token.exp, iat: token.iat, jti: token.jti },
+      }
     },
-    async session({ session, token }) {
-      return { session, token }
+    async jwt({ token, user, account, profile }) {
+      if (typeof user !== 'undefined') {
+        return user
+      }
+      return token
     },
   },
 }

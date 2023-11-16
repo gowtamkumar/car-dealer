@@ -36,7 +36,7 @@ export class UserDto {
   isAdmin: boolean
 
   @Expose()
-  roles: UserRole[]
+  role: UserRole
 
   @Expose()
   status: UserStatus

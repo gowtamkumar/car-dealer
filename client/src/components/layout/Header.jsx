@@ -27,7 +27,7 @@ import {
 import Link from 'next/link'
 import UserDropDwon from '../ui/UserDropDwon'
 import dashboardRoute from '../dashboard/_dashboardRoute'
-import { getSession } from 'next-auth/react'
+import { getSession, useSession } from 'next-auth/react'
 
 function NavListMenu() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false)
@@ -120,7 +120,7 @@ function NavList({ session }) {
         </ListItem>
       </Typography>
 
-      {session && (
+      {session?.status === 'authenticated' && (
         <>
           <Typography
             as={Link}
@@ -156,14 +156,16 @@ function NavList({ session }) {
 export default function NavbarMenu() {
   const [openNav, setOpenNav] = React.useState(false)
   const [query, setQuery] = React.useState('')
-  const [session, setSession] = React.useState('')
+  // const [session, setSession] = React.useState('')
 
-  useEffect(() => {
-    ;(async () => {
-      const cdx = await getSession()
-      setSession(cdx)
-    })()
-  }, [])
+  // useEffect(() => {
+  //   ;(async () => {
+  //     const cdx = await getSession()
+  //     setSession(cdx)
+  //   })()
+  // }, [])
+
+  const session = useSession()
 
   React.useEffect(() => {
     window.addEventListener('resize', () => window.innerWidth >= 960 && setOpenNav(false))
@@ -194,7 +196,7 @@ export default function NavbarMenu() {
           </div>
         </div>
         <div className="hidden items-center gap-2 lg:flex">
-          {session ? (
+          {session.status === 'authenticated' ? (
             <UserDropDwon />
           ) : (
             <div className="flex items-center gap-2">
@@ -251,7 +253,7 @@ export default function NavbarMenu() {
             Search
           </Button>
         </div>
-        {session ? null : (
+        {session.status === 'authenticated' ? null : (
           <div className="flex w-full flex-nowrap items-center gap-2 lg:hidden">
             <Button variant="outlined" size="sm" color="blue-gray" fullWidth>
               Sign In

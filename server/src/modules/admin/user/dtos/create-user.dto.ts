@@ -60,8 +60,13 @@ export class CreateUserDto {
   @IsOptional()
   photo: string
 
-  @ApiProperty({ required: false, example: [UserRole.Admin] })
-  @IsEnum(UserRole, { each: true })
+  // @ApiProperty({ required: false, example: [UserRole.Admin] })
+  @IsEnum(UserRole)
   @IsOptional()
-  roles: UserRole[]
+  role: UserRole
+
+  // @ApiProperty({ required: false, example: [UserRole.Admin] })
+  // @IsEnum(UserRole, { each: true })
+  // @IsOptional()
+  // roles: UserRole[]
 }

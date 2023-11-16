@@ -52,9 +52,9 @@ export class UpdateUserDto {
   @IsOptional()
   photo: string
 
-  @IsEnum(UserRole, { each: true })
+  @IsEnum(UserRole)
   @IsOptional()
-  roles: UserRole[]
+  role: UserRole
 
   @IsEnum(UserStatus)
   status: UserStatus

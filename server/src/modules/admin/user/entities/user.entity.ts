@@ -44,8 +44,11 @@ export class UserEntity {
   @Column({ name: 'is_admin', default: false })
   isAdmin: boolean
 
-  @Column({ type: 'enum', enum: UserRole, array: true, default: [UserRole.User] })
-  roles: UserRole[]
+  // @Column({ type: 'enum', enum: UserRole, array: true, default: [UserRole.User] })
+  // roles: UserRole[]
+
+  @Column({ type: 'enum', enum: UserRole, default: UserRole.Seller })
+  role: UserRole
 
   @Column({ type: 'enum', enum: UserStatus, default: UserStatus.Active })
   status: UserStatus

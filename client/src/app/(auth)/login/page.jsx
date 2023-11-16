@@ -2,7 +2,7 @@
 import { Card, Input, Checkbox, Button, Typography } from '@material-tailwind/react'
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
-import { signIn, getSession } from 'next-auth/react'
+import { signIn, useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 
 export default function Login() {
@@ -10,15 +10,10 @@ export default function Login() {
   const [error, setError] = useState({})
   const router = useRouter()
 
-  useEffect(() => {
-    ;(async () => {
-      const session = await getSession()
-      // console.log('🚀 ~ new sesson:', session)
-      if (session) {
-        router.push('/')
-      }
-    })()
-  }, [])
+  const session = useSession()
+  if (session.status === 'authenticated') {
+    router.push('/')
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault()

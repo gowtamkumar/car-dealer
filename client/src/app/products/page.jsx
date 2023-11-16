@@ -5,12 +5,11 @@ import { ListBulletIcon, Squares2X2Icon } from '@heroicons/react/24/outline'
 import CustomSideBar from '../../components/ui/CustomSideBar'
 import CardProduct from '../../components/ui/CardProduct'
 import Loading from '../loading'
-import { getSession, useSession } from 'next-auth/react'
 
 const newCarData = [{}, {}, {}, {}, {}, {}, {}, {}, {}]
 
 async function getProducts() {
-  const res = await fetch('http://localhost:3900/api/v1/products')
+  const res = await fetch(`http://localhost:3900/api/v1/products`)
 
   if (!res.ok) {
     throw new Error('Failed to fetch data')
@@ -33,9 +32,6 @@ const Products = async () => {
   const handleClick = (type) => {
     type === 'list' ? setIsGrid(false) : setIsGrid(true)
   }
-
-  const session = await useSession()
-  console.log('🚀 ~ session product:', session)
 
   return (
     <section className="container mx-auto py-3">

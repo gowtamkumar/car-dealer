@@ -47,7 +47,7 @@ export class UserResponseDto {
 
   @ApiProperty()
   @Expose()
-  roles: UserRole[]
+  role: UserRole
 
   @ApiProperty()
   @Expose()

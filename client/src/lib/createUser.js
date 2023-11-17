@@ -6,6 +6,5 @@ export async function createUser(data) {
     },
     body: JSON.stringify(data),
   })
-
   return res.json()
 }

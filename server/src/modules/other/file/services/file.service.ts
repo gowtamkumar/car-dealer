@@ -76,8 +76,9 @@ export class FileService {
   }
 
   createManyFile(ctx: RequestContextDto, files): Promise<FileEntity[]> {
+  
     this.logger.log(`${this.createManyFile.name} Called`)
-
+  
     const createFileDtos = []
 
     Object.entries(files).forEach(([fieldname, filesArr]) => {

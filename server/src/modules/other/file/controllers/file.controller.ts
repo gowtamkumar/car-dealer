@@ -37,7 +37,7 @@ import { CustomMulterOptions } from 'src/config/multer.config'
 import { BaseApiSuccessResponse } from '@common/dtos/base-api-response.dto'
 import { JwtAuthGuard } from '@admin/auth/guards/jwt-auth.guard'
 
-@UseGuards(JwtAuthGuard)
+// @UseGuards(JwtAuthGuard)
 @Controller('files')
 export class FileController {
   private logger = new Logger(FileController.name)

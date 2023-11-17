@@ -9,8 +9,9 @@ import { getSession } from 'next-auth/react'
 import getBrnads from '../../../../lib/getBrand.js'
 import getModels from '../../../../lib/getModel'
 import getModelCode from '../../../../lib/getModelCode'
+import createFile from '../../../../lib/createFile'
 
-const AddProduct = async () => {
+const AddProduct = () => {
   const [formValues, setFormValues] = useState({})
   const [previewOpen, setPreviewOpen] = useState(false)
   const [previewImage, setPreviewImage] = useState('')
@@ -38,6 +39,7 @@ const AddProduct = async () => {
 
   const handleCancel = () => setPreviewOpen(false)
 
+  // file Preview
   const handlePreview = async (file) => {
     if (!file.url && !file.preview) {
       file.preview = await getBase64(file.originFileObj)
@@ -46,6 +48,14 @@ const AddProduct = async () => {
     setPreviewOpen(true)
     setPreviewTitle(file.name || file.url.substring(file.url.lastIndexOf('/') + 1))
   }
+
+  const getBase64 = (file) =>
+    new Promise((resolve, reject) => {
+      const reader = new FileReader()
+      reader.readAsDataURL(file)
+      reader.onload = () => resolve(reader.result)
+      reader.onerror = (error) => reject(error)
+    })
 
   const handleChange = ({ fileList: newFileList }) => setFileList(newFileList)
 
@@ -62,24 +72,6 @@ const AddProduct = async () => {
     </div>
   )
 
-  // async function getBrands() {
-  //   const res = await fetch('http://localhost:3900/api/v1/brands', {
-  //     headers: {
-  //       Authorization: `Bearer ${session?.data?.user?.token}`,
-  //       'Content-Type': 'application/json',
-  //     },
-  //   })
-
-  //   if (!res.ok) {
-  //     throw new Error('Failed to fetch data')
-  //   }
-  //   const data = await res.json()
-  //   console.log('🚀 ~ data:', data)
-  //   return data
-  // }
-
-  // getBrands()
-
   const handleSubmit = async (values) => {
     const newData = { ...values }
 
@@ -95,7 +87,7 @@ const AddProduct = async () => {
   }
 
   const setFormData = (v) => {
-    const { ...newData } = v
+    const newData = { ...v }
     form.setFieldsValue(newData)
     setFormValues(form.getFieldsValue())
   }
@@ -125,6 +117,31 @@ const AddProduct = async () => {
     // setFormValues(form.getFieldsValue())
   }
 
+  const customUploadRequest = async (options) => {
+    const { filename, file, onSuccess, onError } = options
+    const fmData = new FormData()
+    fmData.append(filename, file)
+    // return
+    try {
+      const res = await createFile(fmData)
+      if (res.images?.length) {
+        setFormData({ photos: [...form.getFieldValue().photos, res?.images[0]?.filename] })
+      }
+      onSuccess('Ok')
+    } catch (err) {
+      console.log('err', err)
+      const error = new Error('Upload error')
+      onError({ err })
+    }
+  }
+
+  const normFile = (e) => {
+    if (Array.isArray(e)) {
+      return e
+    }
+    return e && e.fileList
+  }
+
   return (
     <Form
       layout="vertical"
@@ -135,7 +152,6 @@ const AddProduct = async () => {
       scrollToFirstError={true}
       initialValues={{
         status: 'Active',
-        itemBarcode: (Math.random() * 10000000000).toFixed(0),
       }}
     >
       <Form.Item name="id" hidden>
@@ -763,15 +779,24 @@ const AddProduct = async () => {
           </Divider>
 
           <div className="grid grid-cols-1 gap-3 px-3">
-            <Upload
-              action="https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188"
-              listType="picture-card"
-              fileList={fileList}
-              onPreview={handlePreview}
-              onChange={handleChange}
-            >
-              {fileList.length >= 10 ? null : uploadButton}
-            </Upload>
+            <Form.Item name="fileList" label="Photos" getValueFromEvent={normFile}>
+              <Upload
+                name="images"
+                listType="picture-card"
+                fileList={formValues?.fileList || []}
+                className="avatar-uploader"
+                onPreview={handlePreview}
+                customRequest={customUploadRequest}
+                maxCount={5}
+              >
+                {formValues?.fileList?.length >= 5 ? null : uploadButton}
+              </Upload>
+            </Form.Item>
+
+            <Form.Item name="photos" hidden>
+              <Input />
+            </Form.Item>
+
             <Modal open={previewOpen} title={previewTitle} footer={null} onCancel={handleCancel}>
               <img
                 alt="example"
@@ -790,9 +815,9 @@ const AddProduct = async () => {
               (<span className="text-xl"> * </span> অবশ্যই পূরণ করতে হবে)
             </div>
             <div className="my-2">
-              <Button onClick={() => router.back()} variant="outlined" color="gray">
+              {/* <Button onClick={() => router.back()} variant="outlined" color="gray">
                 {'<<'} Back
-              </Button>
+              </Button> */}
               <Button className="mx-2" onClick={resetFormData} variant="gradient" color="gray">
                 Reset
               </Button>

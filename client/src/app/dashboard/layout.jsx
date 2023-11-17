@@ -14,7 +14,6 @@ export default function DashboardLayout({ children }) {
   const router = useRouter()
 
   const session = useSession()
-  console.log('🚀 ~ session:', session)
   if (session.status === 'unauthenticated') {
     router.push('/')
   }

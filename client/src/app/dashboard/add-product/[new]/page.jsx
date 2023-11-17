@@ -1,20 +1,40 @@
 'use client'
 import { DatePicker, Divider, Form, Input, InputNumber, Select, Upload, Modal } from 'antd'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import productEnum from '../../../../lib/utils'
 import { Button } from '@material-tailwind/react'
 import { PlusOutlined } from '@ant-design/icons'
 import { useRouter } from 'next/navigation'
+import { getSession } from 'next-auth/react'
+import getBrnads from '../../../../lib/getBrand.js'
+import getModels from '../../../../lib/getModel'
+import getModelCode from '../../../../lib/getModelCode'
 
-const AddProduct = () => {
+const AddProduct = async () => {
   const [formValues, setFormValues] = useState({})
-  const [loading, setLoading] = useState({})
   const [previewOpen, setPreviewOpen] = useState(false)
   const [previewImage, setPreviewImage] = useState('')
   const [previewTitle, setPreviewTitle] = useState('')
   const [fileList, setFileList] = useState([])
+  const [brands, setBrands] = useState([])
+  const [models, setModels] = useState([])
+  const [modelCodes, setModelCodes] = useState([])
 
+  // hook
+  const [form] = Form.useForm()
   const router = useRouter()
+
+  useEffect(() => {
+    ;(async () => {
+      const newsss = await getSession()
+      const brands = await getBrnads(newsss.user?.token)
+      const models = await getModels(newsss.user?.token)
+      const modelCodes = await getModelCode(newsss.user?.token)
+      setModelCodes(modelCodes.data)
+      setModels(models.data)
+      setBrands(brands.data)
+    })()
+  }, [])
 
   const handleCancel = () => setPreviewOpen(false)
 
@@ -42,17 +62,23 @@ const AddProduct = () => {
     </div>
   )
 
-  const [form] = Form.useForm()
+  // async function getBrands() {
+  //   const res = await fetch('http://localhost:3900/api/v1/brands', {
+  //     headers: {
+  //       Authorization: `Bearer ${session?.data?.user?.token}`,
+  //       'Content-Type': 'application/json',
+  //     },
+  //   })
 
-  // useEffect(() => {
-  //   const newData = { ...action.payload }
-
-  //   setFormData(newData)
-  //   return () => {
-  //     setFormValues({})
-  //     form.resetFields()
+  //   if (!res.ok) {
+  //     throw new Error('Failed to fetch data')
   //   }
-  // }, [action.type])
+  //   const data = await res.json()
+  //   console.log('🚀 ~ data:', data)
+  //   return data
+  // }
+
+  // getBrands()
 
   const handleSubmit = async (values) => {
     const newData = { ...values }
@@ -182,7 +208,7 @@ const AddProduct = () => {
                 option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
               }
             >
-              {[].map((item, idx) => (
+              {brands.map((item, idx) => (
                 <Select.Option key={idx} value={item.id}>
                   {item.name}
                 </Select.Option>
@@ -215,7 +241,7 @@ const AddProduct = () => {
                 option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
               }
             >
-              {[].map((item, idx) => (
+              {models.map((item, idx) => (
                 <Select.Option key={idx} value={item.id}>
                   {item.name}
                 </Select.Option>
@@ -248,7 +274,7 @@ const AddProduct = () => {
                 option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
               }
             >
-              {[].map((item, idx) => (
+              {modelCodes.map((item, idx) => (
                 <Select.Option key={idx} value={item.id}>
                   {item.name}
                 </Select.Option>

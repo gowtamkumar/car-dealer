@@ -3,7 +3,7 @@ import { IsDefined, IsNotEmpty, IsString } from "class-validator";
 
 export class LoginCredentialsDto {
 
-  @ApiProperty({ example: 'biprodas' })
+  @ApiProperty({ example: 'gowtamkumar' })
   @IsNotEmpty()
   @IsString()
   @IsDefined()

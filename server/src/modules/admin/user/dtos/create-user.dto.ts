@@ -14,16 +14,16 @@ import { UserRole } from '../enums/user-role.enum'
 import { UserStatus } from '../enums/user-status.enum'
 
 export class CreateUserDto {
-  @ApiProperty({ example: 'Biprodas Roy' })
+  @ApiProperty({ example: 'gowtamkumar Roy' })
   @IsString()
   @IsNotEmpty()
   @IsDefined()
   name: string
 
-  @ApiProperty({ example: 'biprodas' })
+  @ApiProperty({ example: 'gowtamkumar' })
   @IsString()
   @IsNotEmpty()
-  @Length(5, 20)
+  // @Length(5, 20)
   @IsDefined()
   username: string
 
@@ -34,7 +34,7 @@ export class CreateUserDto {
   @IsDefined()
   password: string
 
-  @ApiProperty({ required: false, example: 'biprodas.ry@gmail.com' })
+  @ApiProperty({ required: false, example: 'gowtampual0@gmail.com' })
   @Transform(({ value }) => value || null)
   @IsEmail()
   @IsOptional()

@@ -47,6 +47,13 @@ export class UserService {
 
   async createUser(ctx: RequestContextDto, createUserDto: CreateUserDto): Promise<UserEntity> {
     this.logger.log(`${this.createUser.name}Service Called`)
+    const { username } = createUserDto
+
+    const findUser = await this.userRepo.findOne({ where: { username } })
+    if (findUser) {
+      throw new NotFoundException('User Already Registered')
+    }
+  
     const hashPassword = await bcrypt.hash(createUserDto.password, 10)
     const user = this.userRepo.create({ ...createUserDto, password: hashPassword })
     await this.userRepo.save(user)

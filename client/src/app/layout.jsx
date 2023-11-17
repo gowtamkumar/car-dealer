@@ -9,6 +9,9 @@ import { Inter } from 'next/font/google'
 import { Suspense } from 'react'
 import { appConfig } from '../config'
 
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+
 import Loading from './loading'
 // import { getServerSession } from 'next-auth'
 import AuthProvider from '../lib/SessionProvider'
@@ -55,6 +58,7 @@ export default async function RootLayout({ children }) {
         <AuthProvider session={session}>
           <Suspense fallback={<Loading />}>{children}</Suspense>
         </AuthProvider>
+        <ToastContainer />
       </body>
     </html>
   )

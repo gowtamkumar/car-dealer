@@ -4,13 +4,13 @@ import { IsDefined, IsEmail, IsNotEmpty, IsOptional, IsString, Length } from "cl
 
 export class RegisterCredentialsDto {
 
-  @ApiProperty({ example: 'Biprodas Roy' })
+  @ApiProperty({ example: 'gowtamkumar Roy' })
   @IsString()
   @IsNotEmpty()
   @IsDefined()
   name: string;
 
-  @ApiProperty({ example: 'biprodas' })
+  @ApiProperty({ example: 'gowtamkumar' })
   @IsString()
   @IsNotEmpty()
   @Length(5, 20)
@@ -24,7 +24,7 @@ export class RegisterCredentialsDto {
   @IsDefined()
   password: string;
 
-  @ApiProperty({ required: false, example: 'biprodas.ry@gmail.com'})
+  @ApiProperty({ required: false, example: 'gowtamkumar.ry@gmail.com'})
   @Transform(({value}) => value || null)
   @IsEmail()
   @IsOptional()

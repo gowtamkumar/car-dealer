@@ -2,30 +2,41 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { Card, Input, Checkbox, Button, Typography } from '@material-tailwind/react'
-import Router from 'next/router'
-// import { useRouter } from 'next/navigation'
+import { useRouter } from 'next/navigation'
+import { toast } from 'react-toastify'
+import { useSession } from 'next-auth/react'
+import { createUser } from '../../../lib/createUser'
 
 export default function Signup() {
   const [data, setData] = useState({})
-  // const router = useRouter()
+  const router = useRouter()
 
+  // redirect home page
+  const session = useSession()
+  if (session.status === 'authenticated') {
+    router.push('/')
+  }
+
+  // create new user
   const handleSubmit = async (e) => {
     e.preventDefault()
-    console.log('dsd')
     try {
-      const res = await fetch('http://localhost:3900/api/v1/users', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      })
-      const result = await res.json()
+      const result = await createUser(data)
+      if (result.statusCode === 400) {
+        return toast.error('Password must be 8 to 20 characters')
+      }
+      if (result.statusCode === 404) {
+        return toast.error(result.errors)
+      }
+
       if (result.success) {
-        window.location.replace('/login')
+        toast.success('Registered Successfully')
+        setTimeout(() => {
+          window.location.replace('/login')
+        }, 1000)
       }
     } catch (err) {
-      console.log('error s')
+      console.log(err)
     }
   }
 
@@ -38,32 +49,39 @@ export default function Signup() {
         <Typography color="gray" className="mt-1 font-normal">
           Enter your details to register.
         </Typography>
-        <form className="mb-2 mt-8 w-80 max-w-screen-lg sm:w-96">
+        <form onSubmit={handleSubmit} className="mb-2 mt-8 w-80 max-w-screen-lg sm:w-96">
           <div className="mb-4 flex flex-col gap-6">
             <Input
-              size="lg"
+              size="md"
               label="Name"
               name="name"
+              value={data.name || ''}
+              required
               onChange={({ target }) => setData({ ...data, [target.name]: target.value })}
             />
             <Input
-              size="lg"
+              size="md"
               label="Username"
+              required
+              value={data.username || ''}
               name="username"
               onChange={({ target }) => setData({ ...data, [target.name]: target.value })}
             />
             <Input
               type="password"
-              size="lg"
+              size="md"
+              required
               label="Password"
+              value={data.password || ''}
               name="password"
               onChange={({ target }) => setData({ ...data, [target.name]: target.value })}
             />
 
             <Input
-              size="lg"
+              size="md"
               type="email"
               label="Email"
+              value={data.email || ''}
               name="email"
               onChange={({ target }) => setData({ ...data, [target.name]: target.value })}
             />
@@ -79,7 +97,8 @@ export default function Signup() {
             }
             containerProps={{ className: '-ml-2.5' }}
           /> */}
-          <Button className="mt-6" fullWidth onClick={handleSubmit}>
+
+          <Button type="submit" className="mt-6" fullWidth>
             Register
           </Button>
           <Typography color="gray" className="mt-4 text-center font-normal">

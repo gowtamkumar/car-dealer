@@ -25,7 +25,7 @@ export class UserEntity {
   @Column()
   password: string
 
-  @Column({ unique: true, nullable: true })
+  @Column({ nullable: true })
   email: string
 
   @Column({ name: 'date_of_birth', nullable: true })
@@ -53,10 +53,10 @@ export class UserEntity {
   @Column({ type: 'enum', enum: UserStatus, default: UserStatus.Active })
   status: UserStatus
 
-  @CreateDateColumn({ type: 'timestamptz' })
+  @CreateDateColumn({ name: 'created_at', type: 'timestamptz' })
   createdAt: Date
 
-  @UpdateDateColumn({ type: 'timestamptz', onUpdate: 'CURRENT_TIMESTAMP(6)' })
+  @UpdateDateColumn({name: 'updated_at', type: 'timestamptz', onUpdate: 'CURRENT_TIMESTAMP(6)' })
   updatedAt: Date
 
   @AfterInsert()

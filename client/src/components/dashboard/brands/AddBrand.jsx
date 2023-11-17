@@ -5,8 +5,10 @@ import { Upload } from 'antd'
 import config from 'src/config'
 import { ActionType } from '../../../lib/constants'
 import { Button } from '@material-tailwind/react'
-// import { errorMsg, successMsg } from 'src/utils/toastSuccessError'
-// import { ActionType } from 'src/utils/constants'
+import { createBrand } from '../../../lib/brand'
+import { toast } from 'react-toastify'
+import { getSession } from 'next-auth/react'
+import createFile from '../../../lib/createFile'
 
 const AddBrand = ({ action = {}, setAction }) => {
   const [formValues, setFormValues] = useState({})
@@ -15,21 +17,22 @@ const AddBrand = ({ action = {}, setAction }) => {
   const [form] = Form.useForm()
 
   // Mutation
-  // const [createFile] = useCreateFileMutation()
 
   const handleSubmit = async (values) => {
     let newData = { ...values }
-    return console.log('newData:', newData)
+    // return console.log('newData:', newData)
 
-    // setLoading({ save: true })
-    // setTimeout(async () => {
-    //   const result = newData.id ? await updateBrand(newData) : await createBrand(newData)
-    //   setLoading({ save: false })
-    //   if (result.error) return errorMsg('Error')
-    //   successMsg(`Brand ${newData.id ? 'Updated' : 'Created'} Successfully`)
-    //   setAction({})
-    // }, 100)
+    const token = await getSession()
+
+    setLoading({ save: true })
+    setTimeout(async () => {
+      const result = await createBrand({ newData, token: token?.user?.token })
+      setLoading({ save: false })
+      toast.success(`Brand ${newData?.id ? 'Updated' : 'Created'} Successfully`)
+      setAction({})
+    }, 100)
   }
+
   const uploadButton = (
     <div>
       {loading.upload ? <LoadingOutlined /> : <PlusOutlined />}
@@ -58,14 +61,14 @@ const AddBrand = ({ action = {}, setAction }) => {
 
   const resetFormData = () => {
     form.resetFields()
-    if (data.id) {
+    if (data?.id) {
       const newData = { ...data }
       if (data.photo) {
         const file = {
           uid: Math.random() * 1000 + '',
           name: 'photo',
           status: 'done',
-          url: `${config.apiBaseUrl}/uploads/${data.photo}`,
+          url: `${config.apiBaseUrl}/uploads/${data?.photo}`,
         }
         newData.fileList = [file]
       }
@@ -79,16 +82,17 @@ const AddBrand = ({ action = {}, setAction }) => {
     const fmData = new FormData()
     fmData.append(filename, file)
 
-    // try {
-    //   const res = await createFile(fmData).unwrap()
-    //   if (res.photo.length) {
-    //     setFormData({ logo: res.photo[0]?.filename })
-    //   }
-    //   onSuccess('Ok')
-    // } catch (err) {
-    //   const error = new Error('Upload error')
-    //   onError({ err })
-    // }
+    try {
+      const res = await createFile(fmData)
+      console.log('🚀 ~ res:', res)
+      if (res.photo.length) {
+        setFormData({ logo: res.photo[0]?.filename })
+      }
+      onSuccess('Ok')
+    } catch (err) {
+      const error = new Error('Upload error')
+      onError({ err })
+    }
   }
 
   const normFile = ({ file, fileList }) => {

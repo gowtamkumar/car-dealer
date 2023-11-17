@@ -6,10 +6,10 @@ import { Button } from '@material-tailwind/react'
 import { PlusOutlined } from '@ant-design/icons'
 import { useRouter } from 'next/navigation'
 import { getSession } from 'next-auth/react'
-import getBrnads from '../../../../lib/getBrand.js'
 import getModels from '../../../../lib/getModel'
 import getModelCode from '../../../../lib/getModelCode'
 import createFile from '../../../../lib/createFile'
+import { getBrands } from '../../../../lib/brand'
 
 const AddProduct = () => {
   const [formValues, setFormValues] = useState({})
@@ -28,7 +28,7 @@ const AddProduct = () => {
   useEffect(() => {
     ;(async () => {
       const newsss = await getSession()
-      const brands = await getBrnads(newsss.user?.token)
+      const brands = await getBrands(newsss.user?.token)
       const models = await getModels(newsss.user?.token)
       const modelCodes = await getModelCode(newsss.user?.token)
       setModelCodes(modelCodes.data)

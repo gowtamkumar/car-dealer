@@ -42,52 +42,50 @@
     [] noOfowner
     [] drivetrain [2 Wheel Drive, 4 Wheel Drive]
     [] description
-    [] division ?
-    [] district ?
-    [] thana ?
+    [] divisionId
+    [] districtId
+    [] upazilaId
     [] createAt
     [] updateAt
     [] userId
 
-## productFeatures:
+## productFeatures
 
-        [
-        "cdPlayer"
-        "sunRoof"
-        "alloyWheels"
-        "powerSteering"
-        "powerWindow"
-        "ac"
-        "abs"
-        'air Bag'
-        "radio"
-        "cdChanger"
-        "dvd"
-        "tv"
-        "powerSeat"
-        "powerSeat"
-        "backTire"
-        "grillGuard"
-        "rearSpoiler"
-        "centerLocking"
-        "jack"
-        "spareTire"
-        "wheelSpanner"
-        "fogLight"
-        "backCamera"
-        "pushStart"
-        "keyLessentry"
-        "esc"
-        "360DCamera"
-        "bodyKit"
-        "sideAirbag"
-        "powerMirror"
-        "sideSkirts"
-        "fontLipSpoiler"
-        "navigation"
-        "turbo"
-        "nonSmoker"
-        ]
+    [] productId
+    [] cdPlayer
+    [] sunRoof
+    [] alloyWheels
+    [] powerSteering
+    [] powerWindow
+    [] ac
+    [] abs
+    [] airBag
+    [] cdChanger
+    [] radio
+    [] dvd
+    [] tv
+    [] powerSeat
+    [] backTire
+    [] grillGuard
+    [] rearSpoiler
+    [] centerLocking
+    [] jack
+    [] spareTire
+    [] wheelSpanner
+    [] fogLight
+    [] backCamera
+    [] pushStart
+    [] keyLessentry
+    [] esc
+    [] 360DCamera
+    [] bodyKit
+    [] sideAirbag
+    [] powerMirror
+    [] sideSkirts
+    [] fontLipSpoiler
+    [] navigation
+    [] turbo
+    [] nonSmoker
 
 ## brands
 
@@ -119,13 +117,16 @@
 ## setting
 
     [] companyName
-    [] address
+    [] fullAddress
     [] logo
     [] phone
     [] email
+    [] supportPhone
+    [] facebookUrl
+    [] twitterUrl
+    [] instagram
 
 ## ui
-
     []
     []
     []

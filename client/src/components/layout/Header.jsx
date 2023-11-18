@@ -166,6 +166,7 @@ export default function NavbarMenu() {
   // }, [])
 
   const session = useSession()
+  console.log('🚀 ~ session:', session)
 
   React.useEffect(() => {
     window.addEventListener('resize', () => window.innerWidth >= 960 && setOpenNav(false))

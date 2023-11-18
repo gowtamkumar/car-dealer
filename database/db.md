@@ -126,8 +126,8 @@
     [] twitterUrl
     [] instagram
 
-## ui
-    []
-    []
-    []
-    []
+## banner
+
+    [] images
+    [] status[active, inactive]
+    

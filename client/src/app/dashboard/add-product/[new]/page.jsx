@@ -126,8 +126,9 @@ const AddProduct = () => {
     // return
     try {
       const res = await createFile(fmData)
+      console.log('form.getFieldValue()?.photos', form.getFieldValue()?.photos)
       if (res.images?.length) {
-        setFormData({ photos: [...form.getFieldValue().photos, res?.images[0]?.filename] })
+        setFormData({ photos: [...form.getFieldValue()?.photos, res?.images[0]?.filename] })
       }
       onSuccess('Ok')
     } catch (err) {
@@ -138,6 +139,7 @@ const AddProduct = () => {
   }
 
   const normFile = (e) => {
+    console.log('🚀 ~ e:', e)
     if (Array.isArray(e)) {
       return e
     }
@@ -154,6 +156,7 @@ const AddProduct = () => {
       scrollToFirstError={true}
       initialValues={{
         status: 'Active',
+        photos: [],
       }}
     >
       <Form.Item name="id" hidden>
@@ -781,11 +784,19 @@ const AddProduct = () => {
           </Divider>
 
           <div className="grid grid-cols-1 gap-3 px-3">
-            <Form.Item name="fileList" label="Photos" getValueFromEvent={normFile}>
+            <Form.Item
+              name="fileList"
+              label="Photos"
+              valuePropName="fileList"
+              getValueFromEvent={normFile}
+            >
               <Upload
                 name="images"
                 listType="picture-card"
                 fileList={formValues?.fileList || []}
+                // onRemove={({ terget }) => {
+                //   console.log('value', terget)
+                // }}
                 className="avatar-uploader"
                 onPreview={handlePreview}
                 customRequest={customUploadRequest}

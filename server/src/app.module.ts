@@ -14,6 +14,7 @@ import { ModelModule } from '@modules/model/model.module'
 import { ReviewModule } from '@modules/review/review.module'
 import { ModelCodeModule } from '@modules/model-code/model-code.module'
 import { ProductFeatureModule } from '@modules/product-feature/product-feature.module'
+import { BannerModule } from '@modules/banner/banner.module'
 
 @Module({
   imports: [
@@ -37,6 +38,7 @@ import { ProductFeatureModule } from '@modules/product-feature/product-feature.m
     ModelModule,
     ModelCodeModule,
     ReviewModule,
+    BannerModule,
     OtherModule,
   ],
   controllers: [AppController],

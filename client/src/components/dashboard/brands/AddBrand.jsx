@@ -27,6 +27,7 @@ const AddBrand = ({ action = {}, setAction }) => {
     setLoading({ save: true })
     setTimeout(async () => {
       const result = await createBrand({ newData, token: token?.user?.token })
+
       setLoading({ save: false })
       toast.success(`Brand ${newData?.id ? 'Updated' : 'Created'} Successfully`)
       setAction({})

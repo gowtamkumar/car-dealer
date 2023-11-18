@@ -10,6 +10,7 @@ import getModels from '../../../../lib/getModel'
 import getModelCode from '../../../../lib/getModelCode'
 import createFile from '../../../../lib/createFile'
 import { getBrands } from '../../../../lib/brand'
+import { Gets } from '../../../../lib/api'
 
 const AddProduct = () => {
   const [formValues, setFormValues] = useState({})
@@ -28,7 +29,8 @@ const AddProduct = () => {
   useEffect(() => {
     ;(async () => {
       const newsss = await getSession()
-      const brands = await getBrands(newsss.user?.token)
+      // const brands = await getBrands(newsss.user?.token)
+      const brands = await Gets('brands')
       const models = await getModels(newsss.user?.token)
       const modelCodes = await getModelCode(newsss.user?.token)
       setModelCodes(modelCodes.data)

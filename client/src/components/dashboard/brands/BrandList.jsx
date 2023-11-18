@@ -16,6 +16,7 @@ import { Input, Spinner } from '@material-tailwind/react'
 import { useRouter } from 'next/navigation'
 import { getSession } from 'next-auth/react'
 import { getBrands } from '../../../lib/brand'
+import { Gets } from '../../../lib/api'
 
 const BrandList = ({ status, setAction }) => {
   const [globalFilter, setGlobalFilter] = useState('')
@@ -28,9 +29,7 @@ const BrandList = ({ status, setAction }) => {
 
   useEffect(() => {
     ;(async () => {
-      const session = await getSession()
-      const res = await getBrands(session?.user?.token)
-      console.log('🚀 ~ res:', res)
+      const res = await Gets('brands')
       setBrands(res.data)
     })()
   }, [])

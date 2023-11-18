@@ -1,5 +1,5 @@
 'use client'
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import {
   EyeOutlined,
   FormOutlined,
@@ -14,14 +14,26 @@ import { Column } from 'primereact/column'
 import { Button, Tag, Dropdown, Empty } from 'antd'
 import { Input, Spinner } from '@material-tailwind/react'
 import { useRouter } from 'next/navigation'
+import { getSession } from 'next-auth/react'
+import { getBrands } from '../../../lib/brand'
 
 const BrandList = ({ status, setAction }) => {
   const [globalFilter, setGlobalFilter] = useState('')
   const [loading, setLoading] = useState({})
+  const [brands, setBrands] = useState([])
 
   // query
   const dt = useRef(null)
   const router = useRouter()
+
+  useEffect(() => {
+    ;(async () => {
+      const session = await getSession()
+      const res = await getBrands(session?.user?.token)
+      console.log('🚀 ~ res:', res)
+      setBrands(res.data)
+    })()
+  }, [])
 
   const exportCSV = (selectionOnly) => {
     setLoading({ exportCsv: true })
@@ -103,7 +115,7 @@ const BrandList = ({ status, setAction }) => {
         </div>
       </div>
       <DataTable
-        value={[{}]}
+        value={brands}
         paginator={true}
         rows={20}
         rowsPerPageOptions={[20, 50, 100, 200]}

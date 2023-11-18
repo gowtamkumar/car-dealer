@@ -21,6 +21,7 @@ const AddProduct = () => {
   const [brands, setBrands] = useState([])
   const [models, setModels] = useState([])
   const [modelCodes, setModelCodes] = useState([])
+  console.log('🚀 ~ modelCodes:', modelCodes)
 
   // hook
   const [form] = Form.useForm()
@@ -28,11 +29,9 @@ const AddProduct = () => {
 
   useEffect(() => {
     ;(async () => {
-      const newsss = await getSession()
-      // const brands = await getBrands(newsss.user?.token)
       const brands = await Gets('brands')
-      const models = await getModels(newsss.user?.token)
-      const modelCodes = await getModelCode(newsss.user?.token)
+      const models = await Gets('models')
+      const modelCodes = await Gets('model-codes')
       setModelCodes(modelCodes.data)
       setModels(models.data)
       setBrands(brands.data)

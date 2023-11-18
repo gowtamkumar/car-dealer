@@ -5,7 +5,7 @@ import { FaAppStore, FaGooglePlay } from 'react-icons/fa'
 
 const Footer = () => {
   return (
-    <footer className="text-blue-gray-200 inset-0 bg-black/90">
+    <footer className="inset-0 bg-black/90 text-blue-gray-200">
       <div className="min-h-96 container mx-auto">
         <div className="mx-5 grid grid-cols-1 gap-5 py-8 md:mx-0 md:grid-cols-2 xl:grid-cols-5">
           <div>
@@ -31,22 +31,22 @@ const Footer = () => {
           <div>
             <h1>ABOUT US</h1>
             <ul>
-              <li className="mb-4 text-slate-400">
+              <li className="text-slate-400 mb-4">
                 <Link className="hover:text-red-500 hover:underline" href="/">
                   EMI Terms
                 </Link>
               </li>
-              <li className="mb-4 text-slate-400">
+              <li className="text-slate-400 mb-4">
                 <Link className="hover:text-red-500 hover:underline" href="/">
                   Privacy Policy
                 </Link>
               </li>
-              <li className="mb-4 text-slate-400">
+              <li className="text-slate-400 mb-4">
                 <Link className="hover:text-red-500 hover:underline" href="/">
                   Star Point Policy
                 </Link>
               </li>
-              <li className="mb-4 text-slate-400">
+              <li className="text-slate-400 mb-4">
                 <Link className="hover:text-red-500 hover:underline" href="/">
                   Brands
                 </Link>
@@ -56,17 +56,17 @@ const Footer = () => {
           <div>
             <h1 className="h-1"> </h1>
             <ul>
-              <li className="mb-4 text-slate-400">
+              <li className="text-slate-400 mb-4">
                 <Link className="hover:text-red-500 hover:underline" href="/">
                   About Us
                 </Link>
               </li>
-              <li className="mb-4 text-slate-400">
+              <li className="text-slate-400 mb-4">
                 <Link className="hover:text-red-500 hover:underline" href="/">
                   Terms & Conditions
                 </Link>
               </li>
-              <li className="mb-4 text-slate-400">
+              <li className="text-slate-400 mb-4">
                 <Link className="hover:text-red-500 hover:underline" href="/">
                   Blog
                 </Link>
@@ -81,17 +81,17 @@ const Footer = () => {
           <div>
             <h1 className="h-1"> </h1>
             <ul>
-              <li className="mb-4 text-slate-400">
+              <li className="text-slate-400 mb-4">
                 <Link className="hover:text-red-500 hover:underline" href="/">
                   Online Delivery
                 </Link>
               </li>
-              <li className="mb-4 text-slate-400">
+              <li className="text-slate-400 mb-4">
                 <Link className="hover:text-red-500 hover:underline" href="/">
                   Return & Return Policy
                 </Link>
               </li>
-              <li className="mb-4 text-slate-400">
+              <li className="text-slate-400 mb-4">
                 <Link className="hover:text-red-500 hover:underline" href="/">
                   Contact Us
                 </Link>
@@ -106,16 +106,16 @@ const Footer = () => {
           <div>
             <h1>STAY CONNECTED</h1>
             <ul>
-              <li className="mb-4 text-slate-400">
+              <li className="text-slate-400 mb-4">
                 Head Office: 28 Kazi Nazrul Islam Ave,Navana Zohura Square, Dhaka 1000
               </li>
-              <li className="mb-4 text-slate-400">Email: info@semicolonit.com</li>
+              <li className="text-slate-400 mb-4">Email: info@.com</li>
             </ul>
           </div>
         </div>
-        <div className="flex flex-col items-center justify-between py-4 outline-slate-400 md:flex-row">
+        <div className="outline-slate-400 flex flex-col items-center justify-between py-4 md:flex-row">
           <div className="flex flex-col items-center gap-4 md:flex-row">
-            <small className="text-sm text-slate-600">
+            <small className="text-slate-600 text-sm">
               Experience Star Tech App on your mobile:
             </small>
             <div className="flex cursor-pointer flex-row gap-2 rounded-md px-5 py-2  ring-1 md:items-center">
@@ -137,17 +137,17 @@ const Footer = () => {
           </div>
           <div>
             <ul className="m-0 p-0">
-              <li className="ms-3 inline-block cursor-pointer rounded-full bg-slate-700 p-3 hover:ring-2">
+              <li className="bg-slate-700 ms-3 inline-block cursor-pointer rounded-full p-3 hover:ring-2">
                 <Link href="/">
                   <BsFacebook className="text-lg" />
                 </Link>
               </li>
-              <li className="ms-3 inline-block cursor-pointer rounded-full bg-slate-700 p-3 hover:ring-2">
+              <li className="bg-slate-700 ms-3 inline-block cursor-pointer rounded-full p-3 hover:ring-2">
                 <Link href="/">
                   <BsLinkedin className="text-lg" />
                 </Link>
               </li>
-              <li className="ms-3 inline-block cursor-pointer rounded-full bg-slate-700 p-3 hover:ring-2">
+              <li className="bg-slate-700 ms-3 inline-block cursor-pointer rounded-full p-3 hover:ring-2">
                 <Link href="/">
                   <BsInstagram className="textlgl" />
                 </Link>

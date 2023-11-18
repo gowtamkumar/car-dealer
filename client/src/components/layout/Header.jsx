@@ -27,9 +27,9 @@ import {
 import Link from 'next/link'
 import UserDropDwon from '../ui/UserDropDwon'
 import dashboardRoute from '../dashboard/_dashboardRoute'
-import { getSession, useSession } from 'next-auth/react'
+import { useSession } from 'next-auth/react'
 
-function NavListMenu() {
+function NavListMenu({ session }) {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false)
 
@@ -146,7 +146,7 @@ function NavList({ session }) {
               Dashboard
             </ListItem>
           </Typography>
-          <NavListMenu />
+          <NavListMenu session={session} />
         </>
       )}
     </List>
@@ -156,14 +156,6 @@ function NavList({ session }) {
 export default function NavbarMenu() {
   const [openNav, setOpenNav] = React.useState(false)
   const [query, setQuery] = React.useState('')
-  // const [session, setSession] = React.useState('')
-
-  // useEffect(() => {
-  //   ;(async () => {
-  //     const cdx = await getSession()
-  //     setSession(cdx)
-  //   })()
-  // }, [])
 
   const session = useSession()
 
@@ -179,6 +171,8 @@ export default function NavbarMenu() {
         </Typography>
         <div className="hidden items-center gap-2 lg:flex">
           <NavList session={session} />
+        </div>
+        <div className="hidden items-center gap-2 lg:flex">
           <div className="relative me-3 flex w-full gap-2 md:w-max">
             <Input
               type="search"
@@ -194,8 +188,6 @@ export default function NavbarMenu() {
               Search
             </Button>
           </div>
-        </div>
-        <div className="hidden items-center gap-2 lg:flex">
           {session.status === 'authenticated' ? (
             <UserDropDwon />
           ) : (

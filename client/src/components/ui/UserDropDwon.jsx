@@ -25,7 +25,7 @@ export default function UserDropDwon() {
       </MenuHandler>
       <MenuList>
         <MenuItem className="py-2">
-          <Link className="flex items-center gap-2" href="/dashboard/profile">
+          <Link className="flex items-center gap-2" href="/dashboard">
             <UserCircleIcon strokeWidth={2} className="h-4 w-4" />
             <Typography variant="small" className="m-0 font-normal">
               My Profile

@@ -11,7 +11,6 @@ import { Cog8ToothIcon, PresentationChartBarIcon, UserCircleIcon } from '@heroic
 
 // ['admin', 'oparator', 'seller']
 const role = 'admin'
-
 const DashboardRoute = [
   {
     title: 'Dashboard',
@@ -64,24 +63,10 @@ const DashboardRoute = [
     color: 'red',
   },
   {
-    title: 'Profile',
-    path: '/dashboard/profile',
-    isMenuItem: true,
-    icon: UserCircleIcon,
-    color: 'red',
-  },
-  {
     title: 'User',
     path: '/dashboard/user',
     isMenuItem: role === 'admin',
     icon: UserIcon,
-    color: 'red',
-  },
-  {
-    title: 'Settings',
-    path: '/dashboard/settings',
-    isMenuItem: role === 'admin',
-    icon: Cog8ToothIcon,
     color: 'red',
   },
 ]

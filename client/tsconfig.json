@@ -27,7 +27,7 @@
     ".next/types/**/*.ts",
     "**/*.ts",
     "**/*.tsx"
-  ],
+, "src/components/dashboard/profile/WishList.jsx", "src/components/dashboard/profile/ProfileTabMenu.jsx", "src/components/dashboard/profile/PaymentList.jsx", "src/components/dashboard/profile/OrderList.jsx", "src/components/dashboard/profile/AddressList.jsx", "src/components/dashboard/profile/utils/index.js"  ],
   "exclude": [
     "node_modules"
   ]

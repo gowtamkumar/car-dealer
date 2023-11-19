@@ -18,7 +18,6 @@ export class ProductService {
     private readonly productFeatureService: ProductFeatureService,
   ) {}
 
-
   async getProducts(
     ctx: RequestContextDto,
     filterProductDto: FilterProductDto,
@@ -225,20 +224,40 @@ export class ProductService {
 
     const result = await qb.getOne()
 
-
     if (!result) {
       throw new NotFoundException(`Product of id ${id} not found`)
     }
 
-    const rProducts = await this.getProducts(ctx, {condition: result.condition} as FilterProductDto)
+    const rProducts = await this.getRelatedProducts(ctx, {
+      condition: result.condition,
+    } as FilterProductDto)
 
     return {
       ...result,
-      relatedProducts: rProducts
+      relatedProducts: rProducts,
     }
   }
 
+  async getRelatedProducts(
+    ctx: RequestContextDto,
+    filterProductDto: FilterProductDto,
+  ): Promise<ProductEntity[]> {
+    this.logger.log(`${this.getRelatedProducts.name}Service Called`)
+    const { condition } = filterProductDto
 
+    // service time Start
+    const start = process.hrtime()
+    const qb = this.productRepo.createQueryBuilder('product')
+    qb.limit(8)
+    if (condition) qb.andWhere({ condition })
+
+    const result = await qb.getMany()
+
+    const stop = process.hrtime(start)
+    this.logger.log(`Time of getting Related Products   ${(stop[0] * 1e9 + stop[1]) / 1e6} ms`) //time end
+
+    return result
+  }
 
   @Transactional()
   async createProduct(

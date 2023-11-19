@@ -1,5 +1,6 @@
 import { StatusEnum } from '@common/enums/status-enum'
 import { BrandEntity } from '@modules/brand/entities/brand.entity'
+import { ModelCodeEntity } from '@modules/model-code/entities/model-code.entity'
 import {
   AfterInsert,
   AfterRemove,
@@ -8,6 +9,7 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm'
 
@@ -32,6 +34,11 @@ export class ModelEntity {
   status: StatusEnum
 
   // relations
+
+  @OneToMany(() => ModelCodeEntity, (modelCode) => modelCode.model)
+  modelCodes: ModelCodeEntity[]
+
+  
 
   // hooks
   @AfterInsert()

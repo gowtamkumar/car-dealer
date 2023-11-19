@@ -23,9 +23,8 @@ export class ModelCodeEntity {
   @Column({ name: 'model_id', type: 'uuid', nullable: true })
   modelId: string
   @JoinColumn({ name: 'model_id' })
-  @ManyToOne((_type) => ModelEntity, {
+  @ManyToOne((_type) => ModelEntity, (model)=> model.modelCodes, {
     onUpdate: 'CASCADE',
-    onDelete: 'SET NULL',
   })
   model: ModelEntity
   // relations

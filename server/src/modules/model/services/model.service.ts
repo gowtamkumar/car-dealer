@@ -24,7 +24,7 @@ export class ModelService {
     if (name) query.name = name
     if (brandId) query.brandId = brandId
 
-    return this.modelRepo.find({ where: query })
+    return this.modelRepo.find({ where: query, relations: ['brand', 'modelCodes'] })
   }
 
   async getModel(ctx: RequestContextDto, id: string): Promise<ModelEntity> {

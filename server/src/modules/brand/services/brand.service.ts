@@ -23,7 +23,7 @@ export class BrandService {
     if (status) query.status = status
     if (name) query.name = name
 
-    return this.brandRepo.find({ where: query })
+    return this.brandRepo.find({ where: query, relations:['models'] })
   }
 
   async getBrand(ctx: RequestContextDto, id: string): Promise<BrandEntity> {

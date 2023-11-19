@@ -161,6 +161,7 @@ export class ProductService {
       qb.andWhere(
         new Brackets((db) => {
           db.where('LOWER(product.name) ILIKE LOWER(:search)', { search: `%${search}%` })
+          db.where('LOWER(product.description) ILIKE LOWER(:search)', { search: `%${search}%` })
           db.orWhere('LOWER(brand.name) ILIKE LOWER(:search)', { search: `%${search}%` })
           db.orWhere('LOWER(model.name) ILIKE LOWER(:search)', { search: `%${search}%` })
           db.orWhere('LOWER(modelCode.name) ILIKE LOWER(:search)', { search: `%${search}%` })

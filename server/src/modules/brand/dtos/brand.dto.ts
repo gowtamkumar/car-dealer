@@ -16,3 +16,4 @@ export class BrandDto {
   status: StatusEnum
 
 }
+

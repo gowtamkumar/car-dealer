@@ -17,7 +17,13 @@ export class BrandService {
   getBrands(ctx: RequestContextDto, filterBrandDto: FilterBrandDto): Promise<BrandEntity[]> {
     this.logger.log(`${this.getBrands.name} Service Called`)
 
-    return this.brandRepo.find()
+    const { status, name } = filterBrandDto
+
+    let query = {} as any
+    if (status) query.status = status
+    if (name) query.name = name
+
+    return this.brandRepo.find({ where: query })
   }
 
   async getBrand(ctx: RequestContextDto, id: string): Promise<BrandEntity> {

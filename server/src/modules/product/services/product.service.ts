@@ -203,6 +203,43 @@ export class ProductService {
     return result
   }
 
+  async getRelatedProduct(ctx: RequestContextDto, id: string): Promise<any> {
+    this.logger.log(`${this.getRelatedProduct.name}Service Called`)
+
+    const qb = this.productRepo.createQueryBuilder('product')
+    qb.select([
+      'product',
+      'productFeature',
+      'brand.name',
+      'model.name',
+      'modelCode.name',
+      'reviews.rating',
+      'reviews.description',
+    ])
+    qb.leftJoin('product.productFeature', 'productFeature')
+    qb.leftJoin('product.brand', 'brand')
+    qb.leftJoin('product.model', 'model')
+    qb.leftJoin('product.modelCode', 'modelCode')
+    qb.leftJoin('product.reviews', 'reviews')
+    qb.where({ id })
+
+    const result = await qb.getOne()
+
+
+    if (!result) {
+      throw new NotFoundException(`Product of id ${id} not found`)
+    }
+
+    const rProducts = await this.getProducts(ctx, {condition: result.condition} as FilterProductDto)
+
+    return {
+      ...result,
+      relatedProducts: rProducts
+    }
+  }
+
+
+
   @Transactional()
   async createProduct(
     ctx: RequestContextDto,

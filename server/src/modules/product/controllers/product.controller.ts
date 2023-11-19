@@ -59,6 +59,23 @@ export class ProductController {
     }
   }
 
+  @Get('/related/:id')
+  async getRelatedProduct(
+    @RequestContext() ctx: RequestContextDto,
+    @Param('id', ParseUUIDPipe) id: string,
+  ): Promise<BaseApiSuccessResponse<ProductDto>> {
+    this.logger.verbose(`User "${ctx.user?.username}" retieving product. Id: ${id}`)
+
+    const result = await this.productService.getRelatedProduct(ctx, id)
+
+    return {
+      success: true,
+      statusCode: 200,
+      message: `Product of id: ${id} with Related Products`,
+      data: result,
+    }
+  }
+
   @UseGuards(JwtAuthGuard)
   @Post('/')
   async createProduct(

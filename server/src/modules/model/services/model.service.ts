@@ -16,7 +16,15 @@ export class ModelService {
 
   getModels(ctx: RequestContextDto, filterModelDto: FilterModelDto): Promise<ModelEntity[]> {
     this.logger.log(`${this.getModels.name} Service Called`)
-    return this.modelRepo.find()
+
+    const { status, name, brandId } = filterModelDto
+
+    let query = {} as any
+    if (status) query.status = status
+    if (name) query.name = name
+    if (brandId) query.brandId = brandId
+
+    return this.modelRepo.find({ where: query })
   }
 
   async getModel(ctx: RequestContextDto, id: string): Promise<ModelEntity> {

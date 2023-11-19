@@ -5,8 +5,6 @@ export class FilterBrandDto {
   @IsString()
   name: string
 
-  @IsString()
-  logo: string
 
   @IsEnum(StatusEnum)
   status: StatusEnum

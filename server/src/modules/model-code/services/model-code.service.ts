@@ -16,7 +16,14 @@ export class ModelCodeService {
 
   getModelCodes(ctx: RequestContextDto, filterModelCodeDto: FilterModelCodeDto): Promise<ModelCodeEntity[]> {
     this.logger.log(`${this.getModelCodes.name} Service Called`)
-    return this.modelCodeRepo.find()
+
+    const { name, modelId } = filterModelCodeDto
+
+    let query = {} as any
+    if (name) query.name = name
+    if (modelId) query.modelId = modelId
+
+    return this.modelCodeRepo.find({where: query})
   }
 
   async getModelCode(ctx: RequestContextDto, id: string): Promise<ModelCodeEntity> {

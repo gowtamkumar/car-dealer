@@ -131,7 +131,7 @@ export class ProductEntity {
   @Column({ type: 'simple-array', nullable: true })
   photos: string[]
 
-  @Column({ name: 'division_id' })
+  @Column({ name: 'division_id',nullable: true })
   divisionId: number
   @JoinColumn({ name: 'division_id' })
   @ManyToOne((_type) => DivisionEntity, (division) => division.products, {
@@ -140,7 +140,7 @@ export class ProductEntity {
   })
   division: DivisionEntity
 
-  @Column({ name: 'district_id' })
+  @Column({ name: 'district_id', nullable: true })
   districtId: number
   @JoinColumn({ name: 'district_id' })
   @ManyToOne((_type) => DistrictEntity, (district) => district.products, {
@@ -149,7 +149,7 @@ export class ProductEntity {
   })
   district: DistrictEntity
 
-  @Column({ name: 'upazila_id' })
+  @Column({ name: 'upazila_id', nullable: true })
   upazilaId: number
   @JoinColumn({ name: 'upazila_id' })
   @ManyToOne((_type) => UpazilaEntity, (upazila) => upazila.products, {

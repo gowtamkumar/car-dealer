@@ -1,11 +1,16 @@
 import { Menu, MenuHandler, MenuList, MenuItem, Avatar, Typography } from '@material-tailwind/react'
 import { PowerIcon, UserCircleIcon } from '@heroicons/react/24/outline'
 import Link from 'next/link'
-import { signOut } from 'next-auth/react'
+import { signOut, useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
+import appConfig from '../../config'
 
 export default function UserDropDwon() {
+  //? hoke
   const router = useRouter()
+  const {
+    data: { user },
+  } = useSession()
 
   const handleSignOut = () => {
     signOut()
@@ -18,9 +23,9 @@ export default function UserDropDwon() {
         <Avatar
           variant="circular"
           alt="candice wu"
-          className="cursor-pointer shadow-sm"
+          className="cursor-pointer shadow-md"
           size="sm"
-          src="/user.png"
+          src={`${appConfig.apiBaseUrl}/uploads/${user?.photo || 'user.png'}`}
         />
       </MenuHandler>
       <MenuList>

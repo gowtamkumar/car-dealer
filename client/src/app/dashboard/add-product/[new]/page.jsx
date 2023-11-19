@@ -1,28 +1,26 @@
 'use client'
-import { DatePicker, Divider, Form, Input, InputNumber, Select, Upload, Modal } from 'antd'
 import React, { useEffect, useState } from 'react'
+import appConfig from '../../../../config'
 import productEnum from '../../../../lib/utils'
 import { Button } from '@material-tailwind/react'
 import { PlusOutlined } from '@ant-design/icons'
-import { useRouter } from 'next/navigation'
+import { useSession } from 'next-auth/react'
+import { toast } from 'react-toastify'
+import { Create, Gets, Update } from '../../../../lib/api'
 import createFile from '../../../../lib/createFile'
-import { Gets } from '../../../../lib/api'
-import appConfig from '../../../../config'
+import { DatePicker, Divider, Form, Input, InputNumber, Select, Upload, Modal } from 'antd'
 
 const AddProduct = () => {
   const [formValues, setFormValues] = useState({})
   const [previewOpen, setPreviewOpen] = useState(false)
   const [previewImage, setPreviewImage] = useState('')
   const [previewTitle, setPreviewTitle] = useState('')
-  // const [fileList, setFileList] = useState([])
   const [apiData, setApiData] = useState({})
-  // const [brands, setBrands] = useState([])
-  // const [models, setModels] = useState([])
-  // const [modelCodes, setModelCodes] = useState([])
-  // console.log('🚀 ~ modelCodes:', modelCodes)
 
   // hook
   const [form] = Form.useForm()
+  const { data } = useSession()
+  const { user = {} } = data || {}
 
   useEffect(() => {
     ;(async () => {
@@ -37,6 +35,27 @@ const AddProduct = () => {
       })
     })()
   }, [])
+
+  const num = user?.role === 'Seller' ? 3 : 5
+
+  const handleSubmit = async (values) => {
+    const newData = { ...values }
+    if (user?.role === 'Seller') newData.condition = 'Used'
+
+    const newFeature = newData.productFeature.map((item) => ({ [item]: true }))
+    newData.productFeature = newFeature
+    return console.log('Submit', newData)
+
+    // setLoading({ save: true })
+    setTimeout(async () => {
+      const params = { api: 'products', data: newData }
+      const result = newData.id ? await Update(params) : await Create(params)
+      console.log('result:', result)
+      // setLoading({ save: false })
+      if (result.errorName) return toast.error(result.message)
+      toast.success(`Car ${newData.id ? 'Updated' : 'Created'} Successfully`)
+    }, 100)
+  }
 
   const handleCancel = () => setPreviewOpen(false)
 
@@ -71,20 +90,6 @@ const AddProduct = () => {
     </div>
   )
 
-  const handleSubmit = async (values) => {
-    const newData = { ...values }
-
-    return console.log('Submit', newData)
-    // setLoading({ save: true })
-    // setTimeout(async () => {
-    //   const result = newData.id ? await updateProduct(newData) : await createProduct(newData)
-    //   setLoading({ save: false })
-    //   if (result.error) return errorMsg('Error')
-    //   successMsg(`Product ${newData.id ? 'Updated' : 'Created'} Successfully`)
-    //   setAction({})
-    // }, 100)
-  }
-
   const setFormData = (v) => {
     const newData = { ...v }
 
@@ -106,7 +111,6 @@ const AddProduct = () => {
     // return
     try {
       const res = await createFile(fmData)
-      console.log('form.getFieldValue()?.photos', form.getFieldValue()?.photos)
       if (res.images?.length) {
         setFormData({ photos: [...form.getFieldValue()?.photos, res?.images[0]?.filename] })
       }
@@ -156,38 +160,40 @@ const AddProduct = () => {
           </Divider>
         </div>
 
-        <div className="col-span-12 lg:col-span-3">
-          <label className="mb-1" htmlFor="condition">
-            Condition <span className="text-red-500">*</span>
-          </label>
-          <Form.Item
-            className="mb-1"
-            name="condition"
-            rules={[
-              {
-                required: true,
-                message: 'Condition is required',
-              },
-            ]}
-          >
-            <Select
-              id="condition"
-              showSearch
-              allowClear
-              placeholder="Select Condition"
-              optionFilterProp="children"
-              filterOption={(input, option) =>
-                option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-              }
+        {user?.role !== 'Seller' && (
+          <div className="col-span-12 lg:col-span-3">
+            <label className="mb-1" htmlFor="condition">
+              Condition <span className="text-red-500">*</span>
+            </label>
+            <Form.Item
+              className="mb-1"
+              name="condition"
+              rules={[
+                {
+                  required: true,
+                  message: 'Condition is required',
+                },
+              ]}
             >
-              {productEnum.condition.map((item, idx) => (
-                <Select.Option key={idx} value={item}>
-                  {item}
-                </Select.Option>
-              ))}
-            </Select>
-          </Form.Item>
-        </div>
+              <Select
+                id="condition"
+                showSearch
+                allowClear
+                placeholder="Select Condition"
+                optionFilterProp="children"
+                filterOption={(input, option) =>
+                  option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                }
+              >
+                {productEnum.condition.map((item, idx) => (
+                  <Select.Option key={idx} value={item}>
+                    {item}
+                  </Select.Option>
+                ))}
+              </Select>
+            </Form.Item>
+          </div>
+        )}
 
         <div className="col-span-12 lg:col-span-3">
           <label className="mb-1" htmlFor="brandId">
@@ -580,14 +586,14 @@ const AddProduct = () => {
               id="productFeature"
               showSearch
               allowClear
-              mode="tags"
+              mode="multiple"
               placeholder="Select Car Feature"
               optionFilterProp="children"
               filterOption={(input, option) =>
                 option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
               }
             >
-              {productEnum.drivetrain.map((item, idx) => (
+              {productEnum.features.map((item, idx) => (
                 <Select.Option key={idx} value={item}>
                   {item}
                 </Select.Option>
@@ -811,7 +817,7 @@ const AddProduct = () => {
                 customRequest={customUploadRequest}
                 maxCount={5}
               >
-                {formValues?.fileList?.length >= 5 ? null : uploadButton}
+                {formValues?.fileList?.length >= num ? null : uploadButton}
               </Upload>
             </Form.Item>
 

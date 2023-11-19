@@ -88,7 +88,7 @@ function NavListMenu({ session }) {
           </Typography>
         </MenuHandler>
         <MenuList className="hidden max-w-screen-xl rounded-xl border-none lg:block">
-          <ul className="grid gap-y-2 border-none md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
+          <ul className="grid gap-y-2 border-none md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-4">
             {renderItems}
           </ul>
         </MenuList>

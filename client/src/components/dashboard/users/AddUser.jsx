@@ -1,30 +1,29 @@
 import React, { useEffect, useState } from 'react'
-import config from 'src/config'
-import { Form, Input, Modal, Select } from 'antd'
-import { Upload } from 'antd'
+import { Form, Input, Modal, Upload } from 'antd'
 import { ActionType } from '../../../lib/constants'
 import { Button } from '@material-tailwind/react'
-import { toast } from 'react-toastify'
-import { LoadingOutlined, PlusOutlined } from '@ant-design/icons'
 import { Create, Update } from '../../../lib/api'
+import { LoadingOutlined, PlusOutlined } from '@ant-design/icons'
+import { toast } from 'react-toastify'
 import createFile from '../../../lib/createFile'
+import appConfig from '../../../config'
 
-const AddBrand = ({ action = {}, setAction }) => {
+const AddUser = ({ action = {}, setAction }) => {
   const [formValues, setFormValues] = useState({})
   const [loading, setLoading] = useState(false)
-  const { payload: data } = action
+  const { payload: data = {} } = action
   const [form] = Form.useForm()
 
   // Mutation
 
   useEffect(() => {
     const newData = { ...data }
-    if (newData.logo) {
+    if (newData.photo) {
       const file = {
         uid: Math.random() * 1000 + '',
-        name: 'logo',
+        name: 'photo',
         status: 'done',
-        url: `${config.apiBaseUrl}/uploads/${data?.logo}`,
+        url: `${appConfig.apiBaseUrl}/uploads/${data?.photo}`,
       }
       newData.fileList = [file]
     }
@@ -41,11 +40,11 @@ const AddBrand = ({ action = {}, setAction }) => {
 
     setLoading({ save: true })
     setTimeout(async () => {
-      const params = { api: 'brands', data: newData }
+      const params = { api: 'users', data: newData }
       const result = newData.id ? await Update(params) : await Create(params)
-
+      if (result.error) return toast.error(`Error`)
       setLoading({ save: false })
-      toast.success(`Brand ${newData?.id ? 'Updated' : 'Created'} Successfully`)
+      toast.success(`User ${newData?.id ? 'Updated' : 'Created'} Successfully`)
       setAction({})
     }, 100)
   }
@@ -70,14 +69,14 @@ const AddBrand = ({ action = {}, setAction }) => {
 
   const resetFormData = () => {
     form.resetFields()
+    const newData = { ...data }
     if (data?.id) {
-      const newData = { ...data }
-      if (data.logo) {
+      if (data.photo) {
         const file = {
           uid: Math.random() * 1000 + '',
-          name: 'logo',
+          name: 'photo',
           status: 'done',
-          url: `${config.apiBaseUrl}/uploads/${data?.logo}`,
+          url: `${appConfig.apiBaseUrl}/uploads/${data?.photo}`,
         }
         newData.fileList = [file]
       }
@@ -93,8 +92,9 @@ const AddBrand = ({ action = {}, setAction }) => {
 
     try {
       const res = await createFile(fmData)
+      console.log('res:', res)
       if (res.photo.length) {
-        setFormData({ logo: res.photo[0]?.filename })
+        setFormData({ photo: res.photo[0]?.filename })
       }
       onSuccess('Ok')
     } catch (err) {
@@ -112,9 +112,9 @@ const AddBrand = ({ action = {}, setAction }) => {
 
   return (
     <Modal
-      title={action.type === ActionType.UPDATE ? 'Update Brand' : 'Create Brand'}
-      width={window.innerWidth > 900 ? 600 : window.innerWidth - 50}
+      title={action.type === ActionType.UPDATE ? 'Update User' : 'Create User'}
       zIndex={1050}
+      width={500}
       open={action.type === ActionType.CREATE || action.type === ActionType.UPDATE}
       onCancel={handleClose}
       footer={null}
@@ -127,18 +127,13 @@ const AddBrand = ({ action = {}, setAction }) => {
         autoComplete="off"
         scrollToFirstError={true}
       >
-        <Form.Item noStyle name="id" hidden>
+        <Form.Item noStyle className="mb-1" name="id" hidden>
           <Input />
         </Form.Item>
 
-        <div className="grid grid-cols-1 gap-5">
-          <div className="col-span-1">
-            <Form.Item
-              className="mb-1"
-              label="Brand Logo"
-              name="fileList"
-              getValueFromEvent={normFile}
-            >
+        <div className="my-3 grid grid-cols-2 gap-5">
+          <div className="col-span-2 text-center">
+            <Form.Item className="mb-1" name="fileList" getValueFromEvent={normFile}>
               <Upload
                 name="photo"
                 listType="picture-card"
@@ -150,16 +145,15 @@ const AddBrand = ({ action = {}, setAction }) => {
               </Upload>
             </Form.Item>
 
-            <Form.Item noStyle name="logo" hidden>
+            <Form.Item noStyle name="photo" hidden>
               <Input />
             </Form.Item>
           </div>
-
-          <div className="col-span-1">
+          <div className="col-span-2">
             <Form.Item
+              className="mb-1"
               name="name"
-              label="Barnd Name"
-              className="w-[75%]"
+              label="Name"
               rules={[
                 {
                   required: true,
@@ -167,11 +161,49 @@ const AddBrand = ({ action = {}, setAction }) => {
                 },
               ]}
             >
-              <Input placeholder="Enter Brand Name" />
+              <Input placeholder="Enter Name" />
+            </Form.Item>
+
+            <Form.Item
+              className="mb-1"
+              name="username"
+              label="User Name"
+              rules={[
+                {
+                  required: true,
+                  message: 'User Name is required',
+                },
+              ]}
+            >
+              <Input placeholder="Enter User Name" />
+            </Form.Item>
+            {data.id ? null : (
+              <Form.Item
+                className="mb-1"
+                name="password"
+                label="Password"
+                hidden={data.id}
+                rules={[
+                  {
+                    required: true,
+                    message: 'Password is required',
+                  },
+                ]}
+              >
+                <Input.Password placeholder="Enter Password" />
+              </Form.Item>
+            )}
+
+            <Form.Item className="mb-1" name="phone" label="Phone">
+              <Input placeholder="Enter Phone" />
+            </Form.Item>
+
+            <Form.Item className="mb-1" name="email" label="Email">
+              <Input placeholder="Enter Email" />
             </Form.Item>
           </div>
 
-          <div className="col-span-1 text-end">
+          <div className="col-span-3 text-end">
             <Button variant="text" className="mx-2 capitalize" size="sm" onClick={resetFormData}>
               Reset
             </Button>
@@ -192,4 +224,4 @@ const AddBrand = ({ action = {}, setAction }) => {
   )
 }
 
-export default AddBrand
+export default AddUser

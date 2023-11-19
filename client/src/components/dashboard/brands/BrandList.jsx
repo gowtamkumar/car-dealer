@@ -63,7 +63,8 @@ const BrandList = ({ setAction }) => {
         return (
           <Image
             alt=""
-            width={60}
+            width={30}
+            height={30}
             preview={false}
             className="rounded-pill shadow-sm"
             src={`${appConfig.apiBaseUrl}/uploads/${logo || 'user.png'} `}
@@ -135,7 +136,7 @@ const BrandList = ({ setAction }) => {
         </div>
       </div>
       <DataTable
-        value={brands}
+        value={brands || []}
         paginator={true}
         rows={20}
         rowsPerPageOptions={[20, 50, 100, 200]}

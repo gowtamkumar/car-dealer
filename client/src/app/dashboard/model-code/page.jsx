@@ -40,7 +40,7 @@ export default function ModelCodes() {
             className="capitalize"
             onClick={() => setAction({ type: ActionType.CREATE })}
           >
-            <PlusOutlined className="mx-1" /> Add ModelCode
+            <PlusOutlined className="mx-1" /> Add Model Code
           </Button>
         }
       />

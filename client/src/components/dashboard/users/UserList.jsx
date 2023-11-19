@@ -21,14 +21,14 @@ import appConfig from '../../../config'
 const ModelList = ({ setAction }) => {
   const [globalFilter, setGlobalFilter] = useState('')
   const [loading, setLoading] = useState({})
-  const [models, setModels] = useState([])
+  const [users, setModels] = useState([])
 
   // query
   const dt = useRef(null)
 
   useEffect(() => {
     ;(async () => {
-      const params = { api: 'models' }
+      const params = { api: 'users' }
       const res = await Gets(params)
       setModels(res.data)
     })()
@@ -36,7 +36,7 @@ const ModelList = ({ setAction }) => {
 
   const handleDelete = async (id) => {
     setTimeout(async () => {
-      const params = { api: 'models', id }
+      const params = { api: 'users', id }
       setLoading({ ...loading, [`delete_${id}`]: true })
       const result = await Delete(params)
       setLoading({ [`delete_${id}`]: false })
@@ -136,7 +136,7 @@ const ModelList = ({ setAction }) => {
         </div>
       </div>
       <DataTable
-        value={models || []}
+        value={users || []}
         paginator={true}
         rows={20}
         rowsPerPageOptions={[20, 50, 100, 200]}
@@ -164,7 +164,8 @@ const ModelList = ({ setAction }) => {
         className="p-datatable-sm rounded-md border text-center"
       >
         <Column className="border" field="name" header="Name" />
-        <Column className="border" field="brandId" header="Brand Name" />
+        <Column className="border" field="phone" header="Phone" />
+        <Column className="border" field="role" header="Role" />
         <Column field="status" className="border" header="Status" />
         <Column
           header="Option"

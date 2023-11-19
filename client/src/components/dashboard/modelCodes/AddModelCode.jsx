@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react'
-import { Form, Input, Modal } from 'antd'
-import { LoadingOutlined, PlusOutlined } from '@ant-design/icons'
-import { Upload } from 'antd'
-import config from 'src/config'
+import { Form, Input, Modal, Select } from 'antd'
 import { ActionType } from '../../../lib/constants'
 import { Button } from '@material-tailwind/react'
+import { Create, Gets, Update } from '../../../lib/api'
+import appConfig from '../../../config'
+import { toast } from 'react-toastify'
 
 const AddModelCode = ({ action = {}, setAction }) => {
   const [formValues, setFormValues] = useState({})
   const [loading, setLoading] = useState(false)
+  const [apiData, setApiData] = useState({})
   const { payload: data } = action
   const [form] = Form.useForm()
 
@@ -16,24 +17,17 @@ const AddModelCode = ({ action = {}, setAction }) => {
 
   const handleSubmit = async (values) => {
     let newData = { ...values }
-    return console.log('newData:', newData)
-
-    // setLoading({ save: true })
-    // setTimeout(async () => {
-    //   const result = newData.id ? await updateBrand(newData) : await createBrand(newData)
-    //   setLoading({ save: false })
-    //   if (result.error) return errorMsg('Error')
-    //   successMsg(`Brand ${newData.id ? 'Updated' : 'Created'} Successfully`)
-    //   setAction({})
-    // }, 100)
+    // return console.log('newData:', newData)
+    setLoading({ save: true })
+    setTimeout(async () => {
+      const params = { api: 'model-codes', data: newData }
+      const result = newData.id ? await Update(params) : await Create(params)
+      if (result.error) return toast.error(`Error`)
+      setLoading({ save: false })
+      toast.success(`Model Code ${newData?.id ? 'Updated' : 'Created'} Successfully`)
+      setAction({})
+    }, 100)
   }
-
-  const uploadButton = (
-    <div>
-      {loading.upload ? <LoadingOutlined /> : <PlusOutlined />}
-      <div className="mt-2">Upload</div>
-    </div>
-  )
 
   const handleClose = () => {
     setAction({})
@@ -42,6 +36,13 @@ const AddModelCode = ({ action = {}, setAction }) => {
 
   useEffect(() => {
     const newData = { ...data }
+    ;(async () => {
+      const models = await Gets({ api: 'models' })
+      setApiData({
+        ...apiData,
+        models: models.data,
+      })
+    })()
     setFormData(newData)
     return () => {
       setFormValues({})
@@ -59,68 +60,18 @@ const AddModelCode = ({ action = {}, setAction }) => {
     form.resetFields()
     if (data.id) {
       const newData = { ...data }
-      if (data.photo) {
-        const file = {
-          uid: Math.random() * 1000 + '',
-          name: 'photo',
-          status: 'done',
-          url: `${config.apiBaseUrl}/uploads/${data.photo}`,
-        }
-        newData.fileList = [file]
-      }
       form.setFieldsValue(newData)
     }
     setFormValues(form.getFieldsValue())
   }
 
-  const customUploadRequest = async (options) => {
-    const { filename, file, onSuccess, onError } = options
-    const fmData = new FormData()
-    fmData.append(filename, file)
-
-    // try {
-    //   const res = await createFile(fmData).unwrap()
-    //   if (res.photo.length) {
-    //     setFormData({ logo: res.photo[0]?.filename })
-    //   }
-    //   onSuccess('Ok')
-    // } catch (err) {
-    //   const error = new Error('Upload error')
-    //   onError({ err })
-    // }
-  }
-
-  const normFile = ({ file, fileList }) => {
-    if (file.status === 'removed') {
-      setFormData({ photo: null })
-    }
-    return fileList
-  }
-
   return (
     <Modal
-      title={action.type === ActionType.UPDATE ? 'Update Model Code' : 'Create Model Code'}
-      width={window.innerWidth > 900 ? 600 : window.innerWidth - 50}
+      title={action.type === ActionType.UPDATE ? 'Update Model' : 'Create Model'}
       zIndex={1050}
       open={action.type === ActionType.CREATE || action.type === ActionType.UPDATE}
       onCancel={handleClose}
-      footer={
-        <>
-          <Button variant="text" className="mx-2 capitalize" size="sm" onClick={resetFormData}>
-            Reset
-          </Button>
-          <Button
-            onClick={() => form.submit()}
-            size="sm"
-            variant="gradient"
-            color="blue"
-            className="capitalize"
-            loading={loading.submit}
-          >
-            {formValues.id ? 'Update' : 'Submit'}
-          </Button>
-        </>
-      }
+      footer={null}
     >
       <Form
         layout="vertical"
@@ -130,33 +81,45 @@ const AddModelCode = ({ action = {}, setAction }) => {
         autoComplete="off"
         scrollToFirstError={true}
       >
-        <Form.Item noStyle name="id" hidden>
+        <Form.Item noStyle className="mb-1" name="id" hidden>
           <Input />
         </Form.Item>
 
-        <div className="grid grid-cols-1 gap-5">
-          <div className="col-span-1 text-center">
-            <Form.Item className="mb-1" name="fileList" getValueFromEvent={normFile}>
-              <Upload
-                name="photo"
-                listType="picture-card"
-                fileList={formValues.fileList || []}
-                className="avatar-uploader"
-                customRequest={customUploadRequest}
-              >
-                {formValues.fileList?.length ? null : uploadButton}
-              </Upload>
-            </Form.Item>
-
-            <Form.Item noStyle name="logo" hidden>
-              <Input />
-            </Form.Item>
-          </div>
-
+        <div className="my-3 grid grid-cols-1 gap-5">
           <div className="col-span-1">
             <Form.Item
+              className="mb-1"
+              name="modelId"
+              label="Model"
+              rules={[
+                {
+                  required: true,
+                  message: 'Model is required',
+                },
+              ]}
+            >
+              <Select
+                showSearch
+                allowClear
+                placeholder="Select Model"
+                optionFilterProp="children"
+                filterOption={(input, option) =>
+                  option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                }
+              >
+                {(apiData.models || []).map((item, idx) => (
+                  <Select.Option key={idx} value={item.id}>
+                    {item.name}
+                  </Select.Option>
+                ))}
+              </Select>
+            </Form.Item>
+          </div>
+          <div className="col-span-1">
+            <Form.Item
+              className="mb-1"
               name="name"
-              label="Barnd Name"
+              label="Model Name"
               rules={[
                 {
                   required: true,
@@ -164,12 +127,24 @@ const AddModelCode = ({ action = {}, setAction }) => {
                 },
               ]}
             >
-              <Input placeholder="Enter Brand Name" />
+              <Input placeholder="Enter Model Name" />
             </Form.Item>
+          </div>
 
-            <Form.Item name="description" label="Description">
-              <Input.TextArea placeholder="Enter Brand Description" />
-            </Form.Item>
+          <div className="col-span-1 text-end">
+            <Button variant="text" className="mx-2 capitalize" size="sm" onClick={resetFormData}>
+              Reset
+            </Button>
+            <Button
+              size="sm"
+              variant="gradient"
+              color="blue"
+              type="submit"
+              className="capitalize"
+              loading={loading.submit}
+            >
+              {formValues.id ? 'Update' : 'Submit'}
+            </Button>
           </div>
         </div>
       </Form>

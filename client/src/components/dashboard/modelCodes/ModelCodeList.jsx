@@ -1,5 +1,5 @@
 'use client'
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import {
   EyeOutlined,
   FormOutlined,
@@ -7,21 +7,44 @@ import {
   PrinterOutlined,
   FilePdfOutlined,
   FileExcelOutlined,
+  QuestionCircleOutlined,
 } from '@ant-design/icons'
 import { ActionType } from '../../../lib/constants'
 import { DataTable } from 'primereact/datatable'
 import { Column } from 'primereact/column'
-import { Button, Tag, Dropdown, Empty } from 'antd'
+import { Button, Tag, Popconfirm, Empty, Image } from 'antd'
 import { Input, Spinner } from '@material-tailwind/react'
-import { useRouter } from 'next/navigation'
+import { toast } from 'react-toastify'
+import { Delete, Gets } from '../../../lib/api'
+import appConfig from '../../../config'
 
-const ModelCodeList = ({ status, setAction }) => {
+const ModelCodeList = ({ setAction }) => {
   const [globalFilter, setGlobalFilter] = useState('')
   const [loading, setLoading] = useState({})
+  const [modelCodes, setModelCodes] = useState([])
 
   // query
   const dt = useRef(null)
-  const router = useRouter()
+
+  useEffect(() => {
+    ;(async () => {
+      const params = { api: 'model-codes' }
+      const res = await Gets(params)
+      setModelCodes(res.data)
+    })()
+  }, [])
+
+  const handleDelete = async (id) => {
+    setTimeout(async () => {
+      const params = { api: 'model-codes', id }
+      setLoading({ ...loading, [`delete_${id}`]: true })
+      const result = await Delete(params)
+      setLoading({ [`delete_${id}`]: false })
+      if (result.error) toast.error(result.error.data.message)
+      setAction({})
+      toast.success('ModelCode deleted successfully')
+    }, 300)
+  }
 
   const exportCSV = (selectionOnly) => {
     setLoading({ exportCsv: true })
@@ -32,46 +55,56 @@ const ModelCodeList = ({ status, setAction }) => {
   }
 
   // jsx funcitons
-  const bodyTemplate = ({ rowData, field, rowIndex }) => {
-    const { isActive } = rowData
-
-    const items = [
-      {
-        label: 'View',
-        key: 'view',
-        icon: <EyeOutlined />,
-        onClick: () => setAction({ type: ActionType.VIEW, payload: rowData }),
-      },
-      {
-        label: 'Update',
-        key: 'update',
-        icon: <FormOutlined />,
-        onClick: () => setAction({ type: ActionType.UPDATE, payload: rowData }),
-      },
-      {
-        label: 'Delete',
-        key: 'delete',
-        icon: <RestOutlined />,
-        onClick: () => setAction({ type: ActionType.DELETE, payload: rowData }),
-      },
-    ]
+  const bodyTemplate = ({ rowData, field }) => {
+    const { status, logo } = rowData
 
     switch (field) {
-      case 'isActive':
-        return <Tag color={isActive ? 'green' : 'red'}>{isActive ? 'Active' : 'Inactive'}</Tag>
+      case 'logo':
+        return (
+          <Image
+            alt=""
+            width={30}
+            height={30}
+            preview={false}
+            className="rounded-pill shadow-sm"
+            src={`${appConfig.apiBaseUrl}/uploads/${logo || 'user.png'} `}
+          />
+        )
+
+      case 'status':
+        return <Tag color={status === 'Active' ? 'green' : 'red'}>{status}</Tag>
 
       case 'action':
         return (
-          <Dropdown.Button
-            size="small"
-            trigger={['click']}
-            placement="bottomLeft"
-            type="ghost"
-            menu={{ items }}
-            onClick={() => setAction({ type: ActionType.VIEW, payload: rowData })}
-          >
-            <span className="mx-2">{rowIndex + 1}</span>
-          </Dropdown.Button>
+          <div>
+            <Button
+              size="small"
+              icon={<FormOutlined />}
+              title="Edit"
+              className="me-1"
+              onClick={() => setAction({ type: ActionType.UPDATE, payload: rowData })}
+            />
+            <Popconfirm
+              title={
+                <span>
+                  Are you sure <span className="text-danger fw-bold">delete</span> this ModelCode?
+                </span>
+              }
+              onConfirm={() => handleDelete(rowData.id)}
+              placement="left"
+              okText="Yes"
+              okType="danger"
+              cancelText="No"
+              icon={<QuestionCircleOutlined style={{ color: 'red' }} />}
+            >
+              <Button
+                size="small"
+                className="delIcon"
+                loading={loading[`delete_${rowData.id}`]}
+                icon={<RestOutlined />}
+              />
+            </Popconfirm>
+          </div>
         )
       default:
         return null
@@ -97,13 +130,13 @@ const ModelCodeList = ({ status, setAction }) => {
         <div className="text-end">
           <Input
             className="focus:border-1 p-1"
-            onInput={({ target }) => setGlobalFilter(target.value)}
+            onChange={({ target }) => setGlobalFilter(target.value)}
             label="Search"
           />
         </div>
       </div>
       <DataTable
-        value={[]}
+        value={modelCodes || []}
         paginator={true}
         rows={20}
         rowsPerPageOptions={[20, 50, 100, 200]}
@@ -111,13 +144,13 @@ const ModelCodeList = ({ status, setAction }) => {
         currentPageReportTemplate="Showing {first} to {last} of {totalRecords}"
         rowHover
         dataKey="id"
-        sortMode="multiple"
+        showGridlines
         resizableColumns={true}
         columnResizeMode="expand"
         globalFilter={globalFilter}
         emptyMessage={
           <div className="text-center">
-            {status === 'Rejected' ? (
+            {false ? ( // loading
               <div className="w-full text-center">
                 <Spinner className="inline-block" />
               </div>
@@ -130,21 +163,17 @@ const ModelCodeList = ({ status, setAction }) => {
         ref={dt}
         className="p-datatable-sm rounded-md border text-center"
       >
+        <Column className="border" field="name" header="Name" />
+        <Column className="border" field="model.name" header="Model Name" />
+        <Column field="status" className="border" header="Status" />
         <Column
-          header=""
-          className="text-center"
+          header="Option"
+          className="border text-center"
           style={{ width: '10px' }}
           body={(rowData, { rowIndex, field }) =>
             bodyTemplate({ rowData, rowIndex, field: 'action' })
           }
         />
-        <Column
-          field="logo"
-          header="Logo"
-          body={(rowData, { field }) => bodyTemplate({ rowData, field })}
-        />
-        <Column field="name" header="Name" />
-        <Column field="status" header="Status" />
       </DataTable>
     </main>
   )

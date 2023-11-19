@@ -1,5 +1,5 @@
 const productEnum = {
-  condition: ['New', 'Used', 'Recondition'],
+  condition: ['New', 'Recondition', 'Used'],
   steering: ['Left', 'Right'],
   fuelType: ['Diesel', 'Petrol', 'CNG', 'Hybrid', 'Octane', 'LPG', 'Other'],
   transmission: ['Automatic', 'SemiAutomatic', 'Manual', 'CVT', 'DCT', 'SportAT', 'Other'],

@@ -5,36 +5,36 @@ import productEnum from '../../../../lib/utils'
 import { Button } from '@material-tailwind/react'
 import { PlusOutlined } from '@ant-design/icons'
 import { useRouter } from 'next/navigation'
-import { getSession } from 'next-auth/react'
-import getModels from '../../../../lib/getModel'
-import getModelCode from '../../../../lib/getModelCode'
 import createFile from '../../../../lib/createFile'
-import { getBrands } from '../../../../lib/brand'
 import { Gets } from '../../../../lib/api'
+import appConfig from '../../../../config'
 
 const AddProduct = () => {
   const [formValues, setFormValues] = useState({})
   const [previewOpen, setPreviewOpen] = useState(false)
   const [previewImage, setPreviewImage] = useState('')
   const [previewTitle, setPreviewTitle] = useState('')
-  const [fileList, setFileList] = useState([])
-  const [brands, setBrands] = useState([])
-  const [models, setModels] = useState([])
-  const [modelCodes, setModelCodes] = useState([])
+  // const [fileList, setFileList] = useState([])
+  const [apiData, setApiData] = useState({})
+  // const [brands, setBrands] = useState([])
+  // const [models, setModels] = useState([])
+  // const [modelCodes, setModelCodes] = useState([])
   // console.log('🚀 ~ modelCodes:', modelCodes)
 
   // hook
   const [form] = Form.useForm()
-  const router = useRouter()
 
   useEffect(() => {
     ;(async () => {
-      const brands = await Gets('brands')
-      const models = await Gets('models')
-      const modelCodes = await Gets('model-codes')
-      setModelCodes(modelCodes.data)
-      setModels(models.data)
-      setBrands(brands.data)
+      const brands = await Gets({ api: 'brands' })
+      const models = await Gets({ api: 'models' })
+      const modelCodes = await Gets({ api: 'model-codes' })
+      setApiData({
+        ...apiData,
+        models: models.data,
+        modelCodes: modelCodes.data,
+        brands: brands.data,
+      })
     })()
   }, [])
 
@@ -57,8 +57,6 @@ const AddProduct = () => {
       reader.onload = () => resolve(reader.result)
       reader.onerror = (error) => reject(error)
     })
-
-  const handleChange = ({ fileList: newFileList }) => setFileList(newFileList)
 
   const uploadButton = (
     <div>
@@ -89,33 +87,16 @@ const AddProduct = () => {
 
   const setFormData = (v) => {
     const newData = { ...v }
+
+    if (!newData.brandId) newData.modelId = undefined
+    if (!newData.modelId) newData.modelCodeId = undefined
+
     form.setFieldsValue(newData)
     setFormValues(form.getFieldsValue())
   }
 
   const resetFormData = () => {
     form.resetFields()
-    // const { batchNo, expiryDate, ...newData } = { ...action.payload }
-
-    // if (newData.id) {
-    //   if (expiryDate) {
-    //     newData.expiryDate = moment(expiryDate)
-    //     newData.isExpiryDate = true
-    //   }
-
-    //   if (batchNo) newData.isBatchNo = true
-    //   if (newData.photo) {
-    //     const file = {
-    //       uid: Math.random() * 1000 + '',
-    //       name: 'Photo',
-    //       status: 'done',
-    //       url: `${config.apiBaseUrl}/uploads/${newData.photo}`,
-    //     }
-    //     newData.fileList = [file]
-    //   }
-    //   form.setFieldsValue(newData)
-    // }
-    // setFormValues(form.getFieldsValue())
   }
 
   const customUploadRequest = async (options) => {
@@ -149,7 +130,12 @@ const AddProduct = () => {
       layout="vertical"
       form={form}
       onFinish={handleSubmit}
-      onValuesChange={(_v, values) => setFormValues(values)}
+      onValuesChange={(v, values) => {
+        const newData = { ...values }
+        if (newData.brandId !== formValues.brandId) newData.modelId = null
+        if (newData.modelId !== formValues.modelId) newData.modelCodeId = null
+        setFormData(newData)
+      }}
       autoComplete="off"
       scrollToFirstError={true}
       initialValues={{
@@ -227,9 +213,16 @@ const AddProduct = () => {
                 option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
               }
             >
-              {brands.map((item, idx) => (
+              {(apiData.brands || []).map((item, idx) => (
                 <Select.Option key={idx} value={item.id}>
-                  {item.name}
+                  <div className="flex items-center gap-2">
+                    <img
+                      className="h-5 w-5"
+                      src={`${appConfig.apiBaseUrl}/uploads/${item.logo}`}
+                      alt=""
+                    />{' '}
+                    <span>{item.name}</span>
+                  </div>
                 </Select.Option>
               ))}
             </Select>
@@ -254,17 +247,22 @@ const AddProduct = () => {
               id="modelId"
               showSearch
               allowClear
+              disabled={!formValues?.brandId}
               placeholder="Select Model"
               optionFilterProp="children"
               filterOption={(input, option) =>
                 option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
               }
             >
-              {models.map((item, idx) => (
-                <Select.Option key={idx} value={item.id}>
-                  {item.name}
-                </Select.Option>
-              ))}
+              {(apiData.models || [])
+                .filter((item) => item.brandId === formValues.brandId)
+                .map((item, idx) => {
+                  return (
+                    <Select.Option key={idx} value={item.id}>
+                      {item.name}
+                    </Select.Option>
+                  )
+                })}
             </Select>
           </Form.Item>
         </div>
@@ -287,17 +285,20 @@ const AddProduct = () => {
               id="modelCodeId"
               showSearch
               allowClear
+              disabled={!formValues?.modelId}
               placeholder="Select Model"
               optionFilterProp="children"
               filterOption={(input, option) =>
                 option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
               }
             >
-              {modelCodes.map((item, idx) => (
-                <Select.Option key={idx} value={item.id}>
-                  {item.name}
-                </Select.Option>
-              ))}
+              {(apiData.modelCodes || [])
+                .filter((item) => item.modelId === formValues.modelId)
+                .map((item, idx) => (
+                  <Select.Option key={idx} value={item.id}>
+                    {item.name}
+                  </Select.Option>
+                ))}
             </Select>
           </Form.Item>
         </div>
@@ -448,24 +449,6 @@ const AddProduct = () => {
         </div>
 
         <div className="col-span-12 lg:col-span-3">
-          <label className="mb-1" htmlFor="price">
-            Price <span className="text-red-500">*</span>
-          </label>
-          <Form.Item
-            className="mb-1"
-            name="price"
-            rules={[
-              {
-                required: true,
-                message: 'Price is required',
-              },
-            ]}
-          >
-            <InputNumber id="price" placeholder="Enter Amount" className="w-full" />
-          </Form.Item>
-        </div>
-
-        <div className="col-span-12 lg:col-span-3">
           <label className="mb-1" htmlFor="noOfPass">
             No Of Pass. <span className="text-red-500">*</span>
           </label>
@@ -543,24 +526,6 @@ const AddProduct = () => {
             ]}
           >
             <InputNumber id="noOfseat" placeholder="Enter No Of seat" className="w-full" />
-          </Form.Item>
-        </div>
-
-        <div className="col-span-12 lg:col-span-3">
-          <label className="mb-1" htmlFor="noOfOwner">
-            No Of Owner <span className="text-red-500">*</span>
-          </label>
-          <Form.Item
-            className="mb-1"
-            name="noOfOwner"
-            rules={[
-              {
-                required: true,
-                message: 'No Of Owner is required',
-              },
-            ]}
-          >
-            <InputNumber id="noOfOwner" placeholder="Enter No Of Owner" className="w-full" />
           </Form.Item>
         </div>
 
@@ -773,12 +738,48 @@ const AddProduct = () => {
               </Form.Item>
             </div>
 
+            <div className="col-span-2 lg:col-span-1">
+              <label className="mb-1" htmlFor="price">
+                Price <span className="text-red-500">*</span>
+              </label>
+              <Form.Item
+                className="mb-1"
+                name="price"
+                rules={[
+                  {
+                    required: true,
+                    message: 'Price is required',
+                  },
+                ]}
+              >
+                <InputNumber id="price" placeholder="Enter Amount" className="w-full" />
+              </Form.Item>
+            </div>
+
+            <div className="col-span-2 lg:col-span-1">
+              <label className="mb-1" htmlFor="noOfOwner">
+                No Of Owner <span className="text-red-500">*</span>
+              </label>
+              <Form.Item
+                className="mb-1"
+                name="noOfOwner"
+                rules={[
+                  {
+                    required: true,
+                    message: 'No Of Owner is required',
+                  },
+                ]}
+              >
+                <InputNumber id="noOfOwner" placeholder="Enter No Of Owner" className="w-full" />
+              </Form.Item>
+            </div>
+
             <div className="col-span-2">
               <label className="mb-1" htmlFor="description">
                 Description
               </label>
               <Form.Item className="mb-1" name="description">
-                <Input.TextArea placeholder="Description" />
+                <Input.TextArea rows={3} placeholder="Description" />
               </Form.Item>
             </div>
           </div>
@@ -827,18 +828,32 @@ const AddProduct = () => {
                 src={previewImage}
               />
             </Modal>
+
+            <div className="flex flex-col items-center lg:items-end">
+              <div className="text-red-500">
+                (<span className="text-xl"> * </span> অবশ্যই পূরণ করতে হবে)
+              </div>
+              <div className="my-2">
+                {/* <Button onClick={() => router.back()} variant="outlined" color="gray">
+                {'<<'} Back
+              </Button> */}
+                <Button className="mx-2" onClick={resetFormData} variant="gradient" color="gray">
+                  Reset
+                </Button>
+                <Button type="submit" variant="gradient" color="blue">
+                  Submit
+                </Button>
+              </div>
+            </div>
           </div>
         </div>
 
-        <div className="col-span-12">
+        {/* <div className="col-span-12">
           <div className="flex flex-col items-center lg:items-end">
             <div className="text-red-500">
               (<span className="text-xl"> * </span> অবশ্যই পূরণ করতে হবে)
             </div>
             <div className="my-2">
-              {/* <Button onClick={() => router.back()} variant="outlined" color="gray">
-                {'<<'} Back
-              </Button> */}
               <Button className="mx-2" onClick={resetFormData} variant="gradient" color="gray">
                 Reset
               </Button>
@@ -847,7 +862,7 @@ const AddProduct = () => {
               </Button>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
     </Form>
   )

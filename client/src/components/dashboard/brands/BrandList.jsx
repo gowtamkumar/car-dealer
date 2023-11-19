@@ -7,32 +7,44 @@ import {
   PrinterOutlined,
   FilePdfOutlined,
   FileExcelOutlined,
+  QuestionCircleOutlined,
 } from '@ant-design/icons'
 import { ActionType } from '../../../lib/constants'
 import { DataTable } from 'primereact/datatable'
 import { Column } from 'primereact/column'
-import { Button, Tag, Dropdown, Empty } from 'antd'
+import { Button, Tag, Popconfirm, Empty, Image } from 'antd'
 import { Input, Spinner } from '@material-tailwind/react'
-import { useRouter } from 'next/navigation'
-import { getSession } from 'next-auth/react'
-import { getBrands } from '../../../lib/brand'
-import { Gets } from '../../../lib/api'
+import { toast } from 'react-toastify'
+import { Delete, Gets } from '../../../lib/api'
+import appConfig from '../../../config'
 
-const BrandList = ({ status, setAction }) => {
+const BrandList = ({ setAction }) => {
   const [globalFilter, setGlobalFilter] = useState('')
   const [loading, setLoading] = useState({})
   const [brands, setBrands] = useState([])
 
   // query
   const dt = useRef(null)
-  const router = useRouter()
 
   useEffect(() => {
     ;(async () => {
-      const res = await Gets('brands')
+      const params = { api: 'brands' }
+      const res = await Gets(params)
       setBrands(res.data)
     })()
   }, [])
+
+  const handleDelete = async (id) => {
+    setTimeout(async () => {
+      const params = { api: 'brands', id }
+      setLoading({ ...loading, [`delete_${id}`]: true })
+      const result = await Delete(params)
+      setLoading({ [`delete_${id}`]: false })
+      if (result.error) toast.error(result.error.data.message)
+      setAction({})
+      toast.success('Brand deleted successfully')
+    }, 300)
+  }
 
   const exportCSV = (selectionOnly) => {
     setLoading({ exportCsv: true })
@@ -43,46 +55,55 @@ const BrandList = ({ status, setAction }) => {
   }
 
   // jsx funcitons
-  const bodyTemplate = ({ rowData, field, rowIndex }) => {
-    const { isActive } = rowData
-
-    const items = [
-      {
-        label: 'View',
-        key: 'view',
-        icon: <EyeOutlined />,
-        onClick: () => setAction({ type: ActionType.VIEW, payload: rowData }),
-      },
-      {
-        label: 'Update',
-        key: 'update',
-        icon: <FormOutlined />,
-        onClick: () => setAction({ type: ActionType.UPDATE, payload: rowData }),
-      },
-      {
-        label: 'Delete',
-        key: 'delete',
-        icon: <RestOutlined />,
-        onClick: () => setAction({ type: ActionType.DELETE, payload: rowData }),
-      },
-    ]
+  const bodyTemplate = ({ rowData, field }) => {
+    const { status, logo } = rowData
 
     switch (field) {
-      case 'isActive':
-        return <Tag color={isActive ? 'green' : 'red'}>{isActive ? 'Active' : 'Inactive'}</Tag>
+      case 'logo':
+        return (
+          <Image
+            alt=""
+            width={60}
+            preview={false}
+            className="rounded-pill shadow-sm"
+            src={`${appConfig.apiBaseUrl}/uploads/${logo || 'user.png'} `}
+          />
+        )
+
+      case 'status':
+        return <Tag color={status === 'Active' ? 'green' : 'red'}>{status}</Tag>
 
       case 'action':
         return (
-          <Dropdown.Button
-            size="small"
-            trigger={['click']}
-            placement="bottomLeft"
-            type="ghost"
-            menu={{ items }}
-            onClick={() => setAction({ type: ActionType.VIEW, payload: rowData })}
-          >
-            <span className="mx-2">{rowIndex + 1}</span>
-          </Dropdown.Button>
+          <div>
+            <Button
+              size="small"
+              icon={<FormOutlined />}
+              title="Edit"
+              className="me-1"
+              onClick={() => setAction({ type: ActionType.UPDATE, payload: rowData })}
+            />
+            <Popconfirm
+              title={
+                <span>
+                  Are you sure <span className="text-danger fw-bold">delete</span> this Brand?
+                </span>
+              }
+              onConfirm={() => handleDelete(rowData.id)}
+              placement="left"
+              okText="Yes"
+              okType="danger"
+              cancelText="No"
+              icon={<QuestionCircleOutlined style={{ color: 'red' }} />}
+            >
+              <Button
+                size="small"
+                className="delIcon"
+                loading={loading[`delete_${rowData.id}`]}
+                icon={<RestOutlined />}
+              />
+            </Popconfirm>
+          </div>
         )
       default:
         return null
@@ -108,7 +129,7 @@ const BrandList = ({ status, setAction }) => {
         <div className="text-end">
           <Input
             className="focus:border-1 p-1"
-            onInput={({ target }) => setGlobalFilter(target.value)}
+            onChange={({ target }) => setGlobalFilter(target.value)}
             label="Search"
           />
         </div>
@@ -122,13 +143,13 @@ const BrandList = ({ status, setAction }) => {
         currentPageReportTemplate="Showing {first} to {last} of {totalRecords}"
         rowHover
         dataKey="id"
-        sortMode="multiple"
+        showGridlines
         resizableColumns={true}
         columnResizeMode="expand"
         globalFilter={globalFilter}
         emptyMessage={
           <div className="text-center">
-            {status === 'Rejected' ? (
+            {false ? ( // loading
               <div className="w-full text-center">
                 <Spinner className="inline-block" />
               </div>
@@ -142,20 +163,21 @@ const BrandList = ({ status, setAction }) => {
         className="p-datatable-sm rounded-md border text-center"
       >
         <Column
-          header=""
-          className="text-center"
+          field="logo"
+          header="Logo"
+          className="border"
+          body={(rowData, { field }) => bodyTemplate({ rowData, field })}
+        />
+        <Column className="border" field="name" header="Name" />
+        <Column field="status" className="border" header="Status" />
+        <Column
+          header="Option"
+          className="border text-center"
           style={{ width: '10px' }}
           body={(rowData, { rowIndex, field }) =>
             bodyTemplate({ rowData, rowIndex, field: 'action' })
           }
         />
-        <Column
-          field="logo"
-          header="Logo"
-          body={(rowData, { field }) => bodyTemplate({ rowData, field })}
-        />
-        <Column field="name" header="Name" />
-        <Column field="status" header="Status" />
       </DataTable>
     </main>
   )

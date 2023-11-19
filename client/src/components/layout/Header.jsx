@@ -23,7 +23,9 @@ import {
   Square3Stack3DIcon,
   HomeIcon,
   CloudArrowUpIcon,
+  QueueListIcon,
 } from '@heroicons/react/24/outline'
+
 import Link from 'next/link'
 import UserDropDwon from '../ui/UserDropDwon'
 import dashboardRoute from '../dashboard/_dashboardRoute'
@@ -98,7 +100,10 @@ function NavListMenu({ session }) {
   )
 }
 
-function NavList({ session }) {
+function NavList({ session = {} }) {
+  const { data } = session
+  const { user = {} } = data || {}
+
   return (
     <List className="mb-6 mt-4 p-0 lg:mb-0 lg:mt-0 lg:flex-row lg:p-1">
       <Typography as={Link} href="/about" variant="small" color="blue-gray" className="font-normal">
@@ -124,18 +129,6 @@ function NavList({ session }) {
         <>
           <Typography
             as={Link}
-            href="/dashboard/add-product/new"
-            variant="small"
-            color="blue-gray"
-            className="font-normal"
-          >
-            <ListItem className="flex items-center gap-2 py-2 pr-4">
-              <CloudArrowUpIcon className="h-[18px] w-[18px]" />
-              Upload Car
-            </ListItem>
-          </Typography>
-          <Typography
-            as={Link}
             href="/dashboard"
             variant="small"
             color="blue-gray"
@@ -146,7 +139,34 @@ function NavList({ session }) {
               Dashboard
             </ListItem>
           </Typography>
-          <NavListMenu session={session} />
+          <Typography
+            as={Link}
+            href="/dashboard/add-product/new"
+            variant="small"
+            color="blue-gray"
+            className="font-normal"
+          >
+            <ListItem className="flex items-center gap-2 py-2 pr-4">
+              <CloudArrowUpIcon className="h-[18px] w-[18px]" />
+              Upload Car
+            </ListItem>
+          </Typography>
+          {user?.role === 'Seller' ? (
+            <Typography
+              as={Link}
+              href="/dashboard/cars-list"
+              variant="small"
+              color="blue-gray"
+              className="hidden font-normal lg:block"
+            >
+              <ListItem className="flex items-center gap-2 py-2 pr-4">
+                <QueueListIcon className="h-[18px] w-[18px]" />
+                Product List
+              </ListItem>
+            </Typography>
+          ) : (
+            <NavListMenu session={session} />
+          )}
         </>
       )}
     </List>

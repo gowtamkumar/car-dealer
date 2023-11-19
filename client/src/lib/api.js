@@ -4,8 +4,9 @@ import { getSession } from 'next-auth/react'
 const BASE_URL = 'http://localhost:3900/api/v1'
 
 async function Gets(params) {
+  const { api } = params
   const session = await getSession()
-  const resp = await fetch(`${BASE_URL}/${params}`, {
+  const resp = await fetch(`${BASE_URL}/${api}`, {
     method: 'GET',
     headers: {
       Authorization: `Bearer ${session?.user?.token}`,
@@ -32,9 +33,11 @@ async function Get({ params }) {
   return result
 }
 
-async function Create({ params }) {
+async function Create(params) {
+  console.log('params:', params)
   const session = await getSession()
   const { api, data } = params
+  // return console.log('api')
   const resp = await fetch(`${BASE_URL}/${api}`, {
     method: 'POST',
     headers: {
@@ -49,9 +52,10 @@ async function Create({ params }) {
   return result
 }
 
-async function Update({ params }) {
+async function Update(params) {
   const session = await getSession()
-  const { api, data, id } = params
+  const { api, data } = params
+  const { id } = data
   const resp = await fetch(`${BASE_URL}/${api}/${id}`, {
     method: 'PUT',
     headers: {
@@ -65,7 +69,7 @@ async function Update({ params }) {
   return result
 }
 
-async function Delete({ params }) {
+async function Delete(params) {
   const session = await getSession()
   const { api, id } = params
   const resp = await fetch(`${BASE_URL}/${api}/${id}`, {

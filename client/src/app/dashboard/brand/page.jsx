@@ -20,17 +20,17 @@ export default function Brands() {
           {
             label: 'Brand List',
             key: 'brand_list',
-            children: <BrandList setAction={setAction} status={''} />,
+            children: <BrandList setAction={setAction} />,
           },
           {
             label: 'Active',
             key: 'active',
-            children: <BrandList setAction={setAction} status={'Active'} />,
+            children: <BrandList setAction={setAction} filter={'Active'} />,
           },
           {
             label: 'Inactive',
             key: 'inactive',
-            children: <BrandList setAction={setAction} status={'Inactive'} />,
+            children: <BrandList setAction={setAction} filter={'Inactive'} />,
           },
         ]}
         tabBarExtraContent={

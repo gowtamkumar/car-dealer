@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import { Form, Input, Modal } from 'antd'
-import { LoadingOutlined, PlusOutlined } from '@ant-design/icons'
-import { Upload } from 'antd'
 import config from 'src/config'
+import { Form, Input, Modal, Select } from 'antd'
+import { Upload } from 'antd'
 import { ActionType } from '../../../lib/constants'
 import { Button } from '@material-tailwind/react'
-import { createBrand } from '../../../lib/brand'
 import { toast } from 'react-toastify'
-import { getSession } from 'next-auth/react'
+import { LoadingOutlined, PlusOutlined } from '@ant-design/icons'
+import { Create, Update } from '../../../lib/api'
 import createFile from '../../../lib/createFile'
 
 const AddBrand = ({ action = {}, setAction }) => {
@@ -20,13 +19,13 @@ const AddBrand = ({ action = {}, setAction }) => {
 
   const handleSubmit = async (values) => {
     let newData = { ...values }
-    // return console.log('newData:', newData)
 
-    const token = await getSession()
+    console.log('newData:', newData)
 
     setLoading({ save: true })
     setTimeout(async () => {
-      const result = await createBrand({ newData, token: token?.user?.token })
+      const params = { api: 'brands', data: newData }
+      const result = newData.id ? await Update(params) : await Create(params)
 
       setLoading({ save: false })
       toast.success(`Brand ${newData?.id ? 'Updated' : 'Created'} Successfully`)
@@ -47,6 +46,15 @@ const AddBrand = ({ action = {}, setAction }) => {
 
   useEffect(() => {
     const newData = { ...data }
+    if (newData.logo) {
+      const file = {
+        uid: Math.random() * 1000 + '',
+        name: 'logo',
+        status: 'done',
+        url: `${config.apiBaseUrl}/uploads/${data?.logo}`,
+      }
+      newData.fileList = [file]
+    }
     setFormData(newData)
     return () => {
       setFormValues({})
@@ -64,12 +72,12 @@ const AddBrand = ({ action = {}, setAction }) => {
     form.resetFields()
     if (data?.id) {
       const newData = { ...data }
-      if (data.photo) {
+      if (data.logo) {
         const file = {
           uid: Math.random() * 1000 + '',
-          name: 'photo',
+          name: 'logo',
           status: 'done',
-          url: `${config.apiBaseUrl}/uploads/${data?.photo}`,
+          url: `${config.apiBaseUrl}/uploads/${data?.logo}`,
         }
         newData.fileList = [file]
       }
@@ -85,7 +93,6 @@ const AddBrand = ({ action = {}, setAction }) => {
 
     try {
       const res = await createFile(fmData)
-      console.log('🚀 ~ res:', res)
       if (res.photo.length) {
         setFormData({ logo: res.photo[0]?.filename })
       }
@@ -141,8 +148,13 @@ const AddBrand = ({ action = {}, setAction }) => {
         </Form.Item>
 
         <div className="grid grid-cols-1 gap-5">
-          <div className="col-span-1 text-center">
-            <Form.Item className="mb-1" name="fileList" getValueFromEvent={normFile}>
+          <div className="col-span-1">
+            <Form.Item
+              className="mb-1"
+              label="Brand Logo"
+              name="fileList"
+              getValueFromEvent={normFile}
+            >
               <Upload
                 name="photo"
                 listType="picture-card"
@@ -163,6 +175,7 @@ const AddBrand = ({ action = {}, setAction }) => {
             <Form.Item
               name="name"
               label="Barnd Name"
+              className="w-[75%]"
               rules={[
                 {
                   required: true,
@@ -172,11 +185,13 @@ const AddBrand = ({ action = {}, setAction }) => {
             >
               <Input placeholder="Enter Brand Name" />
             </Form.Item>
-
-            <Form.Item name="description" label="Description">
-              <Input.TextArea placeholder="Enter Brand Description" />
-            </Form.Item>
           </div>
+
+          {/* <div className="col-span-1">
+            <Form.Item name="status" label="Status" className="w-[75%]">
+              <Select></Select>
+            </Form.Item>
+          </div> */}
         </div>
       </Form>
     </Modal>

@@ -21,7 +21,7 @@ const AddProduct = () => {
   const [brands, setBrands] = useState([])
   const [models, setModels] = useState([])
   const [modelCodes, setModelCodes] = useState([])
-  console.log('🚀 ~ modelCodes:', modelCodes)
+  // console.log('🚀 ~ modelCodes:', modelCodes)
 
   // hook
   const [form] = Form.useForm()
@@ -138,7 +138,6 @@ const AddProduct = () => {
   }
 
   const normFile = (e) => {
-    console.log('🚀 ~ e:', e)
     if (Array.isArray(e)) {
       return e
     }
@@ -300,6 +299,15 @@ const AddProduct = () => {
                 </Select.Option>
               ))}
             </Select>
+          </Form.Item>
+        </div>
+
+        <div className="col-span-12 lg:col-span-3">
+          <label className="mb-1" htmlFor="name">
+            Name
+          </label>
+          <Form.Item className="mb-1" name="name">
+            <Input id="name" placeholder="Enter Name" />
           </Form.Item>
         </div>
 
@@ -589,9 +597,9 @@ const AddProduct = () => {
           </Form.Item>
         </div>
 
-        <div className="col-span-12 lg:col-span-3">
+        <div className="col-span-12 lg:col-span-6">
           <label className="mb-1" htmlFor="productFeature">
-            Product Features <span className="text-red-500">*</span>
+            Car Features <span className="text-red-500">*</span>
           </label>
           <Form.Item
             className="mb-1"
@@ -599,7 +607,7 @@ const AddProduct = () => {
             rules={[
               {
                 required: true,
-                message: 'Product Feature is required',
+                message: 'Car Feature is required',
               },
             ]}
           >
@@ -607,7 +615,8 @@ const AddProduct = () => {
               id="productFeature"
               showSearch
               allowClear
-              placeholder="Select Product Feature"
+              mode="tags"
+              placeholder="Select Car Feature"
               optionFilterProp="children"
               filterOption={(input, option) =>
                 option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0

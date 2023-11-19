@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" id="payment">
+  <g transform="translate(0 -1016.362)">
+    <path fill="#f8b84e" d="M26.545 1029.862H34.5v-3H10.498v1.5l16.032.75z"></path>
+    <path fill="#4bbfeb" d="M4 1030.362v12h21v-12H4z"></path>
+    <path
+      style="line-height:normal;text-indent:0;text-align:start;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000;text-transform:none;block-progression:tb;isolation:auto;mix-blend-mode:normal"
+      d="M11.572 1024.361a1.58 1.58 0 0 0-1.572 1.573v3.045h1v-3.045a.56.56 0 0 1 .572-.573h21.856a.56.56 0 0 1 .572.573v12.857a.56.56 0 0 1-.572.57h-7.293v1h7.293c.862 0 1.572-.708 1.572-1.57v-12.857a1.58 1.58 0 0 0-1.572-1.573H11.572z"
+      color="#000" font-family="sans-serif" font-weight="400" overflow="visible"></path>
+    <path fill="#f8b84e" stroke="#000" d="M26.7 1032.03a2 2 0 0 1 2.39.619 2 2 0 0 1-.033 2.469 2 2 0 0 1-2.405.555">
+    </path>
+    <circle cx="30.5" cy="1033.862" r="2" fill="#25b39e" stroke="#000"></circle>
+    <path
+      style="line-height:normal;text-indent:0;text-align:start;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000;text-transform:none;block-progression:tb;isolation:auto;mix-blend-mode:normal"
+      d="M3.572 1028.361A1.58 1.58 0 0 0 2 1029.934v12.857c0 .862.71 1.57 1.572 1.57h21.856c.862 0 1.572-.708 1.572-1.57v-12.857a1.58 1.58 0 0 0-1.572-1.573H3.572zm0 1h21.856a.56.56 0 0 1 .572.573v12.857a.56.56 0 0 1-.572.57H3.572a.56.56 0 0 1-.572-.57v-12.857a.56.56 0 0 1 .572-.573z"
+      color="#000" font-family="sans-serif" font-weight="400" overflow="visible"></path>
+    <path
+      style="line-height:normal;text-indent:0;text-align:start;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000;text-transform:none;block-progression:tb;isolation:auto;mix-blend-mode:normal"
+      d="M14.5 1032.363c-2.203 0-4 1.795-4 3.998 0 2.203 1.797 4 4 4 2.203 0 4-1.797 4-4a4.006 4.006 0 0 0-4-3.998zm0 1c1.663 0 3 1.337 3 3a2.99 2.99 0 0 1-3 2.998 2.99 2.99 0 0 1-3-2.998c0-1.663 1.337-3 3-3z"
+      color="#000" font-family="sans-serif" font-weight="400" overflow="visible"></path>
+    <path fill-rule="evenodd"
+      style="line-height:normal;text-indent:0;text-align:start;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000;text-transform:none;block-progression:tb;isolation:auto;mix-blend-mode:normal"
+      d="M19.5 1033.361v1h2v-1h-2zm1 2.5v1h3v-1h-3zm-1 2.5v1h2v-1h-2zm-12-5v1h2v-1h-2zm-2 2.5v1h3v-1h-3zm2 2.5v1h2v-1h-2z"
+      color="#000" font-family="sans-serif" font-weight="400" overflow="visible"></path>
+  </g>
+</svg>

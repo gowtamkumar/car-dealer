@@ -1,163 +1,141 @@
 'use client'
-import React, { useState } from 'react'
-import { Button, Input, Option, Select, Typography } from '@material-tailwind/react'
-import { ColorList, getBgColor, getColor } from '../../components/dashboard/profile/utils'
+import React, { useEffect, useState } from 'react'
+import { Button, Typography } from '@material-tailwind/react'
+import { PlusOutlined } from '@ant-design/icons'
+import { Upload, Input, Divider, DatePicker, Modal } from 'antd'
 import { useSession } from 'next-auth/react'
+import Loading from '../loading'
 
 const Dashboard = () => {
-  const [theme, setTheme] = useState('blue')
-  const [isEdit, setIsEdit] = useState(false)
-  // const [user, setUser] = useState({})
+  const [open, setOpen] = useState(false)
+  const [formValues, setFormValues] = useState({})
+  const [user, setUser] = useState({})
+  const session = useSession()
 
-  const userData = {}
-  // const session = useSession()
+  const { data } = session
 
-  // useEffect(() => {
-  //   if (typeof window !== 'undefined' && window.localStorage) {
-  //     const data = localStorage.getItem('userData')
-  //     setUser(JSON.parse(data))
-  //   }
-  // }, [])
+  // const handleProfile = (type) => {
+  //   if (type === 'edit') return setIsEdit(true)
+  //   if (type === 'save') return setIsEdit(false)
+  // }
 
-  const handleProfile = (type) => {
-    if (type === 'edit') return setIsEdit(true)
-    if (type === 'save') return setIsEdit(false)
-  }
+  const uploadButton = (
+    <div>
+      <PlusOutlined />
+      <div
+        style={{
+          marginTop: 8,
+        }}
+      >
+        Upload
+      </div>
+    </div>
+  )
+
+  const handleChange = ({ fileList: newFileList }) => setFormValues({ fileList: newFileList })
 
   return (
-    <section className="">
-      <div className="relative">
-        <div className={`relative h-72 w-full rounded-md border ${getBgColor(theme)}`}>
-          <div className={`${!isEdit && 'invisible'} absolute bottom-5 right-5`}>
-            <div className="flex flex-col items-center gap-3 md:flex-row">
-              {ColorList.map((color, idx) => (
-                <div
-                  key={idx}
-                  onClick={() => setTheme(color)}
-                  className={`h-4 w-4 rounded-full bg-${color}-500  ${
-                    color === theme
-                      ? `ring-4 ring-${color}-500`
-                      : `hover:ring-4 hover:ring-${color}-500`
-                  }  ring-offst-2 cursor-pointer`}
-                ></div>
-              ))}
+    <>
+      {session.status === 'loading' ? (
+        <Loading />
+      ) : (
+        <main>
+          <section className="py-2">
+            <div className="my-2 text-end">
+              <Button
+                onClick={() => setOpen(true)}
+                size="sm"
+                variant="outlined"
+                className="rounded-md px-2 py-1 capitalize"
+              >
+                Edit Profile
+              </Button>
             </div>
-          </div>
-        </div>
-        <div className="absolute -bottom-10 left-10 h-32 w-32 overflow-hidden rounded-full ring ring-green-500 ring-offset-2">
-          <img src={userData.photo} alt="" />
-        </div>
-      </div>
-      <div className="m-2 text-end">
-        {!isEdit ? (
-          <Button
-            onClick={() => handleProfile('edit')}
-            size="sm"
-            variant="outlined"
-            color={getColor(theme)}
-            className="rounded-md px-2 py-1 capitalize"
-          >
-            Edit Profile
-          </Button>
-        ) : (
-          <>
-            <Button
-              size="sm"
-              variant="outlined"
-              color={getColor(theme)}
-              className="me-3 rounded-md px-2 py-1 capitalize"
-              onClick={() => handleProfile('reset')}
-            >
-              Reset
-            </Button>
 
-            <Button
-              size="sm"
-              color={getColor(theme)}
-              className="rounded-md px-2 py-1 capitalize"
-              onClick={() => handleProfile('save')}
-            >
-              Save
-            </Button>
-          </>
-        )}
-      </div>
-      <div className="grid grid-cols-2 items-center justify-center gap-3 rounded-sm p-5 shadow-sm md:grid-cols-3">
-        <div>
-          <small className={`${!isEdit ? 'visible' : 'invisible'} p-1`}>Full Name</small>
-          <Input disabled={!isEdit} label="Full Name" value={userData.name} />
-        </div>
-        <div>
-          <small className={`${!isEdit ? 'visible' : 'invisible'} p-1`}>Email</small>
-          <Input disabled={!isEdit} label="Email" value={userData.email} />
-        </div>
-        <div>
-          <small className={`${!isEdit ? 'visible' : 'invisible'} p-1`}>Phone</small>
-          <Input disabled={!isEdit} label="Phone" value={userData.phone} />
-        </div>
-        <div>
-          <small className={`${!isEdit ? 'visible' : 'invisible'} p-1`}>Balance</small>
-          <Input disabled={!isEdit} label="Balance" value={userData.balance} />
-        </div>
-        <div>
-          <small className={`${!isEdit ? 'visible' : 'invisible'} p-1`}>Date of Birth</small>
-          <Input disabled={!isEdit} label="Balance" value={userData.dateOfBirth} />
-        </div>
-        <div className={`${isEdit ? 'visible' : 'invisible'} p-1`}>
-          <small className="p-1"></small>
-          <Select label="Status">
-            <Option>Active</Option>
-            <Option>In active</Option>
-          </Select>
-        </div>
-      </div>
-      <div className="my-8 grid grid-cols-2 justify-center  gap-5 md:grid-cols-4">
-        <div className="flex flex-row items-center gap-4 rounded-sm p-4 shadow-sm hover:shadow-md ">
-          <img className="h-12 w-12" src="/assets/svgs/order.svg" alt="" />
-          <div>
-            <Typography variant="h6" color="blue-gray" className="m-0">
-              All Orders
-            </Typography>
-            <Typography variant="lead" color={theme} className="m-0 text-2xl font-semibold">
-              {userData.totalOrder || '00'}
-            </Typography>
-          </div>
-        </div>
-        <div className="flex flex-row items-center gap-4 rounded-sm p-4 shadow-sm hover:shadow-md ">
-          <img className="h-12 w-12" src="/assets/svgs/payment.svg" alt="" />
-          <div>
-            <Typography variant="h6" color="blue-gray" className="m-0">
-              Awaiting Payments
-            </Typography>
-            <Typography variant="lead" color={theme} className="m-0 text-2xl font-semibold">
-              {userData.awaitingPayment || '00'}
-            </Typography>
-          </div>
-        </div>
-        <div className="flex flex-row items-center gap-4 rounded-sm p-4 shadow-sm hover:shadow-md ">
-          <img className="h-12 w-12" src="/assets/svgs/online.svg" alt="" />
-          <div>
-            <Typography variant="h6" color="blue-gray" className="m-0">
-              Awaiting Shipment
-            </Typography>
-            <Typography variant="lead" color={theme} className="m-0 text-2xl font-semibold">
-              {userData.awaitingShipment || '00'}
-            </Typography>
-          </div>
-        </div>
-        <div className="flex flex-row items-center gap-4 rounded-sm p-4 shadow-sm hover:shadow-md ">
-          <img className="h-12 w-12" src="/assets/svgs/delivery.svg" alt="" />
-          <div>
-            <Typography variant="h6" color="blue-gray" className="m-0">
-              Awaiting Delivery
-            </Typography>
-            <Typography variant="lead" color={theme} className="m-0 text-2xl font-semibold">
-              {userData.awaitingDelivery || '00'}
-            </Typography>
-          </div>
-        </div>
-      </div>
-    </section>
+            <div className="grid grid-cols-12 gap-5 p-5 shadow-md">
+              <div className="col-span-2">
+                <div className="h-52 w-full rounded-xl bg-[url('/masud.png')] bg-cover bg-center"></div>
+              </div>
+              <div className="col-span-10">
+                <div className="mb-2">
+                  <small>Name :</small>
+                  <h1 className="text-xl">{data.user?.name}</h1>
+                </div>
+                <div className="mb-2">
+                  <small>Email :</small>
+                  <h1 className="text-xl">{data.user?.email}</h1>
+                </div>
+                <div className="mb-2">
+                  <small>Date Of Birth :</small>
+                  <h1 className="text-xl">{data.user?.dob || 'Not Defiend'}</h1>
+                </div>
+                <div className="mb-2">
+                  <small>Address :</small>
+                  <h1 className="text-xl">{data.user?.address || 'Not Defiend'}</h1>
+                </div>
+              </div>
+            </div>
+
+            <div className="my-8 grid grid-cols-2 justify-center  gap-5 md:grid-cols-4">
+              <div className="flex flex-row items-center gap-4 rounded-sm p-4 shadow-sm hover:shadow-md ">
+                <img className="h-12 w-12" src="/svg/delivery.svg" alt="" />
+                <div>
+                  <Typography variant="h6" color="blue-gray" className="m-0">
+                    All Car
+                  </Typography>
+                  <Typography variant="lead" color="red" className="m-0 text-2xl font-semibold">
+                    {'00'}
+                  </Typography>
+                </div>
+              </div>
+              <div className="flex flex-row items-center gap-4 rounded-sm p-4 shadow-sm hover:shadow-md ">
+                <img className="h-12 w-12" src="/svg/order.svg" alt="" />
+                <div>
+                  <Typography variant="h6" color="blue-gray" className="m-0">
+                    Active Car
+                  </Typography>
+                  <Typography variant="lead" color="red" className="m-0 text-2xl font-semibold">
+                    {'00'}
+                  </Typography>
+                </div>
+              </div>
+              <div className="flex flex-row items-center gap-4 rounded-sm p-4 shadow-sm hover:shadow-md ">
+                <img className="h-12 w-12" src="/svg/payment.svg" alt="" />
+                <div>
+                  <Typography variant="h6" color="blue-gray" className="m-0">
+                    Rejected Car
+                  </Typography>
+                  <Typography variant="lead" color="red" className="m-0 text-2xl font-semibold">
+                    {'00'}
+                  </Typography>
+                </div>
+              </div>
+              <div className="flex flex-row items-center gap-4 rounded-sm p-4 shadow-sm hover:shadow-md ">
+                <img className="h-12 w-12" src="/svg/online.svg" alt="" />
+                <div>
+                  <Typography variant="h6" color="blue-gray" className="m-0">
+                    Pending Car
+                  </Typography>
+                  <Typography variant="lead" color="red" className="m-0 text-2xl font-semibold">
+                    {'00'}
+                  </Typography>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <Modal
+            title="Update Profile"
+            zIndex={1050}
+            open={open}
+            footer={null}
+            onCancel={() => setOpen(false)}
+          >
+            Prolde
+          </Modal>
+        </main>
+      )}
+    </>
   )
 }
 

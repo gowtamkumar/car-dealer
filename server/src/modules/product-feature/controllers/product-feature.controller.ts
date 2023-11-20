@@ -15,7 +15,12 @@ import { JwtAuthGuard } from '@admin/auth/guards/jwt-auth.guard'
 import { RequestContext } from '@common/decorators/request-context.decorator'
 import { BaseApiSuccessResponse } from '@common/dtos/base-api-response.dto'
 import { RequestContextDto } from '@common/dtos/request-context.dto'
-import { ProductFeatureDto, CreateProductFeatureDto, FilterProductFeatureDto, UpdateProductFeatureDto } from '../dtos'
+import {
+  ProductFeatureDto,
+  CreateProductFeatureDto,
+  FilterProductFeatureDto,
+  UpdateProductFeatureDto,
+} from '../dtos'
 import { ProductFeatureService } from '../services/product-feature.service'
 
 @UseGuards(JwtAuthGuard)
@@ -66,7 +71,10 @@ export class ProductFeatureController {
   ): Promise<BaseApiSuccessResponse<ProductFeatureDto>> {
     this.logger.verbose(`User "${ctx.user?.username}" creating ProductFeature.`)
 
-    const result = await this.productFeatureService.createProductFeature(ctx, createProductFeatureDto)
+    const result = await this.productFeatureService.createProductFeature(
+      ctx,
+      createProductFeatureDto,
+    )
 
     return {
       success: true,
@@ -84,7 +92,11 @@ export class ProductFeatureController {
   ): Promise<BaseApiSuccessResponse<ProductFeatureDto>> {
     this.logger.verbose(`User "${ctx.user?.username}" updating ProductFeature.`)
 
-    const result = await this.productFeatureService.updateProductFeature(ctx, id, updateProductFeatureDto)
+    const result = await this.productFeatureService.updateProductFeature(
+      ctx,
+      id,
+      updateProductFeatureDto,
+    )
 
     return {
       success: true,

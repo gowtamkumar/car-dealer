@@ -8,6 +8,7 @@ async function Gets(params) {
   const session = await getSession()
   const res = await fetch(`${BASE_URL}/${api}`, {
     method: 'GET',
+
     headers: {
       Authorization: `Bearer ${session?.user?.token}`,
       'Content-Type': 'application/json',

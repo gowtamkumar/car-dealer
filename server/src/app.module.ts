@@ -11,7 +11,6 @@ import { BrandModule } from '@modules/brand/brand.module'
 import { OtherModule } from '@modules/other/other.module'
 import { AdminModule } from '@admin/admin.module'
 import { ModelModule } from '@modules/model/model.module'
-import { ReviewModule } from '@modules/review/review.module'
 import { ModelCodeModule } from '@modules/model-code/model-code.module'
 import { ProductFeatureModule } from '@modules/product-feature/product-feature.module'
 import { BannerModule } from '@modules/banner/banner.module'
@@ -37,7 +36,6 @@ import { BannerModule } from '@modules/banner/banner.module'
     ProductFeatureModule,
     ModelModule,
     ModelCodeModule,
-    ReviewModule,
     BannerModule,
     OtherModule,
   ],

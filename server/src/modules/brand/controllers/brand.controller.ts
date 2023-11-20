@@ -18,7 +18,6 @@ import { RequestContextDto } from '@common/dtos/request-context.dto'
 import { BrandDto, CreateBrandDto, FilterBrandDto, UpdateBrandDto } from '../dtos'
 import { BrandService } from '../services/brand.service'
 
-@UseGuards(JwtAuthGuard)
 @Controller('brands')
 export class BrandController {
   private logger = new Logger(BrandController.name)
@@ -42,6 +41,7 @@ export class BrandController {
     }
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get('/:id')
   async getBrand(
     @RequestContext() ctx: RequestContextDto,
@@ -59,6 +59,7 @@ export class BrandController {
     }
   }
 
+  @UseGuards(JwtAuthGuard)
   @Post('/')
   async createBrand(
     @RequestContext() ctx: RequestContextDto,
@@ -76,6 +77,7 @@ export class BrandController {
     }
   }
 
+  @UseGuards(JwtAuthGuard)
   @Put('/:id')
   async updateBrand(
     @RequestContext() ctx: RequestContextDto,
@@ -94,6 +96,7 @@ export class BrandController {
     }
   }
 
+  @UseGuards(JwtAuthGuard)
   @Delete('/:id')
   async deleteBrand(
     @RequestContext() ctx: RequestContextDto,

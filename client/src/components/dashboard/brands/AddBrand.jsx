@@ -43,7 +43,7 @@ const AddBrand = ({ action = {}, setAction }) => {
     setTimeout(async () => {
       const params = { api: 'brands', data: newData }
       const result = newData.id ? await Update(params) : await Create(params)
-
+      if (result.errorName) return toast.error(result.message)
       setLoading({ save: false })
       toast.success(`Brand ${newData?.id ? 'Updated' : 'Created'} Successfully`)
       setAction({})
@@ -113,7 +113,7 @@ const AddBrand = ({ action = {}, setAction }) => {
   return (
     <Modal
       title={action.type === ActionType.UPDATE ? 'Update Brand' : 'Create Brand'}
-      width={window.innerWidth > 900 ? 600 : window.innerWidth - 50}
+      width={500}
       zIndex={1050}
       open={action.type === ActionType.CREATE || action.type === ActionType.UPDATE}
       onCancel={handleClose}
@@ -131,8 +131,8 @@ const AddBrand = ({ action = {}, setAction }) => {
           <Input />
         </Form.Item>
 
-        <div className="grid grid-cols-1 gap-5">
-          <div className="col-span-1">
+        <div className="my-5 flex items-start justify-between gap-4">
+          <div>
             <Form.Item
               className="mb-1"
               label="Brand Logo"
@@ -154,37 +154,57 @@ const AddBrand = ({ action = {}, setAction }) => {
               <Input />
             </Form.Item>
           </div>
+          <div className="grid flex-grow grid-cols-1 gap-5">
+            <div className="col-span-1">
+              <Form.Item
+                name="name"
+                className="mb-1"
+                label="Barnd Name"
+                rules={[
+                  {
+                    required: true,
+                    message: 'Name is required',
+                  },
+                ]}
+              >
+                <Input placeholder="Enter Brand Name" />
+              </Form.Item>
+            </div>
+            <div className={`col-span-1 `}>
+              <Form.Item hidden={!data?.id} name="status" label="Status" className="mb-1">
+                <Select
+                  showSearch
+                  allowClear
+                  placeholder="Select Status"
+                  optionFilterProp="children"
+                  filterOption={(input, option) =>
+                    option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                  }
+                >
+                  {['Active', 'Inactive'].map((item, idx) => (
+                    <Select.Option key={idx} value={item}>
+                      {item}
+                    </Select.Option>
+                  ))}
+                </Select>
+              </Form.Item>
+            </div>
 
-          <div className="col-span-1">
-            <Form.Item
-              name="name"
-              label="Barnd Name"
-              className="w-[75%]"
-              rules={[
-                {
-                  required: true,
-                  message: 'Name is required',
-                },
-              ]}
-            >
-              <Input placeholder="Enter Brand Name" />
-            </Form.Item>
-          </div>
-
-          <div className="col-span-1 text-end">
-            <Button variant="text" className="mx-2 capitalize" size="sm" onClick={resetFormData}>
-              Reset
-            </Button>
-            <Button
-              size="sm"
-              variant="gradient"
-              color="blue"
-              type="submit"
-              className="capitalize"
-              loading={loading.submit}
-            >
-              {formValues.id ? 'Update' : 'Submit'}
-            </Button>
+            <div className="col-span-1 text-end">
+              <Button variant="text" className="mx-2 capitalize" size="sm" onClick={resetFormData}>
+                Reset
+              </Button>
+              <Button
+                size="sm"
+                variant="gradient"
+                color="blue"
+                type="submit"
+                className="capitalize"
+                loading={loading.submit}
+              >
+                {formValues.id ? 'Update' : 'Submit'}
+              </Button>
+            </div>
           </div>
         </div>
       </Form>

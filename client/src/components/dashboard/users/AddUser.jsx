@@ -1,17 +1,18 @@
 import React, { useEffect, useState } from 'react'
-import { Form, Input, Modal, Upload } from 'antd'
+import config from 'src/config'
+import { Form, Input, Modal, Select } from 'antd'
+import { Upload } from 'antd'
 import { ActionType } from '../../../lib/constants'
 import { Button } from '@material-tailwind/react'
-import { Create, Update } from '../../../lib/api'
-import { LoadingOutlined, PlusOutlined } from '@ant-design/icons'
 import { toast } from 'react-toastify'
+import { LoadingOutlined, PlusOutlined } from '@ant-design/icons'
+import { Create, Update } from '../../../lib/api'
 import createFile from '../../../lib/createFile'
-import appConfig from '../../../config'
 
 const AddUser = ({ action = {}, setAction }) => {
   const [formValues, setFormValues] = useState({})
   const [loading, setLoading] = useState(false)
-  const { payload: data = {} } = action
+  const { payload: data } = action
   const [form] = Form.useForm()
 
   // Mutation
@@ -23,7 +24,7 @@ const AddUser = ({ action = {}, setAction }) => {
         uid: Math.random() * 1000 + '',
         name: 'photo',
         status: 'done',
-        url: `${appConfig.apiBaseUrl}/uploads/${data?.photo}`,
+        url: `${config.apiBaseUrl}/uploads/${data?.photo}`,
       }
       newData.fileList = [file]
     }
@@ -42,7 +43,7 @@ const AddUser = ({ action = {}, setAction }) => {
     setTimeout(async () => {
       const params = { api: 'users', data: newData }
       const result = newData.id ? await Update(params) : await Create(params)
-      if (result.error) return toast.error(`Error`)
+      if (result.errorName) return toast.error(result.message)
       setLoading({ save: false })
       toast.success(`User ${newData?.id ? 'Updated' : 'Created'} Successfully`)
       setAction({})
@@ -69,14 +70,14 @@ const AddUser = ({ action = {}, setAction }) => {
 
   const resetFormData = () => {
     form.resetFields()
-    const newData = { ...data }
     if (data?.id) {
+      const newData = { ...data }
       if (data.photo) {
         const file = {
           uid: Math.random() * 1000 + '',
           name: 'photo',
           status: 'done',
-          url: `${appConfig.apiBaseUrl}/uploads/${data?.photo}`,
+          url: `${config.apiBaseUrl}/uploads/${data?.photo}`,
         }
         newData.fileList = [file]
       }
@@ -92,7 +93,6 @@ const AddUser = ({ action = {}, setAction }) => {
 
     try {
       const res = await createFile(fmData)
-      console.log('res:', res)
       if (res.photo.length) {
         setFormData({ photo: res.photo[0]?.filename })
       }
@@ -113,8 +113,8 @@ const AddUser = ({ action = {}, setAction }) => {
   return (
     <Modal
       title={action.type === ActionType.UPDATE ? 'Update User' : 'Create User'}
+      width={650}
       zIndex={1050}
-      width={500}
       open={action.type === ActionType.CREATE || action.type === ActionType.UPDATE}
       onCancel={handleClose}
       footer={null}
@@ -127,13 +127,18 @@ const AddUser = ({ action = {}, setAction }) => {
         autoComplete="off"
         scrollToFirstError={true}
       >
-        <Form.Item noStyle className="mb-1" name="id" hidden>
+        <Form.Item noStyle name="id" hidden>
           <Input />
         </Form.Item>
 
-        <div className="my-3 grid grid-cols-2 gap-5">
-          <div className="col-span-2 text-center">
-            <Form.Item className="mb-1" name="fileList" getValueFromEvent={normFile}>
+        <div className="flex items-start justify-between gap-5">
+          <div>
+            <Form.Item
+              className="mb-1"
+              label="User Photo"
+              name="fileList"
+              getValueFromEvent={normFile}
+            >
               <Upload
                 name="photo"
                 listType="picture-card"
@@ -149,40 +154,45 @@ const AddUser = ({ action = {}, setAction }) => {
               <Input />
             </Form.Item>
           </div>
-          <div className="col-span-2">
-            <Form.Item
-              className="mb-1"
-              name="name"
-              label="Name"
-              rules={[
-                {
-                  required: true,
-                  message: 'Name is required',
-                },
-              ]}
-            >
-              <Input placeholder="Enter Name" />
-            </Form.Item>
-
-            <Form.Item
-              className="mb-1"
-              name="username"
-              label="User Name"
-              rules={[
-                {
-                  required: true,
-                  message: 'User Name is required',
-                },
-              ]}
-            >
-              <Input placeholder="Enter User Name" />
-            </Form.Item>
-            {data.id ? null : (
+          <div className="grid flex-grow grid-cols-2 gap-2">
+            <div className="col-span-1">
               <Form.Item
+                name="name"
+                label="Full Name"
                 className="mb-1"
+                rules={[
+                  {
+                    required: true,
+                    message: 'Name is required',
+                  },
+                ]}
+              >
+                <Input placeholder="Enter Full Name" />
+              </Form.Item>
+            </div>
+
+            <div className="col-span-1">
+              <Form.Item
+                name="username"
+                label="User Name"
+                className="mb-1"
+                rules={[
+                  {
+                    required: true,
+                    message: 'UserName is required',
+                  },
+                ]}
+              >
+                <Input placeholder="Enter User Name" />
+              </Form.Item>
+            </div>
+
+            <div className={`col-span-2 ${data?.id && 'hidden'}`}>
+              <Form.Item
                 name="password"
                 label="Password"
-                hidden={data.id}
+                className="mb-1"
+                hidden={data?.id}
                 rules={[
                   {
                     required: true,
@@ -192,31 +202,79 @@ const AddUser = ({ action = {}, setAction }) => {
               >
                 <Input.Password placeholder="Enter Password" />
               </Form.Item>
-            )}
+            </div>
 
-            <Form.Item className="mb-1" name="phone" label="Phone">
-              <Input placeholder="Enter Phone" />
-            </Form.Item>
+            <div className="col-span-1">
+              <Form.Item
+                name="phone"
+                label="Phone"
+                className="mb-1"
+                rules={[
+                  {
+                    required: true,
+                    message: 'Phone No is required',
+                  },
+                  {
+                    pattern: /^(?:\+88|01)?(?:\d{11}|\d{13})$/i,
+                    message: 'Wrong format!',
+                  },
+                ]}
+              >
+                <Input placeholder="Enter Phone" />
+              </Form.Item>
+            </div>
 
-            <Form.Item className="mb-1" name="email" label="Email">
-              <Input placeholder="Enter Email" />
-            </Form.Item>
-          </div>
+            <div className="col-span-1">
+              <Form.Item
+                name="email"
+                label="Email"
+                className="mb-1"
+                rules={[
+                  {
+                    type: 'email',
+                    message: 'Wrong format!',
+                  },
+                ]}
+              >
+                <Input placeholder="Enter Email" />
+              </Form.Item>
+            </div>
 
-          <div className="col-span-3 text-end">
-            <Button variant="text" className="mx-2 capitalize" size="sm" onClick={resetFormData}>
-              Reset
-            </Button>
-            <Button
-              size="sm"
-              variant="gradient"
-              color="blue"
-              type="submit"
-              className="capitalize"
-              loading={loading.submit}
-            >
-              {formValues.id ? 'Update' : 'Submit'}
-            </Button>
+            <div className="col-span-2">
+              <Form.Item name="role" label="Role" className="mb-1">
+                <Select
+                  showSearch
+                  allowClear
+                  placeholder="Select Role"
+                  optionFilterProp="children"
+                  filterOption={(input, option) =>
+                    option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                  }
+                >
+                  {['Admin', 'Operator', 'Seller'].map((item, idx) => (
+                    <Select.Option key={idx} value={item}>
+                      {item}
+                    </Select.Option>
+                  ))}
+                </Select>
+              </Form.Item>
+            </div>
+
+            <div className="col-span-2 text-end">
+              <Button variant="text" className="mx-2 capitalize" size="sm" onClick={resetFormData}>
+                Reset
+              </Button>
+              <Button
+                size="sm"
+                variant="gradient"
+                color="blue"
+                type="submit"
+                className="capitalize"
+                loading={loading.submit}
+              >
+                {formValues.id ? 'Update' : 'Submit'}
+              </Button>
+            </div>
           </div>
         </div>
       </Form>

@@ -18,7 +18,7 @@ export default function Users() {
         onChange={(key) => setTabKey(key)}
         items={[
           {
-            label: 'User List',
+            label: 'All User',
             key: 'user_list',
             children: <UserList setAction={setAction} />,
           },
@@ -26,6 +26,11 @@ export default function Users() {
             label: 'Seller List',
             key: 'seller_list',
             children: <UserList setAction={setAction} filter="Seller" />,
+          },
+          {
+            label: 'Operator List',
+            key: 'operator_list',
+            children: <UserList setAction={setAction} filter="Operator" />,
           },
         ]}
         tabBarExtraContent={

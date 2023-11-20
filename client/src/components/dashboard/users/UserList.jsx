@@ -18,10 +18,10 @@ import { toast } from 'react-toastify'
 import { Delete, Gets } from '../../../lib/api'
 import appConfig from '../../../config'
 
-const ModelList = ({ setAction }) => {
+const UserList = ({ filter, setAction }) => {
   const [globalFilter, setGlobalFilter] = useState('')
   const [loading, setLoading] = useState({})
-  const [users, setModels] = useState([])
+  const [users, setUsers] = useState([])
 
   // query
   const dt = useRef(null)
@@ -30,9 +30,16 @@ const ModelList = ({ setAction }) => {
     ;(async () => {
       const params = { api: 'users' }
       const res = await Gets(params)
-      setModels(res.data)
+
+      if (filter) {
+        const newData = res.data.filter((item) => item.role === filter)
+        // console.log('newData:', newData)
+        setUsers(newData)
+      } else {
+        setUsers(res.data)
+      }
     })()
-  }, [])
+  }, [filter])
 
   const handleDelete = async (id) => {
     setTimeout(async () => {
@@ -42,7 +49,7 @@ const ModelList = ({ setAction }) => {
       setLoading({ [`delete_${id}`]: false })
       if (result.error) toast.error(result.error.data.message)
       setAction({})
-      toast.success('Model deleted successfully')
+      toast.success('User deleted successfully')
     }, 300)
   }
 
@@ -87,7 +94,7 @@ const ModelList = ({ setAction }) => {
             <Popconfirm
               title={
                 <span>
-                  Are you sure <span className="text-danger fw-bold">delete</span> this Model?
+                  Are you sure <span className="text-danger fw-bold">delete</span> this User?
                 </span>
               }
               onConfirm={() => handleDelete(rowData.id)}
@@ -150,7 +157,7 @@ const ModelList = ({ setAction }) => {
         globalFilter={globalFilter}
         emptyMessage={
           <div className="text-center">
-            {false ? ( // loading
+            {!users ? ( // loading
               <div className="w-full text-center">
                 <Spinner className="inline-block" />
               </div>
@@ -180,4 +187,4 @@ const ModelList = ({ setAction }) => {
   )
 }
 
-export default ModelList
+export default UserList

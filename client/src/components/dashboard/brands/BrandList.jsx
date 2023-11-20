@@ -18,7 +18,7 @@ import { toast } from 'react-toastify'
 import { Delete, Gets } from '../../../lib/api'
 import appConfig from '../../../config'
 
-const BrandList = ({ setAction }) => {
+const BrandList = ({ filter, setAction }) => {
   const [globalFilter, setGlobalFilter] = useState('')
   const [loading, setLoading] = useState({})
   const [brands, setBrands] = useState([])
@@ -30,7 +30,14 @@ const BrandList = ({ setAction }) => {
     ;(async () => {
       const params = { api: 'brands' }
       const res = await Gets(params)
-      setBrands(res.data)
+
+      if (filter) {
+        const newData = res.data.filter((item) => item.status === filter)
+        // console.log('newData:', newData)
+        setBrands(newData)
+      } else {
+        setBrands(res.data)
+      }
     })()
   }, [])
 

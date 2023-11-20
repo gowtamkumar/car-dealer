@@ -18,19 +18,19 @@ export default function Brands() {
         onChange={(key) => setTabKey(key)}
         items={[
           {
-            label: 'Brand List',
+            label: 'All Brands',
             key: 'brand_list',
             children: <BrandList setAction={setAction} />,
           },
           {
             label: 'Active',
             key: 'active',
-            children: <BrandList setAction={setAction} filter={'Active'} />,
+            children: <BrandList setAction={setAction} filter="Active" />,
           },
           {
             label: 'Inactive',
             key: 'inactive',
-            children: <BrandList setAction={setAction} filter={'Inactive'} />,
+            children: <BrandList setAction={setAction} filter="Inactive" />,
           },
         ]}
         tabBarExtraContent={

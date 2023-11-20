@@ -47,7 +47,7 @@ const FilterSection = () => {
           </Typography>
         </div>
 
-        <div className="my-5 flex h-20 flex-col items-center justify-between gap-3 rounded-md border p-3 lg:flex-row">
+        <div className="my-5 flex h-20 flex-row items-center justify-between gap-3 rounded-md border p-3">
           <div className="flex-grow">
             <Select
               id="brandId"
@@ -88,12 +88,15 @@ const FilterSection = () => {
               ))}
             </Select>
           </div>
-          <div className="flex-grow">
+          <div className="hidden flex-grow lg:block">
             <Button fullWidth variant="gradient">
               Search
             </Button>
           </div>
         </div>
+        <Button className="block lg:hidden" fullWidth variant="gradient">
+          Search
+        </Button>
       </div>
     </section>
   )

@@ -30,6 +30,7 @@ import Link from 'next/link'
 import UserDropDwon from '../ui/UserDropDwon'
 import dashboardRoute from '../dashboard/_dashboardRoute'
 import { useSession } from 'next-auth/react'
+import { MdStorefront } from 'react-icons/md'
 
 function NavListMenu({ session }) {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false)
@@ -72,6 +73,7 @@ function NavListMenu({ session }) {
               onClick={() => setIsMobileMenuOpen((cur) => !cur)}
             >
               <Square3Stack3DIcon className="h-[18px] w-[18px]" />
+              Menu
               <ChevronDownIcon
                 strokeWidth={2.5}
                 className={`hidden h-3 w-3 transition-transform lg:block ${
@@ -106,6 +108,12 @@ function NavList({ session = {} }) {
 
   return (
     <List className="mb-6 mt-4 p-0 lg:mb-0 lg:mt-0 lg:flex-row lg:p-1">
+      <Typography as={Link} href="/" variant="small" color="blue-gray" className="font-normal">
+        <ListItem className="flex items-center gap-2 py-2 pr-4">
+          <HomeIcon className="h-[18px] w-[18px]" />
+          Home
+        </ListItem>
+      </Typography>
       <Typography as={Link} href="/about" variant="small" color="blue-gray" className="font-normal">
         <ListItem className="flex items-center gap-2 py-2 pr-4">
           <UserCircleIcon className="h-[18px] w-[18px]" />
@@ -121,24 +129,12 @@ function NavList({ session = {} }) {
       >
         <ListItem className="flex items-center gap-2 py-2 pr-4">
           <CubeTransparentIcon className="h-[18px] w-[18px]" />
-          Products
+          Cars
         </ListItem>
       </Typography>
 
       {session?.status === 'authenticated' && (
         <>
-          <Typography
-            as={Link}
-            href="/dashboard"
-            variant="small"
-            color="blue-gray"
-            className="hidden font-normal lg:block"
-          >
-            <ListItem className="flex items-center gap-2 py-2 pr-4">
-              <HomeIcon className="h-[18px] w-[18px]" />
-              Dashboard
-            </ListItem>
-          </Typography>
           <Typography
             as={Link}
             href="/dashboard/add-product/new"
@@ -151,22 +147,21 @@ function NavList({ session = {} }) {
               Upload Car
             </ListItem>
           </Typography>
-          {user?.role === 'Seller' ? (
-            <Typography
-              as={Link}
-              href="/dashboard/cars-list"
-              variant="small"
-              color="blue-gray"
-              className="hidden font-normal lg:block"
-            >
-              <ListItem className="flex items-center gap-2 py-2 pr-4">
-                <QueueListIcon className="h-[18px] w-[18px]" />
-                Product List
-              </ListItem>
-            </Typography>
-          ) : (
-            <NavListMenu session={session} />
-          )}
+
+          <Typography
+            as={Link}
+            href="/dashboard/cars-list"
+            variant="small"
+            color="blue-gray"
+            className="hidden font-normal lg:block"
+          >
+            <ListItem className="flex items-center gap-2 py-2 pr-4">
+              <QueueListIcon className="h-[18px] w-[18px]" />
+              Car List
+            </ListItem>
+          </Typography>
+
+          {user?.role !== 'Seller' && <NavListMenu session={session} />}
         </>
       )}
     </List>

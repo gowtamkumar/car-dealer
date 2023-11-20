@@ -1,27 +1,54 @@
 'use client'
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import {
-  EyeOutlined,
   FormOutlined,
   RestOutlined,
   PrinterOutlined,
   FilePdfOutlined,
   FileExcelOutlined,
+  QuestionCircleOutlined,
 } from '@ant-design/icons'
 import { ActionType } from '../../../lib/constants'
 import { DataTable } from 'primereact/datatable'
 import { Column } from 'primereact/column'
-import { Button, Tag, Dropdown, Empty } from 'antd'
+import { Button, Tag, Empty, Popconfirm } from 'antd'
 import { Input, Spinner } from '@material-tailwind/react'
+import { Gets } from '../../../lib/api'
 import { useRouter } from 'next/navigation'
 
-const CarList = ({ status, setAction }) => {
+const CarList = ({ filter, setAction }) => {
   const [globalFilter, setGlobalFilter] = useState('')
   const [loading, setLoading] = useState({})
+  const [cars, setCars] = useState([])
 
   // query
   const dt = useRef(null)
   const router = useRouter()
+
+  useEffect(() => {
+    ;(async () => {
+      const params = { api: 'products' }
+      const res = await Gets(params)
+      if (filter) {
+        const newData = res.data.filter((item) => item.status === filter)
+        setCars(newData)
+      } else {
+        setCars(res.data)
+      }
+    })()
+  }, [filter])
+
+  const handleDelete = async (id) => {
+    setTimeout(async () => {
+      const params = { api: 'users', id }
+      setLoading({ ...loading, [`delete_${id}`]: true })
+      const result = await Delete(params)
+      setLoading({ [`delete_${id}`]: false })
+      if (result.error) toast.error(result.error.data.message)
+      setAction({})
+      toast.success('Car deleted successfully')
+    }, 300)
+  }
 
   const exportCSV = (selectionOnly) => {
     setLoading({ exportCsv: true })
@@ -33,45 +60,45 @@ const CarList = ({ status, setAction }) => {
 
   // jsx funcitons
   const bodyTemplate = ({ rowData, field, rowIndex }) => {
-    const { isActive, id } = rowData
-
-    const items = [
-      {
-        label: 'View',
-        key: 'view',
-        icon: <EyeOutlined />,
-        onClick: () => setAction({ type: ActionType.VIEW, payload: rowData }),
-      },
-      {
-        label: 'Update',
-        key: 'update',
-        icon: <FormOutlined />,
-        onClick: () => router.push(`/dashboard/add-product/${id}`),
-      },
-      {
-        label: 'Delete',
-        key: 'delete',
-        icon: <RestOutlined />,
-        onClick: () => setAction({ type: ActionType.DELETE, payload: rowData }),
-      },
-    ]
+    const { status } = rowData
 
     switch (field) {
-      case 'isActive':
-        return <Tag color={isActive ? 'green' : 'red'}>{isActive ? 'Active' : 'Inactive'}</Tag>
+      case 'status':
+        return <Tag color={status === 'Active' ? 'green' : 'red'}>{status}</Tag>
+      case 'sl':
+        return <span>{rowIndex + 1}</span>
 
       case 'action':
         return (
-          <Dropdown.Button
-            size="small"
-            trigger={['click']}
-            placement="bottomLeft"
-            type="ghost"
-            menu={{ items }}
-            onClick={() => setAction({ type: ActionType.VIEW, payload: rowData })}
-          >
-            <span className="mx-2">{rowIndex + 1}</span>
-          </Dropdown.Button>
+          <div>
+            <Button
+              size="small"
+              icon={<FormOutlined />}
+              title="Edit"
+              className="me-1"
+              onClick={() => router.push(`/dashboard/add-product/${rowData.id}`)}
+            />
+            <Popconfirm
+              title={
+                <span>
+                  Are you sure <span className="text-danger fw-bold">delete</span> this Car?
+                </span>
+              }
+              onConfirm={() => handleDelete(rowData.id)}
+              placement="left"
+              okText="Yes"
+              okType="danger"
+              cancelText="No"
+              icon={<QuestionCircleOutlined style={{ color: 'red' }} />}
+            >
+              <Button
+                size="small"
+                className="delIcon"
+                loading={loading[`delete_${rowData.id}`]}
+                icon={<RestOutlined />}
+              />
+            </Popconfirm>
+          </div>
         )
       default:
         return null
@@ -97,13 +124,13 @@ const CarList = ({ status, setAction }) => {
         <div className="text-end">
           <Input
             className="focus:border-1 p-1"
-            onInput={({ target }) => setGlobalFilter(target.value)}
+            onChange={({ target }) => setGlobalFilter(target.value)}
             label="Search"
           />
         </div>
       </div>
       <DataTable
-        value={[]}
+        value={cars || []}
         paginator={true}
         rows={20}
         rowsPerPageOptions={[20, 50, 100, 200]}
@@ -117,7 +144,7 @@ const CarList = ({ status, setAction }) => {
         globalFilter={globalFilter}
         emptyMessage={
           <div className="text-center">
-            {status === 'Rejected' ? (
+            {!cars ? (
               <div className="w-full text-center">
                 <Spinner className="inline-block" />
               </div>
@@ -132,35 +159,18 @@ const CarList = ({ status, setAction }) => {
       >
         <Column
           header=""
-          className="text-center"
-          style={{ width: '10px' }}
-          body={(rowData, { rowIndex, field }) =>
-            bodyTemplate({ rowData, rowIndex, field: 'action' })
-          }
+          className="w-[10px] border"
+          body={(rowData, { rowIndex }) => bodyTemplate({ rowData, rowIndex, field: 'sl' })}
         />
+        <Column className="border" field="name" header="Name" />
+        <Column className="border" field="brand.name" header="Brand" />
+        <Column className="border" field="model.name" header="Model" />
+        <Column className="border" field="modelCode.name" header="Model Code" />
+        <Column className="border" field="status" header="Status" />
         <Column
-          field="name"
-          header="Name"
-          body={(rowData, { field }) => bodyTemplate({ rowData, field })}
-        />
-        <Column field="expiryDate" header="Expiry Date" />
-        <Column field="brand.name" header="Brand" />
-        <Column field="unit.name" header="Unit" />
-        <Column field="category.name" header="Category" style={{ width: '180px' }} />
-        <Column field="purchasePrice" header="Purchase Price" style={{ width: '180px' }} />
-        <Column field="salePrice" header="Sale Price" style={{ width: '180px' }} />
-        <Column field="mrp" header="MRP" />
-        <Column
-          field="currentStock"
-          header="Current Stock"
-          style={{ width: '100px' }}
-          body={(rowData, { field }) => bodyTemplate({ rowData, field })}
-        />
-        <Column
-          field="isActive"
-          header="Status"
-          style={{ width: '70px' }}
-          body={(rowData, { field }) => bodyTemplate({ rowData, field })}
+          header="Option"
+          className="w-[10px] border text-center"
+          body={(rowData, { rowIndex }) => bodyTemplate({ rowData, field: 'action' })}
         />
       </DataTable>
     </main>

@@ -8,14 +8,16 @@ import { toast } from 'react-toastify'
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons'
 import { Create, Update } from '../../../lib/api'
 import createFile from '../../../lib/createFile'
+import { useRouter } from 'next/navigation'
 
 const AddBrand = ({ action = {}, setAction }) => {
   const [formValues, setFormValues] = useState({})
   const [loading, setLoading] = useState(false)
+
+  // oparetion
   const { payload: data } = action
   const [form] = Form.useForm()
-
-  // Mutation
+  const router = useRouter()
 
   useEffect(() => {
     const newData = { ...data }
@@ -45,6 +47,7 @@ const AddBrand = ({ action = {}, setAction }) => {
       const result = newData.id ? await Update(params) : await Create(params)
       if (result.errorName) return toast.error(result.message)
       setLoading({ save: false })
+      router.refresh()
       toast.success(`Brand ${newData?.id ? 'Updated' : 'Created'} Successfully`)
       setAction({})
     }, 100)

@@ -1,12 +1,8 @@
 'use client'
 import React, { useState } from 'react'
-// import { useNavigate } from 'react-router-dom'
 import { Tabs } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
-
 import CarList from '../../../components/dashboard/cars/CarList'
-
-import { ActionType } from '../../../lib/constants'
 import { Button } from '@material-tailwind/react'
 import { useRouter } from 'next/navigation'
 
@@ -25,22 +21,22 @@ export default function Cars() {
           {
             label: 'All Cars',
             key: 'cars_list',
-            children: <CarList setAction={setAction} status={''} />,
+            children: <CarList setAction={setAction} />,
           },
           {
             label: 'Approved',
             key: 'approved',
-            children: <CarList setAction={setAction} status={'Approved'} />,
+            children: <CarList setAction={setAction} filter="Approved" />,
           },
           {
             label: 'Pending',
             key: 'pending',
-            children: <CarList setAction={setAction} status={'Pending'} />,
+            children: <CarList setAction={setAction} filter="Pending" />,
           },
           {
             label: 'Rejected',
             key: 'rejected',
-            children: <CarList setAction={setAction} status={'Rejected'} />,
+            children: <CarList setAction={setAction} filter="Rejected" />,
           },
         ]}
         tabBarExtraContent={

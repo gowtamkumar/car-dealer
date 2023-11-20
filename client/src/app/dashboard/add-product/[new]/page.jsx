@@ -6,32 +6,60 @@ import { Button } from '@material-tailwind/react'
 import { PlusOutlined } from '@ant-design/icons'
 import { useSession } from 'next-auth/react'
 import { toast } from 'react-toastify'
-import { Create, Gets, Update } from '../../../../lib/api'
+import { Create, Get, Gets, Update } from '../../../../lib/api'
 import createFile from '../../../../lib/createFile'
 import { DatePicker, Divider, Form, Input, InputNumber, Select, Upload, Modal } from 'antd'
+import dayjs from 'dayjs'
+import { useRouter } from 'next/navigation'
 
-const AddProduct = () => {
+const AddProduct = ({ params }) => {
   const [formValues, setFormValues] = useState({})
   const [previewOpen, setPreviewOpen] = useState(false)
   const [previewImage, setPreviewImage] = useState('')
   const [previewTitle, setPreviewTitle] = useState('')
   const [apiData, setApiData] = useState({})
 
+  console.log('params:', params.new)
   // hook
   const [form] = Form.useForm()
   const { data } = useSession()
   const { user = {} } = data || {}
+  const router = useRouter()
 
   useEffect(() => {
     ;(async () => {
-      const brands = await Gets({ api: 'brands' })
-      const models = await Gets({ api: 'models' })
-      const modelCodes = await Gets({ api: 'model-codes' })
+      if (params.new === 'new') {
+        form.resetFields()
+        setFormValues({})
+        return
+      }
+      const param = { api: 'products', id: params.new }
+      const result = await Promise.resolve(Get(param))
+      setFormData(result.data)
+
+      if (result.errorName) {
+        toast.error(`Car Id Not Valid`)
+        return router.push('/dashboard/cars-list')
+      }
+    })()
+  }, [params.new])
+
+  useEffect(() => {
+    ;(async () => {
+      const brands = await Promise.resolve(Gets({ api: 'brands' }))
+      const models = await Promise.resolve(Gets({ api: 'models' }))
+      const modelCodes = await Promise.resolve(Gets({ api: 'model-codes' }))
+      const divisions = await Promise.resolve(Gets({ api: 'divisions' }))
+      const districts = await Promise.resolve(Gets({ api: 'districts' }))
+      const upazilas = await Promise.resolve(Gets({ api: 'upazilas' }))
       setApiData({
         ...apiData,
         models: models.data,
         modelCodes: modelCodes.data,
         brands: brands.data,
+        divisions: divisions.data,
+        districts: districts.data,
+        upazilas: upazilas.data,
       })
     })()
   }, [])
@@ -42,18 +70,19 @@ const AddProduct = () => {
     const newData = { ...values }
     if (user?.role === 'Seller') newData.condition = 'Used'
 
-    const newFeature = newData.productFeature.map((item) => ({ [item]: true }))
-    newData.productFeature = newFeature
-    return console.log('Submit', newData)
+    const features = {}
+    newData.productFeature.forEach((value, index) => {
+      features[index] = value
+    })
+    newData.productFeature = features
 
-    // setLoading({ save: true })
+    // return console.log('Submit', newData)
     setTimeout(async () => {
       const params = { api: 'products', data: newData }
       const result = newData.id ? await Update(params) : await Create(params)
-      console.log('result:', result)
-      // setLoading({ save: false })
       if (result.errorName) return toast.error(result.message)
       toast.success(`Car ${newData.id ? 'Updated' : 'Created'} Successfully`)
+      router.push('/dashboard/cars-list')
     }, 100)
   }
 
@@ -93,8 +122,12 @@ const AddProduct = () => {
   const setFormData = (v) => {
     const newData = { ...v }
 
+    if (newData.manufactureDate) newData.manufactureDate = dayjs(newData.manufactureDate)
+    if (newData.registrationDate) newData.registrationDate = dayjs(newData.registrationDate)
     if (!newData.brandId) newData.modelId = undefined
     if (!newData.modelId) newData.modelCodeId = undefined
+    if (!newData.divisionId) newData.districtId = undefined
+    if (!newData.districtId) newData.upazilaId = undefined
 
     form.setFieldsValue(newData)
     setFormValues(form.getFieldsValue())
@@ -138,6 +171,8 @@ const AddProduct = () => {
         const newData = { ...values }
         if (newData.brandId !== formValues.brandId) newData.modelId = null
         if (newData.modelId !== formValues.modelId) newData.modelCodeId = null
+        if (newData.divisionId !== formValues.divisionId) newData.districtId = null
+        if (newData.districtId !== formValues.districtId) newData.upazilaId = null
         setFormData(newData)
       }}
       autoComplete="off"
@@ -611,8 +646,8 @@ const AddProduct = () => {
             </code>
           </Divider>
 
-          <div className="grid grid-cols-2 gap-3">
-            <div className="col-span-2 lg:col-span-1">
+          <div className="grid grid-cols-6 gap-3">
+            <div className="col-span-6 lg:col-span-2">
               <label className="mb-1" htmlFor="divisionId">
                 Division <span className="text-red-500">*</span>
               </label>
@@ -636,7 +671,7 @@ const AddProduct = () => {
                     option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
                   }
                 >
-                  {[].map((item, idx) => (
+                  {(apiData.divisions || []).map((item, idx) => (
                     <Select.Option key={idx} value={item.id}>
                       {item.name}
                     </Select.Option>
@@ -645,7 +680,7 @@ const AddProduct = () => {
               </Form.Item>
             </div>
 
-            <div className="col-span-2 lg:col-span-1">
+            <div className="col-span-6 lg:col-span-2">
               <label className="mb-1" htmlFor="districtId">
                 District <span className="text-red-500">*</span>
               </label>
@@ -663,22 +698,61 @@ const AddProduct = () => {
                   id="districtId"
                   showSearch
                   allowClear
+                  disabled={!formValues?.divisionId}
                   placeholder="Select District"
                   optionFilterProp="children"
                   filterOption={(input, option) =>
                     option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
                   }
                 >
-                  {[].map((item, idx) => (
-                    <Select.Option key={idx} value={item.id}>
-                      {item.name}
-                    </Select.Option>
-                  ))}
+                  {(apiData.districts || [])
+                    .filter((item) => item.divisionId === formValues.divisionId)
+                    .map((item, idx) => (
+                      <Select.Option key={idx} value={item.id}>
+                        {item.name}
+                      </Select.Option>
+                    ))}
                 </Select>
               </Form.Item>
             </div>
 
-            <div className="col-span-2 lg:col-span-1">
+            <div className="col-span-6 lg:col-span-2">
+              <label className="mb-1" htmlFor="districtId">
+                Upazila <span className="text-red-500">*</span>
+              </label>
+              <Form.Item
+                className="mb-1"
+                name="upazilaId"
+                rules={[
+                  {
+                    required: false, // true
+                    message: 'District is required',
+                  },
+                ]}
+              >
+                <Select
+                  id="upazilaId"
+                  showSearch
+                  allowClear
+                  disabled={!formValues?.districtId}
+                  placeholder="Select Upazila"
+                  optionFilterProp="children"
+                  filterOption={(input, option) =>
+                    option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                  }
+                >
+                  {(apiData.upazilas || [])
+                    .filter((item) => item.districtId === formValues.districtId)
+                    .map((item, idx) => (
+                      <Select.Option key={idx} value={item.id}>
+                        {item.name}
+                      </Select.Option>
+                    ))}
+                </Select>
+              </Form.Item>
+            </div>
+
+            <div className="col-span-6 lg:col-span-3">
               <label className="mb-1" htmlFor="bodyType">
                 Body Type <span className="text-red-500">*</span>
               </label>
@@ -711,7 +785,7 @@ const AddProduct = () => {
               </Form.Item>
             </div>
 
-            <div className="col-span-2 lg:col-span-1">
+            <div className="col-span-6 lg:col-span-3">
               <label className="mb-1" htmlFor="color">
                 Color <span className="text-red-500">*</span>
               </label>
@@ -744,7 +818,7 @@ const AddProduct = () => {
               </Form.Item>
             </div>
 
-            <div className="col-span-2 lg:col-span-1">
+            <div className="col-span-6 lg:col-span-3">
               <label className="mb-1" htmlFor="price">
                 Price <span className="text-red-500">*</span>
               </label>
@@ -762,7 +836,7 @@ const AddProduct = () => {
               </Form.Item>
             </div>
 
-            <div className="col-span-2 lg:col-span-1">
+            <div className="col-span-6 lg:col-span-3">
               <label className="mb-1" htmlFor="noOfOwner">
                 No Of Owner <span className="text-red-500">*</span>
               </label>
@@ -780,7 +854,7 @@ const AddProduct = () => {
               </Form.Item>
             </div>
 
-            <div className="col-span-2">
+            <div className="col-span-6">
               <label className="mb-1" htmlFor="description">
                 Description
               </label>
@@ -840,35 +914,16 @@ const AddProduct = () => {
                 (<span className="text-xl"> * </span> অবশ্যই পূরণ করতে হবে)
               </div>
               <div className="my-2">
-                {/* <Button onClick={() => router.back()} variant="outlined" color="gray">
-                {'<<'} Back
-              </Button> */}
                 <Button className="mx-2" onClick={resetFormData} variant="gradient" color="gray">
                   Reset
                 </Button>
                 <Button type="submit" variant="gradient" color="blue">
-                  Submit
+                  {formValues.id ? 'Update' : 'Submit'}
                 </Button>
               </div>
             </div>
           </div>
         </div>
-
-        {/* <div className="col-span-12">
-          <div className="flex flex-col items-center lg:items-end">
-            <div className="text-red-500">
-              (<span className="text-xl"> * </span> অবশ্যই পূরণ করতে হবে)
-            </div>
-            <div className="my-2">
-              <Button className="mx-2" onClick={resetFormData} variant="gradient" color="gray">
-                Reset
-              </Button>
-              <Button type="submit" variant="gradient" color="blue">
-                Submit
-              </Button>
-            </div>
-          </div>
-        </div> */}
       </div>
     </Form>
   )

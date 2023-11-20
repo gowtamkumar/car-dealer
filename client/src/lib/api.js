@@ -13,17 +13,15 @@ async function Gets(params) {
       'Content-Type': 'application/json',
     },
   })
-
   if (!res.ok) {
-    // This will activate the closest `error.js` Error Boundary
-    throw new Error('Failed to fetch data')
+    console.log('Failed to fetch data')
   }
 
   const result = await res.json()
   return result
 }
 
-async function Get({ params }) {
+async function Get(params) {
   const session = await getSession()
   const { api, id } = params
   const res = await fetch(`${BASE_URL}/${api}/${id}`, {
@@ -36,7 +34,7 @@ async function Get({ params }) {
 
   if (!res.ok) {
     // This will activate the closest `error.js` Error Boundary
-    throw new Error('Failed to fetch data')
+    console.log('Failed to fetch data')
   }
 
   const result = await res.json()

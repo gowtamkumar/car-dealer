@@ -29,7 +29,7 @@ const BrandList = ({ filter, setAction }) => {
   useEffect(() => {
     ;(async () => {
       const params = { api: 'brands' }
-      const res = await Gets(params)
+      const res = await Promise.resolve(Gets(params))
 
       if (filter) {
         const newData = res.data.filter((item) => item.status === filter)

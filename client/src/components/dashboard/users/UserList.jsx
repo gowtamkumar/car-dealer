@@ -30,10 +30,8 @@ const UserList = ({ filter, setAction }) => {
     ;(async () => {
       const params = { api: 'users' }
       const res = await Gets(params)
-
       if (filter) {
         const newData = res.data.filter((item) => item.role === filter)
-        // console.log('newData:', newData)
         setUsers(newData)
       } else {
         setUsers(res.data)

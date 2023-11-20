@@ -8,8 +8,10 @@ import { IoColorPaletteOutline } from 'react-icons/io5'
 
 const CardProduct = ({ data }) => {
   return (
-    <Card className="my-10 w-full border">
-      <CardHeader color="blue-gray" className="relative h-56">
+    <Card className="mb-5 w-full border">
+      {/* <CardHeader floated={false} color="blue-gray">
+      </CardHeader> */}
+      <div className="overflow-hidden rounded-md">
         <CustomCarousel
           arrow={true}
           autoPlay={false}
@@ -18,9 +20,9 @@ const CardProduct = ({ data }) => {
           height="h-56"
           data={carouselData}
         />
-      </CardHeader>
+      </div>
       <Link href={`/products/${'Product Name'.toLowerCase()}`}>
-        <CardBody>
+        <CardBody className="px-4 py-2">
           <div>
             <Typography variant="small" color="blue-gray">
               Toyota
@@ -32,7 +34,7 @@ const CardProduct = ({ data }) => {
               ৳ 400.00
             </Typography>
           </div>
-          <div className="my-2 flex items-center gap-10">
+          <div className="my-2 flex max-w-[400px] items-center justify-around">
             <div className="flex flex-col items-center">
               <BsSpeedometer2 />
               <small>3050</small>

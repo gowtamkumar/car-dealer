@@ -29,7 +29,6 @@ export class DivisionEntity {
   @OneToMany((_type) => DistrictEntity, (district) => district.division)
   districts: DistrictEntity[]
 
-
   @OneToMany((_type) => ProductEntity, (product) => product.division)
   products: ProductEntity[]
 }

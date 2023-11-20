@@ -18,7 +18,7 @@ import { RequestContextDto } from '@common/dtos/request-context.dto'
 import { ModelCodeDto, CreateModelCodeDto, FilterModelCodeDto, UpdateModelCodeDto } from '../dtos'
 import { ModelCodeService } from '../services/model-code.service'
 
-@UseGuards(JwtAuthGuard)
+
 @Controller('model-codes')
 export class ModelCodeController {
   private logger = new Logger(ModelCodeController.name)
@@ -42,6 +42,7 @@ export class ModelCodeController {
     }
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get('/:id')
   async getModelCode(
     @RequestContext() ctx: RequestContextDto,
@@ -59,6 +60,7 @@ export class ModelCodeController {
     }
   }
 
+  @UseGuards(JwtAuthGuard)
   @Post('/')
   async createModelCode(
     @RequestContext() ctx: RequestContextDto,
@@ -76,6 +78,7 @@ export class ModelCodeController {
     }
   }
 
+  @UseGuards(JwtAuthGuard)
   @Put('/:id')
   async updateModelCode(
     @RequestContext() ctx: RequestContextDto,
@@ -94,6 +97,7 @@ export class ModelCodeController {
     }
   }
 
+  @UseGuards(JwtAuthGuard)
   @Delete('/:id')
   async deleteModelCode(
     @RequestContext() ctx: RequestContextDto,

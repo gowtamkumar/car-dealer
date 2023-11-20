@@ -6,7 +6,7 @@ const BASE_URL = 'http://localhost:3900/api/v1'
 async function Gets(params) {
   const { api } = params
   const session = await getSession()
-  const resp = await fetch(`${BASE_URL}/${api}`, {
+  const res = await fetch(`${BASE_URL}/${api}`, {
     method: 'GET',
     headers: {
       Authorization: `Bearer ${session?.user?.token}`,
@@ -14,14 +14,19 @@ async function Gets(params) {
     },
   })
 
-  const result = await resp.json()
+  if (!res.ok) {
+    // This will activate the closest `error.js` Error Boundary
+    throw new Error('Failed to fetch data')
+  }
+
+  const result = await res.json()
   return result
 }
 
 async function Get({ params }) {
   const session = await getSession()
   const { api, id } = params
-  const resp = await fetch(`${BASE_URL}/${api}/${id}`, {
+  const res = await fetch(`${BASE_URL}/${api}/${id}`, {
     method: 'GET',
     headers: {
       Authorization: `Bearer ${session?.user?.token}`,
@@ -29,7 +34,12 @@ async function Get({ params }) {
     },
   })
 
-  const result = await resp.json()
+  if (!res.ok) {
+    // This will activate the closest `error.js` Error Boundary
+    throw new Error('Failed to fetch data')
+  }
+
+  const result = await res.json()
   return result
 }
 

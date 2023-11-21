@@ -4,22 +4,25 @@ import { getSession } from 'next-auth/react'
 const BASE_URL = 'http://localhost:3900/api/v1'
 
 async function Gets(params) {
-  const { api } = params
-  const session = await getSession()
-  const res = await fetch(`${BASE_URL}/${api}`, {
-    method: 'GET',
+  try {
+    const { api } = params
+    const session = await getSession()
+    const res = await fetch(`${BASE_URL}/${api}`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${session?.user?.token}`,
+        'Content-Type': 'application/json',
+      },
+    })
+    // if (!res.ok) {
+    //   console.log('Failed to fetch data')
+    // }
 
-    headers: {
-      Authorization: `Bearer ${session?.user?.token}`,
-      'Content-Type': 'application/json',
-    },
-  })
-  if (!res.ok) {
-    console.log('Failed to fetch data')
+    const result = await res.json()
+    return result
+  } catch (error) {
+    throw new Error('Failed to fetch data')
   }
-
-  const result = await res.json()
-  return result
 }
 
 async function Get(params) {

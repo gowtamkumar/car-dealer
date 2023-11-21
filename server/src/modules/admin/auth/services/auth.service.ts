@@ -102,7 +102,7 @@ export class AuthService {
 
   // TODO
   async resetPassword(ctx: RequestContextDto, resetPasswordDto: ResetPasswordDto) {
-    this.logger.log(`${this.deleteMe.name}Service Called`)
+    this.logger.log(`${this.resetPassword.name}Service Called`)
     return 'reset pass'
   }
 

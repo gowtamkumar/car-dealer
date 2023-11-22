@@ -9,5 +9,8 @@ export class BannerDto {
   image: string
 
   @Expose()
+  title: string
+
+  @Expose()
   status: StatusEnum
 }

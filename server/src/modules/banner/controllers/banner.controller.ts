@@ -18,7 +18,7 @@ import { RequestContextDto } from '@common/dtos/request-context.dto'
 import { BannerDto, CreateBannerDto, FilterBannerDto, UpdateBannerDto } from '../dtos'
 import { BannerService } from '../services/banner.service'
 
-@UseGuards(JwtAuthGuard)
+
 @Controller('banners')
 export class BannerController {
   private logger = new Logger(BannerController.name)
@@ -59,6 +59,7 @@ export class BannerController {
     }
   }
 
+  @UseGuards(JwtAuthGuard)
   @Post('/')
   async createBanner(
     @RequestContext() ctx: RequestContextDto,
@@ -76,6 +77,7 @@ export class BannerController {
     }
   }
 
+  @UseGuards(JwtAuthGuard)
   @Put('/:id')
   async updateBanner(
     @RequestContext() ctx: RequestContextDto,
@@ -94,6 +96,7 @@ export class BannerController {
     }
   }
 
+  @UseGuards(JwtAuthGuard)
   @Delete('/:id')
   async deleteBanner(
     @RequestContext() ctx: RequestContextDto,

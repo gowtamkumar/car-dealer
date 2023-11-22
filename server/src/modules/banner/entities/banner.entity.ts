@@ -14,7 +14,11 @@ export class BannerEntity {
   id: string
 
   @Column()
+  title: string
+  
+  @Column()
   image: string
+
 
   @Column({ type: 'enum', enum: StatusEnum, default: 'Active' })
   status: StatusEnum

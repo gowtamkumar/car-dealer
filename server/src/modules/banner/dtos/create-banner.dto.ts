@@ -7,7 +7,13 @@ export class CreateBannerDto {
   @IsDefined()
   image: string
 
+  @IsString()
+  @IsNotEmpty()
+  @IsDefined()
+  title: string
+
   @IsEnum(StatusEnum)
   @IsOptional()
   status: StatusEnum
+
 }

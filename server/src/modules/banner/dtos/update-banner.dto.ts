@@ -6,6 +6,10 @@ export class UpdateBannerDto {
   @IsNotEmpty()
   image: string
 
+  @IsString()
+  @IsNotEmpty()
+  title: string
+
   @IsEnum(StatusEnum)
   @IsOptional()
   status: StatusEnum

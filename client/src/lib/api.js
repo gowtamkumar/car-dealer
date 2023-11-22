@@ -21,7 +21,7 @@ async function Gets(params) {
     const result = await res.json()
     return result
   } catch (error) {
-    throw new Error('Failed to fetch data')
+    console.log('Failed to fetch data')
   }
 }
 

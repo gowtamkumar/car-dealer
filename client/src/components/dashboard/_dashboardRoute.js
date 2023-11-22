@@ -69,6 +69,13 @@ const DashboardRoute = [
     icon: UserIcon,
     color: 'red',
   },
+  {
+    title: 'Banner',
+    path: '/dashboard/banner',
+    isMenuItem: role === 'admin',
+    icon: CubeIcon,
+    color: 'red',
+  },
 ]
 
 export default DashboardRoute

@@ -30,7 +30,6 @@ import Link from 'next/link'
 import UserDropDwon from '../ui/UserDropDwon'
 import dashboardRoute from '../dashboard/_dashboardRoute'
 import { useSession } from 'next-auth/react'
-import { MdStorefront } from 'react-icons/md'
 
 function NavListMenu({ session }) {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false)

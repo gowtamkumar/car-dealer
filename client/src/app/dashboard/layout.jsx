@@ -20,10 +20,12 @@ export default function DashboardLayout({ children }) {
     pathname === '/dashboard/model' && router.push('/')
     pathname === '/dashboard/model-code' && router.push('/')
     pathname === '/dashboard/user' && router.push('/')
+    pathname === '/dashboard/banner' && router.push('/')
   }
 
   if (session?.data?.user?.role === 'Operator') {
     pathname === '/dashboard/user' && router.push('/')
+    pathname === '/dashboard/banner' && router.push('/')
   }
 
   return (

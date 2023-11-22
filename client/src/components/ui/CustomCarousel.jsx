@@ -1,6 +1,7 @@
 'use client'
 import React, { useState } from 'react'
 import { Carousel, Dialog, IconButton } from '@material-tailwind/react'
+import appConfig from '../../config'
 
 const CustomCarousel = ({ data, height, navigation, arrow, opacity, view, autoPlay }) => {
   const [open, setOpen] = useState(false)
@@ -97,18 +98,19 @@ const CustomCarousel = ({ data, height, navigation, arrow, opacity, view, autoPl
         {(data || []).map((item, idx) => (
           <div key={idx} onClick={() => handleOpen(idx)} className="relative h-full w-full">
             <img
-              src={item.img}
+              src={`${appConfig.apiBaseUrl}/uploads/${item.img || 'user.png'} `}
               alt={`Banner ${idx}`}
               className={` ${height} w-full  object-cover `}
             />
             <div
               className={`absolute inset-0 grid h-full w-full place-items-center ${
-                opacity && 'bg-black/40'
+                opacity && 'bg-black/30'
               }`}
-            ></div>
+            />
           </div>
         ))}
       </Carousel>
+
       <Dialog size="xl" className="min-h-[70vh] overflow-hidden" open={open} handler={handleOpen}>
         <div className="h-[60vh] w-full">
           <img

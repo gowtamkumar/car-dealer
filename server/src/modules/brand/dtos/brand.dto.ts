@@ -13,7 +13,7 @@ export class BrandDto {
   logo: string
 
   @Expose()
-  status: StatusEnum
+  isActive: boolean
 
 }
 

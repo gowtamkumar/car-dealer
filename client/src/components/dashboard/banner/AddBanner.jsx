@@ -21,12 +21,12 @@ const AddBanner = ({ action = {}, setAction }) => {
 
   useEffect(() => {
     const newData = { ...data }
-    if (newData.image) {
+    if (newData.photo) {
       const file = {
         uid: Math.random() * 1000 + '',
-        name: 'image',
+        name: 'photo',
         status: 'done',
-        url: `${config.apiBaseUrl}/uploads/${data?.image}`,
+        url: `${config.apiBaseUrl}/uploads/${data?.photo}`,
       }
       newData.fileList = [file]
     }
@@ -77,12 +77,12 @@ const AddBanner = ({ action = {}, setAction }) => {
     form.resetFields()
     if (data?.id) {
       const newData = { ...data }
-      if (data.image) {
+      if (data.photo) {
         const file = {
           uid: Math.random() * 1000 + '',
-          name: 'image',
+          name: 'photo',
           status: 'done',
-          url: `${config.apiBaseUrl}/uploads/${data?.image}`,
+          url: `${config.apiBaseUrl}/uploads/${data?.photo}`,
         }
         newData.fileList = [file]
       }
@@ -99,7 +99,7 @@ const AddBanner = ({ action = {}, setAction }) => {
     try {
       const res = await createFile(fmData)
       if (res.photo.length) {
-        setFormData({ image: res.photo[0]?.filename })
+        setFormData({ photo: res.photo[0]?.filename })
       }
       onSuccess('Ok')
     } catch (err) {
@@ -142,7 +142,7 @@ const AddBanner = ({ action = {}, setAction }) => {
               className="mb-1"
               label={
                 <span>
-                  Banner Image <small className="text-blue-500">( 851 x 315)</small>
+                  Banner photo <small className="text-blue-500">( 851 x 315)</small>
                 </span>
               }
               name="fileList"
@@ -159,7 +159,7 @@ const AddBanner = ({ action = {}, setAction }) => {
               </Upload.Dragger>
             </Form.Item>
 
-            <Form.Item noStyle name="image" hidden>
+            <Form.Item noStyle name="photo" hidden>
               <Input />
             </Form.Item>
           </div>

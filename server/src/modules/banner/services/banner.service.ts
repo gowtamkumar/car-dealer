@@ -12,7 +12,7 @@ export class BannerService {
   constructor(
     @InjectRepository(BannerEntity)
     private readonly bannerRepo: Repository<BannerEntity>,
-  ) {}
+  ) { }
 
   getBanners(ctx: RequestContextDto, filterBannerDto: FilterBannerDto): Promise<BannerEntity[]> {
     this.logger.log(`${this.getBanners.name} Service Called`)

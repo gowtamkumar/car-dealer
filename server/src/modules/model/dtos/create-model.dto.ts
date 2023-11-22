@@ -1,4 +1,4 @@
-import { IsDefined, IsEnum, IsNotEmpty, IsOptional, IsString, IsUUID } from 'class-validator'
+import { IsBoolean, IsDefined, IsEnum, IsNotEmpty, IsOptional, IsString, IsUUID } from 'class-validator'
 import { Transform } from 'class-transformer'
 import { StatusEnum } from '@common/enums/status-enum'
 
@@ -12,8 +12,8 @@ export class CreateModelDto {
   @IsDefined()
   brandId: string
 
-  @IsEnum(StatusEnum)
+  @IsBoolean()
   @IsOptional()
-  status: StatusEnum
+  isActive: boolean
 
 }

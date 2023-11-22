@@ -1,4 +1,3 @@
-import { StatusEnum } from '@common/enums/status-enum'
 import { ProductEntity } from '@modules/product/entities/product.entity'
 import {
   AfterInsert,

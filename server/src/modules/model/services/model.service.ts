@@ -17,10 +17,10 @@ export class ModelService {
   getModels(ctx: RequestContextDto, filterModelDto: FilterModelDto): Promise<ModelEntity[]> {
     this.logger.log(`${this.getModels.name} Service Called`)
 
-    const { status, name, brandId } = filterModelDto
+    const { isActive, name, brandId } = filterModelDto
 
     let query = {} as any
-    if (status) query.status = status
+    if (isActive) query.isActive = isActive
     if (name) query.name = name
     if (brandId) query.brandId = brandId
 

@@ -30,8 +30,8 @@ export class ModelEntity {
   })
   brand: BrandEntity
 
-  @Column({ type: 'enum', enum: StatusEnum, default: 'Active' })
-  status: StatusEnum
+  @Column({ type: 'boolean', default: true })
+  isActive: boolean
 
   // relations
 

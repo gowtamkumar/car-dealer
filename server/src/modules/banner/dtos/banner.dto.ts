@@ -6,11 +6,11 @@ export class BannerDto {
   id: string
 
   @Expose()
-  image: string
+  photo: string
 
   @Expose()
   title: string
 
   @Expose()
-  status: StatusEnum
+  isActive: boolean
 }

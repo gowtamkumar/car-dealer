@@ -17,11 +17,11 @@ export class BannerEntity {
   title: string
   
   @Column()
-  image: string
+  photo: string
 
 
-  @Column({ type: 'enum', enum: StatusEnum, default: 'Active' })
-  status: StatusEnum
+  @Column({ type: 'boolean', default: true })
+  isActive: boolean
 
   // relations
 

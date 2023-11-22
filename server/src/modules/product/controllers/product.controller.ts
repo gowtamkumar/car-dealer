@@ -41,6 +41,7 @@ export class ProductController {
       data: result,
     }
   }
+  
   @UseGuards(JwtAuthGuard)
   @Get('/delete-expire')
   async getUsedExpireDeleteProducts(

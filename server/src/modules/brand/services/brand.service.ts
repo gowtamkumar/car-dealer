@@ -12,15 +12,15 @@ export class BrandService {
   constructor(
     @InjectRepository(BrandEntity)
     private readonly brandRepo: Repository<BrandEntity>,
-  ) {}
+  ) { }
 
   getBrands(ctx: RequestContextDto, filterBrandDto: FilterBrandDto): Promise<BrandEntity[]> {
     this.logger.log(`${this.getBrands.name} Service Called`)
 
-    const { status, name } = filterBrandDto
+    const { isActive, name } = filterBrandDto
 
     let query = {} as any
-    if (status) query.status = status
+    if (isActive) query.isActive = isActive
     if (name) query.name = name
 
     return this.brandRepo.find({ where: query, relations: ['models'] })

@@ -1,5 +1,5 @@
 import { StatusEnum } from '@common/enums/status-enum'
-import { IsEnum, IsNotEmpty, IsOptional, IsString, IsUUID } from 'class-validator'
+import { IsBoolean, IsEnum, IsNotEmpty, IsOptional, IsString, IsUUID } from 'class-validator'
 
 export class UpdateBrandDto {
   @IsString()
@@ -10,7 +10,7 @@ export class UpdateBrandDto {
   @IsOptional()
   logo: string
 
-  @IsEnum(StatusEnum)
+  @IsBoolean()
   @IsOptional()
-  status: StatusEnum
+  isActive: boolean
 }

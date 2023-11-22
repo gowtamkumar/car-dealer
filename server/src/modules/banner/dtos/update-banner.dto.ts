@@ -1,16 +1,16 @@
 import { StatusEnum } from '@common/enums/status-enum'
-import { IsEnum, IsNotEmpty, IsOptional, IsString, IsUUID } from 'class-validator'
+import { IsBoolean, IsEnum, IsNotEmpty, IsOptional, IsString, IsUUID } from 'class-validator'
 
 export class UpdateBannerDto {
   @IsString()
   @IsNotEmpty()
-  image: string
+  photo: string
 
   @IsString()
   @IsNotEmpty()
   title: string
 
-  @IsEnum(StatusEnum)
+  @IsBoolean()
   @IsOptional()
-  status: StatusEnum
+  isActive: boolean
 }

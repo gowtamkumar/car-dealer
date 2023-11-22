@@ -187,14 +187,11 @@ export class ProductService {
       'brand.name',
       'model.name',
       'modelCode.name',
-      'reviews.rating',
-      'reviews.description',
     ])
     qb.leftJoin('product.productFeature', 'productFeature')
     qb.leftJoin('product.brand', 'brand')
     qb.leftJoin('product.model', 'model')
     qb.leftJoin('product.modelCode', 'modelCode')
-    qb.leftJoin('product.reviews', 'reviews')
     qb.where({ id })
     const result = await qb.getOne()
     if (!result) {
@@ -213,14 +210,11 @@ export class ProductService {
       'brand.name',
       'model.name',
       'modelCode.name',
-      'reviews.rating',
-      'reviews.description',
     ])
     qb.leftJoin('product.productFeature', 'productFeature')
     qb.leftJoin('product.brand', 'brand')
     qb.leftJoin('product.model', 'model')
     qb.leftJoin('product.modelCode', 'modelCode')
-    qb.leftJoin('product.reviews', 'reviews')
     qb.where({ id })
 
     const result = await qb.getOne()

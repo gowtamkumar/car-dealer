@@ -16,7 +16,7 @@ const BannerList = ({ filter, setAction }) => {
         const newData = res.data.filter((item) => item.status === filter)
         setBanners(newData)
       } else {
-        setBanners((res.data || []).map((item) => ({ ...item, img: item.image })))
+        setBanners((res.data || []).map((item) => ({ ...item, img: item.photo })))
       }
     })()
   }, [])

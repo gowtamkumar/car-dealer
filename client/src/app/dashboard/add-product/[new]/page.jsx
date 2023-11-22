@@ -27,7 +27,7 @@ const AddProduct = ({ params }) => {
   const router = useRouter()
 
   useEffect(() => {
-    ;(async () => {
+    ; (async () => {
       if (params.new === 'new') {
         form.resetFields()
         setFormValues({})
@@ -45,7 +45,7 @@ const AddProduct = ({ params }) => {
   }, [params.new])
 
   useEffect(() => {
-    ;(async () => {
+    ; (async () => {
       const brands = await Promise.resolve(Gets({ api: 'brands' }))
       const models = await Promise.resolve(Gets({ api: 'models' }))
       const modelCodes = await Promise.resolve(Gets({ api: 'model-codes' }))
@@ -76,13 +76,14 @@ const AddProduct = ({ params }) => {
     })
     newData.productFeature = features
 
-    // return console.log('Submit', newData)
+    return console.log('Submit', newData)
     setTimeout(async () => {
       const params = { api: 'products', data: newData }
       const result = newData.id ? await Update(params) : await Create(params)
       if (result.errorName) return toast.error(result.message)
       toast.success(`Car ${newData.id ? 'Updated' : 'Created'} Successfully`)
-      router.push('/dashboard/cars-list')
+      // router.push('/dashboard/cars-list')
+      form.resetFields()
     }, 100)
   }
 

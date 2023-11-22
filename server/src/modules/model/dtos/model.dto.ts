@@ -12,5 +12,5 @@ export class ModelDto {
   brandId: string
 
   @Expose()
-  status: StatusEnum
+  isActive: boolean
 }

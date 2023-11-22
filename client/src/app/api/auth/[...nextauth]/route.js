@@ -28,18 +28,8 @@ export const authOptions = {
   //   verifyRequest: '/auth/verify-request', // (used for check email message)
   //   newUser: '/auth/new-user', // New users will be directed here on first sign in (leave the property out if not of interest)
   // },
-  // callbacks: {
-  //   async jwt({ token, user }) {
-  //     return token
-  //   },
-  //   async session({ session, token }) {
-  //     return { session, token }
-  //   },
-  // },
 
-  // 4 * 60 * 60 4 hours
-
-  session: { strategy: 'jwt', maxAge: 1 * 24 * 60 * 60 }, //1 day
+  session: { strategy: 'jwt', maxAge: 7 * 24 * 60 * 60 }, //7 day
   callbacks: {
     async session({ session, token, apiToken }) {
       // set user all data

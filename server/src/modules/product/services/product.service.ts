@@ -263,7 +263,20 @@ export class ProductService {
     this.logger.log(`${this.getUsedExpireDeleteProducts.name}Service Called`)
     const { condition } = filterProductDto
 
-    
+//     var currentDate = moment('2015-10-30');
+// var futureMonth = moment(currentDate).add(1, 'M');
+// var futureMonthEnd = moment(futureMonth).endOf('month');
+
+// if(currentDate.date() != futureMonth.date() && futureMonth.isSame(futureMonthEnd.format('YYYY-MM-DD'))) {
+//     futureMonth = futureMonth.add(1, 'd');
+// }
+
+// console.log(currentDate);
+// console.log(futureMonth);
+
+
+
+
 
     // service time Start
     const start = process.hrtime()

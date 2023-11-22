@@ -4,6 +4,7 @@ import { getSession } from 'next-auth/react'
 const BASE_URL = 'http://localhost:3900/api/v1'
 
 async function Gets(params) {
+
   try {
     const { api } = params
     const session = await getSession()
@@ -46,7 +47,6 @@ async function Get(params) {
 }
 
 async function Create(params) {
-  console.log('params:', params)
   const session = await getSession()
   const { api, data } = params
   // return console.log('api')

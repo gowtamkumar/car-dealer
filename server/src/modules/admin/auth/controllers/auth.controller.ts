@@ -197,7 +197,7 @@ export class AuthController {
   private buildCookieTokenResponse(ctx: RequestContextDto, response: Response, token: string) {
     this.logger.verbose(`Cookie Token Response`)
     const cookieOptions = {
-      expires: new Date(new Date().getTime() + 24 * 60 * 60 * 1000), //1 day 
+      expires: new Date(new Date().getTime() + 168 * 60 * 60 * 1000), //7 day 
       // expires: new Date(
       //   Date.now() + +this.configService.get('JWT_ACCESS_TOKEN_EXPIRES') * 1000 // cookie expires in in ms
       // ),

@@ -239,6 +239,7 @@ export class ProductService {
     }
   }
 
+  // this function used only realated in function
   async getRelatedProducts(
     ctx: RequestContextDto,
     filterProductDto: FilterProductDto,
@@ -256,6 +257,34 @@ export class ProductService {
 
     const stop = process.hrtime(start)
     this.logger.log(`Time of getting Related Products   ${(stop[0] * 1e9 + stop[1]) / 1e6} ms`) //time end
+
+    return result
+  }
+
+  // delele all used expire car
+  async getUsedExpireDeleteProducts(
+    ctx: RequestContextDto,
+    filterProductDto: FilterProductDto,
+  ): Promise<ProductEntity[]> {
+    this.logger.log(`${this.getUsedExpireDeleteProducts.name}Service Called`)
+    const { condition } = filterProductDto
+
+    
+
+    // service time Start
+    const start = process.hrtime()
+    const qb = this.productRepo.createQueryBuilder('product')
+    if (condition) qb.andWhere({ condition })
+    if (condition) qb.andWhere({ condition })
+
+    const result = await qb.getMany()
+    console.log("🚀 ~ ProductService ~ result:", result)
+
+    // Delete all used expire car
+    // await this.productRepo.remove(result)
+
+    const stop = process.hrtime(start)
+    this.logger.log(`Time of getting Related Delete Expire Products   ${(stop[0] * 1e9 + stop[1]) / 1e6} ms`) //time end
 
     return result
   }

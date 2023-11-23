@@ -117,8 +117,8 @@ export class FilterProductDto {
   @IsEnum(ProductStatusEnum)
   status: ProductStatusEnum
 
-  @IsEnum(ProductFeatureEnum)
-  productFeature: ProductFeatureEnum
+  @IsString()
+  productFeature: string
 
 
 

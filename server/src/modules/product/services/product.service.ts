@@ -99,7 +99,7 @@ export class ProductService {
     qb.leftJoin('product.model', 'model')
     qb.leftJoin('product.modelCode', 'modelCode')
 
-    // if (productFeature) qb.andWhere('product.productFeature IN (:...productFeature)', {  productFeature })
+    if(productFeature) qb.andWhere('product.productFeature IN (:productFeatures)', { productFeatures: productFeature })
 
     if (condition) qb.andWhere({ condition })
     if (auction) qb.andWhere({ auction })

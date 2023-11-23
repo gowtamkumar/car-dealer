@@ -12,7 +12,6 @@ import { OtherModule } from '@modules/other/other.module'
 import { AdminModule } from '@admin/admin.module'
 import { ModelModule } from '@modules/model/model.module'
 import { ModelCodeModule } from '@modules/model-code/model-code.module'
-import { ProductFeatureModule } from '@modules/product-feature/product-feature.module'
 import { BannerModule } from '@modules/banner/banner.module'
 import { ScheduleModule } from '@nestjs/schedule'
 
@@ -35,7 +34,6 @@ import { ScheduleModule } from '@nestjs/schedule'
     AdminModule,
     BrandModule,
     ProductModule,
-    ProductFeatureModule,
     ModelModule,
     ModelCodeModule,
     BannerModule,

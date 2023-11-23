@@ -1,5 +1,6 @@
 import { Transform, Type } from 'class-transformer'
 import {
+  ArrayNotEmpty,
   IsArray,
   IsBoolean,
   IsDateString,
@@ -164,5 +165,9 @@ export class CreateProductDto {
 
   
   @IsArray()
+  @ArrayNotEmpty()
+  @IsString({ each: true })
+  @IsNotEmpty({each: true})
+  @IsOptional()
   productFeature: string[]
 }

@@ -10,7 +10,6 @@ import {
   Logger,
   Param,
   ParseIntPipe,
-  ParseUUIDPipe,
   Post,
   Put,
   Query,
@@ -25,24 +24,19 @@ import {
 import { DistrictEntity } from '../entities/district.entity'
 import { DistrictService } from '../services/district.service'
 
-
 @Controller('districts')
 export class DistrictController {
   private logger = new Logger(DistrictController.name)
 
-  constructor(private readonly districtService: DistrictService) {}
+  constructor(private readonly districtService: DistrictService) { }
 
-  @UseGuards(JwtAuthGuard)
   @Get('/')
   async getDistricts(
     @RequestContext() ctx: RequestContextDto,
     @Query() filterDistrictDto: FilterDistrictDto,
   ): Promise<BaseApiSuccessResponse<DistrictResponseDto[]>> {
-    this.logger.verbose(
-      `User "${ctx.user.username}" retriving all Districts. Query: ${JSON.stringify(
-        filterDistrictDto,
-      )}`,
-    )
+    this.logger.verbose(`User "${ctx.user?.username}" retieving Districts.`)
+
 
     const districts = await this.districtService.getDistricts(ctx, filterDistrictDto)
 
@@ -61,7 +55,7 @@ export class DistrictController {
     @RequestContext() ctx: RequestContextDto,
     @Param('id', ParseIntPipe) id: number,
   ): Promise<BaseApiSuccessResponse<DistrictResponseDto>> {
-    this.logger.verbose(`User "${ctx.user.username}" retieving District of id: ${id}`)
+    this.logger.verbose(`User "${ctx.user?.username}" retieving District of id: ${id}`)
 
     const district = await this.districtService.getDistrict(ctx, id)
 
@@ -79,11 +73,7 @@ export class DistrictController {
     @RequestContext() ctx: RequestContextDto,
     @Body() createDistrictDto: CreateDistrictDto,
   ): Promise<BaseApiSuccessResponse<DistrictResponseDto>> {
-    this.logger.verbose(
-      `User "${ctx.user.username}" creating new District . Data: ${JSON.stringify(
-        createDistrictDto,
-      )}`,
-    )
+    this.logger.verbose( `User "${ctx.user?.username}" creating new District` )
 
     const district = await this.districtService.createDistrict(ctx, createDistrictDto)
 
@@ -102,11 +92,7 @@ export class DistrictController {
     @Param('id', ParseIntPipe) id: number,
     @Body() updateDistrictDto: UpdateDistrictDto,
   ): Promise<BaseApiSuccessResponse<DistrictResponseDto>> {
-    this.logger.verbose(
-      `User "${ctx.user.username}" updating District  of id ${id}. Data: ${JSON.stringify(
-        updateDistrictDto,
-      )}`,
-    )
+    this.logger.verbose( `User "${ctx.user?.username}" updating District  of id ${id}`)
 
     const district = await this.districtService.updateDistrict(ctx, id, updateDistrictDto)
 
@@ -124,7 +110,7 @@ export class DistrictController {
     @RequestContext() ctx: RequestContextDto,
     @Param('id', ParseIntPipe) id: number,
   ) {
-    this.logger.verbose(`User "${ctx.user.username}" deleting a District  of id ${id}.`)
+    this.logger.verbose(`User "${ctx.user?.username}" deleting a District  of id ${id}.`)
 
     const district = await this.districtService.deleteDistrict(ctx, id)
 

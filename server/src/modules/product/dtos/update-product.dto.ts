@@ -1,6 +1,7 @@
 import { StatusEnum } from '@common/enums/status-enum'
 import { Transform, Type } from 'class-transformer'
 import {
+  ArrayNotEmpty,
   IsArray,
   IsBoolean,
   IsDateString,
@@ -27,6 +28,7 @@ import {
 } from '../enums'
 import { ToBoolean } from '@common/decorators/transforms.decorator'
 import { CreateProductFeatureDto } from '@modules/product-feature/dtos'
+import { ProductFeatureEnum } from '../enums/product-Feature.enum'
 
 export class UpdateProductDto {
   @IsString()
@@ -149,9 +151,14 @@ export class UpdateProductDto {
   @IsEnum(ProductStatusEnum)
   status: ProductStatusEnum
 
+
   @IsArray()
+  @ArrayNotEmpty()
+  @IsString({ each: true })
+  @IsNotEmpty({each: true})
+  @IsOptional()
   productFeature: string[]
-  
+
   // @IsObject()
   // @Type(() => CreateProductFeatureDto)
   // @IsNotEmptyObject()

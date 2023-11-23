@@ -18,13 +18,14 @@ import { RequestContextDto } from '@common/dtos/request-context.dto'
 import { ModelCodeDto, CreateModelCodeDto, FilterModelCodeDto, UpdateModelCodeDto } from '../dtos'
 import { ModelCodeService } from '../services/model-code.service'
 
-
+@UseGuards(JwtAuthGuard)
 @Controller('model-codes')
 export class ModelCodeController {
   private logger = new Logger(ModelCodeController.name)
 
   constructor(private readonly ModelCodeService: ModelCodeService) {}
 
+  @UseGuards(JwtAuthGuard)
   @Get('/')
   async getModelCodes(
     @RequestContext() ctx: RequestContextDto,

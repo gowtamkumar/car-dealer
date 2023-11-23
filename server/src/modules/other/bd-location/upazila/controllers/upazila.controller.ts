@@ -20,7 +20,6 @@ import { CreateUpazilaDto, FilterUpazilaDto, UpazilaResponseDto, UpdateUpazilaDt
 import { UpazilaEntity } from '../entities/upazila.entity'
 import { UpazilaService } from '../services/upazila.service'
 
-
 @Controller('upazilas')
 export class UpazilaController {
   private logger = new Logger(UpazilaController.name)
@@ -32,11 +31,7 @@ export class UpazilaController {
     @RequestContext() ctx: RequestContextDto,
     @Query() filterUpazilaDto: FilterUpazilaDto,
   ): Promise<BaseApiSuccessResponse<UpazilaResponseDto[]>> {
-    this.logger.verbose(
-      `User "${ctx.user.username}" retriving all Upazilas. Query: ${JSON.stringify(
-        filterUpazilaDto,
-      )}`,
-    )
+    this.logger.verbose(`User "${ctx.user?.username}" retriving all Upazilas` )
 
     const upazilas = await this.upazilaService.getUpazilas(ctx, filterUpazilaDto)
 
@@ -55,7 +50,7 @@ export class UpazilaController {
     @RequestContext() ctx: RequestContextDto,
     @Param('id', ParseIntPipe) id: number,
   ): Promise<BaseApiSuccessResponse<UpazilaResponseDto>> {
-    this.logger.verbose(`User "${ctx.user.username}" retieving Upazila of id: ${id}`)
+    this.logger.verbose(`User "${ctx.user?.username}" retieving Upazila of id: ${id}`)
 
     const upazila = await this.upazilaService.getUpazila(ctx, id)
 
@@ -73,7 +68,7 @@ export class UpazilaController {
     @RequestContext() ctx: RequestContextDto,
     @Body() createUpazilaDto: CreateUpazilaDto,
   ): Promise<BaseApiSuccessResponse<UpazilaResponseDto>> {
-    this.logger.verbose(`User "${ctx.user.username}" creating new Upazila`)
+    this.logger.verbose(`User "${ctx.user?.username}" creating new Upazila`)
 
     const upazila = await this.upazilaService.createUpazila(ctx, createUpazilaDto)
 
@@ -92,11 +87,7 @@ export class UpazilaController {
     @Param('id', ParseIntPipe) id: number,
     @Body() updateUpazilaDto: UpdateUpazilaDto,
   ): Promise<BaseApiSuccessResponse<UpazilaResponseDto>> {
-    this.logger.verbose(
-      `User "${ctx.user.username}" updating Upazila  of id ${id}. Data: ${JSON.stringify(
-        updateUpazilaDto,
-      )}`,
-    )
+    this.logger.verbose( `User "${ctx.user?.username}" updating Upazila  of id ${id}`,  )
 
     const upazila = await this.upazilaService.updateUpazila(ctx, id, updateUpazilaDto)
 
@@ -114,7 +105,7 @@ export class UpazilaController {
     @RequestContext() ctx: RequestContextDto,
     @Param('id', ParseIntPipe) id: number,
   ) {
-    this.logger.verbose(`User "${ctx.user.username}" deleting a Upazila  of id ${id}.`)
+    this.logger.verbose(`User "${ctx.user?.username}" deleting a Upazila  of id ${id}.`)
 
     const upazila = await this.upazilaService.deleteUpazila(ctx, id)
 

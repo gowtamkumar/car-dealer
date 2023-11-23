@@ -6,7 +6,6 @@ import { CreateProductDto, FilterProductDto, UpdateProductDto } from '../dtos'
 import { ProductEntity } from '../entities/product.entity'
 import { ProductFeatureService } from '@modules/product-feature/services/product-feature.service'
 import { Transactional } from 'typeorm-transactional-cls-hooked'
-import { UpdateProductFeatureDto } from '@modules/product-feature/dtos'
 import moment from 'moment'
 import { Cron } from '@nestjs/schedule'
 import { ConditionEnum } from '../enums'
@@ -41,40 +40,41 @@ export class ProductService {
       modelCodeId,
       modelId,
       manufactureDate,
-      cdPlayer,
-      sunRoof,
-      alloyWheels,
-      powerSteering,
-      powerWindow,
-      ac,
-      abs,
-      airBag,
-      radio,
-      cdChanger,
-      dvd,
-      tv,
-      powerSeat,
-      backTire,
-      grillGuard,
-      rearSpoiler,
-      centerLocking,
-      jack,
-      spareTire,
-      wheelSpanner,
-      fogLight,
-      backCamera,
-      pushStart,
-      keyLessentry,
-      esc,
-      camera360d,
-      bodyKit,
-      sideAirbag,
-      powerMirror,
-      sideSkirts,
-      fontLipSpoiler,
-      navigation,
-      turbo,
-      nonSmoker,
+      productFeature,
+      // cdPlayer,
+      // sunRoof,
+      // alloyWheels,
+      // powerSteering,
+      // powerWindow,
+      // ac,
+      // abs,
+      // airBag,
+      // radio,
+      // cdChanger,
+      // dvd,
+      // tv,
+      // powerSeat,
+      // backTire,
+      // grillGuard,
+      // rearSpoiler,
+      // centerLocking,
+      // jack,
+      // spareTire,
+      // wheelSpanner,
+      // fogLight,
+      // backCamera,
+      // pushStart,
+      // keyLessentry,
+      // esc,
+      // camera360d,
+      // bodyKit,
+      // sideAirbag,
+      // powerMirror,
+      // sideSkirts,
+      // fontLipSpoiler,
+      // navigation,
+      // turbo,
+      // nonSmoker,
       minEngCc,
       maxEngCc,
       minLoadCapacity,
@@ -87,6 +87,9 @@ export class ProductService {
       maxPrice,
     } = filterProductDto
 
+    console.log(productFeature);
+
+
     // service time Start
     const start = process.hrtime()
     const qb = this.productRepo.createQueryBuilder('product')
@@ -95,6 +98,8 @@ export class ProductService {
     qb.leftJoin('product.brand', 'brand')
     qb.leftJoin('product.model', 'model')
     qb.leftJoin('product.modelCode', 'modelCode')
+
+    // if (productFeature) qb.andWhere('product.productFeature IN (:...productFeature)', {  productFeature })
 
     if (condition) qb.andWhere({ condition })
     if (auction) qb.andWhere({ auction })
@@ -292,7 +297,7 @@ export class ProductService {
     //       const futureMonth = moment(item.createdAt).add(1, 'M').format('MM-DD-YYYY')
     //       console.log("futureMonth:", futureMonth)
     //       // const futureMonthEnd = moment(futureMonth).endOf('month')
-       
+
     //       return  futureMonth < today
     //     })
     // console.log(fil);
@@ -312,8 +317,6 @@ export class ProductService {
     createProductDto: CreateProductDto,
   ): Promise<ProductEntity> {
     this.logger.log(`${this.createProduct.name} Service Called`)
-    const { productFeature } = createProductDto
-    console.log("🚀 ~ ProductService ~ createProductDto:", createProductDto)
 
     // return
 
@@ -321,13 +324,6 @@ export class ProductService {
 
     result.userId = ctx.user.id
     const product = await this.productRepo.save(result)
-
-    // if (product.id) {
-    //   await this.productFeatureService.createProductFeature(ctx, {
-    //     ...productFeature,
-    //     productId: product.id,
-    //   })
-    // }
 
     return product
   }

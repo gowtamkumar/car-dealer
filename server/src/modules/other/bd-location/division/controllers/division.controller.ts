@@ -30,18 +30,14 @@ import { DivisionService } from '../services/division.service'
 export class DivisionController {
   private logger = new Logger(DivisionController.name)
 
-  constructor(private readonly divisionService: DivisionService) {}
+  constructor(private readonly divisionService: DivisionService) { }
 
   @Get('/')
   async getDivisions(
     @RequestContext() ctx: RequestContextDto,
     @Query() filterDivisionDto: FilterDivisionDto,
   ): Promise<BaseApiSuccessResponse<DivisionResponseDto[]>> {
-    this.logger.verbose(
-      `User "${ctx.user.username}" retriving all Divisions. Query: ${JSON.stringify(
-        filterDivisionDto,
-      )}`,
-    )
+    this.logger.verbose(`User "${ctx.user?.username}" retieving Divisions.`)
 
     const divisions = await this.divisionService.getDivisions(ctx, filterDivisionDto)
 
@@ -60,7 +56,7 @@ export class DivisionController {
     @RequestContext() ctx: RequestContextDto,
     @Param('id', ParseIntPipe) id: number,
   ): Promise<BaseApiSuccessResponse<DivisionResponseDto>> {
-    this.logger.verbose(`User "${ctx.user.username}" retieving Division of id: ${id}`)
+    this.logger.verbose(`User "${ctx.user?.username}" retieving Division of id: ${id}`)
 
     const division = await this.divisionService.getDivision(ctx, id)
 
@@ -78,11 +74,7 @@ export class DivisionController {
     @RequestContext() ctx: RequestContextDto,
     @Body() createDivisionDto: CreateDivisionDto,
   ): Promise<BaseApiSuccessResponse<DivisionResponseDto>> {
-    this.logger.verbose(
-      `User "${ctx.user.username}" creating new Division . Data: ${JSON.stringify(
-        createDivisionDto,
-      )}`,
-    )
+    this.logger.verbose(`User "${ctx.user?.username}" retieving Division`)
 
     const division = await this.divisionService.createDivision(ctx, createDivisionDto)
 
@@ -101,11 +93,7 @@ export class DivisionController {
     @Param('id', ParseIntPipe) id: number,
     @Body() updateDivisionDto: UpdateDivisionDto,
   ): Promise<BaseApiSuccessResponse<DivisionResponseDto>> {
-    this.logger.verbose(
-      `User "${ctx.user.username}" updating Division  of id ${id}. Data: ${JSON.stringify(
-        updateDivisionDto,
-      )}`,
-    )
+    this.logger.verbose(`User "${ctx.user?.username}" retieving Division of id: ${id}`)
 
     const division = await this.divisionService.updateDivision(ctx, id, updateDivisionDto)
 
@@ -123,7 +111,7 @@ export class DivisionController {
     @RequestContext() ctx: RequestContextDto,
     @Param('id', ParseIntPipe) id: number,
   ) {
-    this.logger.verbose(`User "${ctx.user.username}" deleting a Division  of id ${id}.`)
+    this.logger.verbose(`User "${ctx.user?.username}" deleting a Division  of id ${id}.`)
 
     const division = await this.divisionService.deleteDivision(ctx, id)
 

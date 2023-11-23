@@ -28,9 +28,9 @@ import { UserEntity } from '@admin/user/entities/user.entity'
 import { DistrictEntity } from '@modules/other/bd-location/district/entities/district.entity'
 import { DivisionEntity } from '@modules/other/bd-location/division/entities/division.entity'
 import { UpazilaEntity } from '@modules/other/bd-location/upazila/entities/upazila.entity'
-import { ProductFeatureEntity } from '@modules/product-feature/entities/product-feature.entity'
 import { ModelEntity } from '@modules/model/entities/model.entity'
 import { ModelCodeEntity } from '@modules/model-code/entities/model-code.entity'
+import { ProductFeatureEnum } from '../enums/product-Feature.enum'
 
 @Entity('products')
 export class ProductEntity {
@@ -165,7 +165,7 @@ export class ProductEntity {
   })
   user: UserEntity
 
-  @Column({ type: 'simple-array' })
+  @Column({ name: 'product_feature', type: 'simple-array' })
   productFeature: string[]
 
   @Column({ type: 'enum', enum: ProductStatusEnum, default: ProductStatusEnum.Pending })
@@ -183,8 +183,6 @@ export class ProductEntity {
 
 
 
-  // @OneToOne(() => ProductFeatureEntity, (productFeature) => productFeature.product)
-  // productFeature: ProductFeatureEntity
 
   // hooks
   @AfterInsert()

@@ -165,6 +165,9 @@ export class ProductEntity {
   })
   user: UserEntity
 
+  @Column({ type: 'simple-array' })
+  productFeature: string[]
+
   @Column({ type: 'enum', enum: ProductStatusEnum, default: ProductStatusEnum.Pending })
   status: ProductStatusEnum
 
@@ -180,8 +183,8 @@ export class ProductEntity {
 
 
 
-  @OneToOne(() => ProductFeatureEntity, (productFeature) => productFeature.product)
-  productFeature: ProductFeatureEntity
+  // @OneToOne(() => ProductFeatureEntity, (productFeature) => productFeature.product)
+  // productFeature: ProductFeatureEntity
 
   // hooks
   @AfterInsert()

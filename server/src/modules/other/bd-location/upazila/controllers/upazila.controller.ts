@@ -20,12 +20,12 @@ import { CreateUpazilaDto, FilterUpazilaDto, UpazilaResponseDto, UpdateUpazilaDt
 import { UpazilaEntity } from '../entities/upazila.entity'
 import { UpazilaService } from '../services/upazila.service'
 
-@UseGuards(JwtAuthGuard)
+
 @Controller('upazilas')
 export class UpazilaController {
   private logger = new Logger(UpazilaController.name)
 
-  constructor(private readonly upazilaService: UpazilaService) {}
+  constructor(private readonly upazilaService: UpazilaService) { }
 
   @Get('/')
   async getUpazilas(
@@ -49,6 +49,7 @@ export class UpazilaController {
     }
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get('/:id')
   async getUpazila(
     @RequestContext() ctx: RequestContextDto,
@@ -66,6 +67,7 @@ export class UpazilaController {
     }
   }
 
+  @UseGuards(JwtAuthGuard)
   @Post('/')
   async createUpazila(
     @RequestContext() ctx: RequestContextDto,
@@ -83,6 +85,7 @@ export class UpazilaController {
     }
   }
 
+  @UseGuards(JwtAuthGuard)
   @Put('/:id')
   async updateUpazila(
     @RequestContext() ctx: RequestContextDto,
@@ -105,6 +108,7 @@ export class UpazilaController {
     }
   }
 
+  @UseGuards(JwtAuthGuard)
   @Delete('/:id')
   async deleteUpazila(
     @RequestContext() ctx: RequestContextDto,
@@ -122,6 +126,7 @@ export class UpazilaController {
     }
   }
 
+  @UseGuards(JwtAuthGuard)
   @Post('/initiate')
   async initiateUpazilaData(
     @RequestContext() ctx: RequestContextDto,

@@ -149,9 +149,12 @@ export class UpdateProductDto {
   @IsEnum(ProductStatusEnum)
   status: ProductStatusEnum
 
-  @IsObject()
-  @Type(() => CreateProductFeatureDto)
-  @IsNotEmptyObject()
-  @IsOptional()
-  productFeature: CreateProductFeatureDto
+  @IsArray()
+  productFeature: string[]
+  
+  // @IsObject()
+  // @Type(() => CreateProductFeatureDto)
+  // @IsNotEmptyObject()
+  // @IsOptional()
+  // productFeature: CreateProductFeatureDto
 }

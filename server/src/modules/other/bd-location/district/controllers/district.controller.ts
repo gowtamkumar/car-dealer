@@ -25,13 +25,14 @@ import {
 import { DistrictEntity } from '../entities/district.entity'
 import { DistrictService } from '../services/district.service'
 
-@UseGuards(JwtAuthGuard)
+
 @Controller('districts')
 export class DistrictController {
   private logger = new Logger(DistrictController.name)
 
   constructor(private readonly districtService: DistrictService) {}
 
+  @UseGuards(JwtAuthGuard)
   @Get('/')
   async getDistricts(
     @RequestContext() ctx: RequestContextDto,
@@ -54,6 +55,7 @@ export class DistrictController {
     }
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get('/:id')
   async getDistrict(
     @RequestContext() ctx: RequestContextDto,
@@ -71,6 +73,7 @@ export class DistrictController {
     }
   }
 
+  @UseGuards(JwtAuthGuard)
   @Post('/')
   async createDistrict(
     @RequestContext() ctx: RequestContextDto,
@@ -92,6 +95,7 @@ export class DistrictController {
     }
   }
 
+  @UseGuards(JwtAuthGuard)
   @Put('/:id')
   async updateDistrict(
     @RequestContext() ctx: RequestContextDto,
@@ -114,6 +118,7 @@ export class DistrictController {
     }
   }
 
+  @UseGuards(JwtAuthGuard)
   @Delete('/:id')
   async deleteDistrict(
     @RequestContext() ctx: RequestContextDto,
@@ -131,6 +136,7 @@ export class DistrictController {
     }
   }
 
+  @UseGuards(JwtAuthGuard)
   @Post('/initiate')
   async initiateDistrictData(
     @RequestContext() ctx: RequestContextDto,

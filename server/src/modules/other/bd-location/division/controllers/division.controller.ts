@@ -25,7 +25,7 @@ import {
 import { DivisionEntity } from '../entities/division.entity'
 import { DivisionService } from '../services/division.service'
 
-@UseGuards(JwtAuthGuard)
+
 @Controller('divisions')
 export class DivisionController {
   private logger = new Logger(DivisionController.name)
@@ -54,6 +54,7 @@ export class DivisionController {
     }
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get('/:id')
   async getDivision(
     @RequestContext() ctx: RequestContextDto,
@@ -71,6 +72,7 @@ export class DivisionController {
     }
   }
 
+  @UseGuards(JwtAuthGuard)
   @Post('/')
   async createDivision(
     @RequestContext() ctx: RequestContextDto,
@@ -92,6 +94,7 @@ export class DivisionController {
     }
   }
 
+  @UseGuards(JwtAuthGuard)
   @Put('/:id')
   async updateDivision(
     @RequestContext() ctx: RequestContextDto,
@@ -114,6 +117,7 @@ export class DivisionController {
     }
   }
 
+  @UseGuards(JwtAuthGuard)
   @Delete('/:id')
   async deleteDivision(
     @RequestContext() ctx: RequestContextDto,
@@ -131,8 +135,7 @@ export class DivisionController {
     }
   }
 
-  // ---
-
+  @UseGuards(JwtAuthGuard)
   @Post('/initiate')
   async initiateDivisionData(
     @RequestContext() ctx: RequestContextDto,

@@ -14,9 +14,11 @@ import { ModelModule } from '@modules/model/model.module'
 import { ModelCodeModule } from '@modules/model-code/model-code.module'
 import { ProductFeatureModule } from '@modules/product-feature/product-feature.module'
 import { BannerModule } from '@modules/banner/banner.module'
+import { ScheduleModule } from '@nestjs/schedule'
 
 @Module({
   imports: [
+    ScheduleModule.forRoot(),
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: `.env.${process.env.NODE_ENV}`,

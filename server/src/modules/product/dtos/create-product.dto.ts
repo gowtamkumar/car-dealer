@@ -160,9 +160,9 @@ export class CreateProductDto {
   @IsNotEmpty()
   @IsDefined()
   upazilaId: number
+
+
   
-  @IsObject()
-  @Type(()=> CreateProductFeatureDto)
-  @IsNotEmptyObject()
-  productFeature: CreateProductFeatureDto
+  @IsArray()
+  productFeature: string[]
 }

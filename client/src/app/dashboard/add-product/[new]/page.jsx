@@ -54,12 +54,12 @@ const AddProduct = ({ params }) => {
       const upazilas = await Promise.resolve(Gets({ api: 'upazilas' }))
       setApiData({
         ...apiData,
-        models: models.data,
-        modelCodes: modelCodes.data,
-        brands: brands.data,
-        divisions: divisions.data,
-        districts: districts.data,
-        upazilas: upazilas.data,
+        models: models?.data,
+        modelCodes: modelCodes?.data,
+        brands: brands?.data,
+        divisions: divisions?.data,
+        districts: districts?.data,
+        upazilas: upazilas?.data,
       })
     })()
   }, [])

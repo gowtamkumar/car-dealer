@@ -8,6 +8,8 @@ import { ProductFeatureService } from '@modules/product-feature/services/product
 import { Transactional } from 'typeorm-transactional-cls-hooked'
 import { UpdateProductFeatureDto } from '@modules/product-feature/dtos'
 import moment from 'moment'
+import { Cron } from '@nestjs/schedule'
+import { ConditionEnum } from '../enums'
 
 
 @Injectable()
@@ -88,8 +90,8 @@ export class ProductService {
     // service time Start
     const start = process.hrtime()
     const qb = this.productRepo.createQueryBuilder('product')
-    qb.select(['product', 'productFeature', 'brand.name', 'model.name', 'modelCode.name'])
-    qb.leftJoin('product.productFeature', 'productFeature')
+    qb.select(['product', 'brand.name', 'model.name', 'modelCode.name'])
+    // qb.leftJoin('product.productFeature', 'productFeature')
     qb.leftJoin('product.brand', 'brand')
     qb.leftJoin('product.model', 'model')
     qb.leftJoin('product.modelCode', 'modelCode')
@@ -119,45 +121,45 @@ export class ProductService {
     if (minEngCc && maxEngCc) qb.andWhere(`product.engCc BETWEEN ${minEngCc} AND ${maxEngCc}`)
 
     // product feature query
-    if (cdPlayer) qb.andWhere('productFeature.cdPlayer =:cdPlayer', { cdPlayer: true })
-    if (sunRoof) qb.andWhere('productFeature.sunRoof =:sunRoof', { sunRoof: true })
-    if (alloyWheels) qb.andWhere('productFeature.alloyWheels =:alloyWheels', { alloyWheels: true })
-    if (powerSteering)
-      qb.andWhere('productFeature.powerSteering =:powerSteering', { powerSteering: true })
-    if (powerWindow) qb.andWhere('productFeature.powerWindow =:powerWindow', { powerWindow: true })
-    if (ac) qb.andWhere('productFeature.ac =:ac', { ac: true })
-    if (abs) qb.andWhere('productFeature.abs =:abs', { abs: true })
-    if (airBag) qb.andWhere('productFeature.airBag =:airBag', { airBag: true })
-    if (radio) qb.andWhere('productFeature.radio =:radio', { radio: true })
-    if (cdChanger) qb.andWhere('productFeature.cdChanger =:cdChanger', { cdChanger: true })
-    if (dvd) qb.andWhere('productFeature.dvd =:dvd', { dvd: true })
-    if (tv) qb.andWhere('productFeature.tv =:tv', { tv: true })
-    if (powerSeat) qb.andWhere('productFeature.powerSeat =:powerSeat', { powerSeat: true })
-    if (backTire) qb.andWhere('productFeature.backTire =:backTire', { backTire: true })
-    if (grillGuard) qb.andWhere('productFeature.grillGuard =:grillGuard', { grillGuard: true })
-    if (rearSpoiler) qb.andWhere('productFeature.rearSpoiler =:rearSpoiler', { rearSpoiler: true })
-    if (centerLocking)
-      qb.andWhere('productFeature.centerLocking =:centerLocking', { centerLocking: true })
-    if (jack) qb.andWhere('productFeature.jack =:jack', { jack: true })
-    if (spareTire) qb.andWhere('productFeature.spareTire =:spareTire', { spareTire: true })
-    if (wheelSpanner)
-      qb.andWhere('productFeature.wheelSpanner =:wheelSpanner', { wheelSpanner: true })
-    if (fogLight) qb.andWhere('productFeature.fogLight =:fogLight', { fogLight: true })
-    if (backCamera) qb.andWhere('productFeature.backCamera =:backCamera', { backCamera: true })
-    if (pushStart) qb.andWhere('productFeature.pushStart =:pushStart', { pushStart: true })
-    if (keyLessentry)
-      qb.andWhere('productFeature.keyLessentry =:keyLessentry', { keyLessentry: true })
-    if (esc) qb.andWhere('productFeature.esc =:esc', { esc: true })
-    if (camera360d) qb.andWhere('productFeature.camera360d =:camera360d', { camera360d: true })
-    if (bodyKit) qb.andWhere('productFeature.bodyKit =:bodyKit', { bodyKit: true })
-    if (sideAirbag) qb.andWhere('productFeature.sideAirbag =:sideAirbag', { sideAirbag: true })
-    if (powerMirror) qb.andWhere('productFeature.powerMirror =:powerMirror', { powerMirror: true })
-    if (sideSkirts) qb.andWhere('productFeature.sideSkirts =:sideSkirts', { sideSkirts: true })
-    if (fontLipSpoiler)
-      qb.andWhere('productFeature.fontLipSpoiler =:fontLipSpoiler', { fontLipSpoiler: true })
-    if (navigation) qb.andWhere('productFeature.navigation =:navigation', { navigation: true })
-    if (turbo) qb.andWhere('productFeature.turbo =:turbo', { turbo: true })
-    if (nonSmoker) qb.andWhere('productFeature.nonSmoker =:nonSmoker', { nonSmoker: true })
+    // if (cdPlayer) qb.andWhere('productFeature.cdPlayer =:cdPlayer', { cdPlayer: true })
+    // if (sunRoof) qb.andWhere('productFeature.sunRoof =:sunRoof', { sunRoof: true })
+    // if (alloyWheels) qb.andWhere('productFeature.alloyWheels =:alloyWheels', { alloyWheels: true })
+    // if (powerSteering)
+    //   qb.andWhere('productFeature.powerSteering =:powerSteering', { powerSteering: true })
+    // if (powerWindow) qb.andWhere('productFeature.powerWindow =:powerWindow', { powerWindow: true })
+    // if (ac) qb.andWhere('productFeature.ac =:ac', { ac: true })
+    // if (abs) qb.andWhere('productFeature.abs =:abs', { abs: true })
+    // if (airBag) qb.andWhere('productFeature.airBag =:airBag', { airBag: true })
+    // if (radio) qb.andWhere('productFeature.radio =:radio', { radio: true })
+    // if (cdChanger) qb.andWhere('productFeature.cdChanger =:cdChanger', { cdChanger: true })
+    // if (dvd) qb.andWhere('productFeature.dvd =:dvd', { dvd: true })
+    // if (tv) qb.andWhere('productFeature.tv =:tv', { tv: true })
+    // if (powerSeat) qb.andWhere('productFeature.powerSeat =:powerSeat', { powerSeat: true })
+    // if (backTire) qb.andWhere('productFeature.backTire =:backTire', { backTire: true })
+    // if (grillGuard) qb.andWhere('productFeature.grillGuard =:grillGuard', { grillGuard: true })
+    // if (rearSpoiler) qb.andWhere('productFeature.rearSpoiler =:rearSpoiler', { rearSpoiler: true })
+    // if (centerLocking)
+    //   qb.andWhere('productFeature.centerLocking =:centerLocking', { centerLocking: true })
+    // if (jack) qb.andWhere('productFeature.jack =:jack', { jack: true })
+    // if (spareTire) qb.andWhere('productFeature.spareTire =:spareTire', { spareTire: true })
+    // if (wheelSpanner)
+    //   qb.andWhere('productFeature.wheelSpanner =:wheelSpanner', { wheelSpanner: true })
+    // if (fogLight) qb.andWhere('productFeature.fogLight =:fogLight', { fogLight: true })
+    // if (backCamera) qb.andWhere('productFeature.backCamera =:backCamera', { backCamera: true })
+    // if (pushStart) qb.andWhere('productFeature.pushStart =:pushStart', { pushStart: true })
+    // if (keyLessentry)
+    //   qb.andWhere('productFeature.keyLessentry =:keyLessentry', { keyLessentry: true })
+    // if (esc) qb.andWhere('productFeature.esc =:esc', { esc: true })
+    // if (camera360d) qb.andWhere('productFeature.camera360d =:camera360d', { camera360d: true })
+    // if (bodyKit) qb.andWhere('productFeature.bodyKit =:bodyKit', { bodyKit: true })
+    // if (sideAirbag) qb.andWhere('productFeature.sideAirbag =:sideAirbag', { sideAirbag: true })
+    // if (powerMirror) qb.andWhere('productFeature.powerMirror =:powerMirror', { powerMirror: true })
+    // if (sideSkirts) qb.andWhere('productFeature.sideSkirts =:sideSkirts', { sideSkirts: true })
+    // if (fontLipSpoiler)
+    //   qb.andWhere('productFeature.fontLipSpoiler =:fontLipSpoiler', { fontLipSpoiler: true })
+    // if (navigation) qb.andWhere('productFeature.navigation =:navigation', { navigation: true })
+    // if (turbo) qb.andWhere('productFeature.turbo =:turbo', { turbo: true })
+    // if (nonSmoker) qb.andWhere('productFeature.nonSmoker =:nonSmoker', { nonSmoker: true })
 
     if (search) {
       qb.andWhere(
@@ -185,12 +187,12 @@ export class ProductService {
     const qb = this.productRepo.createQueryBuilder('product')
     qb.select([
       'product',
-      'productFeature',
+      // 'productFeature',
       'brand.name',
       'model.name',
       'modelCode.name',
     ])
-    qb.leftJoin('product.productFeature', 'productFeature')
+    // qb.leftJoin('product.productFeature', 'productFeature')
     qb.leftJoin('product.brand', 'brand')
     qb.leftJoin('product.model', 'model')
     qb.leftJoin('product.modelCode', 'modelCode')
@@ -208,12 +210,12 @@ export class ProductService {
     const qb = this.productRepo.createQueryBuilder('product')
     qb.select([
       'product',
-      'productFeature',
+      // 'productFeature',
       'brand.name',
       'model.name',
       'modelCode.name',
     ])
-    qb.leftJoin('product.productFeature', 'productFeature')
+    // qb.leftJoin('product.productFeature', 'productFeature')
     qb.leftJoin('product.brand', 'brand')
     qb.leftJoin('product.model', 'model')
     qb.leftJoin('product.modelCode', 'modelCode')
@@ -257,6 +259,11 @@ export class ProductService {
     return result
   }
 
+
+  // @Cron('45 * * * * *')
+  // handleCron() {
+  //   this.logger.debug('Called when the current second is 45');
+  // }
   // delele all used expire car
   async getUsedExpireDeleteProducts(
     ctx: RequestContextDto,
@@ -267,21 +274,10 @@ export class ProductService {
 
 
 
-    // if(currentDate.date() != futureMonth.date() && futureMonth.isSame(futureMonthEnd.format('YYYY-MM-DD'))) {
-    //     futureMonth = futureMonth.add(1, 'd');
-    // }
-
-    // console.log(currentDate);
-    // console.log(futureMonth);
-
-
-
-
-
     // service time Start
     const start = process.hrtime()
     const qb = this.productRepo.createQueryBuilder('product')
-    if (condition) qb.andWhere({ condition })
+    qb.andWhere({ condition: ConditionEnum.Used })
 
 
 
@@ -289,14 +285,15 @@ export class ProductService {
     // console.log("🚀 ~ ProductService ~ futureMonthEnd:", futureMonthEnd)
 
     const result = await qb.getMany()
-    // console.log("🚀 ~ ProductService ~ result:", result)
 
     //    const fil = result.filter(item => {
-    //       const today = moment()
+    //       const today = moment().format('MM-DD-YYYY')
     //       console.log("🚀 ~ ProductService ~ today:", today)
-    //       const futureMonth = moment(item.createdAt).add(1, 'M');
-    //       const futureMonthEnd = moment(futureMonth).endOf('month');
-    //       return today <= futureMonthEnd
+    //       const futureMonth = moment(item.createdAt).add(1, 'M').format('MM-DD-YYYY')
+    //       console.log("futureMonth:", futureMonth)
+    //       // const futureMonthEnd = moment(futureMonth).endOf('month')
+       
+    //       return  futureMonth < today
     //     })
     // console.log(fil);
 
@@ -316,18 +313,21 @@ export class ProductService {
   ): Promise<ProductEntity> {
     this.logger.log(`${this.createProduct.name} Service Called`)
     const { productFeature } = createProductDto
+    console.log("🚀 ~ ProductService ~ createProductDto:", createProductDto)
+
+    // return
 
     const result = this.productRepo.create(createProductDto)
 
     result.userId = ctx.user.id
     const product = await this.productRepo.save(result)
 
-    if (product.id) {
-      await this.productFeatureService.createProductFeature(ctx, {
-        ...productFeature,
-        productId: product.id,
-      })
-    }
+    // if (product.id) {
+    //   await this.productFeatureService.createProductFeature(ctx, {
+    //     ...productFeature,
+    //     productId: product.id,
+    //   })
+    // }
 
     return product
   }
@@ -346,13 +346,13 @@ export class ProductService {
       throw new NotFoundException(`Product of id ${id} not found`)
     }
 
-    if (productFeature) {
-      await this.productFeatureService.updateProductFeatureById(
-        ctx,
-        id,
-        productFeature as UpdateProductFeatureDto,
-      )
-    }
+    // if (productFeature) {
+    //   await this.productFeatureService.updateProductFeatureById(
+    //     ctx,
+    //     id,
+    //     productFeature as UpdateProductFeatureDto,
+    //   )
+    // }
 
     this.productRepo.merge(result, updateProductDto)
     return this.productRepo.save(result)

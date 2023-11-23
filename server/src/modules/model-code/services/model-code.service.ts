@@ -12,7 +12,7 @@ export class ModelCodeService {
   constructor(
     @InjectRepository(ModelCodeEntity)
     private readonly modelCodeRepo: Repository<ModelCodeEntity>,
-  ) {}
+  ) { }
 
   getModelCodes(ctx: RequestContextDto, filterModelCodeDto: FilterModelCodeDto): Promise<ModelCodeEntity[]> {
     this.logger.log(`${this.getModelCodes.name} Service Called`)
@@ -23,7 +23,7 @@ export class ModelCodeService {
     if (name) query.name = name
     if (modelId) query.modelId = modelId
 
-    return this.modelCodeRepo.find({where: query})
+    return this.modelCodeRepo.find({ where: query })
   }
 
   async getModelCode(ctx: RequestContextDto, id: string): Promise<ModelCodeEntity> {

@@ -18,11 +18,11 @@ export class ProductFeatureEntity {
 
   @Column({ name: 'product_id', type: 'uuid' })
   productId: string
-  @JoinColumn({ name: 'product_id' })
-  @OneToOne((_type) => ProductEntity,(product)=> product.productFeature, {
-    onDelete: 'CASCADE',
-  })
-  product: ProductEntity
+  // @JoinColumn({ name: 'product_id' })
+  // @OneToOne((_type) => ProductEntity,(product)=> product.productFeature, {
+  //   onDelete: 'CASCADE',
+  // })
+  // product: ProductEntity
 
   @Column({ name: 'cd_player', type: 'boolean', nullable: true })
   cdPlayer: boolean

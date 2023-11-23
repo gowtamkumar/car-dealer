@@ -5,8 +5,9 @@ const BASE_URL = 'http://localhost:3900/api/v1'
 
 async function Gets(params) {
 
-  try {
+
     const { api } = params
+    console.log("🚀 ~ api:", api)
     const session = await getSession()
     const res = await fetch(`${BASE_URL}/${api}`, {
       method: 'GET',
@@ -15,15 +16,13 @@ async function Gets(params) {
         'Content-Type': 'application/json',
       },
     })
-    // if (!res.ok) {
-    //   console.log('Failed to fetch data')
-    // }
+    if (!res.ok) {
+      console.log('Failed to fetch data')
+    }
 
     const result = await res.json()
     return result
-  } catch (error) {
-    console.log('Failed to fetch data')
-  }
+ 
 }
 
 async function Get(params) {

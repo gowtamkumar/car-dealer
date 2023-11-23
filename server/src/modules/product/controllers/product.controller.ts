@@ -61,7 +61,6 @@ export class ProductController {
     }
   }
 
-  
 
   @Get('/:id')
   async getProduct(

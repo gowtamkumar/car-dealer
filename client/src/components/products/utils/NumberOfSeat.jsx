@@ -5,26 +5,26 @@ import {
   Accordion,
   AccordionHeader,
   AccordionBody,
-  Checkbox,
+  IconButton
 } from '@material-tailwind/react'
 import { ChevronDownIcon } from '@heroicons/react/24/outline'
 
-const SelectItem = ({ active, label, open, data, filterBy, setFilterData, filterData, handleOpen }) => {
-
+const NumberOfSeat = (params) => {
   const [filter, setFilter] = useState([])
-  // const [open, setOpen] = useState(false)
 
-  const handleSelector = (value, values) => {
-    const newData = [...filter]
-    if (!value) {
-      const result = newData.filter(item => item !== (values.id || values))
-      setFilter(result)
-      setFilterData({ ...filterData, [filterBy]: result })
+  // params
+  const { label, data, filterBy, setFilterData, filterData, active, open, handleOpen } = params
+
+  const handleSelector = (item) => {
+    if (filter.includes(item)) {
+      const find = filter.filter(v => v !== item)
+      setFilter(find)
+      setFilterData({ ...filterData, [filterBy]: find })
+    } else {
+      setFilter([...filter, item])
+      setFilterData({ ...filterData, [filterBy]: [...filter, item] })
     }
-    if (value) {
-      setFilter([...filter, (values.id || values)])
-      setFilterData({ ...filterData, [filterBy]: [...filter, (values.id || values)] })
-    }
+
   }
 
   // const handleClear = () => {
@@ -49,25 +49,25 @@ const SelectItem = ({ active, label, open, data, filterBy, setFilterData, filter
       }
     >
       <AccordionHeader
+
         className="m-0 rounded-none border-b-0 px-4 py-3"
       >
-        <Typography color="blue-gray" className="mr-auto font-normal w-full">
+        <Typography color="blue-gray" className="mr-auto block w-full font-normal">
           {label}
         </Typography>
       </AccordionHeader>
 
       <AccordionBody className="pt-0">
-        {(data || []).map((item, idx) => {
-          return (
-            <div key={idx} className='px-2 '>
-              <Checkbox color='red' onChange={({ target }) => handleSelector(target.checked, item)} label={item.name || item} />
-            </div>
-          )
-        })}
-
+        <div className='grid grid-cols-6 gap-2 px-2'>
+          {
+            data.map((item, idx) => (
+              <IconButton onClick={() => handleSelector(item)} key={idx} variant='text' color='blue' className={`${filter.includes(item) && 'border-4'} `}>{item}</IconButton>
+            ))
+          }
+        </div>
       </AccordionBody>
     </Accordion>
   )
 }
 
-export default SelectItem
+export default NumberOfSeat

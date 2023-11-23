@@ -9,8 +9,6 @@ import { IoColorPaletteOutline } from 'react-icons/io5'
 const CardProduct = ({ data }) => {
   return (
     <Card className="mb-5 w-full border">
-      {/* <CardHeader floated={false} color="blue-gray">
-      </CardHeader> */}
       <div className="overflow-hidden rounded-md">
         <CustomCarousel
           arrow={true}

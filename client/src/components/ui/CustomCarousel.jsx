@@ -85,9 +85,8 @@ const CustomCarousel = ({ data, height, navigation, arrow, opacity, view, autoPl
               {new Array(length).fill('').map((_, i) => (
                 <span
                   key={i}
-                  className={`block h-1 cursor-pointer rounded-2xl transition-all content-[''] ${
-                    activeIndex === i ? 'w-8 bg-white' : 'w-4 bg-white/50'
-                  }`}
+                  className={`block h-1 cursor-pointer rounded-2xl transition-all content-[''] ${activeIndex === i ? 'w-8 bg-white' : 'w-4 bg-white/50'
+                    }`}
                   onClick={() => setActiveIndex(i)}
                 />
               ))}
@@ -98,14 +97,13 @@ const CustomCarousel = ({ data, height, navigation, arrow, opacity, view, autoPl
         {(data || []).map((item, idx) => (
           <div key={idx} onClick={() => handleOpen(idx)} className="relative h-full w-full">
             <img
-              src={`${appConfig.apiBaseUrl}/uploads/${item.img || 'user.png'} `}
+              src=''
               alt={`Banner ${idx}`}
               className={` ${height} w-full  object-cover `}
             />
             <div
-              className={`absolute inset-0 grid h-full w-full place-items-center ${
-                opacity && 'bg-black/30'
-              }`}
+              className={`absolute inset-0 grid h-full w-full place-items-center ${opacity && 'bg-black/30'
+                }`}
             />
           </div>
         ))}
@@ -128,9 +126,8 @@ const CustomCarousel = ({ data, height, navigation, arrow, opacity, view, autoPl
             >
               <img src={item.img} className="h-20 w-32 rounded-md" alt="" />
               <div
-                className={`absolute inset-0 grid h-full w-full place-items-center transition-all  duration-200 ease-linear ${
-                  active !== idx && 'bg-black/70'
-                }`}
+                className={`absolute inset-0 grid h-full w-full place-items-center transition-all  duration-200 ease-linear ${active !== idx && 'bg-black/70'
+                  }`}
               ></div>
             </div>
           ))}

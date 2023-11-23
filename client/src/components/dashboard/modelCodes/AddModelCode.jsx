@@ -5,6 +5,7 @@ import { Button } from '@material-tailwind/react'
 import { Create, Gets, Update } from '../../../lib/api'
 import appConfig from '../../../config'
 import { toast } from 'react-toastify'
+import productEnum from '../../../lib/utils'
 
 const AddModelCode = ({ action = {}, setAction }) => {
   const [formValues, setFormValues] = useState({})
@@ -36,13 +37,13 @@ const AddModelCode = ({ action = {}, setAction }) => {
 
   useEffect(() => {
     const newData = { ...data }
-    ;(async () => {
-      const models = await Gets({ api: 'models' })
-      setApiData({
-        ...apiData,
-        models: models.data,
-      })
-    })()
+      ; (async () => {
+        const models = await Gets({ api: 'models' })
+        setApiData({
+          ...apiData,
+          models: models.data,
+        })
+      })()
     setFormData(newData)
     return () => {
       setFormValues({})

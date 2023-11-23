@@ -2,15 +2,15 @@
 import React, { useEffect, useState } from 'react'
 import appConfig from '../../../../config'
 import productEnum from '../../../../lib/utils'
+import createFile from '../../../../lib/createFile'
+import dayjs from 'dayjs'
 import { Button } from '@material-tailwind/react'
 import { PlusOutlined } from '@ant-design/icons'
 import { useSession } from 'next-auth/react'
 import { toast } from 'react-toastify'
 import { Create, Get, Gets, Update } from '../../../../lib/api'
-import createFile from '../../../../lib/createFile'
-import { DatePicker, Divider, Form, Input, InputNumber, Select, Upload, Modal } from 'antd'
-import dayjs from 'dayjs'
 import { useRouter } from 'next/navigation'
+import { DatePicker, Divider, Form, Input, Checkbox, InputNumber, Select, Upload, Modal } from 'antd'
 
 const AddProduct = ({ params }) => {
   const [formValues, setFormValues] = useState({})
@@ -19,7 +19,7 @@ const AddProduct = ({ params }) => {
   const [previewTitle, setPreviewTitle] = useState('')
   const [apiData, setApiData] = useState({})
 
-  console.log('params:', params.new)
+  // console.log('params:', params.new)
   // hook
   const [form] = Form.useForm()
   const { data } = useSession()
@@ -70,13 +70,7 @@ const AddProduct = ({ params }) => {
     const newData = { ...values }
     if (user?.role === 'Seller') newData.condition = 'Used'
 
-    const features = {}
-    newData.productFeature.forEach((value, index) => {
-      features[index] = value
-    })
-    newData.productFeature = features
-
-    return console.log('Submit', newData)
+    // return console.log('Submit', newData)
     setTimeout(async () => {
       const params = { api: 'products', data: newData }
       const result = newData.id ? await Update(params) : await Create(params)
@@ -630,8 +624,8 @@ const AddProduct = ({ params }) => {
               }
             >
               {productEnum.features.map((item, idx) => (
-                <Select.Option key={idx} value={item}>
-                  {item}
+                <Select.Option key={idx} value={item.value}>
+                  {item.label}
                 </Select.Option>
               ))}
             </Select>
@@ -859,7 +853,8 @@ const AddProduct = ({ params }) => {
               <label className="mb-1" htmlFor="description">
                 Description
               </label>
-              <Form.Item className="mb-1" name="description">
+              <Form.Item c
+                lassName="mb-1" name="description">
                 <Input.TextArea rows={3} placeholder="Description" />
               </Form.Item>
             </div>
@@ -867,9 +862,24 @@ const AddProduct = ({ params }) => {
         </div>
 
         <div className="col-span-12 lg:col-span-6 ">
+          {/* <div>
+            <Divider className="m-0 p-0" orientation="left">
+              <code>
+                <span className="text-lg font-semibold text-red-400">3.</span> Product Features
+              </code>
+            </Divider>
+            <div className='grid grid-cols-4 gap-3'>
+              {
+                productEnum.features.map((item, idx) => (
+                  <Checkbox value={item.value} key={idx}>{item.label}</Checkbox>
+                ))
+              }
+            </div>
+          </div> */}
+
           <Divider className="m-0 p-0" orientation="left">
             <code>
-              <span className="text-lg font-semibold text-red-400">3.</span> Product Images
+              <span className="text-lg font-semibold text-red-400">4.</span> Product Images
             </code>
           </Divider>
 
@@ -925,6 +935,7 @@ const AddProduct = ({ params }) => {
             </div>
           </div>
         </div>
+
       </div>
     </Form>
   )

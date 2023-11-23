@@ -22,11 +22,11 @@ export default function Banners() {
             key: 'banner_list',
             children: <BannerList setAction={setAction} status={''} />,
           },
-          {
-            label: 'Active',
-            key: 'active',
-            children: <BannerList setAction={setAction} status={'Active'} />,
-          },
+          // {
+          //   label: 'Active',
+          //   key: 'active',
+          //   children: <BannerList setAction={setAction} status={'Active'} />,
+          // },
           {
             label: 'Inactive',
             key: 'inactive',

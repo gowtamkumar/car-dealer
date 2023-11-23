@@ -27,7 +27,7 @@ const ModelList = ({ setAction }) => {
   const dt = useRef(null)
 
   useEffect(() => {
-    ;(async () => {
+    ; (async () => {
       const params = { api: 'models' }
       const res = await Gets(params)
       setModels(res.data)
@@ -56,7 +56,7 @@ const ModelList = ({ setAction }) => {
 
   // jsx funcitons
   const bodyTemplate = ({ rowData, field }) => {
-    const { status, logo } = rowData
+    const { isActive, logo } = rowData
 
     switch (field) {
       case 'logo':
@@ -71,8 +71,8 @@ const ModelList = ({ setAction }) => {
           />
         )
 
-      case 'status':
-        return <Tag color={status === 'Active' ? 'green' : 'red'}>{status}</Tag>
+      case 'isActive':
+        return <Tag color={isActive ? 'green' : 'red'}>{isActive ? 'Active' : 'Inactive'}</Tag>
 
       case 'action':
         return (
@@ -164,8 +164,10 @@ const ModelList = ({ setAction }) => {
         className="p-datatable-sm rounded-md border text-center"
       >
         <Column className="border" field="name" header="Name" />
-        <Column className="border" field="brandId" header="Brand Name" />
-        <Column field="status" className="border" header="Status" />
+        <Column className="border" field="brand.name" header="Brand Name" />
+        <Column field="isActive" className="border" header="Status" body={(rowData) =>
+          bodyTemplate({ rowData })
+        } />
         <Column
           header="Option"
           className="border text-center"

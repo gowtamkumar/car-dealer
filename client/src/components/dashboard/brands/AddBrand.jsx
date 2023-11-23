@@ -26,7 +26,7 @@ const AddBrand = ({ action = {}, setAction }) => {
         uid: Math.random() * 1000 + '',
         name: 'logo',
         status: 'done',
-        url: `${config.apiBaseUrl}/uploads/${data?.logo}`,
+        url: `${config.apiBaseUrl}/uploads/${data.logo || 'no-data.png'}`,
       }
       newData.fileList = [file]
     }
@@ -40,7 +40,6 @@ const AddBrand = ({ action = {}, setAction }) => {
   const handleSubmit = async (values) => {
     let newData = { ...values }
     // return console.log('newData:', newData)
-
     setLoading({ save: true })
     setTimeout(async () => {
       const params = { api: 'brands', data: newData }
@@ -80,7 +79,7 @@ const AddBrand = ({ action = {}, setAction }) => {
           uid: Math.random() * 1000 + '',
           name: 'logo',
           status: 'done',
-          url: `${config.apiBaseUrl}/uploads/${data?.logo}`,
+          url: `${config.apiBaseUrl}/uploads/${data.logo || 'no-data.png'}`,
         }
         newData.fileList = [file]
       }

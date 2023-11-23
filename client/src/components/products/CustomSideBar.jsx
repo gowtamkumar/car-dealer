@@ -31,7 +31,7 @@ export default function CustomSideBar({ filterData, setFilterData }) {
 
 
   const handleOpen = (value) => {
-    setOpen(open === value ? 0 : value)
+    setOpen(open === value ? null : value)
   }
 
   return (

@@ -1,25 +1,37 @@
 'use client'
-import React from 'react'
-import { useParams } from 'next/navigation'
-import { carouselData } from '../../../config'
-import ProductImage from '../../../components/products/ProductImage'
-import ProductDetails from '../../../components/products/ProductDetails'
-import RelatedProduct from '../../../components/products/RelatedProduct'
-import ProductSpacification from '../../../components/products/ProductSpacification'
+import React, { useEffect, useState } from 'react'
+import { Get } from '../../../lib/api'
+import { toast } from 'react-toastify'
+import { useRouter } from 'next/navigation'
+import SingleCar from '../../../components/products/SingleCar'
 
-const ProductId = () => {
-  const params = useParams()
-  console.log('~ ~ params:', params.slug.split('%20'))
+
+const ProductId = ({ params }) => {
+  const [car, setCar] = useState()
+  console.log("car:", car)
+
+  const router = useRouter()
+
+  useEffect(() => {
+    ; (async () => {
+      if (params.slug === 'slug') {
+        form.resetFields()
+        setFormValues({})
+        return
+      }
+      const param = { api: 'products', id: params.slug }
+      const result = await Promise.resolve(Get(param))
+      setCar(result.data)
+
+      if (result.errorName) {
+        toast.error(`Car Id Not Valid`)
+        return router.push('/')
+      }
+    })()
+  }, [params.new])
 
   return (
-    <div className="container mx-auto py-5">
-      <div className="my-5 grid grid-cols-12 gap-4">
-        <ProductImage data={carouselData} />
-        <ProductDetails />
-      </div>
-      <ProductSpacification />
-      <RelatedProduct />
-    </div>
+    <SingleCar data={car || []} />
   )
 }
 

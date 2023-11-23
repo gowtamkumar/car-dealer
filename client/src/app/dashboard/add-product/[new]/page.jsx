@@ -35,7 +35,21 @@ const AddProduct = ({ params }) => {
       }
       const param = { api: 'products', id: params.new }
       const result = await Promise.resolve(Get(param))
-      setFormData(result.data)
+
+      const newData = { ...result.data }
+
+      if (newData.photos) {
+        const file = newData.photos.map(item => (
+          {
+            uid: Math.random() * 1000 + '',
+            name: 'photos',
+            status: 'done',
+            url: `${appConfig.apiBaseUrl}/uploads/${data?.[item] || 'no-data.png'}`,
+          }
+        ))
+        newData.fileList = [file]
+      }
+      setFormData(newData)
 
       if (result.errorName) {
         toast.error(`Car Id Not Valid`)
@@ -854,7 +868,7 @@ const AddProduct = ({ params }) => {
                 Description
               </label>
               <Form.Item c
-                lassName="mb-1" name="description">
+                className="mb-1" name="description">
                 <Input.TextArea rows={3} placeholder="Description" />
               </Form.Item>
             </div>
@@ -862,21 +876,6 @@ const AddProduct = ({ params }) => {
         </div>
 
         <div className="col-span-12 lg:col-span-6 ">
-          {/* <div>
-            <Divider className="m-0 p-0" orientation="left">
-              <code>
-                <span className="text-lg font-semibold text-red-400">3.</span> Product Features
-              </code>
-            </Divider>
-            <div className='grid grid-cols-4 gap-3'>
-              {
-                productEnum.features.map((item, idx) => (
-                  <Checkbox value={item.value} key={idx}>{item.label}</Checkbox>
-                ))
-              }
-            </div>
-          </div> */}
-
           <Divider className="m-0 p-0" orientation="left">
             <code>
               <span className="text-lg font-semibold text-red-400">4.</span> Product Images
@@ -888,6 +887,12 @@ const AddProduct = ({ params }) => {
               name="fileList"
               label="Photos"
               valuePropName="fileList"
+              rules={[
+                {
+                  required: true,
+                  message: 'Photos is required',
+                },
+              ]}
               getValueFromEvent={normFile}
             >
               <Upload

@@ -1,7 +1,7 @@
 'use client'
 import React from 'react'
 import Link from 'next/link'
-import CardProduct from '../ui/CardProduct'
+import CardProduct from '../products/CardProduct'
 import { carouselData } from '../../config'
 import { BiSearchAlt } from 'react-icons/bi'
 import { FireIcon } from '@heroicons/react/24/outline'

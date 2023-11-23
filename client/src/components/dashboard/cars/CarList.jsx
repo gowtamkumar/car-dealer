@@ -7,6 +7,7 @@ import {
   FilePdfOutlined,
   FileExcelOutlined,
   QuestionCircleOutlined,
+  EyeOutlined
 } from '@ant-design/icons'
 import { ActionType } from '../../../lib/constants'
 import { DataTable } from 'primereact/datatable'
@@ -26,7 +27,7 @@ const CarList = ({ filter, setAction }) => {
   const router = useRouter()
 
   useEffect(() => {
-    ;(async () => {
+    ; (async () => {
       const params = { api: 'products' }
       const res = await Gets(params)
       if (filter) {
@@ -72,10 +73,16 @@ const CarList = ({ filter, setAction }) => {
         return (
           <div>
             <Button
+              title="View"
+              size="small"
+              icon={<EyeOutlined />}
+              onClick={() => setAction({ type: ActionType.VIEW, payload: rowData })}
+            />
+            <Button
               size="small"
               icon={<FormOutlined />}
               title="Edit"
-              className="me-1"
+              className="mx-1"
               onClick={() => router.push(`/dashboard/add-product/${rowData.id}`)}
             />
             <Popconfirm

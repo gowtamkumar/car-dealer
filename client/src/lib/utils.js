@@ -43,7 +43,7 @@ const productEnum = {
     'Dark Blue',
     'Navy Blue',
     'Red Wine',
-    'Pearl',
+    // 'Pearl',
   ],
   drivetrain: ['2 Wheel Drive', '4 Wheel Drive'],
   features: [

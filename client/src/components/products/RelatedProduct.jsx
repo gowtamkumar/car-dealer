@@ -2,7 +2,6 @@ import { FireIcon } from '@heroicons/react/24/outline'
 import { Typography } from '@material-tailwind/react'
 import React from 'react'
 import { BiSearchAlt } from 'react-icons/bi'
-import CardProduct from '../ui/CardProduct'
 import Link from 'next/link'
 
 const newCarData = [{}, {}, {}, {}]
@@ -29,11 +28,11 @@ const RelatedProduct = () => {
           </Typography>
         </div>
         <div className="grid grid-cols-12 gap-5">
-          {[{}, {}, {}, {}].map((item, idx) => (
+          {/* {[{}, {}, {}, {}].map((item, idx) => (
             <div key={idx} className="col-span-12 lg:col-span-3">
               <CardProduct data={newCarData} />
             </div>
-          ))}
+          ))} */}
         </div>
       </div>
     </section>

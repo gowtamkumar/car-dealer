@@ -1,6 +1,10 @@
 import React from 'react'
+import productEnum from '../../lib/utils'
 
-const ProductSpacification = () => {
+const ProductSpacification = ({ data }) => {
+
+  // const inc = data?.productFeature.includes()
+
   return (
     <div className="my-5 grid grid-cols-12 gap-4">
       <div className="col-span-12 py-2">
@@ -94,30 +98,20 @@ const ProductSpacification = () => {
       </div>
       <div className="col-span-12 py-2">
         <h1 className="px-3 text-2xl font-semibold lg:px-0">Car Features</h1>
-        <div className="my-3 flex flex-wrap items-center justify-start gap-3 px-3 lg:px-0">
-          {[
-            'DVD',
-            'CC',
-            'Sun Roof',
-            'DVD',
-            'CC',
-            'Sun Roof',
-            'DVD',
-            'CC',
-            'Sun Roof',
-            'DVD',
-            'CC',
-            'Sun Roof',
-            'DVD',
-            'CC',
-            'Sun Roof',
-          ].map((item, idx) => (
+        <div className="my-3 grid grid-cols-6 gap-3 px-3 lg:px-0">
+          {productEnum.features.map((item, idx) => (
             <div
               key={idx}
               className="flex items-center gap-2 rounded-md border px-3 py-1 text-gray-800/90"
             >
-              <img src="/svg/check.svg" className="h-[20px] w-[20px]" alt="" />
-              <span>{item}</span>
+              {
+                // data?.productFeature.find(v => v === item)
+
+                (data?.productFeature || []).includes(item.value) ?
+                  <img src="/svg/check.svg" className="h-[20px] w-[20px]" alt="" /> :
+                  <img src="/svg/close.svg" className="h-[20px] w-[20px]" alt="" />
+              }
+              <span>{item.label}</span>
             </div>
           ))}
         </div>
@@ -126,11 +120,7 @@ const ProductSpacification = () => {
         <h1 className="px-3 text-2xl font-semibold lg:px-0">Description</h1>
 
         <p className="my-3 w-full text-gray-800/90 lg:w-4/5">
-          D M Keith Select are delighted to offer you this Vauxhall Grandland X 1.2 turbo business
-          edition nav 5 door. The car is presented in the elegant moonstone grey metallic. This car
-          comes with satellite navigation, dab, front and rear parking sensors, apple
-          carplay/android auto, cruise control and much more. Call us now to find out more on 01924
-          665577.
+          {data.description}
         </p>
       </div>
     </div>

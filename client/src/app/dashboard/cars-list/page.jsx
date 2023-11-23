@@ -3,8 +3,10 @@ import React, { useState } from 'react'
 import { Tabs } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
 import CarList from '../../../components/dashboard/cars/CarList'
+import CarDetails from '../../../components/dashboard/cars/CarDetails'
 import { Button } from '@material-tailwind/react'
 import { useRouter } from 'next/navigation'
+import { ActionType } from '../../../lib/constants'
 
 export default function Cars() {
   const [tabKey, setTabKey] = useState('cars_list')
@@ -53,7 +55,7 @@ export default function Cars() {
       {/* {action.type === ActionType.DELETE && (
         <DeletePurchase action={action} setAction={setAction} />
       )} */}
-      {/* {action.type === ActionType.VIEW && <PurchaseDetails action={action} setAction={setAction} />} */}
+      {action.type === ActionType.VIEW && <CarDetails action={action} setAction={setAction} />}
     </div>
   )
 }

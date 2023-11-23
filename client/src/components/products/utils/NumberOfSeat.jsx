@@ -5,15 +5,11 @@ import {
   Accordion,
   AccordionHeader,
   AccordionBody,
-  IconButton
 } from '@material-tailwind/react'
 import { ChevronDownIcon } from '@heroicons/react/24/outline'
 
-const NumberOfSeat = (params) => {
+const NumberOfSeat = ({ label, data, filterBy, setFilterData, filterData, active, open, handleOpen }) => {
   const [filter, setFilter] = useState([])
-
-  // params
-  const { label, data, filterBy, setFilterData, filterData, active, open, handleOpen } = params
 
   const handleSelector = (item) => {
     if (filter.includes(item)) {
@@ -27,19 +23,12 @@ const NumberOfSeat = (params) => {
 
   }
 
-  // const handleClear = () => {
-  //   setFilterData({ ...filterData, [filterBy]: [] })
-  //   setFilter([])
-  // }
-
   return (
     <Accordion
       open={open === active}
       className="mb-2 rounded-md border bg-white px-2 shadow-md"
-      onClick={() => handleOpen(active)}
       icon={
         <div className='flex items-center gap-2'>
-          {/* {open === active && <span className='text-sm text-gray-800 hover:text-red-500 transition-all ease-in-out duration-100' onClick={handleClear}>Clear</span>} */}
           <ChevronDownIcon
             strokeWidth={2.5}
             onClick={() => handleOpen(active)}
@@ -49,7 +38,7 @@ const NumberOfSeat = (params) => {
       }
     >
       <AccordionHeader
-
+        onClick={() => handleOpen(active)}
         className="m-0 rounded-none border-b-0 px-4 py-3"
       >
         <Typography color="blue-gray" className="mr-auto block w-full font-normal">
@@ -61,7 +50,13 @@ const NumberOfSeat = (params) => {
         <div className='grid grid-cols-6 gap-2 px-2'>
           {
             data.map((item, idx) => (
-              <IconButton onClick={() => handleSelector(item)} key={idx} variant='text' color='blue' className={`${filter.includes(item) && 'border-4'} `}>{item}</IconButton>
+              <div
+                key={idx}
+                onClick={() => handleSelector(item)}
+                className={`${filter.includes(item) && 'border-4'} h-9 w-9 rounded-full hover:bg-gray-200 flex justify-center items-center cursor-pointer`}
+              >
+                {item}
+              </div>
             ))
           }
         </div>

@@ -27,13 +27,11 @@ const BrandList = ({ filter, setAction }) => {
   const dt = useRef(null)
 
   useEffect(() => {
-    ;(async () => {
+    ; (async () => {
       const params = { api: 'brands' }
       const res = await Promise.resolve(Gets(params))
-
       if (filter) {
         const newData = res.data.filter((item) => item.status === filter)
-        // console.log('newData:', newData)
         setBrands(newData)
       } else {
         setBrands(res.data)
@@ -74,7 +72,7 @@ const BrandList = ({ filter, setAction }) => {
             height={30}
             preview={false}
             className="rounded-pill shadow-sm"
-            src={`${appConfig.apiBaseUrl}/uploads/${logo || 'user.png'} `}
+            src={`${appConfig.apiBaseUrl}/uploads/${logo || 'no-data.png'} `}
           />
         )
 

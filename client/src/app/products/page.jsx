@@ -4,7 +4,7 @@ import { IconButton, Option, Select } from '@material-tailwind/react'
 import { ListBulletIcon, Squares2X2Icon } from '@heroicons/react/24/outline'
 import { FaCar } from "react-icons/fa6";
 import CustomSideBar from '../../components/products/CustomSideBar'
-import CardProduct from '../../components/ui/CardProduct'
+import CardProduct from '../../components/products/CardProduct'
 import Loading from '../loading'
 import { Gets } from '../../lib/api';
 
@@ -23,9 +23,7 @@ const Products = () => {
       const res = await Promise.resolve(Gets(params))
       setCars(res.data)
     })()
-
-  }, [filterData])
-
+  }, [])
 
   return (
     <section className="container mx-auto py-3">
@@ -33,7 +31,7 @@ const Products = () => {
         <div className="flex flex-col items-start p-4 px-5 lg:h-20 lg:flex-row lg:items-center lg:justify-between lg:p-0">
           <div className="mb-2 flex-grow">
             {filterData.search && <h1 className="text-lg font-bold ">Searching for “mobile phone”</h1>}
-            <span className="mb-2 text-gray-700">48 results found</span>
+            {cars.length > 0 && <span className="mb-2 text-gray-700">{cars.length} cars found</span>}
           </div>
           <div className="flex items-start justify-between lg:items-center lg:gap-4">
             <div>

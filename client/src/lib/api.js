@@ -4,10 +4,8 @@ import { getSession } from 'next-auth/react'
 const BASE_URL = 'http://localhost:3900/api/v1'
 
 async function Gets(params) {
-
-
+  try {
     const { api } = params
-    console.log("🚀 ~ api:", api)
     const session = await getSession()
     const res = await fetch(`${BASE_URL}/${api}`, {
       method: 'GET',
@@ -19,48 +17,55 @@ async function Gets(params) {
     if (!res.ok) {
       console.log('Failed to fetch data')
     }
-
     const result = await res.json()
     return result
- 
+  } catch (error) {
+    console.log('Failed to fetch data')
+  }
 }
 
 async function Get(params) {
-  const session = await getSession()
-  const { api, id } = params
-  const res = await fetch(`${BASE_URL}/${api}/${id}`, {
-    method: 'GET',
-    headers: {
-      Authorization: `Bearer ${session?.user?.token}`,
-      'Content-Type': 'application/json',
-    },
-  })
-
-  if (!res.ok) {
-    // This will activate the closest `error.js` Error Boundary
+  try {
+    const session = await getSession()
+    const { api, id } = params
+    const res = await fetch(`${BASE_URL}/${api}/${id}`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${session?.user?.token}`,
+        'Content-Type': 'application/json',
+      },
+    })
+    if (!res.ok) {
+      // This will activate the closest `error.js` Error Boundary
+      console.log('Failed to fetch data')
+    }
+    const result = await res.json()
+    return result
+  } catch (error) {
     console.log('Failed to fetch data')
   }
-
-  const result = await res.json()
-  return result
 }
 
 async function Create(params) {
-  const session = await getSession()
-  const { api, data } = params
-  // return console.log('api')
-  const resp = await fetch(`${BASE_URL}/${api}`, {
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${session?.user?.token}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(data),
-  })
+  try {
+    const session = await getSession()
+    const { api, data } = params
+    // return console.log('api')
+    const resp = await fetch(`${BASE_URL}/${api}`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${session?.user?.token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    })
 
-  const result = await resp.json()
+    const result = await resp.json()
 
-  return result
+    return result
+  } catch (error) {
+    console.log('Failed to fetch data')
+  }
 }
 
 async function Update(params) {

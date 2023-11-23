@@ -36,7 +36,6 @@ const SelectItem = ({ active, label, open, data, filterBy, setFilterData, filter
     <Accordion
       open={open === active}
       className="mb-2 rounded-md border bg-white px-2 shadow-md"
-      onClick={() => handleOpen(active)}
       icon={
         <div className='flex items-center gap-2'>
           {/* {open === active && <span className='text-sm text-gray-800 hover:text-red-500 transition-all ease-in-out duration-100' onClick={handleClear}>Clear</span>} */}
@@ -50,6 +49,7 @@ const SelectItem = ({ active, label, open, data, filterBy, setFilterData, filter
     >
       <AccordionHeader
         className="m-0 rounded-none border-b-0 px-4 py-3"
+        onClick={() => handleOpen(active)}
       >
         <Typography color="blue-gray" className="mr-auto font-normal w-full">
           {label}

@@ -7,6 +7,8 @@ import { ProductEntity } from '../entities/product.entity'
 import { ProductFeatureService } from '@modules/product-feature/services/product-feature.service'
 import { Transactional } from 'typeorm-transactional-cls-hooked'
 import { UpdateProductFeatureDto } from '@modules/product-feature/dtos'
+import moment from 'moment'
+
 
 @Injectable()
 export class ProductService {
@@ -16,7 +18,7 @@ export class ProductService {
     @InjectRepository(ProductEntity)
     private readonly productRepo: Repository<ProductEntity>,
     private readonly productFeatureService: ProductFeatureService,
-  ) {}
+  ) { }
 
   async getProducts(
     ctx: RequestContextDto,
@@ -263,16 +265,14 @@ export class ProductService {
     this.logger.log(`${this.getUsedExpireDeleteProducts.name}Service Called`)
     const { condition } = filterProductDto
 
-//     var currentDate = moment('2015-10-30');
-// var futureMonth = moment(currentDate).add(1, 'M');
-// var futureMonthEnd = moment(futureMonth).endOf('month');
 
-// if(currentDate.date() != futureMonth.date() && futureMonth.isSame(futureMonthEnd.format('YYYY-MM-DD'))) {
-//     futureMonth = futureMonth.add(1, 'd');
-// }
 
-// console.log(currentDate);
-// console.log(futureMonth);
+    // if(currentDate.date() != futureMonth.date() && futureMonth.isSame(futureMonthEnd.format('YYYY-MM-DD'))) {
+    //     futureMonth = futureMonth.add(1, 'd');
+    // }
+
+    // console.log(currentDate);
+    // console.log(futureMonth);
 
 
 
@@ -282,10 +282,23 @@ export class ProductService {
     const start = process.hrtime()
     const qb = this.productRepo.createQueryBuilder('product')
     if (condition) qb.andWhere({ condition })
-    if (condition) qb.andWhere({ condition })
+
+
+
+
+    // console.log("🚀 ~ ProductService ~ futureMonthEnd:", futureMonthEnd)
 
     const result = await qb.getMany()
-    console.log("🚀 ~ ProductService ~ result:", result)
+    // console.log("🚀 ~ ProductService ~ result:", result)
+
+    //    const fil = result.filter(item => {
+    //       const today = moment()
+    //       console.log("🚀 ~ ProductService ~ today:", today)
+    //       const futureMonth = moment(item.createdAt).add(1, 'M');
+    //       const futureMonthEnd = moment(futureMonth).endOf('month');
+    //       return today <= futureMonthEnd
+    //     })
+    // console.log(fil);
 
     // Delete all used expire car
     // await this.productRepo.remove(result)

@@ -163,7 +163,6 @@ export class CreateProductDto {
   upazilaId: number
 
 
-  
   @IsArray()
   @ArrayNotEmpty()
   @IsString({ each: true })

@@ -46,6 +46,29 @@ async function Get(params) {
   }
 }
 
+async function GetProducts(params) {
+  try {
+    const { api, data } = params
+    console.log('data:', data)
+    const session = await getSession()
+    const res = await fetch(`${BASE_URL}/${api}`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${session?.user?.token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    })
+    if (!res.ok) {
+      console.log('Failed to fetch data')
+    }
+    const result = await res.json()
+    return result
+  } catch (error) {
+    console.log('Failed to fetch data')
+  }
+}
+
 async function Create(params) {
   try {
     const session = await getSession()
@@ -115,4 +138,4 @@ export default async function CreateFile(data) {
   return result
 }
 
-export { Gets, Get, Create, Update, Delete, CreateFile }
+export { Gets, Get, Create, Update, Delete, CreateFile, GetProducts }

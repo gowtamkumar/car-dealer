@@ -1,9 +1,9 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Typography } from '@material-tailwind/react'
 import { InputNumber, Slider } from 'antd'
 
-const PriceRange = () => {
+const PriceRange = ({ filterData, setFilterData }) => {
   const [range, setRange] = useState({ minPrice: 0, maxPrice: 99999 })
 
   const handleChange = (value, type) => {
@@ -17,6 +17,11 @@ const PriceRange = () => {
       setRange({ minPrice: value[0], maxPrice: value[1] })
     }
   }
+
+  useEffect(() => {
+    setFilterData({ ...filterData, minPrice: range.minPrice, maxPrice: range.maxPrice })
+  }, [range])
+
 
   return (
     <div className="mb-2 rounded-md border bg-white p-4 shadow-md">

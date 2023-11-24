@@ -14,6 +14,7 @@ import { DatePicker, Divider, Form, Input, Checkbox, InputNumber, Select, Upload
 
 const AddProduct = ({ params }) => {
   const [formValues, setFormValues] = useState({})
+  const [backUp, setBackup] = useState({})
   const [previewOpen, setPreviewOpen] = useState(false)
   const [previewImage, setPreviewImage] = useState('')
   const [previewTitle, setPreviewTitle] = useState('')
@@ -22,8 +23,8 @@ const AddProduct = ({ params }) => {
   // console.log('params:', params.new)
   // hook
   const [form] = Form.useForm()
-  const { data } = useSession()
-  const { user = {} } = data || {}
+  const { data: { user } } = useSession()
+  // const { user = {} } = data || {}
   const router = useRouter()
 
   useEffect(() => {
@@ -39,15 +40,15 @@ const AddProduct = ({ params }) => {
       const newData = { ...result.data }
 
       if (newData.photos) {
-        const file = newData.photos.map(item => (
+        const file = (newData.photos || []).map((item, idx) => (
           {
             uid: Math.random() * 1000 + '',
-            name: 'photos',
+            name: `photo ${idx}`,
             status: 'done',
-            url: `${appConfig.apiBaseUrl}/uploads/${data?.[item] || 'no-data.png'}`,
+            url: `${appConfig.apiBaseUrl}/uploads/${item || 'no-data.png'}`,
           }
         ))
-        newData.fileList = [file]
+        newData.fileList = file
       }
       setFormData(newData)
 
@@ -130,6 +131,7 @@ const AddProduct = ({ params }) => {
 
   const setFormData = (v) => {
     const newData = { ...v }
+    // console.log("newData:", newData)
 
     if (newData.manufactureDate) newData.manufactureDate = dayjs(newData.manufactureDate)
     if (newData.registrationDate) newData.registrationDate = dayjs(newData.registrationDate)
@@ -140,10 +142,27 @@ const AddProduct = ({ params }) => {
 
     form.setFieldsValue(newData)
     setFormValues(form.getFieldsValue())
+    setBackup(newData)
   }
 
   const resetFormData = () => {
     form.resetFields()
+
+    if (backUp?.id) {
+      const newData = { ...backUp }
+      if (newData.photos) {
+        const file = (newData.photos || []).map((item, idx) => (
+          {
+            uid: Math.random() * 1000 + '',
+            name: `photo ${idx}`,
+            status: 'done',
+            url: `${appConfig.apiBaseUrl}/uploads/${item || 'no-data.png'}`,
+          }
+        ))
+        newData.fileList = file
+      }
+      form.setFieldsValue(newData)
+    }
   }
 
   const customUploadRequest = async (options) => {

@@ -9,7 +9,7 @@ import SelectColor from './utils/SelectColor'
 
 export default function CustomSideBar({ filterData, setFilterData }) {
   const [apiData, setApiData] = useState({})
-  const [open, setOpen] = useState(null)
+  const [open, setOpen] = useState(0)
 
   useEffect(() => {
     ; (async () => {
@@ -36,7 +36,10 @@ export default function CustomSideBar({ filterData, setFilterData }) {
 
   return (
     <>
-      <PriceRange />
+      <PriceRange
+        filterData={filterData}
+        setFilterData={setFilterData}
+      />
       <SelectItem
         active={0}
         open={open}

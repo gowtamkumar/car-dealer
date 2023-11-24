@@ -6,7 +6,7 @@ import { FaCar } from "react-icons/fa6";
 import CustomSideBar from '../../components/products/CustomSideBar'
 import CardProduct from '../../components/products/CardProduct'
 import Loading from '../loading'
-import { Gets } from '../../lib/api';
+import { GetProducts } from '../../lib/api';
 
 const Products = () => {
   const [isGrid, setIsGrid] = useState(true)
@@ -19,11 +19,12 @@ const Products = () => {
 
   useEffect(() => {
     ; (async () => {
-      const params = { api: 'products' }
-      const res = await Promise.resolve(Gets(params))
-      setCars(res.data)
+      const params = { api: 'products', data: filterData }
+      const res = await Promise.resolve(GetProducts(params))
+      console.log("res:", res)
+      // setCars(res?.data)
     })()
-  }, [])
+  }, [filterData])
 
   return (
     <section className="container mx-auto py-3">
@@ -31,7 +32,7 @@ const Products = () => {
         <div className="flex flex-col items-start p-4 px-5 lg:h-20 lg:flex-row lg:items-center lg:justify-between lg:p-0">
           <div className="mb-2 flex-grow">
             {filterData.search && <h1 className="text-lg font-bold ">Searching for “mobile phone”</h1>}
-            {cars.length > 0 && <span className="mb-2 text-gray-700">{cars.length} cars found</span>}
+            {cars?.length > 0 && <span className="mb-2 text-gray-700">{cars.length} cars found</span>}
           </div>
           <div className="flex items-start justify-between lg:items-center lg:gap-4">
             <div>
@@ -76,7 +77,7 @@ const Products = () => {
           <div className="grid grid-cols-12 gap-2">
             <Suspense fallback={<Loading />}>
 
-              {cars.length > 0 ?
+              {cars?.length > 0 ?
                 cars.map((item, idx) => (
                   <div
                     key={idx}

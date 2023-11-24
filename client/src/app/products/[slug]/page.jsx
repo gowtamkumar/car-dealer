@@ -8,8 +8,6 @@ import SingleCar from '../../../components/products/SingleCar'
 
 const ProductId = ({ params }) => {
   const [car, setCar] = useState()
-  console.log("car:", car)
-
   const router = useRouter()
 
   useEffect(() => {

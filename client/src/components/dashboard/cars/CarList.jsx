@@ -16,20 +16,30 @@ import { Button, Tag, Empty, Popconfirm } from 'antd'
 import { Input, Spinner } from '@material-tailwind/react'
 import { Gets } from '../../../lib/api'
 import { useRouter } from 'next/navigation'
+import { useSession } from 'next-auth/react'
 
 const CarList = ({ filter, setAction }) => {
   const [globalFilter, setGlobalFilter] = useState('')
   const [loading, setLoading] = useState({})
   const [cars, setCars] = useState([])
 
+  console.log("cars:", cars)
   // query
   const dt = useRef(null)
   const router = useRouter()
+  const { data } = useSession()
+  const { user: current } = data || {}
+  // console.log("user:", user)
 
   useEffect(() => {
     ; (async () => {
       const params = { api: 'products' }
       const res = await Gets(params)
+
+      // const newData = [...res.data]
+      // newData.filter(item => item?.user?.id === current.id)
+      // console.log("newData.filter(item => item?.user?.id === current.id):", newData.filter(item => item?.user?.id === current.id))
+
       if (filter) {
         const newData = res.data.filter((item) => item.status === filter)
         setCars(newData)
@@ -62,7 +72,6 @@ const CarList = ({ filter, setAction }) => {
   // jsx funcitons
   const bodyTemplate = ({ rowData, field, rowIndex }) => {
     const { status } = rowData
-    console.log("status:", status)
 
     switch (field) {
 

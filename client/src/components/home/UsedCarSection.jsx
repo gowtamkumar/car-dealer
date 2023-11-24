@@ -45,11 +45,13 @@ const UsedCarSection = () => {
           </Typography>
         </div>
         <div className="grid grid-cols-12 gap-5">
-          {(car || []).map((item, idx) => (
-            <div key={idx} className="col-span-6 lg:col-span-3">
-              <CardProduct data={item} />
-            </div>
-          ))}
+          {
+            (car || []).length > 4 ? null :
+              (car || []).map((item, idx) => (
+                <div key={idx} className="col-span-6 lg:col-span-3">
+                  <CardProduct data={item} />
+                </div>
+              ))}
         </div>
       </div>
     </section>

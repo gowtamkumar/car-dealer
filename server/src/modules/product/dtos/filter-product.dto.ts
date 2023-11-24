@@ -64,6 +64,10 @@ export class FilterProductDto {
   @IsNumber()
   maxPrice: number
 
+  @IsString()
+  sort: string
+
+
   @Transform(({ value }) => Number(value))
   @IsNumber()
   minNoOfPass: number

@@ -27,8 +27,10 @@ export class ProductController {
   @Get('/')
   async getProducts(
     @RequestContext() ctx: RequestContextDto,
-    @Query() filterProductDto: FilterProductDto,
+    @Query() filterProductDto: any,
   ): Promise<BaseApiSuccessResponse<ProductDto[]>> {
+    console.log("🚀 ~ ProductController ~ filterProductDto:", filterProductDto)
+ 
     this.logger.verbose(`User "${ctx.user?.username}" retieving products.`)
 
     const result = await this.productService.getProducts(ctx, filterProductDto)

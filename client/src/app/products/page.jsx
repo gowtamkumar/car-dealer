@@ -11,6 +11,7 @@ import { GetProducts } from '../../lib/api';
 const Products = () => {
   const [isGrid, setIsGrid] = useState(true)
   const [filterData, setFilterData] = useState({})
+
   const [cars, setCars] = useState([])
 
   const handleClick = (type) => {
@@ -21,10 +22,13 @@ const Products = () => {
     ; (async () => {
       const params = { api: 'products', data: filterData }
       const res = await Promise.resolve(GetProducts(params))
-      console.log("res:", res)
+      console.log("🚀 ~ res:", res)
+      console.log("🚀 ~ params:", params)
       // setCars(res?.data)
     })()
   }, [filterData])
+
+  // console.log("🚀 ~ filterData:", filterData)
 
   return (
     <section className="container mx-auto py-3">

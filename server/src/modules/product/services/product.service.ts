@@ -85,6 +85,8 @@ export class ProductService {
       maxPrice,
     } = filterProductDto
 
+   
+
 
     // service time Start
     const start = process.hrtime()

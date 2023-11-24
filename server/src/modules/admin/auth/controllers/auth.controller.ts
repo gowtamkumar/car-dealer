@@ -172,40 +172,42 @@ export class AuthController {
     return {
       success: true,
       statusCode: ``,
-      message: `An email is sent to ${forgotPasswordDto.email} with next instructions on resetting your password`,
+      message: `Forgot password`,
       data: result,
     }
   }
 
-  @Patch('/reset-password')
-  async resetMyPassword(
-    @RequestContext() ctx: RequestContextDto,
-    @Body() resetPasswordDto: ResetPasswordDto,
-  ) {
-    this.logger.verbose(`Reset Password`)
+  // @Patch('/reset-password')
+  // async resetMyPassword(
+  //   @RequestContext() ctx: RequestContextDto,
+  //   @Body() resetPasswordDto: ResetPasswordDto,
+  // ) {
+  //   this.logger.verbose(`Reset Password`)
 
-    await this.authService.resetPassword(ctx, resetPasswordDto)
+  //   await this.authService.resetPassword(ctx, resetPasswordDto)
 
-    return {
-      success: true,
-      statusCode: ``,
-      message: `Password reset successfull`,
-      data: {},
-    }
-  }
+  //   return {
+  //     success: true,
+  //     statusCode: ``,
+  //     message: `Password reset successfull`,
+  //     data: {},
+  //   }
+  // }
 
   private buildCookieTokenResponse(ctx: RequestContextDto, response: Response, token: string) {
     this.logger.verbose(`Cookie Token Response`)
     const cookieOptions = {
-      // expires: new Date(new Date().getTime() + 24 * 60 * 60 * 1000), //7 day 
+      // expires: new Date(new Date().getTime() + 168 * 60 * 60 * 1000), //7 day  604800 ms
       expires: new Date(
-        new Date().getTime() + +this.configService.get('JWT_ACCESS_TOKEN_EXPIRES') * 1000 // cookie expires in in ms  3 day
+        new Date().getTime() + +this.configService.get('JWT_ACCESS_TOKEN_EXPIRES') * 1000 // cookie expires in in ms  1 day
       ),
       // expires: new Date(
       //   Date.now() + +this.configService.get('JWT_ACCESS_TOKEN_EXPIRES') * 1000 // cookie expires in in ms
       // ),
       // secure: config.SSL && config.NODE_ENV===env_mode.PRODUCTION
     }
+    // console.log("cookieOptions", cookieOptions);
+    
     response.status(200).cookie('token', token, cookieOptions)
   }
 }

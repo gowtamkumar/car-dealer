@@ -132,6 +132,29 @@ const AddModelCode = ({ action = {}, setAction }) => {
             </Form.Item>
           </div>
 
+          <div className={`col-span-1 `}>
+            <Form.Item hidden={!data?.id} name="isActive" label="Status" className="mb-1">
+              <Select
+                showSearch
+                allowClear
+                placeholder="Select Status"
+                optionFilterProp="children"
+                filterOption={(input, option) =>
+                  option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                }
+              >
+                <Select.Option value={true}>
+                  Active
+                </Select.Option>
+                <Select.Option value={false}>
+                  Inactive
+                </Select.Option>
+              </Select>
+            </Form.Item>
+          </div>
+
+
+
           <div className="col-span-1 text-end">
             <Button variant="text" className="mx-2 capitalize" size="sm" onClick={resetFormData}>
               Reset

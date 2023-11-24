@@ -85,14 +85,13 @@ export class ProductService {
       maxPrice,
     } = filterProductDto
 
-    console.log(productFeature);
-
 
     // service time Start
     const start = process.hrtime()
     const qb = this.productRepo.createQueryBuilder('product')
-    qb.select(['product', 'brand.name', 'model.name', 'modelCode.name'])
+    qb.select(['product', 'brand.name', 'model.name', 'modelCode.name', 'user'])
     qb.leftJoin('product.brand', 'brand')
+    qb.leftJoin('product.user', 'user')
     qb.leftJoin('product.model', 'model')
     qb.leftJoin('product.modelCode', 'modelCode')
 
@@ -221,7 +220,7 @@ export class ProductService {
 
 
   // delele all used expire car
-  @Cron(CronExpression.EVERY_30_SECONDS, {
+  @Cron(CronExpression.EVERY_10_HOURS, {
     name: "ExpireProductDelete",
     timeZone: 'Asia/Dhaka'
   })

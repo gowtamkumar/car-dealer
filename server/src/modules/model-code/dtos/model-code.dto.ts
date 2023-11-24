@@ -11,4 +11,7 @@ export class ModelCodeDto {
   @Expose()
   modelId: string
 
+  @Expose()
+  isActive: boolean
+
 }

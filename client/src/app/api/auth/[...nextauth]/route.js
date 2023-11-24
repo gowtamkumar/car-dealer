@@ -29,7 +29,7 @@ export const authOptions = {
   //   newUser: '/auth/new-user', // New users will be directed here on first sign in (leave the property out if not of interest)
   // },
 
-  session: { strategy: 'jwt', maxAge: 3 * 24 * 60 * 60 }, //7 day
+  session: { strategy: 'jwt', maxAge: 1 * 24 * 60 * 60 }, //1 day
   callbacks: {
     async session({ session, token, apiToken }) {
       // set user all data

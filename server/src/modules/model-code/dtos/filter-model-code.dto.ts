@@ -1,5 +1,5 @@
 import { StatusEnum } from '@common/enums/status-enum'
-import { IsEnum, IsString, IsUUID } from 'class-validator'
+import { IsBoolean, IsEnum, IsOptional, IsString, IsUUID } from 'class-validator'
 
 export class FilterModelCodeDto {
   @IsString()
@@ -7,4 +7,8 @@ export class FilterModelCodeDto {
 
   @IsString()
   modelId: string
+
+  @IsBoolean()
+  @IsOptional()
+  isActive: boolean
 }

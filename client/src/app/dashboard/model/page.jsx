@@ -1,15 +1,26 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Tabs } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
 import { Button } from '@material-tailwind/react'
 import { ActionType } from '../../../lib/constants'
 import ModelList from '../../../components/dashboard/models/ModelList'
 import AddModel from '../../../components/dashboard/models/AddModel'
+import { Gets } from '../../../lib/api'
 
 export default function Models() {
   const [tabKey, setTabKey] = useState('model_list')
   const [action, setAction] = useState({})
+  const [models, setModels] = useState([])
+
+
+  useEffect(() => {
+    ; (async () => {
+      const params = { api: 'models' }
+      const res = await Gets(params)
+      setModels(res.data)
+    })()
+  }, [])
 
   return (
     <div className="container-fluid bg-white p-3  ">
@@ -20,17 +31,17 @@ export default function Models() {
           {
             label: 'Model List',
             key: 'model_list',
-            children: <ModelList setAction={setAction} status={''} />,
+            children: <ModelList setAction={setAction} models={models} />,
           },
           {
             label: 'Active',
             key: 'active',
-            children: <ModelList setAction={setAction} status={'Active'} />,
+            children: <ModelList setAction={setAction} models={models.filter((item) => item.isActive)} />,
           },
           {
             label: 'Inactive',
             key: 'inactive',
-            children: <ModelList setAction={setAction} status={'Inactive'} />,
+            children: <ModelList setAction={setAction} models={models.filter((item) => !item.isActive)} />,
           },
         ]}
         tabBarExtraContent={

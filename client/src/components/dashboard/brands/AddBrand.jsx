@@ -173,7 +173,7 @@ const AddBrand = ({ action = {}, setAction }) => {
               </Form.Item>
             </div>
             <div className={`col-span-1 `}>
-              <Form.Item hidden={!data?.id} name="status" label="Status" className="mb-1">
+              <Form.Item hidden={!data?.id} name="isActive" label="Status" className="mb-1">
                 <Select
                   showSearch
                   allowClear
@@ -183,11 +183,12 @@ const AddBrand = ({ action = {}, setAction }) => {
                     option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
                   }
                 >
-                  {['Active', 'Inactive'].map((item, idx) => (
-                    <Select.Option key={idx} value={item}>
-                      {item}
-                    </Select.Option>
-                  ))}
+                  <Select.Option value={true}>
+                    Active
+                  </Select.Option>
+                  <Select.Option value={false}>
+                    Inactive
+                  </Select.Option>
                 </Select>
               </Form.Item>
             </div>

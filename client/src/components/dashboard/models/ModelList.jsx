@@ -18,21 +18,14 @@ import { toast } from 'react-toastify'
 import { Delete, Gets } from '../../../lib/api'
 import appConfig from '../../../config'
 
-const ModelList = ({ setAction }) => {
+const ModelList = ({ models, setAction }) => {
   const [globalFilter, setGlobalFilter] = useState('')
   const [loading, setLoading] = useState({})
-  const [models, setModels] = useState([])
+  // const [models, setModels] = useState([])
 
   // query
   const dt = useRef(null)
 
-  useEffect(() => {
-    ; (async () => {
-      const params = { api: 'models' }
-      const res = await Gets(params)
-      setModels(res.data)
-    })()
-  }, [])
 
   const handleDelete = async (id) => {
     setTimeout(async () => {
@@ -165,8 +158,8 @@ const ModelList = ({ setAction }) => {
       >
         <Column className="border" field="name" header="Name" />
         <Column className="border" field="brand.name" header="Brand Name" />
-        <Column field="isActive" className="border" header="Status" body={(rowData) =>
-          bodyTemplate({ rowData })
+        <Column style={{ width: "100px" }} className="border" header="Status" body={(rowData) =>
+          bodyTemplate({ rowData, field: 'isActive' })
         } />
         <Column
           header="Option"

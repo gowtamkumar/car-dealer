@@ -97,14 +97,18 @@ export class AuthService {
   // TODO
   async forgotPassword(ctx: RequestContextDto, forgotPasswordDto: ForgotPasswordDto) {
     this.logger.log(`${this.forgotPassword.name}Service Called`)
+
+    
+
+
     return 'forgot password'
   }
 
   // TODO
-  async resetPassword(ctx: RequestContextDto, resetPasswordDto: ResetPasswordDto) {
-    this.logger.log(`${this.resetPassword.name}Service Called`)
-    return 'reset pass'
-  }
+  // async resetPassword(ctx: RequestContextDto, resetPasswordDto: ResetPasswordDto) {
+  //   this.logger.log(`${this.resetPassword.name}Service Called`)
+  //   return 'reset pass'
+  // }
 
   private generateAccessToken(ctx: RequestContextDto, user: UserDto): Promise<string> {
     this.logger.log(`${this.generateAccessToken.name}Service Called`)

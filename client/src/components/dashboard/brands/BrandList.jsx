@@ -18,26 +18,25 @@ import { toast } from 'react-toastify'
 import { Delete, Gets } from '../../../lib/api'
 import appConfig from '../../../config'
 
-const BrandList = ({ filter, setAction }) => {
+const BrandList = ({ brands, setAction }) => {
   const [globalFilter, setGlobalFilter] = useState('')
   const [loading, setLoading] = useState({})
-  const [brands, setBrands] = useState([])
 
   // query
   const dt = useRef(null)
 
-  useEffect(() => {
-    ; (async () => {
-      const params = { api: 'brands' }
-      const res = await Promise.resolve(Gets(params))
-      if (filter) {
-        const newData = res.data.filter((item) => item.status === filter)
-        setBrands(newData)
-      } else {
-        setBrands(res.data)
-      }
-    })()
-  }, [])
+  // useEffect(() => {
+  //   ; (async () => {
+  //     const params = { api: 'brands' }
+  //     const res = await Promise.resolve(Gets(params))
+  //     if (isActive) {
+  //       const newData = res.data.filter((item) => item.isActive === isActive)
+  //       setBrands(newData)
+  //     } else {
+  //       setBrands(res.data)
+  //     }
+  //   })()
+  // }, [])
 
   const handleDelete = async (id) => {
     setTimeout(async () => {
@@ -61,7 +60,7 @@ const BrandList = ({ filter, setAction }) => {
 
   // jsx funcitons
   const bodyTemplate = ({ rowData, field }) => {
-    const { status, logo } = rowData
+    const { isActive, logo } = rowData
 
     switch (field) {
       case 'logo':
@@ -76,8 +75,8 @@ const BrandList = ({ filter, setAction }) => {
           />
         )
 
-      case 'status':
-        return <Tag color={status === 'Active' ? 'green' : 'red'}>{status}</Tag>
+      case 'isActive':
+        return <Tag color={isActive ? 'green' : 'red'}>{isActive ? "Active" : "Inactive"}</Tag>
 
       case 'action':
         return (
@@ -175,7 +174,11 @@ const BrandList = ({ filter, setAction }) => {
           body={(rowData, { field }) => bodyTemplate({ rowData, field })}
         />
         <Column className="border" field="name" header="Name" />
-        <Column field="status" className="border" header="Status" />
+        <Column field="isActive" style={{ width: '100px' }} className="border" header="Status"
+          body={(rowData, { rowIndex, field }) =>
+            bodyTemplate({ rowData, rowIndex, field: 'isActive' })
+          }
+        />
         <Column
           header="Option"
           className="border text-center"

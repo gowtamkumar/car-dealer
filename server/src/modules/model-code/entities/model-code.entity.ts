@@ -27,6 +27,9 @@ export class ModelCodeEntity {
     onUpdate: 'CASCADE',
   })
   model: ModelEntity
+
+  @Column({ type: 'boolean', default: true })
+  isActive: boolean
   // relations
 
   // hooks

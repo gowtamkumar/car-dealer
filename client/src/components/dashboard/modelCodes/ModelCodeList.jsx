@@ -18,21 +18,21 @@ import { toast } from 'react-toastify'
 import { Delete, Gets } from '../../../lib/api'
 import appConfig from '../../../config'
 
-const ModelCodeList = ({ setAction }) => {
+const ModelCodeList = ({ modelCodes, setAction }) => {
   const [globalFilter, setGlobalFilter] = useState('')
   const [loading, setLoading] = useState({})
-  const [modelCodes, setModelCodes] = useState([])
+  // const [modelCodes, setModelCodes] = useState([])
 
   // query
   const dt = useRef(null)
 
-  useEffect(() => {
-    ;(async () => {
-      const params = { api: 'model-codes' }
-      const res = await Gets(params)
-      setModelCodes(res.data)
-    })()
-  }, [])
+  // useEffect(() => {
+  //   ; (async () => {
+  //     const params = { api: 'model-codes' }
+  //     const res = await Gets(params)
+  //     setModelCodes(res.data)
+  //   })()
+  // }, [])
 
   const handleDelete = async (id) => {
     setTimeout(async () => {
@@ -56,7 +56,7 @@ const ModelCodeList = ({ setAction }) => {
 
   // jsx funcitons
   const bodyTemplate = ({ rowData, field }) => {
-    const { status, logo } = rowData
+    const { isActive, logo } = rowData
 
     switch (field) {
       case 'logo':
@@ -71,8 +71,8 @@ const ModelCodeList = ({ setAction }) => {
           />
         )
 
-      case 'status':
-        return <Tag color={status === 'Active' ? 'green' : 'red'}>{status}</Tag>
+      case 'isActive':
+        return <Tag color={isActive ? 'green' : 'red'}>{isActive ? 'Active' : 'Inactive'}</Tag>
 
       case 'action':
         return (
@@ -165,7 +165,9 @@ const ModelCodeList = ({ setAction }) => {
       >
         <Column className="border" field="name" header="Name" />
         <Column className="border" field="model.name" header="Model Name" />
-        <Column field="status" className="border" header="Status" />
+        <Column style={{ width: "100px" }} className="border" header="Status" body={(rowData) =>
+          bodyTemplate({ rowData, field: 'isActive' })
+        } />
         <Column
           header="Option"
           className="border text-center"

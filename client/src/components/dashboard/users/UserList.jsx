@@ -27,7 +27,7 @@ const UserList = ({ filter, setAction }) => {
   const dt = useRef(null)
 
   useEffect(() => {
-    ;(async () => {
+    ; (async () => {
       const params = { api: 'users' }
       const res = await Gets(params)
       if (filter) {
@@ -61,19 +61,22 @@ const UserList = ({ filter, setAction }) => {
 
   // jsx funcitons
   const bodyTemplate = ({ rowData, field }) => {
-    const { status, logo } = rowData
+    const { status, logo, name } = rowData
 
     switch (field) {
-      case 'logo':
+      case 'name':
         return (
-          <Image
-            alt=""
-            width={30}
-            height={30}
-            preview={false}
-            className="rounded-pill shadow-sm"
-            src={`${appConfig.apiBaseUrl}/uploads/${logo || 'user.png'} `}
-          />
+          <span className='flex justify-start items-center gap-2'>
+            <Image
+              alt=""
+              width={30}
+              height={30}
+              preview={false}
+              className="rounded-full shadow-sm"
+              src={`${appConfig.apiBaseUrl}/uploads/${logo || 'user.png'} `}
+            />
+            <span>{name}</span>
+          </span>
         )
 
       case 'status':
@@ -168,10 +171,23 @@ const UserList = ({ filter, setAction }) => {
         ref={dt}
         className="p-datatable-sm rounded-md border text-center"
       >
-        <Column className="border" field="name" header="Name" />
+        <Column
+          className="border"
+          field="name"
+          header="Name"
+          body={(rowData, { field }) =>
+            bodyTemplate({ rowData, field })
+          } />
+        <Column className="border" field="username" header="User Name" />
         <Column className="border" field="phone" header="Phone" />
         <Column className="border" field="role" header="Role" />
-        <Column field="status" className="border" header="Status" />
+        <Column
+          field="status"
+          className="border"
+          header="Status"
+          body={(rowData, { field }) =>
+            bodyTemplate({ rowData, field })
+          } />
         <Column
           header="Option"
           className="border text-center"

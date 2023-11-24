@@ -18,9 +18,9 @@ const ProductDetails = ({ data }) => {
         <h1 className="font-bold text-red-400">
           Category : <span className="text-gray-700">{data?.condition}</span>
         </h1>
-        <h1 className="font-bold text-red-400">
+        {/* <h1 className="font-bold text-red-400">
           Views : <span className="text-gray-700">400</span>
-        </h1>
+        </h1> */}
       </div>
       <h1 className="my-5 text-4xl text-gray-900/80">৳ {data.price}</h1>
       <div className="my-5 flex flex-wrap items-start justify-between gap-4 lg:w-4/5">

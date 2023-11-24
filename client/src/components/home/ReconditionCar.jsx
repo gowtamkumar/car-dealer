@@ -1,17 +1,26 @@
 'use client'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
 import CardProduct from '../products/CardProduct'
-import { carouselData } from '../../config'
 import { BiSearchAlt } from 'react-icons/bi'
 import { FireIcon } from '@heroicons/react/24/outline'
 import { Typography } from '@material-tailwind/react'
-
-const newCarData = [{ carouselData }, { carouselData }, { carouselData }, { carouselData }]
+import { Gets } from '../../lib/api'
 
 const ReconditionCar = () => {
+  const [car, setCar] = useState([])
+
+  useEffect(() => {
+    ; (async () => {
+      const params = { api: 'products' }
+      const res = await Promise.resolve(Gets(params))
+      const filter = (res.data || []).filter(item => item.condition === 'Recondition')
+      setCar(filter)
+    })()
+  }, [])
+
   return (
-    <section className="mx-auto my-5 lg:my-10">
+    <section className="mx-auto bg-red-50/20 my-5 lg:my-10">
       <div className="container mx-auto">
         <div className="flex items-center justify-between">
           <h1 className="py-3 text-2xl font-semibold">
@@ -32,9 +41,9 @@ const ReconditionCar = () => {
           </Typography>
         </div>
         <div className="grid grid-cols-12 gap-5">
-          {newCarData.map((item, idx) => (
+          {(car || []).map((item, idx) => (
             <div key={idx} className="col-span-12 lg:col-span-3">
-              <CardProduct data={newCarData} />
+              <CardProduct data={item} />
             </div>
           ))}
         </div>

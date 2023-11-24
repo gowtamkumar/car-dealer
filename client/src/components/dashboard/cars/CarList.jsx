@@ -62,10 +62,13 @@ const CarList = ({ filter, setAction }) => {
   // jsx funcitons
   const bodyTemplate = ({ rowData, field, rowIndex }) => {
     const { status } = rowData
+    console.log("status:", status)
 
     switch (field) {
+
       case 'status':
-        return <Tag color={status === 'Active' ? 'green' : 'red'}>{status}</Tag>
+        return <Tag color={status === 'Pending' ? 'gold' : status === "Rejected" ? 'red' : 'green'}>{status}</Tag>
+
       case 'sl':
         return <span>{rowIndex + 1}</span>
 
@@ -165,15 +168,17 @@ const CarList = ({ filter, setAction }) => {
         className="p-datatable-sm rounded-md border text-center"
       >
         <Column
-          header=""
-          className="w-[10px] border"
+          header="#"
+          className="w-[20px] border"
           body={(rowData, { rowIndex }) => bodyTemplate({ rowData, rowIndex, field: 'sl' })}
         />
         <Column className="border" field="name" header="Name" />
         <Column className="border" field="brand.name" header="Brand" />
         <Column className="border" field="model.name" header="Model" />
         <Column className="border" field="modelCode.name" header="Model Code" />
-        <Column className="border" field="status" header="Status" />
+        <Column className="border" field="condition" header="Condition" />
+        <Column className="border" field="fuelType" header="Fuel Type" />
+        <Column className="border" field="status" header="Status" body={(rowData, { field }) => bodyTemplate({ rowData, field })} />
         <Column
           header="Option"
           className="w-[10px] border text-center"

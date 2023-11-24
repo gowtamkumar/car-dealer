@@ -17,12 +17,14 @@ const Products = () => {
     type === 'list' ? setIsGrid(false) : setIsGrid(true)
   }
 
+  console.log("filterData", filterData);
+
   useEffect(() => {
     ; (async () => {
       const params = { api: 'products', data: filterData }
       const res = await Promise.resolve(GetProducts(params))
-      console.log("res:", res)
-      // setCars(res?.data)
+      console.log("🚀 ~ res:", res)
+      setCars(res?.data)
     })()
   }, [filterData])
 

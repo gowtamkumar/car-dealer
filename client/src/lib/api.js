@@ -47,18 +47,43 @@ async function Get(params) {
 }
 
 async function GetProducts(params) {
+
+  const { api, data } = params
+
+  let queryString = '';
+
+  if (data.brandId) {
+    queryString += `brandId=${data.brandId?.join(",").toString()}`
+
+  }
+  console.log("queryString", queryString);
+  // if (author) {
+  //   queryString += `author_like=${author}`;
+  // }
+  // if (tags?.length > 0) {
+  //   queryString += tags
+  //     .map((tag) => (author ? `&tags_like=${tag}` : `tags_like=${tag}`))
+  //     .join('&');
+  // }
+
+  // if (search !== '') {
+  //   queryString += `&q=${search}`;
+  // }
+
+  // if (limit && currentPage) {
+  //   queryString +=
+  //     tags.length > 0 || search || author
+  //       ? `&_page=${currentPage}&_limit=${limit}`
+  //       : `_page=${currentPage}&_limit=${limit}`;
+  // }
+
+  // return console.log("queryString", queryString);
+
   try {
-    const { api, data } = params
-    console.log('data:', data)
+
+    // console.log('data:', data)
     const session = await getSession()
-    const res = await fetch(`${BASE_URL}/${api}`, {
-      method: 'GET',
-      headers: {
-        Authorization: `Bearer ${session?.user?.token}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
-    })
+    const res = await fetch(`${BASE_URL}/${api}?${queryString}`)
     if (!res.ok) {
       console.log('Failed to fetch data')
     }

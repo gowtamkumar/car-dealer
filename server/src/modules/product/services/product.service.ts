@@ -85,7 +85,8 @@ export class ProductService {
       maxPrice,
     } = filterProductDto
 
-   
+    // const brandIds = brandId.split(', ')
+    // console.log("🚀 ~ ProductService ~ brandIds:", brandIds)
 
 
     // service time Start
@@ -96,12 +97,15 @@ export class ProductService {
     qb.leftJoin('product.user', 'user')
     qb.leftJoin('product.model', 'model')
     qb.leftJoin('product.modelCode', 'modelCode')
-
+    // product Feature
     if (productFeature) qb.andWhere('product.productFeature IN (:productFeatures)', { productFeatures: productFeature })
+    // if (brandId) qb.andWhere('product.brandId IN (:...brandIds)', { brandIds: brandId.split(', ') })
+    // if (brandId) qb.andWhere({ brandId })
 
     if (condition) qb.andWhere({ condition })
     if (auction) qb.andWhere({ auction })
     if (brandId) qb.andWhere({ brandId })
+
     if (modelCodeId) qb.andWhere({ modelCodeId })
     if (modelId) qb.andWhere({ modelId })
     if (manufactureDate) qb.andWhere({ manufactureDate })

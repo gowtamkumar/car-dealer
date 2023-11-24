@@ -222,7 +222,7 @@ export class ProductService {
 
 
   // delele all used expire car
-  @Cron(CronExpression.EVERY_10_HOURS, {
+  @Cron(CronExpression.EVERY_WEEKEND, {
     name: "ExpireProductDelete",
     timeZone: 'Asia/Dhaka'
   })

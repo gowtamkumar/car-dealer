@@ -16,10 +16,10 @@ import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
 import Loading from './loading'
-// import { getServerSession } from 'next-auth'
 import AuthProvider from '../lib/SessionProvider'
 import { getServerSession } from 'next-auth'
-import { authOptions } from './api/auth/[...nextauth]/route'
+import { authOptions } from '../lib/authOption';
+// import { authOptions } from './api/auth/[...nextauth]/route';
 
 const fontSans = Inter({
   subsets: ['latin'],

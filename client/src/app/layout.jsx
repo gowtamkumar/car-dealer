@@ -1,14 +1,18 @@
+import './globals.css'
 // Prime React
-
 import 'primereact/resources/themes/lara-light-indigo/theme.css'
 import 'primereact/resources/primereact.min.css'
-import './globals.css'
+
+// Swiper
+import 'swiper/css';
+import 'swiper/css/free-mode';
+import 'swiper/css/pagination';
 
 import { Inter } from 'next/font/google'
 import { Suspense } from 'react'
 import { appConfig } from '../config'
 
-import { ToastContainer, toast } from 'react-toastify'
+import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
 import Loading from './loading'

@@ -19,11 +19,21 @@ const Products = () => {
 
   useEffect(() => {
     ; (async () => {
-      const params = { api: 'products', data: filterData }
+      const params = { api: 'products' }
       const res = await Promise.resolve(GetProducts(params))
-      console.log("res:", res)
-      // setCars(res?.data)
+      setCars(res?.data)
     })()
+  }, [])
+
+  useEffect(() => {
+    const newData = [...cars]
+
+    const filter = newData.filter(item => (filterData.brandId || [])?.includes(item.brandId))
+    console.log("filter:", filter)
+    // if (filterData.brandId) {
+    setCars(filter)
+    // }
+
   }, [filterData])
 
   return (

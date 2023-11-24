@@ -27,9 +27,9 @@ const CardProduct = ({ data }) => {
           <div>
             <Typography variant="small" color="blue-gray">
               <span>{data?.brand?.name}</span>
-              <span title='condition' className='float-right text-white rounded-md bg-indigo-400 px-2 py-1'>{data?.condition}</span>
+              <span title='condition' className='absolute top-2 right-2 text-white rounded-md bg-indigo-400 px-2 py-1'>{data?.condition}</span>
             </Typography>
-            <Typography variant="h4" className="mb-1 font-extralight text-gray-900 truncate">
+            <Typography variant="h5" className="my-1 font-extralight text-gray-900 truncate">
               {carName}
             </Typography>
             <Typography variant="h6" color="blue-gray">

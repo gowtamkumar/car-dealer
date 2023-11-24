@@ -20,7 +20,6 @@ const AddProduct = ({ params }) => {
   const [previewTitle, setPreviewTitle] = useState('')
   const [apiData, setApiData] = useState({})
 
-  // console.log('params:', params.new)
   // hook
   const [form] = Form.useForm()
   const { data: { user } } = useSession()
@@ -182,6 +181,36 @@ const AddProduct = ({ params }) => {
       onError({ err })
     }
   }
+
+  // const beforeUpload = (file) => {
+  //   const reader = new FileReader();
+  //   reader.readAsDataURL(file);
+  //   reader.onload = (event) => {
+  //     const img = new Image();
+  //     img.src = event.target.result;
+
+  //     img.onload = () => {
+  //       const canvas = document.createElement('canvas');
+  //       canvas.width = img.width;
+  //       canvas.height = img.height;
+  //       const ctx = canvas.getContext('2d');
+  //       ctx.drawImage(img, 0, 0);
+
+  //       // Add watermark text
+  //       ctx.font = '30px Arial';
+  //       ctx.fillStyle = 'rgba(255, 255, 255, 0.5)';
+  //       ctx.fillText('Your Watermark', 20, canvas.height - 40);
+
+  //       // Convert canvas to a new image with watermark
+  //       const watermarkedImageUrl = canvas.toDataURL('image/png');
+  //       console.log("watermarkedImageUrl:", watermarkedImageUrl)
+
+  //       // Set the state with watermarked image URL
+  //       // setImageUrl(watermarkedImageUrl);
+  //     };
+  //   };
+  //   return false; // Prevent default upload behavior
+  // };
 
   const normFile = (e) => {
     if (Array.isArray(e)) {
@@ -925,6 +954,7 @@ const AddProduct = ({ params }) => {
                 onPreview={handlePreview}
                 customRequest={customUploadRequest}
                 maxCount={5}
+              // beforeUpload={beforeUpload}
               >
                 {formValues?.fileList?.length >= num ? null : uploadButton}
               </Upload>

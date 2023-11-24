@@ -29,7 +29,7 @@ const Products = () => {
     const newData = [...cars]
 
     const filter = newData.filter(item => (filterData.brandId || [])?.includes(item.brandId))
-    console.log("filter:", filter)
+    // console.log("filter:", filter)
     // if (filterData.brandId) {
     setCars(filter)
     // }

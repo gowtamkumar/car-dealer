@@ -110,11 +110,15 @@ const CustomCarousel = ({ data, height, navigation, arrow, opacity, view, autoPl
       </Carousel>
 
       <Dialog size="xl" className="min-h-[70vh] overflow-hidden" open={open} handler={handleOpen}>
-        <div className="h-[60vh] w-full">
+        <div className="relative h-[60vh] w-full">
           <img
             src={`${appConfig.apiBaseUrl}/uploads/${imgList[active] || 'no-data.png'}`}
             alt={`Banner ${imgList[0]?.key}`}
             className={`h-full w-full cursor-pointer object-cover `}
+          />
+          <div
+            className={`absolute inset-0 grid h-full w-full place-items-center ${opacity && 'bg-black/30'
+              }`}
           />
         </div>
         <div className="my-3 flex items-center justify-center gap-3">
@@ -124,7 +128,7 @@ const CustomCarousel = ({ data, height, navigation, arrow, opacity, view, autoPl
               key={idx}
               className="relative cursor-pointer overflow-hidden"
             >
-              <img src={`${appConfig.apiBaseUrl}/uploads/${item || 'no-data.png'}`} className="h-20 w-32 rounded-md" alt="" />
+              <img src={`${appConfig.apiBaseUrl}/uploads/${item || 'no-data.png'}`} className="h-20 w-20 rounded-md" alt="" />
               <div
                 className={`absolute inset-0 grid h-full w-full place-items-center transition-all  duration-200 ease-linear ${active !== idx && 'bg-black/70'
                   }`}

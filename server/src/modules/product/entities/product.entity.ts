@@ -30,7 +30,6 @@ import { DivisionEntity } from '@modules/other/bd-location/division/entities/div
 import { UpazilaEntity } from '@modules/other/bd-location/upazila/entities/upazila.entity'
 import { ModelEntity } from '@modules/model/entities/model.entity'
 import { ModelCodeEntity } from '@modules/model-code/entities/model-code.entity'
-import { ProductFeatureEnum } from '../enums/product-Feature.enum'
 
 @Entity('products')
 export class ProductEntity {

@@ -4,10 +4,9 @@ import { InjectRepository } from '@nestjs/typeorm'
 import { Brackets, Repository } from 'typeorm'
 import { CreateProductDto, FilterProductDto, UpdateProductDto } from '../dtos'
 import { ProductEntity } from '../entities/product.entity'
-import { ProductFeatureService } from '@modules/product-feature/services/product-feature.service'
 import { Transactional } from 'typeorm-transactional-cls-hooked'
-import moment from 'moment'
-import { Cron } from '@nestjs/schedule'
+import moment, { months } from 'moment'
+import { Cron, CronExpression } from '@nestjs/schedule'
 import { ConditionEnum } from '../enums'
 
 
@@ -18,7 +17,6 @@ export class ProductService {
   constructor(
     @InjectRepository(ProductEntity)
     private readonly productRepo: Repository<ProductEntity>,
-    private readonly productFeatureService: ProductFeatureService,
   ) { }
 
   async getProducts(
@@ -94,12 +92,11 @@ export class ProductService {
     const start = process.hrtime()
     const qb = this.productRepo.createQueryBuilder('product')
     qb.select(['product', 'brand.name', 'model.name', 'modelCode.name'])
-    // qb.leftJoin('product.productFeature', 'productFeature')
     qb.leftJoin('product.brand', 'brand')
     qb.leftJoin('product.model', 'model')
     qb.leftJoin('product.modelCode', 'modelCode')
 
-    if(productFeature) qb.andWhere('product.productFeature IN (:productFeatures)', { productFeatures: productFeature })
+    if (productFeature) qb.andWhere('product.productFeature IN (:productFeatures)', { productFeatures: productFeature })
 
     if (condition) qb.andWhere({ condition })
     if (auction) qb.andWhere({ auction })
@@ -124,47 +121,6 @@ export class ProductService {
       qb.andWhere(`product.loadCapacity BETWEEN ${minLoadCapacity} AND ${maxLoadCapacity}`)
 
     if (minEngCc && maxEngCc) qb.andWhere(`product.engCc BETWEEN ${minEngCc} AND ${maxEngCc}`)
-
-    // product feature query
-    // if (cdPlayer) qb.andWhere('productFeature.cdPlayer =:cdPlayer', { cdPlayer: true })
-    // if (sunRoof) qb.andWhere('productFeature.sunRoof =:sunRoof', { sunRoof: true })
-    // if (alloyWheels) qb.andWhere('productFeature.alloyWheels =:alloyWheels', { alloyWheels: true })
-    // if (powerSteering)
-    //   qb.andWhere('productFeature.powerSteering =:powerSteering', { powerSteering: true })
-    // if (powerWindow) qb.andWhere('productFeature.powerWindow =:powerWindow', { powerWindow: true })
-    // if (ac) qb.andWhere('productFeature.ac =:ac', { ac: true })
-    // if (abs) qb.andWhere('productFeature.abs =:abs', { abs: true })
-    // if (airBag) qb.andWhere('productFeature.airBag =:airBag', { airBag: true })
-    // if (radio) qb.andWhere('productFeature.radio =:radio', { radio: true })
-    // if (cdChanger) qb.andWhere('productFeature.cdChanger =:cdChanger', { cdChanger: true })
-    // if (dvd) qb.andWhere('productFeature.dvd =:dvd', { dvd: true })
-    // if (tv) qb.andWhere('productFeature.tv =:tv', { tv: true })
-    // if (powerSeat) qb.andWhere('productFeature.powerSeat =:powerSeat', { powerSeat: true })
-    // if (backTire) qb.andWhere('productFeature.backTire =:backTire', { backTire: true })
-    // if (grillGuard) qb.andWhere('productFeature.grillGuard =:grillGuard', { grillGuard: true })
-    // if (rearSpoiler) qb.andWhere('productFeature.rearSpoiler =:rearSpoiler', { rearSpoiler: true })
-    // if (centerLocking)
-    //   qb.andWhere('productFeature.centerLocking =:centerLocking', { centerLocking: true })
-    // if (jack) qb.andWhere('productFeature.jack =:jack', { jack: true })
-    // if (spareTire) qb.andWhere('productFeature.spareTire =:spareTire', { spareTire: true })
-    // if (wheelSpanner)
-    //   qb.andWhere('productFeature.wheelSpanner =:wheelSpanner', { wheelSpanner: true })
-    // if (fogLight) qb.andWhere('productFeature.fogLight =:fogLight', { fogLight: true })
-    // if (backCamera) qb.andWhere('productFeature.backCamera =:backCamera', { backCamera: true })
-    // if (pushStart) qb.andWhere('productFeature.pushStart =:pushStart', { pushStart: true })
-    // if (keyLessentry)
-    //   qb.andWhere('productFeature.keyLessentry =:keyLessentry', { keyLessentry: true })
-    // if (esc) qb.andWhere('productFeature.esc =:esc', { esc: true })
-    // if (camera360d) qb.andWhere('productFeature.camera360d =:camera360d', { camera360d: true })
-    // if (bodyKit) qb.andWhere('productFeature.bodyKit =:bodyKit', { bodyKit: true })
-    // if (sideAirbag) qb.andWhere('productFeature.sideAirbag =:sideAirbag', { sideAirbag: true })
-    // if (powerMirror) qb.andWhere('productFeature.powerMirror =:powerMirror', { powerMirror: true })
-    // if (sideSkirts) qb.andWhere('productFeature.sideSkirts =:sideSkirts', { sideSkirts: true })
-    // if (fontLipSpoiler)
-    //   qb.andWhere('productFeature.fontLipSpoiler =:fontLipSpoiler', { fontLipSpoiler: true })
-    // if (navigation) qb.andWhere('productFeature.navigation =:navigation', { navigation: true })
-    // if (turbo) qb.andWhere('productFeature.turbo =:turbo', { turbo: true })
-    // if (nonSmoker) qb.andWhere('productFeature.nonSmoker =:nonSmoker', { nonSmoker: true })
 
     if (search) {
       qb.andWhere(
@@ -192,12 +148,10 @@ export class ProductService {
     const qb = this.productRepo.createQueryBuilder('product')
     qb.select([
       'product',
-      // 'productFeature',
       'brand.name',
       'model.name',
       'modelCode.name',
     ])
-    // qb.leftJoin('product.productFeature', 'productFeature')
     qb.leftJoin('product.brand', 'brand')
     qb.leftJoin('product.model', 'model')
     qb.leftJoin('product.modelCode', 'modelCode')
@@ -215,12 +169,11 @@ export class ProductService {
     const qb = this.productRepo.createQueryBuilder('product')
     qb.select([
       'product',
-      // 'productFeature',
       'brand.name',
       'model.name',
       'modelCode.name',
     ])
-    // qb.leftJoin('product.productFeature', 'productFeature')
+
     qb.leftJoin('product.brand', 'brand')
     qb.leftJoin('product.model', 'model')
     qb.leftJoin('product.modelCode', 'modelCode')
@@ -265,50 +218,41 @@ export class ProductService {
   }
 
 
-  // @Cron('45 * * * * *')
-  // handleCron() {
-  //   this.logger.debug('Called when the current second is 45');
-  // }
+
+
   // delele all used expire car
-  async getUsedExpireDeleteProducts(
+  @Cron(CronExpression.EVERY_30_SECONDS, {
+    name: "ExpireProductDelete",
+    timeZone: 'Asia/Dhaka'
+  })
+  async expireUsedProductDeleteByCronJob(
     ctx: RequestContextDto,
     filterProductDto: FilterProductDto,
   ): Promise<ProductEntity[]> {
-    this.logger.log(`${this.getUsedExpireDeleteProducts.name}Service Called`)
-    const { condition } = filterProductDto
-
-
+    this.logger.debug('Expire Used Products Delete by Cron job');
 
     // service time Start
     const start = process.hrtime()
     const qb = this.productRepo.createQueryBuilder('product')
     qb.andWhere({ condition: ConditionEnum.Used })
 
-
-
-
-    // console.log("🚀 ~ ProductService ~ futureMonthEnd:", futureMonthEnd)
-
     const result = await qb.getMany()
 
-    //    const fil = result.filter(item => {
-    //       const today = moment().format('MM-DD-YYYY')
-    //       console.log("🚀 ~ ProductService ~ today:", today)
-    //       const futureMonth = moment(item.createdAt).add(1, 'M').format('MM-DD-YYYY')
-    //       console.log("futureMonth:", futureMonth)
-    //       // const futureMonthEnd = moment(futureMonth).endOf('month')
-
-    //       return  futureMonth < today
-    //     })
-    // console.log(fil);
+    // this map filter data for 1 month after delete query
+    const filterData = result?.filter(item => {
+      const today = moment().format('MM-DD-YYYY')
+      const futureMonth = moment(item.createdAt).add(1, 'M').format('MM-DD-YYYY')
+      return futureMonth < today
+    })
+    // console.log(filterData);
 
     // Delete all used expire car
-    // await this.productRepo.remove(result)
+    await this.productRepo.remove(filterData)
 
     const stop = process.hrtime(start)
     this.logger.log(`Time of getting Related Delete Expire Products   ${(stop[0] * 1e9 + stop[1]) / 1e6} ms`) //time end
 
-    return result
+    return filterData
   }
 
   @Transactional()

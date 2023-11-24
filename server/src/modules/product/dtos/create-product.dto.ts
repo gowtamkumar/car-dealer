@@ -24,7 +24,6 @@ import {
   TransmissionEnum,
 } from '../enums'
 import { ToBoolean } from '@common/decorators/transforms.decorator'
-import { CreateProductFeatureDto } from '@modules/product-feature/dtos'
 
 export class CreateProductDto {
   @IsString()

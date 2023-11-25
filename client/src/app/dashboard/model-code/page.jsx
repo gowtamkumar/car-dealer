@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { Tabs } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
 import { Button } from '@material-tailwind/react'
-import { ActionType } from '../../../lib/constants'
+import { ActionType } from '../../../constants/constants'
 import ModelCodeList from '../../../components/dashboard/modelCodes/ModelCodeList'
 import AddModelCode from '../../../components/dashboard/modelCodes/AddModelCode'
 import { Gets } from '../../../lib/api'
@@ -18,7 +18,7 @@ export default function ModelCodes() {
     ; (async () => {
       const params = { api: 'model-codes' }
       const res = await Gets(params)
-      setModelCodes(res.data)
+      setModelCodes(res?.data)
     })()
   }, [])
 

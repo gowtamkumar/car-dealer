@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react'
 import config from 'src/config'
 import { Form, Input, Modal, Select } from 'antd'
 import { Upload } from 'antd'
-import { ActionType } from '../../../lib/constants'
+import { ActionType } from '../../../constants/constants'
 import { Button } from '@material-tailwind/react'
 import { toast } from 'react-toastify'
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons'
 import { Create, Update } from '../../../lib/api'
-import createFile from '../../../lib/createFile'
+import createFile from '../../../lib/api'
 
 const AddUser = ({ action = {}, setAction }) => {
   const [formValues, setFormValues] = useState({})

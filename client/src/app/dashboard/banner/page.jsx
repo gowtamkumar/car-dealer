@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { Tabs } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
 import { Button } from '@material-tailwind/react'
-import { ActionType } from '../../../lib/constants'
+import { ActionType } from '../../../constants/constants'
 import BannerList from '../../../components/dashboard/banner/BannerList'
 import AddBanner from '../../../components/dashboard/banner/AddBanner'
 

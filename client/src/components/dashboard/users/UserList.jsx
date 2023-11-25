@@ -9,7 +9,7 @@ import {
   FileExcelOutlined,
   QuestionCircleOutlined,
 } from '@ant-design/icons'
-import { ActionType } from '../../../lib/constants'
+import { ActionType } from '../../../constants/constants'
 import { DataTable } from 'primereact/datatable'
 import { Column } from 'primereact/column'
 import { Button, Tag, Popconfirm, Empty, Image } from 'antd'
@@ -31,10 +31,10 @@ const UserList = ({ filter, setAction }) => {
       const params = { api: 'users' }
       const res = await Gets(params)
       if (filter) {
-        const newData = res.data.filter((item) => item.role === filter)
+        const newData = res?.data.filter((item) => item.role === filter)
         setUsers(newData)
       } else {
-        setUsers(res.data)
+        setUsers(res?.data)
       }
     })()
   }, [filter])

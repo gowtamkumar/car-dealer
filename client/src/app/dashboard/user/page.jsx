@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { Tabs } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
 import { Button } from '@material-tailwind/react'
-import { ActionType } from '../../../lib/constants'
+import { ActionType } from '../../../constants/constants'
 import UserList from '../../../components/dashboard/users/UserList'
 import AddUser from '../../../components/dashboard/users/AddUser'
 

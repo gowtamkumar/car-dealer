@@ -1,5 +1,5 @@
 import React from 'react'
-import productEnum from '../../lib/utils'
+import productEnum from '../../constants/utils'
 
 const ProductSpacification = ({ data }) => {
 

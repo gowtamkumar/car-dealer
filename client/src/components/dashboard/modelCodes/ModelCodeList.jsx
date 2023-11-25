@@ -9,7 +9,7 @@ import {
   FileExcelOutlined,
   QuestionCircleOutlined,
 } from '@ant-design/icons'
-import { ActionType } from '../../../lib/constants'
+import { ActionType } from '../../../constants/constants'
 import { DataTable } from 'primereact/datatable'
 import { Column } from 'primereact/column'
 import { Button, Tag, Popconfirm, Empty, Image } from 'antd'
@@ -30,7 +30,7 @@ const ModelCodeList = ({ modelCodes, setAction }) => {
   //   ; (async () => {
   //     const params = { api: 'model-codes' }
   //     const res = await Gets(params)
-  //     setModelCodes(res.data)
+  //     setModelCodes(res?.data)
   //   })()
   // }, [])
 

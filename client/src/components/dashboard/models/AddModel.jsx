@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Form, Input, Modal, Select } from 'antd'
-import { ActionType } from '../../../lib/constants'
+import { ActionType } from '../../../constants/constants'
 import { Button } from '@material-tailwind/react'
 import { Create, Gets, Update } from '../../../lib/api'
 import appConfig from '../../../config'

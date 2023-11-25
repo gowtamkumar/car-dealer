@@ -1,7 +1,7 @@
 'use client'
 import React, { useEffect, useState } from 'react'
 import { Gets } from '../../lib/api'
-import productEnum from '../../lib/utils'
+import productEnum from '../../constants/utils'
 import SelectItem from './utils/SelectItem'
 import PriceRange from './utils/PriceRange'
 import NumberOfSeat from './utils/NumberOfSeat'

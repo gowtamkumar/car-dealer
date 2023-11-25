@@ -9,7 +9,7 @@ import {
   QuestionCircleOutlined,
   EyeOutlined
 } from '@ant-design/icons'
-import { ActionType } from '../../../lib/constants'
+import { ActionType } from '../../../constants/constants'
 import { DataTable } from 'primereact/datatable'
 import { Column } from 'primereact/column'
 import { Button, Tag, Empty, Popconfirm } from 'antd'
@@ -36,15 +36,15 @@ const CarList = ({ filter, setAction }) => {
       const params = { api: 'products' }
       const res = await Gets(params)
 
-      // const newData = [...res.data]
+      // const newData = [...res?.data]
       // newData.filter(item => item?.user?.id === current.id)
       // console.log("newData.filter(item => item?.user?.id === current.id):", newData.filter(item => item?.user?.id === current.id))
 
       if (filter) {
-        const newData = res.data.filter((item) => item.status === filter)
+        const newData = res?.data.filter((item) => item.status === filter)
         setCars(newData)
       } else {
-        setCars(res.data)
+        setCars(res?.data)
       }
     })()
   }, [filter])

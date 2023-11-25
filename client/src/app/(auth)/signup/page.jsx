@@ -92,6 +92,14 @@ export default function Signup() {
                     <Input
                       onChange={({ target }) => setData({ ...data, [target.name]: target.value })}
                       variant="standard"
+                      label="Contact No."
+                      name='phone'
+                    />
+                  </div>
+                  <div className="my-5">
+                    <Input
+                      onChange={({ target }) => setData({ ...data, [target.name]: target.value })}
+                      variant="standard"
                       label="Email"
                       name='email'
                     />

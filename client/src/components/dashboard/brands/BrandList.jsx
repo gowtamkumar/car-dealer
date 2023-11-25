@@ -9,7 +9,7 @@ import {
   FileExcelOutlined,
   QuestionCircleOutlined,
 } from '@ant-design/icons'
-import { ActionType } from '../../../lib/constants'
+import { ActionType } from '../../../constants/constants'
 import { DataTable } from 'primereact/datatable'
 import { Column } from 'primereact/column'
 import { Button, Tag, Popconfirm, Empty, Image } from 'antd'
@@ -30,10 +30,10 @@ const BrandList = ({ brands, setAction }) => {
   //     const params = { api: 'brands' }
   //     const res = await Promise.resolve(Gets(params))
   //     if (isActive) {
-  //       const newData = res.data.filter((item) => item.isActive === isActive)
+  //       const newData = res?.data.filter((item) => item.isActive === isActive)
   //       setBrands(newData)
   //     } else {
-  //       setBrands(res.data)
+  //       setBrands(res?.data)
   //     }
   //   })()
   // }, [])

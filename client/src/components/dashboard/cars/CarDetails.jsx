@@ -1,7 +1,7 @@
 
 import React from 'react'
 import { Dialog, IconButton } from '@material-tailwind/react'
-import { ActionType } from '../../../lib/constants'
+import { ActionType } from '../../../constants/constants'
 import { IoCloseOutline } from 'react-icons/io5'
 import SingleCar from '../../products/SingleCar'
 

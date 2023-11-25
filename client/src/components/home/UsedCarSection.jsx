@@ -2,13 +2,11 @@
 import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
 import CardProduct from '../products/CardProduct'
-import { carouselData } from '../../config'
+
 import { BiSearchAlt } from 'react-icons/bi'
 import { FireIcon } from '@heroicons/react/24/outline'
 import { Typography } from '@material-tailwind/react'
 import { Gets } from '../../lib/api'
-
-const newCarData = [{ carouselData }, { carouselData }, { carouselData }, { carouselData }]
 
 const UsedCarSection = () => {
 
@@ -18,7 +16,7 @@ const UsedCarSection = () => {
     ; (async () => {
       const params = { api: 'products' }
       const res = await Promise.resolve(Gets(params))
-      const filter = (res.data || []).filter(item => item.condition === 'Used')
+      const filter = (res?.data || []).filter(item => item.condition === 'Used')
       setCar(filter)
     })()
   }, [])

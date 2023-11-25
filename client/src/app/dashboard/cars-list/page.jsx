@@ -6,7 +6,7 @@ import CarList from '../../../components/dashboard/cars/CarList'
 import CarDetails from '../../../components/dashboard/cars/CarDetails'
 import { Button } from '@material-tailwind/react'
 import { useRouter } from 'next/navigation'
-import { ActionType } from '../../../lib/constants'
+import { ActionType } from '../../../constants/constants'
 
 export default function Cars() {
   const [tabKey, setTabKey] = useState('cars_list')

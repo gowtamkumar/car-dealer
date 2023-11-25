@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { Tabs } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
 import { Button } from '@material-tailwind/react'
-import { ActionType } from '../../../lib/constants'
+import { ActionType } from '../../../constants/constants'
 import ModelList from '../../../components/dashboard/models/ModelList'
 import AddModel from '../../../components/dashboard/models/AddModel'
 import { Gets } from '../../../lib/api'
@@ -18,7 +18,7 @@ export default function Models() {
     ; (async () => {
       const params = { api: 'models' }
       const res = await Gets(params)
-      setModels(res.data)
+      setModels(res?.data)
     })()
   }, [])
 

@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { Form, Input, Modal, Select } from 'antd'
-import { ActionType } from '../../../lib/constants'
+import { ActionType } from '../../../constants/constants'
 import { Button } from '@material-tailwind/react'
 import { Create, Gets, Update } from '../../../lib/api'
 import appConfig from '../../../config'
 import { toast } from 'react-toastify'
-import productEnum from '../../../lib/utils'
+import productEnum from '../../../constants/utils'
 
 const AddModelCode = ({ action = {}, setAction }) => {
   const [formValues, setFormValues] = useState({})

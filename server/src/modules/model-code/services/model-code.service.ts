@@ -23,7 +23,7 @@ export class ModelCodeService {
     if (name) query.name = name
     if (modelId) query.modelId = modelId
 
-    return this.modelCodeRepo.find({ where: query })
+    return this.modelCodeRepo.find({ where: query ,relations: ['model']})
   }
 
   async getModelCode(ctx: RequestContextDto, id: string): Promise<ModelCodeEntity> {

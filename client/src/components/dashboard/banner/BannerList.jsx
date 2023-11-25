@@ -2,21 +2,21 @@ import React, { useEffect, useState } from 'react'
 import { Gets } from '../../../lib/api'
 import appConfig from '../../../config'
 import { Button } from '@material-tailwind/react'
-import { ActionType } from '../../../lib/constants'
+import { ActionType } from '../../../constants/constants'
 
 const BannerList = ({ filter, setAction }) => {
   const [banners, setBanners] = useState([])
 
   useEffect(() => {
-    ;(async () => {
+    ; (async () => {
       const params = { api: 'banners' }
       const res = await Promise.resolve(Gets(params))
 
       if (filter) {
-        const newData = res.data.filter((item) => item.status === filter)
+        const newData = res?.data.filter((item) => item.status === filter)
         setBanners(newData)
       } else {
-        setBanners((res.data || []).map((item) => ({ ...item, img: item.photo })))
+        setBanners((res?.data || []).map((item) => ({ ...item, img: item.photo })))
       }
     })()
   }, [])

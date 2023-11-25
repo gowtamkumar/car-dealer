@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { Tabs } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
 import { Button } from '@material-tailwind/react'
-import { ActionType } from '../../../lib/constants'
+import { ActionType } from '../../../constants/constants'
 import BrandList from '../../../components/dashboard/brands/BrandList'
 import AddBrand from '../../../components/dashboard/brands/AddBrand'
 import { Gets } from '../../../lib/api'
@@ -17,7 +17,7 @@ export default function Brands() {
     ; (async () => {
       const params = { api: 'brands' }
       const res = await Promise.resolve(Gets(params))
-      setBrands(res.data)
+      setBrands(res?.data)
     })()
   }, [])
 

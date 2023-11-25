@@ -7,7 +7,7 @@ import { Button } from '@material-tailwind/react'
 import { toast } from 'react-toastify'
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons'
 import { Create, Update } from '../../../lib/api'
-import createFile from '../../../lib/api'
+import CreateFile from '../../../lib/api'
 
 const AddUser = ({ action = {}, setAction }) => {
   const [formValues, setFormValues] = useState({})
@@ -92,7 +92,7 @@ const AddUser = ({ action = {}, setAction }) => {
     fmData.append(filename, file)
 
     try {
-      const res = await createFile(fmData)
+      const res = await CreateFile(fmData)
       if (res.photo.length) {
         setFormData({ photo: res.photo[0]?.filename })
       }

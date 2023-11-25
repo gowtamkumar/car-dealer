@@ -49,10 +49,22 @@ async function Get(params) {
 async function GetProducts(params) {
 
   const { api, data } = params
-  const { brandId, modelId, transmission, fuelType, noOfseat, color, maxPrice, minPrice, search } = data
+  const {
+    brandId,
+    modelId,
+    transmission,
+    fuelType,
+    noOfseat,
+    color,
+    maxPrice,
+    minPrice,
+    search,
+    lowPrice,
+    highPrice
+  } = data
 
-  const lowPrice = false
-  const highPrice = true
+  // const lowPrice = false
+  // const highPrice = true
   // const search = ""
 
   let queryString = '';
@@ -101,7 +113,7 @@ async function GetProducts(params) {
   }
 
 
-  // console.log("queryString:", queryString)
+  console.log("queryString:", queryString)
 
   try {
     const res = await fetch(`${BASE_URL}/${api}?${queryString}`)
@@ -168,20 +180,16 @@ async function Delete(params) {
 }
 
 export default async function CreateFile(data) {
-  const session = await getSession()
-  const res = await fetch(`${BASE_URL}/files/${api}`, {
+  const res = await fetch('http://localhost:3900/api/v1/files/uploads', {
     method: 'POST',
-    headers: {
-      Authorization: `Bearer ${session?.user?.token}`,
-    },
     body: data,
   })
 
   if (!res.ok) {
     throw new Error('Failed to fetch data')
   }
-  const result = await res.json()
-  return result
+  return res.json()
 }
+
 
 export { Gets, Get, Create, Update, Delete, CreateFile, GetProducts }

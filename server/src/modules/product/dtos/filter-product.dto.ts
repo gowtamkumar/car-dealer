@@ -71,7 +71,7 @@ export class FilterProductDto {
   @Transform(({ value }) => Number(value))
   @IsNumber()
   minNoOfPass: number
-  
+
   @Transform(({ value }) => Number(value))
   @IsNumber()
   maxNoOfPass: number
@@ -117,6 +117,9 @@ export class FilterProductDto {
 
   @IsString()
   userId: string
+
+  @IsBoolean()
+  accidentHistory: boolean
 
   @IsEnum(ProductStatusEnum)
   status: ProductStatusEnum

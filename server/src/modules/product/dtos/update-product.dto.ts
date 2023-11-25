@@ -145,6 +145,12 @@ export class UpdateProductDto {
   @IsNotEmpty()
   upazilaId: number
 
+
+  @IsBoolean()
+  @IsNotEmpty()
+  accidentHistory: boolean
+
+
   @IsEnum(ProductStatusEnum)
   status: ProductStatusEnum
 

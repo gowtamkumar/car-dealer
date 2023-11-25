@@ -161,6 +161,10 @@ export class CreateProductDto {
   @IsDefined()
   upazilaId: number
 
+  @IsBoolean()
+  @IsNotEmpty()
+  accidentHistory: boolean
+
 
   @IsArray()
   @ArrayNotEmpty()

@@ -50,9 +50,9 @@ export class CreateUserDto {
   @IsOptional()
   address: string
 
-  @Transform(({ value }) => value || null)
   @IsString()
-  @IsOptional()
+  @IsNotEmpty()
+  @IsDefined()
   phone: string
 
   @Transform(({ value }) => value || null)

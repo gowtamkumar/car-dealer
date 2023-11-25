@@ -42,9 +42,8 @@ export class UpdateUserDto {
   @IsOptional()
   address: string
 
-  @Transform(({ value }) => value || null)
   @IsString()
-  @IsOptional()
+  @IsNotEmpty()
   phone: string
 
   @Transform(({ value }) => value || null)

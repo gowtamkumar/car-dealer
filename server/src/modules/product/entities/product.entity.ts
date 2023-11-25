@@ -126,6 +126,9 @@ export class ProductEntity {
   @Column({ type: 'text', nullable: true })
   description: string
 
+  @Column({ name: 'accident_history', type: 'boolean', nullable: true })
+  accidentHistory: boolean
+
   @Column({ type: 'simple-array', nullable: true })
   photos: string[]
 

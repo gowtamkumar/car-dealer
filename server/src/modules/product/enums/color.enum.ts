@@ -21,4 +21,5 @@ export enum ColorEnum {
   NavyBlue = 'Navy Blue',
   RedWine = 'Red Wine',
   Pearl = 'Pearl',
+  Other = 'Other',
 }

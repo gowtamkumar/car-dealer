@@ -5,7 +5,7 @@ import { Brackets, Repository } from 'typeorm'
 import { CreateProductDto, FilterProductDto, UpdateProductDto } from '../dtos'
 import { ProductEntity } from '../entities/product.entity'
 import { Transactional } from 'typeorm-transactional-cls-hooked'
-import moment, { months } from 'moment'
+import moment from 'moment'
 import { Cron, CronExpression } from '@nestjs/schedule'
 import { ConditionEnum } from '../enums'
 
@@ -73,6 +73,7 @@ export class ProductService {
       // navigation,
       // turbo,
       // nonSmoker,
+      noOfseat,
       minEngCc,
       maxEngCc,
       minLoadCapacity,
@@ -83,38 +84,40 @@ export class ProductService {
       maxNoOfPass,
       minPrice,
       maxPrice,
+      accidentHistory
+
     } = filterProductDto
 
-    // const brandIds = brandId.split(', ')
-    // console.log("🚀 ~ ProductService ~ brandIds:", brandIds)
 
 
     // service time Start
     const start = process.hrtime()
     const qb = this.productRepo.createQueryBuilder('product')
-    qb.select(['product', 'brand.name', 'model.name', 'modelCode.name', 'user'])
+    qb.select(['product', 'brand.name', 'model.name', 'modelCode.name', 'user.name', 'user.phone'])
     qb.leftJoin('product.brand', 'brand')
     qb.leftJoin('product.user', 'user')
     qb.leftJoin('product.model', 'model')
     qb.leftJoin('product.modelCode', 'modelCode')
     // product Feature
     if (productFeature) qb.andWhere('product.productFeature IN (:productFeatures)', { productFeatures: productFeature })
-    // if (brandId) qb.andWhere('product.brandId IN (:...brandIds)', { brandIds: brandId.split(', ') })
-    // if (brandId) qb.andWhere({ brandId })
+    // if (brandId) qb.andWhere('product.brandId IN (:...brandIds)', { brandIds: brandId.split(',') })
+    // if (modelId) qb.andWhere('product.modelId IN (:...modelIds)', { modelIds: modelId.split(',') })
+    // if (modelCodeId) qb.andWhere('product.modelCodeId IN (:...modelCodeIds)', { modelCodeIds: modelCodeId.split(',') })
+    // if (transmission) qb.andWhere('product.transmission IN (:...transmissions)', { transmissions: transmission.split(',') })
+    // if (fuelType) qb.andWhere('product.fuelType IN (:...fuelTypes)', { fuelTypes: fuelType.split(',') })
+    // if (noOfseat) qb.andWhere('product.noOfseat IN (:...noOfseats)', { noOfseats: noOfseat.split(',') })
+    // if (color) qb.andWhere('product.color IN (:...colors)', { colors: color.split(',') })
 
     if (condition) qb.andWhere({ condition })
     if (auction) qb.andWhere({ auction })
-    if (brandId) qb.andWhere({ brandId })
+    if (accidentHistory) qb.andWhere({ accidentHistory })
 
-    if (modelCodeId) qb.andWhere({ modelCodeId })
-    if (modelId) qb.andWhere({ modelId })
     if (manufactureDate) qb.andWhere({ manufactureDate })
     if (registrationDate) qb.andWhere({ registrationDate })
-    if (fuelType) qb.andWhere({ fuelType })
-    if (transmission) qb.andWhere({ transmission })
+
+
     if (bodyType) qb.andWhere({ bodyType })
     if (steering) qb.andWhere({ steering })
-    if (color) qb.andWhere({ color })
     if (minPrice && maxPrice) qb.andWhere(`product.price BETWEEN ${minPrice} AND ${maxPrice}`)
     if (minNoOfPass && maxNoOfPass)
       qb.andWhere(`product.noOfPass BETWEEN ${minNoOfPass} AND ${maxNoOfPass}`)

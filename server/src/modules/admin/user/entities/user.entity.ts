@@ -34,7 +34,7 @@ export class UserEntity {
   @Column({ nullable: true })
   address: string
 
-  @Column({ nullable: true })
+  @Column()
   phone: string
 
   @Column({ nullable: true })

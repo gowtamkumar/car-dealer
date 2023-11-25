@@ -102,7 +102,7 @@ const Products = () => {
             <Suspense fallback={<Loading />}>
 
               {cars?.length > 0 ?
-                cars.map((item, idx) => (
+                cars?.map((item, idx) => (
                   <div
                     key={idx}
                     className={`${isGrid ? 'col-span-12 lg:col-span-4' : 'col-span-12'}`}
@@ -118,7 +118,7 @@ const Products = () => {
                   </div>
                 </div>
                 )}
-              {cars.length > 10 &&
+              {cars?.length > 10 &&
                 <div className="col-span-12">
                   <Pagination
                     current={currentPage}

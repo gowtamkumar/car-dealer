@@ -2,7 +2,7 @@ const productEnum = {
   condition: ['New', 'Recondition', 'Used'],
   steering: ['Left', 'Right'],
   fuelType: ['Diesel', 'Petrol', 'CNG', 'Hybrid', 'Octane', 'LPG', 'Other'],
-  transmission: ['Automatic', 'Semi Automatic', 'Manual', 'CVT', 'DCT', 'SportAT', 'Other'],
+  transmission: ['Automatic', 'Semi Automatic', 'Manual', 'CVT', 'DCT', 'Sport AT', 'Other'],
   bodyType: [
     'MPV',
     'Hypercar',

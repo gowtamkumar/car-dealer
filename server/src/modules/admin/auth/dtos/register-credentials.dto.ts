@@ -17,6 +17,12 @@ export class RegisterCredentialsDto {
   @IsDefined()
   username: string;
 
+  @ApiProperty({ example: '01767163576' })
+  @IsString()
+  @IsNotEmpty()
+  @IsDefined()
+  phone: string;
+
   @ApiProperty({example: '12345678'})
   @IsString()
   @IsNotEmpty()

@@ -48,6 +48,7 @@ export class UserService {
   async createUser(ctx: RequestContextDto, createUserDto: CreateUserDto): Promise<UserEntity> {
     this.logger.log(`${this.createUser.name}Service Called`)
     const { username } = createUserDto
+    console.log("🚀 ~ UserService ~ createUserDto:", createUserDto)
 
     const findUser = await this.userRepo.findOne({ where: { username } })
     if (findUser) {

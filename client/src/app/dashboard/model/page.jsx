@@ -3,10 +3,10 @@ import React, { useEffect, useState } from 'react'
 import { Tabs } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
 import { Button } from '@material-tailwind/react'
-import { ActionType } from '../../../constants/constants'
 import ModelList from '../../../components/dashboard/models/ModelList'
 import AddModel from '../../../components/dashboard/models/AddModel'
 import { Gets } from '../../../lib/api'
+import { ActionType } from '../../../constants/constants'
 
 export default function Models() {
   const [tabKey, setTabKey] = useState('model_list')
@@ -31,17 +31,17 @@ export default function Models() {
           {
             label: 'Model List',
             key: 'model_list',
-            children: <ModelList setAction={setAction} models={models} />,
+            children: <ModelList setAction={setAction} models={(models || [])} />,
           },
           {
             label: 'Active',
             key: 'active',
-            children: <ModelList setAction={setAction} models={models.filter((item) => item.isActive)} />,
+            children: <ModelList setAction={setAction} models={(models || []).filter((item) => item.isActive)} />,
           },
           {
             label: 'Inactive',
             key: 'inactive',
-            children: <ModelList setAction={setAction} models={models.filter((item) => !item.isActive)} />,
+            children: <ModelList setAction={setAction} models={(models || []).filter((item) => !item.isActive)} />,
           },
         ]}
         tabBarExtraContent={
@@ -57,7 +57,6 @@ export default function Models() {
       />
       {action.type === ActionType.CREATE && <AddModel action={action} setAction={setAction} />}
       {action.type === ActionType.UPDATE && <AddModel action={action} setAction={setAction} />}
-      {/* {action.type === ActionType.VIEW && <PurchaseDetails action={action} setAction={setAction} />} */}
     </div>
   )
 }

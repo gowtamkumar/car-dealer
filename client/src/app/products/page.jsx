@@ -7,15 +7,23 @@ import CustomSideBar from '../../components/products/CustomSideBar'
 import CardProduct from '../../components/products/CardProduct'
 import Loading from '../loading'
 import { GetProducts } from '../../lib/api';
+import { useSearchParams } from 'next/navigation';
 
 const Products = () => {
   const [isGrid, setIsGrid] = useState(true)
   const [filterData, setFilterData] = useState({})
   const [cars, setCars] = useState([])
 
-  const handleClick = (type) => {
-    type === 'list' ? setIsGrid(false) : setIsGrid(true)
-  }
+  // ! Query
+  const searchParams = useSearchParams()
+
+
+  useEffect(() => {
+    const search = searchParams.get('search')
+    setFilterData({ ...filterData, search })
+  }, [searchParams])
+
+
 
   useEffect(() => {
     ; (async () => {
@@ -23,7 +31,13 @@ const Products = () => {
       const res = await Promise.resolve(GetProducts(params))
       setCars(res?.data)
     })()
-  }, [filterData])
+  }, [filterData, searchParams])
+
+
+  const handleClick = (type) => {
+    type === 'list' ? setIsGrid(false) : setIsGrid(true)
+  }
+
 
   return (
     <section className="container mx-auto py-3">

@@ -49,11 +49,11 @@ async function Get(params) {
 async function GetProducts(params) {
 
   const { api, data } = params
-  const { brandId, modelId, transmission, fuelType, noOfseat, color, maxPrice, minPrice } = data
+  const { brandId, modelId, transmission, fuelType, noOfseat, color, maxPrice, minPrice, search } = data
 
   const lowPrice = false
   const highPrice = true
-  const search = ""
+  // const search = ""
 
   let queryString = '';
 
@@ -96,14 +96,12 @@ async function GetProducts(params) {
     queryString += `search=${search}&`
   }
 
-
-
   if (color?.length > 0) {
     queryString += `color=${color.join(',')}${color && '&'}`
   }
 
 
-  console.log("queryString:", queryString)
+  // console.log("queryString:", queryString)
 
   try {
     const res = await fetch(`${BASE_URL}/${api}?${queryString}`)

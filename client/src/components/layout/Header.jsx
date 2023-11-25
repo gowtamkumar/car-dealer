@@ -30,6 +30,7 @@ import Link from 'next/link'
 import UserDropDwon from '../ui/UserDropDwon'
 import dashboardRoute from '../dashboard/_dashboardRoute'
 import { useSession } from 'next-auth/react'
+import { useRouter } from 'next/navigation'
 
 function NavListMenu({ session }) {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false)
@@ -62,7 +63,7 @@ function NavListMenu({ session }) {
         handler={setIsMenuOpen}
         offset={{ mainAxis: 20 }}
         placement="bottom"
-        // allowHover={true}
+      // allowHover={true}
       >
         <MenuHandler>
           <Typography as="div" variant="small" className="font-normal">
@@ -75,15 +76,13 @@ function NavListMenu({ session }) {
               Menu
               <ChevronDownIcon
                 strokeWidth={2.5}
-                className={`hidden h-3 w-3 transition-transform lg:block ${
-                  isMenuOpen ? 'rotate-180' : ''
-                }`}
+                className={`hidden h-3 w-3 transition-transform lg:block ${isMenuOpen ? 'rotate-180' : ''
+                  }`}
               />
               <ChevronDownIcon
                 strokeWidth={2.5}
-                className={`block h-3 w-3 transition-transform lg:hidden ${
-                  isMobileMenuOpen ? 'rotate-180' : ''
-                }`}
+                className={`block h-3 w-3 transition-transform lg:hidden ${isMobileMenuOpen ? 'rotate-180' : ''
+                  }`}
               />
             </ListItem>
           </Typography>
@@ -171,7 +170,13 @@ export default function NavbarMenu() {
   const [openNav, setOpenNav] = React.useState(false)
   const [query, setQuery] = React.useState('')
 
+  //Query
   const session = useSession()
+  const router = useRouter()
+
+  const handleSearch = () => {
+    router.push(`/products?search=${query || ''}`)
+  }
 
   React.useEffect(() => {
     window.addEventListener('resize', () => window.innerWidth >= 960 && setOpenNav(false))
@@ -198,7 +203,7 @@ export default function NavbarMenu() {
               value={query}
               onChange={(e) => setQuery(e.target.value)}
             />
-            <Button size="sm" className="!absolute right-1 top-1 rounded">
+            <Button size="sm" onClick={handleSearch} className="!absolute right-1 top-1 rounded">
               Search
             </Button>
           </div>
@@ -255,7 +260,7 @@ export default function NavbarMenu() {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
           />
-          <Button size="sm" className="!absolute right-1 top-1 rounded bg-red-400">
+          <Button size="sm" onClick={handleSearch} className="!absolute right-1 top-1 rounded bg-red-400">
             Search
           </Button>
         </div>

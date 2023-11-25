@@ -84,8 +84,9 @@ export class ProductService {
       maxNoOfPass,
       minPrice,
       maxPrice,
-      accidentHistory
-
+      accidentHistory,
+      lowPrice,
+      highPrice
     } = filterProductDto
 
 
@@ -100,13 +101,14 @@ export class ProductService {
     qb.leftJoin('product.modelCode', 'modelCode')
     // product Feature
     if (productFeature) qb.andWhere('product.productFeature IN (:productFeatures)', { productFeatures: productFeature })
-    // if (brandId) qb.andWhere('product.brandId IN (:...brandIds)', { brandIds: brandId.split(',') })
-    // if (modelId) qb.andWhere('product.modelId IN (:...modelIds)', { modelIds: modelId.split(',') })
-    // if (modelCodeId) qb.andWhere('product.modelCodeId IN (:...modelCodeIds)', { modelCodeIds: modelCodeId.split(',') })
-    // if (transmission) qb.andWhere('product.transmission IN (:...transmissions)', { transmissions: transmission.split(',') })
-    // if (fuelType) qb.andWhere('product.fuelType IN (:...fuelTypes)', { fuelTypes: fuelType.split(',') })
-    // if (noOfseat) qb.andWhere('product.noOfseat IN (:...noOfseats)', { noOfseats: noOfseat.split(',') })
-    // if (color) qb.andWhere('product.color IN (:...colors)', { colors: color.split(',') })
+    if (brandId) qb.andWhere('product.brandId IN (:...brandIds)', { brandIds: brandId.split(',') })
+    if (modelId) qb.andWhere('product.modelId IN (:...modelIds)', { modelIds: modelId.split(',') })
+    if (modelCodeId) qb.andWhere('product.modelCodeId IN (:...modelCodeIds)', { modelCodeIds: modelCodeId.split(',') })
+    if (transmission) qb.andWhere('product.transmission IN (:...transmissions)', { transmissions: transmission.split(',') })
+    if (fuelType) qb.andWhere('product.fuelType IN (:...fuelTypes)', { fuelTypes: fuelType.split(',') })
+    if (noOfseat) qb.andWhere('product.noOfseat IN (:...noOfseats)', { noOfseats: noOfseat.split(',') })
+    if (color) qb.andWhere('product.color IN (:...colors)', { colors: color.split(',') })
+
 
     if (condition) qb.andWhere({ condition })
     if (auction) qb.andWhere({ auction })
@@ -133,14 +135,17 @@ export class ProductService {
     if (search) {
       qb.andWhere(
         new Brackets((db) => {
-          db.where('LOWER(product.name) ILIKE LOWER(:search)', { search: `%${search}%` })
-          db.where('LOWER(product.description) ILIKE LOWER(:search)', { search: `%${search}%` })
+          db.orWhere('LOWER(product.name) ILIKE LOWER(:search)', { search: `%${search}%` })
+          db.orWhere('LOWER(product.description) ILIKE LOWER(:search)', { search: `%${search}%` })
           db.orWhere('LOWER(brand.name) ILIKE LOWER(:search)', { search: `%${search}%` })
           db.orWhere('LOWER(model.name) ILIKE LOWER(:search)', { search: `%${search}%` })
           db.orWhere('LOWER(modelCode.name) ILIKE LOWER(:search)', { search: `%${search}%` })
         }),
       )
     }
+
+    if (lowPrice) qb.orderBy('price', "ASC")
+    if (highPrice) qb.orderBy('price', "DESC")
 
     const result = await qb.getMany()
 

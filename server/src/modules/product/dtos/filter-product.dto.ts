@@ -64,10 +64,6 @@ export class FilterProductDto {
   @IsNumber()
   maxPrice: number
 
-  @IsString()
-  sort: string
-
-
   @Transform(({ value }) => Number(value))
   @IsNumber()
   minNoOfPass: number
@@ -97,8 +93,8 @@ export class FilterProductDto {
   @IsString()
   engCode: string
 
-  @IsNumber()
-  noOfseat: number
+  @IsString()
+  noOfseat: string
 
   @IsNumber()
   noOfOwner: number
@@ -120,6 +116,12 @@ export class FilterProductDto {
 
   @IsBoolean()
   accidentHistory: boolean
+
+  @IsBoolean()
+  lowPrice: boolean
+
+  @IsBoolean()
+  highPrice: boolean
 
   @IsEnum(ProductStatusEnum)
   status: ProductStatusEnum

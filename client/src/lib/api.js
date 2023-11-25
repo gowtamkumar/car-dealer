@@ -49,7 +49,11 @@ async function Get(params) {
 async function GetProducts(params) {
 
   const { api, data } = params
-  const { brandId, modelId, transmission, fuelType, noOfseat, color } = data
+  const { brandId, modelId, transmission, fuelType, noOfseat, color, maxPrice, minPrice } = data
+
+  const lowPrice = false
+  const highPrice = true
+  const search = ""
 
   let queryString = '';
 
@@ -71,9 +75,34 @@ async function GetProducts(params) {
   if (noOfseat?.length > 0) {
     queryString += `noOfseat=${noOfseat.join(',')}${noOfseat && '&'}`
   }
+
+  if (maxPrice) {
+    queryString += `maxPrice=${maxPrice}&`
+  }
+
+  if (minPrice) {
+    queryString += `minPrice=${minPrice}&`
+  }
+
+  if (lowPrice) {
+    queryString += `lowPrice=${lowPrice}&`
+  }
+
+  if (highPrice) {
+    queryString += `highPrice=${highPrice}&`
+  }
+
+  if (search) {
+    queryString += `search=${search}&`
+  }
+
+
+
   if (color?.length > 0) {
     queryString += `color=${color.join(',')}${color && '&'}`
   }
+
+
   console.log("queryString:", queryString)
 
   try {

@@ -49,40 +49,34 @@ async function Get(params) {
 async function GetProducts(params) {
 
   const { api, data } = params
+  const { brandId, modelId, transmission, fuelType, noOfseat, color } = data
 
   let queryString = '';
 
-  if (data.brandId) {
-    queryString += `brandId=${data.brandId?.join(",").toString()}`
-
+  if (brandId?.length > 0) {
+    queryString += `brandId=${brandId.join(',')}${brandId && '&'}`
   }
-  console.log("queryString", queryString);
-  // if (author) {
-  //   queryString += `author_like=${author}`;
-  // }
-  // if (tags?.length > 0) {
-  //   queryString += tags
-  //     .map((tag) => (author ? `&tags_like=${tag}` : `tags_like=${tag}`))
-  //     .join('&');
-  // }
 
-  // if (search !== '') {
-  //   queryString += `&q=${search}`;
-  // }
+  if (modelId?.length > 0) {
+    queryString += `modelId=${modelId.join(',')}${modelId && '&'}`
+  }
 
-  // if (limit && currentPage) {
-  //   queryString +=
-  //     tags.length > 0 || search || author
-  //       ? `&_page=${currentPage}&_limit=${limit}`
-  //       : `_page=${currentPage}&_limit=${limit}`;
-  // }
+  if (transmission?.length > 0) {
+    queryString += `transmission=${transmission.join(',')}${transmission && '&'}`
+  }
+  if (fuelType?.length > 0) {
+    queryString += `fuelType=${fuelType.join(',')}${fuelType && '&'}`
+  }
 
-  // return console.log("queryString", queryString);
+  if (noOfseat?.length > 0) {
+    queryString += `noOfseat=${noOfseat.join(',')}${noOfseat && '&'}`
+  }
+  if (color?.length > 0) {
+    queryString += `color=${color.join(',')}${color && '&'}`
+  }
+  console.log("queryString:", queryString)
 
   try {
-
-    // console.log('data:', data)
-    const session = await getSession()
     const res = await fetch(`${BASE_URL}/${api}?${queryString}`)
     if (!res.ok) {
       console.log('Failed to fetch data')

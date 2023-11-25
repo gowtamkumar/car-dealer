@@ -1,8 +1,8 @@
 'use client'
 import { Card, Input, Button, CardHeader, CardBody, Typography } from '@material-tailwind/react'
 import Link from 'next/link'
-import React, { useState } from 'react'
-import { signIn, useSession } from 'next-auth/react'
+import React, { useEffect, useState } from 'react'
+import { getSession, signIn } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { toast } from 'react-toastify'
 
@@ -10,10 +10,21 @@ export default function Login() {
   const [data, setData] = useState({})
   const router = useRouter()
 
-  const session = useSession()
-  if (session.status === 'authenticated') {
-    router.push('/')
-  }
+  // const session = useSession()
+  // console.log("🚀 ~ session:", session)
+  // if (session.status === 'authenticated') {
+  //   router.push('/')
+  // }
+
+
+  useEffect(() => {
+    (async () => {
+      const newSession = await getSession()
+      if (newSession?.token) {
+        router.push('/')
+      }
+    })()
+  }, [])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -39,7 +50,7 @@ export default function Login() {
         }, 1000)
       }
     } catch (err) {
-      toast.error(err)
+      console.log(err);
     }
   }
 
@@ -63,37 +74,43 @@ export default function Login() {
                 Login as a Seller
               </Typography>
             </CardHeader>
-            <CardBody><div className="p-0">
-              <div className="my-5">
-                <Input
-                  onChange={({ target }) => setData({ ...data, username: target.value })}
-                  variant="standard"
-                  label="Username"
-                />
-              </div>
-              <div className="my-5">
-                <Input
-                  onChange={({ target }) => setData({ ...data, password: target.value })}
-                  variant="standard"
-                  label="Password"
-                  type="password"
-                />
-              </div>
-              <div className="my-5">
-                <Button onClick={handleSubmit} fullWidth variant="gradient" color="red">
-                  Log In
-                </Button>
-              </div>
-              <hr />
-              <div className="my-3 flex items-center justify-between">
-                <Link className="hover:text-red-300 hover:underline" href="/forgot-password">
-                  <span>Forgotten password?</span>
-                </Link>
-                <Link className="hover:text-red-300 hover:underline" href="/signup">
-                  <span>Register</span>
-                </Link>
-              </div>
-            </div></CardBody>
+            <CardBody>
+              <form autoComplete='false' onSubmit={handleSubmit}>
+                <div className="p-0">
+                  <div className="my-5">
+                    <Input
+                      onChange={({ target }) => setData({ ...data, username: target.value })}
+                      variant="standard"
+                      label="Username"
+                      required
+                    />
+                  </div>
+                  <div className="my-5">
+                    <Input
+                      onChange={({ target }) => setData({ ...data, password: target.value })}
+                      variant="standard"
+                      label="Password"
+                      type="password"
+                      required
+                    />
+                  </div>
+                  <div className="my-5">
+                    <Button type='submit' fullWidth variant="gradient" color="red">
+                      Log In
+                    </Button>
+                  </div>
+                  <hr />
+                  <div className="my-3 flex items-center justify-between">
+                    <Link className="hover:text-red-300 hover:underline" href="/forgot-password">
+                      <span>Forgotten password?</span>
+                    </Link>
+                    <Link className="hover:text-red-300 hover:underline" href="/signup">
+                      <span>Register</span>
+                    </Link>
+                  </div>
+                </div>
+              </form>
+            </CardBody>
           </Card>
         </div>
       </div>

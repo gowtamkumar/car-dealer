@@ -16,7 +16,7 @@ const UsedCarSection = () => {
     ; (async () => {
       const params = { api: 'products' }
       const res = await Promise.resolve(Gets(params))
-      const filter = (res?.data || []).filter(item => item.condition === 'Used')
+      const filter = (res.data || []).filter(item => item.condition === 'Used')
       setCar(filter)
     })()
   }, [])

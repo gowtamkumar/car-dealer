@@ -20,7 +20,7 @@ export default function Models() {
       const res = await Gets(params)
       setModels(res?.data)
     })()
-  }, [])
+  }, [action])
 
   return (
     <div className="container-fluid bg-white p-3  ">

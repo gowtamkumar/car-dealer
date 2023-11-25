@@ -1,6 +1,5 @@
 'use client'
 import React, { useEffect, useState } from 'react'
-import CustomCarousel from '../ui/CustomCarousel'
 import { Gets } from '../../lib/api'
 import appConfig from '../../config'
 import { IconButton, Carousel } from '@material-tailwind/react'
@@ -12,7 +11,7 @@ const HeroSection = () => {
     ; (async () => {
       const params = { api: 'banners' }
       const res = await Promise.resolve(Gets(params))
-      setBanners((res?.data.filter(item => item.isActive)))
+      setBanners((res.data?.filter(item => item.isActive)))
       // setBanners((res?.data || []).filter(iten).map((item) => ({ ...item, img: item.photo })))
     })()
   }, [])

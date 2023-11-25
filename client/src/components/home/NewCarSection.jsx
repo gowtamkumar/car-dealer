@@ -16,7 +16,7 @@ const NewCarSection = () => {
     ; (async () => {
       const params = { api: 'products' }
       const res = await Promise.resolve(Gets(params))
-      const filter = (res?.data || []).filter(item => item.condition === 'New')
+      const filter = (res.data || []).filter(item => item.condition === 'New')
       setCar(filter)
     })()
   }, [])

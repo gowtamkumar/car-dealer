@@ -1,10 +1,10 @@
 'use client'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
-import { Card, Input, Checkbox, Button, Typography, CardHeader, CardBody } from '@material-tailwind/react'
+import { Card, Input, Button, Typography, CardHeader, CardBody } from '@material-tailwind/react'
 import { useRouter } from 'next/navigation'
 import { toast } from 'react-toastify'
-import { useSession } from 'next-auth/react'
+import { getSession } from 'next-auth/react'
 import { createUser } from '../../../lib/createUser'
 
 export default function Signup() {
@@ -12,14 +12,25 @@ export default function Signup() {
   const router = useRouter()
 
   // redirect home page
-  const session = useSession()
-  if (session.status === 'authenticated') {
-    router.push('/')
-  }
+  // const session = useSession()
+  // if (session.status === 'authenticated') {
+  //   router.push('/')
+  // }
+
+  useEffect(() => {
+    (async () => {
+      const newSession = await getSession()
+      if (newSession?.token) {
+        router.push('/')
+      }
+    })()
+  }, [])
+
 
   // create new user
   const handleSubmit = async (e) => {
     e.preventDefault()
+    // return console.log(data);
     try {
       const result = await createUser(data)
       if (result.statusCode === 400) {
@@ -61,7 +72,7 @@ export default function Signup() {
               </Typography>
             </CardHeader>
             <CardBody>
-              <form autoComplete='false'>
+              <form autoComplete='false' onSubmit={handleSubmit}>
                 <div className="p-0">
                   <div className="my-5">
                     <Input
@@ -69,14 +80,16 @@ export default function Signup() {
                       variant="standard"
                       label="Name"
                       name='name'
+                      required
                     />
                   </div>
                   <div className="my-5">
                     <Input
                       onChange={({ target }) => setData({ ...data, [target.name]: target.value })}
                       variant="standard"
-                      label="User Name"
+                      label="Username"
                       name='username'
+                      required
                     />
                   </div>
                   <div className="my-5">
@@ -86,6 +99,7 @@ export default function Signup() {
                       label="Password"
                       type="password"
                       name='password'
+                      required
                     />
                   </div>
                   <div className="my-5">
@@ -94,6 +108,7 @@ export default function Signup() {
                       variant="standard"
                       label="Contact No."
                       name='phone'
+                      required
                     />
                   </div>
                   <div className="my-5">
@@ -105,7 +120,7 @@ export default function Signup() {
                     />
                   </div>
                   <div className="my-5">
-                    <Button onClick={handleSubmit} fullWidth variant="gradient" color="red">
+                    <Button type='submit' fullWidth variant="gradient" color="red">
                       Register
                     </Button>
                   </div>

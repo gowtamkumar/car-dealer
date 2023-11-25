@@ -14,7 +14,7 @@ const ReconditionCar = () => {
     ; (async () => {
       const params = { api: 'products' }
       const res = await Promise.resolve(Gets(params))
-      const filter = (res?.data || []).filter(item => item.condition === 'Recondition')
+      const filter = (res.data || []).filter(item => item.condition === 'Recondition')
       setCar(filter)
     })()
   }, [])

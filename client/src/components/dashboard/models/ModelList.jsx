@@ -9,14 +9,14 @@ import {
   FileExcelOutlined,
   QuestionCircleOutlined,
 } from '@ant-design/icons'
-import { ActionType } from '../../../constants/constants'
 import { DataTable } from 'primereact/datatable'
 import { Column } from 'primereact/column'
 import { Button, Tag, Popconfirm, Empty, Image } from 'antd'
 import { Input, Spinner } from '@material-tailwind/react'
 import { toast } from 'react-toastify'
-import { Delete, Gets } from '../../../lib/api'
+import { Delete } from '../../../lib/api'
 import appConfig from '../../../config'
+import { ActionType } from '../../../constants/constants'
 
 const ModelList = ({ models, setAction }) => {
   const [globalFilter, setGlobalFilter] = useState('')
@@ -143,7 +143,7 @@ const ModelList = ({ models, setAction }) => {
         globalFilter={globalFilter}
         emptyMessage={
           <div className="text-center">
-            {false ? ( // loading
+            {!models ? ( // loading
               <div className="w-full text-center">
                 <Spinner className="inline-block" />
               </div>

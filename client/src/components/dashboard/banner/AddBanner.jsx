@@ -7,7 +7,7 @@ import { Button } from '@material-tailwind/react'
 import { toast } from 'react-toastify'
 import { InboxOutlined } from '@ant-design/icons'
 import { Create, Update } from '../../../lib/api'
-import createFile from '../../../lib/api'
+import CreateFile from '../../../lib/api'
 import { useRouter } from 'next/navigation'
 
 const AddBanner = ({ action = {}, setAction }) => {
@@ -97,7 +97,7 @@ const AddBanner = ({ action = {}, setAction }) => {
     fmData.append(filename, file)
 
     try {
-      const res = await createFile(fmData)
+      const res = await CreateFile(fmData)
       if (res.photo.length) {
         setFormData({ photo: res.photo[0]?.filename })
       }

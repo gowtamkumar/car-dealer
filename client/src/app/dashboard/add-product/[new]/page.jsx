@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react'
 import appConfig from '../../../../config'
 import productEnum from '../../../../constants/utils'
-import createFile from '../../../../lib/api'
+import CreateFile from '../../../../lib/api'
 import dayjs from 'dayjs'
 import { Button } from '@material-tailwind/react'
 import { PlusOutlined } from '@ant-design/icons'
@@ -170,7 +170,7 @@ const AddProduct = ({ params }) => {
     fmData.append(filename, file)
     // return
     try {
-      const res = await createFile(fmData)
+      const res = await CreateFile(fmData)
       if (res.images?.length) {
         setFormData({ photos: [...form.getFieldValue()?.photos, res?.images[0]?.filename] })
       }

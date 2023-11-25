@@ -1,21 +1,39 @@
 'use client'
 import { Suspense, useEffect, useState } from 'react'
-import { IconButton, Option, Select } from '@material-tailwind/react'
+import { IconButton } from '@material-tailwind/react'
 import { ListBulletIcon, Squares2X2Icon } from '@heroicons/react/24/outline'
 import { FaCar } from "react-icons/fa6";
 import CustomSideBar from '../../components/products/CustomSideBar'
 import CardProduct from '../../components/products/CardProduct'
 import Loading from '../loading'
 import { GetProducts } from '../../lib/api';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { Select, Pagination } from 'antd';
 
 const Products = () => {
   const [isGrid, setIsGrid] = useState(true)
   const [filterData, setFilterData] = useState({})
   const [cars, setCars] = useState([])
 
-  const handleClick = (type) => {
-    type === 'list' ? setIsGrid(false) : setIsGrid(true)
-  }
+  console.log("filterData:", filterData)
+  // ! Query
+  const searchParams = useSearchParams()
+  const router = useRouter()
+  const currentPage = parseInt(searchParams.get('page')) || 1;
+
+  const handlePageChange = (page) => {
+    router.push(`/products?page=${page}`);
+  };
+
+  useEffect(() => {
+    const search = searchParams.get('search')
+    if (search) {
+      setFilterData({ ...filterData, search })
+    }
+    router.push(`/products?page=${currentPage}`);
+  }, [searchParams])
+
+
 
   useEffect(() => {
     ; (async () => {
@@ -23,29 +41,36 @@ const Products = () => {
       const res = await Promise.resolve(GetProducts(params))
       setCars(res?.data)
     })()
-  }, [filterData])
+  }, [filterData, searchParams])
+
+
+  const handleClick = (type) => {
+    type === 'list' ? setIsGrid(false) : setIsGrid(true)
+  }
+
+  const handleShortBy = (value) => {
+    if (value) {
+      setFilterData({ ...filterData, highPrice: true, lowPrice: false })
+    }
+    if (!value) {
+      setFilterData({ ...filterData, lowPrice: true, highPrice: false })
+    }
+  }
+
 
   return (
     <section className="container mx-auto py-3">
       <div className="my-5 w-full rounded-md border bg-white px-4 shadow-sm">
         <div className="flex flex-col items-start p-4 px-5 lg:h-20 lg:flex-row lg:items-center lg:justify-between lg:p-0">
           <div className="mb-2 flex-grow">
-            {filterData.search && <h1 className="text-lg font-bold ">Searching for “mobile phone”</h1>}
+            {filterData.search && <h1 className="text-lg font-bold ">Searching for “{filterData.search}”</h1>}
             {cars?.length > 0 && <span className="mb-2 text-gray-700">{cars.length} cars found</span>}
           </div>
           <div className="flex items-start justify-between lg:items-center lg:gap-4">
             <div>
-              <Select
-                containerProps={{
-                  className: 'min-w-[200px] focus:border-[1px] inline-block',
-                }}
-                label="Short By"
-              >
-                <Option>Material</Option>
-                <Option>Material</Option>
-                <Option>Material</Option>
-                <Option>Material</Option>
-                <Option>Material</Option>
+              <Select onChange={handleShortBy} className='w-full' placeholder="Short By Price">
+                <Select.Option value={false}>Low To High</Select.Option>
+                <Select.Option value={true}>High To Low</Select.Option>
               </Select>
             </div>
             <div className="flex items-center gap-2">
@@ -93,7 +118,15 @@ const Products = () => {
                   </div>
                 </div>
                 )}
-
+              {cars.length > 10 &&
+                <div className="col-span-12">
+                  <Pagination
+                    current={currentPage}
+                    onChange={handlePageChange}
+                    total={100} // Replace this with the total number of pages or items
+                  />
+                </div>
+              }
             </Suspense>
           </div>
         </div>

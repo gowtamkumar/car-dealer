@@ -1,15 +1,25 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Tabs } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
 import { Button } from '@material-tailwind/react'
 import { ActionType } from '../../../constants/constants'
 import BannerList from '../../../components/dashboard/banner/BannerList'
 import AddBanner from '../../../components/dashboard/banner/AddBanner'
+import { Gets } from '../../../lib/api'
 
 export default function Banners() {
   const [tabKey, setTabKey] = useState('banner_list')
   const [action, setAction] = useState({})
+  const [banners, setBanners] = useState([])
+
+  useEffect(() => {
+    ;(async () => {
+      const params = { api: 'banners' }
+      const res = await Promise.resolve(Gets(params))
+      setBanners(res.data || [])
+    })()
+  }, [action])
 
   return (
     <div className="container-fluid bg-white p-3  ">
@@ -20,17 +30,17 @@ export default function Banners() {
           {
             label: 'Banner List',
             key: 'banner_list',
-            children: <BannerList setAction={setAction} status={''} />,
+            children: <BannerList setAction={setAction} banners={banners || []} />,
           },
-          // {
-          //   label: 'Active',
-          //   key: 'active',
-          //   children: <BannerList setAction={setAction} status={'Active'} />,
-          // },
           {
             label: 'Inactive',
             key: 'inactive',
-            children: <BannerList setAction={setAction} status={'Inactive'} />,
+            children: (
+              <BannerList
+                setAction={setAction}
+                banners={(banners || []).filter((item) => !item.isActive)}
+              />
+            ),
           },
         ]}
         tabBarExtraContent={

@@ -147,7 +147,7 @@ export class UpdateProductDto {
 
 
   @IsBoolean()
-  @IsNotEmpty()
+  @IsOptional()
   accidentHistory: boolean
 
 

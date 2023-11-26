@@ -13,14 +13,13 @@ export default function ModelCodes() {
   const [action, setAction] = useState({})
   const [modelCodes, setModelCodes] = useState([])
 
-
   useEffect(() => {
-    ; (async () => {
+    ;(async () => {
       const params = { api: 'model-codes' }
       const res = await Gets(params)
       setModelCodes(res?.data)
     })()
-  }, [])
+  }, [action])
 
   return (
     <div className="container-fluid bg-white p-3  ">
@@ -36,12 +35,22 @@ export default function ModelCodes() {
           {
             label: 'Active',
             key: 'active',
-            children: <ModelCodeList setAction={setAction} modelCodes={modelCodes.filter(item => item.isActive)} />,
+            children: (
+              <ModelCodeList
+                setAction={setAction}
+                modelCodes={modelCodes.filter((item) => item.isActive)}
+              />
+            ),
           },
           {
             label: 'Inactive',
             key: 'inactive',
-            children: <ModelCodeList setAction={setAction} modelCodes={modelCodes.filter(item => !item.isActive)} />,
+            children: (
+              <ModelCodeList
+                setAction={setAction}
+                modelCodes={modelCodes.filter((item) => !item.isActive)}
+              />
+            ),
           },
         ]}
         tabBarExtraContent={

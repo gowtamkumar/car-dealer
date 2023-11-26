@@ -94,7 +94,7 @@ export class ProductService {
     // service time Start
     const start = process.hrtime()
     const qb = this.productRepo.createQueryBuilder('product')
-    qb.select(['product', 'brand.name', 'model.name', 'modelCode.name', 'user.name', 'user.phone'])
+    qb.select(['product', 'brand.name', 'model.name', 'modelCode.name', 'user.name', 'user.phone', 'user.photo'])
     qb.leftJoin('product.brand', 'brand')
     qb.leftJoin('product.user', 'user')
     qb.leftJoin('product.model', 'model')

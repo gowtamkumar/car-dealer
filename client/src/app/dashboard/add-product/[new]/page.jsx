@@ -10,7 +10,17 @@ import { useSession } from 'next-auth/react'
 import { toast } from 'react-toastify'
 import { Create, Get, Gets, Update } from '../../../../lib/api'
 import { useRouter } from 'next/navigation'
-import { DatePicker, Divider, Form, Input, Checkbox, InputNumber, Select, Upload, Modal } from 'antd'
+import {
+  DatePicker,
+  Divider,
+  Form,
+  Input,
+  Checkbox,
+  InputNumber,
+  Select,
+  Upload,
+  Modal,
+} from 'antd'
 
 const AddProduct = ({ params }) => {
   const [formValues, setFormValues] = useState({})
@@ -22,12 +32,14 @@ const AddProduct = ({ params }) => {
 
   // hook
   const [form] = Form.useForm()
-  const { data: { user } } = useSession()
+  const {
+    data: { user },
+  } = useSession()
   // const { user = {} } = data || {}
   const router = useRouter()
 
   useEffect(() => {
-    ; (async () => {
+    ;(async () => {
       if (params.new === 'new') {
         form.resetFields()
         setFormValues({})
@@ -39,14 +51,12 @@ const AddProduct = ({ params }) => {
       const newData = { ...result.data }
 
       if (newData.photos) {
-        const file = (newData.photos || []).map((item, idx) => (
-          {
-            uid: Math.random() * 1000 + '',
-            name: `photo ${idx}`,
-            status: 'done',
-            url: `${appConfig.apiBaseUrl}/uploads/${item || 'no-data.png'}`,
-          }
-        ))
+        const file = (newData.photos || []).map((item, idx) => ({
+          uid: Math.random() * 1000 + '',
+          name: `photo ${idx}`,
+          status: 'done',
+          url: `${appConfig.apiBaseUrl}/uploads/${item || 'no-data.png'}`,
+        }))
         newData.fileList = file
       }
       setFormData(newData)
@@ -59,7 +69,7 @@ const AddProduct = ({ params }) => {
   }, [params.new])
 
   useEffect(() => {
-    ; (async () => {
+    ;(async () => {
       const brands = await Promise.resolve(Gets({ api: 'brands' }))
       const models = await Promise.resolve(Gets({ api: 'models' }))
       const modelCodes = await Promise.resolve(Gets({ api: 'model-codes' }))
@@ -150,14 +160,12 @@ const AddProduct = ({ params }) => {
     if (backUp?.id) {
       const newData = { ...backUp }
       if (newData.photos) {
-        const file = (newData.photos || []).map((item, idx) => (
-          {
-            uid: Math.random() * 1000 + '',
-            name: `photo ${idx}`,
-            status: 'done',
-            url: `${appConfig.apiBaseUrl}/uploads/${item || 'no-data.png'}`,
-          }
-        ))
+        const file = (newData.photos || []).map((item, idx) => ({
+          uid: Math.random() * 1000 + '',
+          name: `photo ${idx}`,
+          status: 'done',
+          url: `${appConfig.apiBaseUrl}/uploads/${item || 'no-data.png'}`,
+        }))
         newData.fileList = file
       }
       form.setFieldsValue(newData)
@@ -915,8 +923,7 @@ const AddProduct = ({ params }) => {
               <label className="mb-1" htmlFor="description">
                 Description
               </label>
-              <Form.Item c
-                className="mb-1" name="description">
+              <Form.Item c className="mb-1" name="description">
                 <Input.TextArea rows={3} placeholder="Description" />
               </Form.Item>
             </div>
@@ -954,7 +961,7 @@ const AddProduct = ({ params }) => {
                 onPreview={handlePreview}
                 customRequest={customUploadRequest}
                 maxCount={5}
-              // beforeUpload={beforeUpload}
+                // beforeUpload={beforeUpload}
               >
                 {formValues?.fileList?.length >= num ? null : uploadButton}
               </Upload>
@@ -976,7 +983,7 @@ const AddProduct = ({ params }) => {
 
             <div className="flex flex-col items-center lg:items-end">
               <div className="text-red-500">
-                (<span className="text-xl"> * </span> অবশ্যই পূরণ করতে হবে)
+                (<span className="text-xl"> * </span> Required)
               </div>
               <div className="my-2">
                 <Button className="mx-2" onClick={resetFormData} variant="gradient" color="gray">
@@ -989,7 +996,6 @@ const AddProduct = ({ params }) => {
             </div>
           </div>
         </div>
-
       </div>
     </Form>
   )

@@ -10,15 +10,6 @@ const Profile = () => {
   // const [user, setUser] = useState({})
 
   const userData = {}
-  const session = useSession()
-  console.log("session:", session)
-
-  // useEffect(() => {
-  //   if (typeof window !== 'undefined' && window.localStorage) {
-  //     const data = localStorage.getItem('userData')
-  //     setUser(JSON.parse(data))
-  //   }
-  // }, [])
 
   const handleProfile = (type) => {
     if (type === 'edit') return setIsEdit(true)

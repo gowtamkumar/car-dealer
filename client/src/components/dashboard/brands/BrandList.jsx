@@ -1,7 +1,6 @@
 'use client'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useRef, useState } from 'react'
 import {
-  EyeOutlined,
   FormOutlined,
   RestOutlined,
   PrinterOutlined,
@@ -120,7 +119,7 @@ const BrandList = ({ brands, setAction }) => {
     <main>
       <div className="flex items-center justify-between p-3">
         <div className="text-start">
-          <Button size="small" icon={<PrinterOutlined />}></Button>
+          <Button disabled size="small" icon={<PrinterOutlined />}></Button>
           <Button
             size="small"
             className="mx-1"
@@ -129,7 +128,7 @@ const BrandList = ({ brands, setAction }) => {
             loading={loading.exportCsv}
             icon={<FileExcelOutlined />}
           />
-          <Button size="small" className="me-5" title="Export Pdf" icon={<FilePdfOutlined />} />
+          <Button disabled size="small" className="me-5" title="Export Pdf" icon={<FilePdfOutlined />} />
         </div>
         <div className="text-end">
           <Input

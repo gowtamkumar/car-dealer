@@ -102,14 +102,16 @@ const Products = () => {
             <Suspense fallback={<Loading />}>
 
               {cars?.length > 0 ?
-                cars?.map((item, idx) => (
-                  <div
-                    key={idx}
-                    className={`${isGrid ? 'col-span-12 lg:col-span-4' : 'col-span-12'}`}
-                  >
-                    <CardProduct data={item} />
-                  </div>
-                )) :
+                (cars || [])
+                  .filter(item => item.status === 'Approved')
+                  .map((item, idx) => (
+                    <div
+                      key={idx}
+                      className={`${isGrid ? 'col-span-12 lg:col-span-4' : 'col-span-12'}`}
+                    >
+                      <CardProduct data={item} />
+                    </div>
+                  )) :
                 (<div className='col-span-12'>
                   <div className='flex flex-col justify-center h-[50vh] items-center'>
                     <FaCar className='text-red-400 rounded-full my-5 p-5 bg-red-50' size={100} />

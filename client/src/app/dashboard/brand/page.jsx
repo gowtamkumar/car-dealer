@@ -14,12 +14,12 @@ export default function Brands() {
   const [brands, setBrands] = useState([])
 
   useEffect(() => {
-    ; (async () => {
+    ;(async () => {
       const params = { api: 'brands' }
       const res = await Promise.resolve(Gets(params))
       setBrands(res?.data)
     })()
-  }, [])
+  }, [action])
 
   return (
     <div className="container-fluid bg-white p-3  ">
@@ -35,12 +35,16 @@ export default function Brands() {
           {
             label: 'Active',
             key: 'active',
-            children: <BrandList setAction={setAction} brands={brands.filter(item => item.isActive)} />,
+            children: (
+              <BrandList setAction={setAction} brands={brands.filter((item) => item.isActive)} />
+            ),
           },
           {
             label: 'Inactive',
             key: 'inactive',
-            children: <BrandList setAction={setAction} brands={brands.filter(item => !item.isActive)} />,
+            children: (
+              <BrandList setAction={setAction} brands={brands.filter((item) => !item.isActive)} />
+            ),
           },
         ]}
         tabBarExtraContent={

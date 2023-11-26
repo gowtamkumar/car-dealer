@@ -109,7 +109,7 @@ const ModelList = ({ models, setAction }) => {
     <main>
       <div className="flex items-center justify-between p-3">
         <div className="text-start">
-          <Button size="small" icon={<PrinterOutlined />}></Button>
+          <Button disabled size="small" icon={<PrinterOutlined />}></Button>
           <Button
             size="small"
             className="mx-1"
@@ -118,7 +118,7 @@ const ModelList = ({ models, setAction }) => {
             loading={loading.exportCsv}
             icon={<FileExcelOutlined />}
           />
-          <Button size="small" className="me-5" title="Export Pdf" icon={<FilePdfOutlined />} />
+          <Button size="small" className="me-5" disabled title="Export Pdf" icon={<FilePdfOutlined />} />
         </div>
         <div className="text-end">
           <Input

@@ -13,12 +13,11 @@ export default function Models() {
   const [action, setAction] = useState({})
   const [models, setModels] = useState([])
 
-
   useEffect(() => {
-    ; (async () => {
+    ;(async () => {
       const params = { api: 'models' }
-      const res = await Gets(params)
-      setModels(res?.data)
+      const res = await Promise.resolve(Gets(params))
+      setModels(res.data || [])
     })()
   }, [action])
 
@@ -31,17 +30,27 @@ export default function Models() {
           {
             label: 'Model List',
             key: 'model_list',
-            children: <ModelList setAction={setAction} models={(models || [])} />,
+            children: <ModelList setAction={setAction} models={models || []} />,
           },
           {
             label: 'Active',
             key: 'active',
-            children: <ModelList setAction={setAction} models={(models || []).filter((item) => item.isActive)} />,
+            children: (
+              <ModelList
+                setAction={setAction}
+                models={(models || []).filter((item) => item.isActive)}
+              />
+            ),
           },
           {
             label: 'Inactive',
             key: 'inactive',
-            children: <ModelList setAction={setAction} models={(models || []).filter((item) => !item.isActive)} />,
+            children: (
+              <ModelList
+                setAction={setAction}
+                models={(models || []).filter((item) => !item.isActive)}
+              />
+            ),
           },
         ]}
         tabBarExtraContent={

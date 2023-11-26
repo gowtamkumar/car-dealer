@@ -18,26 +18,12 @@ import { toast } from 'react-toastify'
 import { Delete, Gets } from '../../../lib/api'
 import appConfig from '../../../config'
 
-const UserList = ({ filter, setAction }) => {
+const UserList = ({ users, setAction }) => {
   const [globalFilter, setGlobalFilter] = useState('')
   const [loading, setLoading] = useState({})
-  const [users, setUsers] = useState([])
 
   // query
   const dt = useRef(null)
-
-  useEffect(() => {
-    ; (async () => {
-      const params = { api: 'users' }
-      const res = await Gets(params)
-      if (filter) {
-        const newData = res?.data.filter((item) => item.role === filter)
-        setUsers(newData)
-      } else {
-        setUsers(res?.data)
-      }
-    })()
-  }, [filter])
 
   const handleDelete = async (id) => {
     setTimeout(async () => {
@@ -61,19 +47,19 @@ const UserList = ({ filter, setAction }) => {
 
   // jsx funcitons
   const bodyTemplate = ({ rowData, field }) => {
-    const { status, logo, name } = rowData
+    const { status, photo, name } = rowData
 
     switch (field) {
       case 'name':
         return (
-          <span className='flex justify-start items-center gap-2'>
+          <span className="flex items-center justify-start gap-2">
             <Image
               alt=""
               width={30}
               height={30}
               preview={false}
               className="rounded-full shadow-sm"
-              src={`${appConfig.apiBaseUrl}/uploads/${logo || 'user.png'} `}
+              src={`${appConfig.apiBaseUrl}/uploads/${photo || 'user.png'} `}
             />
             <span>{name}</span>
           </span>
@@ -124,7 +110,7 @@ const UserList = ({ filter, setAction }) => {
     <main>
       <div className="flex items-center justify-between p-3">
         <div className="text-start">
-          <Button size="small" icon={<PrinterOutlined />}></Button>
+          <Button disabled size="small" icon={<PrinterOutlined />}></Button>
           <Button
             size="small"
             className="mx-1"
@@ -133,7 +119,13 @@ const UserList = ({ filter, setAction }) => {
             loading={loading.exportCsv}
             icon={<FileExcelOutlined />}
           />
-          <Button size="small" className="me-5" title="Export Pdf" icon={<FilePdfOutlined />} />
+          <Button
+            size="small"
+            className="me-5"
+            disabled
+            title="Export Pdf"
+            icon={<FilePdfOutlined />}
+          />
         </div>
         <div className="text-end">
           <Input
@@ -175,9 +167,8 @@ const UserList = ({ filter, setAction }) => {
           className="border"
           field="name"
           header="Name"
-          body={(rowData, { field }) =>
-            bodyTemplate({ rowData, field })
-          } />
+          body={(rowData, { field }) => bodyTemplate({ rowData, field })}
+        />
         <Column className="border" field="username" header="User Name" />
         <Column className="border" field="phone" header="Phone" />
         <Column className="border" field="role" header="Role" />
@@ -185,9 +176,8 @@ const UserList = ({ filter, setAction }) => {
           field="status"
           className="border"
           header="Status"
-          body={(rowData, { field }) =>
-            bodyTemplate({ rowData, field })
-          } />
+          body={(rowData, { field }) => bodyTemplate({ rowData, field })}
+        />
         <Column
           header="Option"
           className="border text-center"

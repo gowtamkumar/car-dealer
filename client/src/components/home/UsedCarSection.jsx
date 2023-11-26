@@ -16,13 +16,13 @@ const UsedCarSection = () => {
     ; (async () => {
       const params = { api: 'products' }
       const res = await Promise.resolve(Gets(params))
-      const filter = (res.data || []).filter(item => item.condition === 'Used')
+      const filter = (res.data || []).filter(item => item.condition === 'Used' && item.status === 'Approved')
       setCar(filter)
     })()
   }, [])
 
   return (
-    <section className="mx-auto my-5 lg:my-10">
+    <section className={`my-5 bg-red-50/5 lg:my-10 py-5 ${car?.length > 0 ? 'block' : 'hidden'}`}>
       <div className="container mx-auto">
         <div className="flex items-center justify-between">
           <h1 className="py-3 text-2xl font-semibold">
@@ -44,13 +44,14 @@ const UsedCarSection = () => {
         </div>
         <div className="grid grid-cols-12 gap-5">
           {
-            (car || []).length > 4 ? null :
-              (car || []).map((item, idx) => (
-                <div key={idx} className="col-span-6 lg:col-span-3">
-                  <CardProduct data={item} />
-                </div>
-              ))}
+            (car || []).length > 0 ? (car || []).filter(item => item.status === 'Approved').map((item, idx) => (
+              <div key={idx} className="col-span-6 lg:col-span-3">
+                <CardProduct data={item} />
+              </div>
+            )) : null
+          }
         </div>
+
       </div>
     </section>
   )

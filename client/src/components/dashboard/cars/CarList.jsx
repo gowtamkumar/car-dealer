@@ -7,7 +7,8 @@ import {
   FilePdfOutlined,
   FileExcelOutlined,
   QuestionCircleOutlined,
-  EyeOutlined
+  EyeOutlined,
+  SwapOutlined,
 } from '@ant-design/icons'
 import { ActionType } from '../../../constants/constants'
 import { DataTable } from 'primereact/datatable'
@@ -17,37 +18,17 @@ import { Input, Spinner } from '@material-tailwind/react'
 import { Gets } from '../../../lib/api'
 import { useRouter } from 'next/navigation'
 import { useSession } from 'next-auth/react'
+import appConfig from '../../../config'
 
-const CarList = ({ filter, setAction }) => {
+const CarList = ({ cars, setAction }) => {
   const [globalFilter, setGlobalFilter] = useState('')
   const [loading, setLoading] = useState({})
-  const [cars, setCars] = useState([])
 
-  console.log("cars:", cars)
   // query
   const dt = useRef(null)
   const router = useRouter()
   const { data } = useSession()
-  const { user: current } = data || {}
-  // console.log("user:", user)
-
-  useEffect(() => {
-    ; (async () => {
-      const params = { api: 'products' }
-      const res = await Gets(params)
-
-      // const newData = [...res?.data]
-      // newData.filter(item => item?.user?.id === current.id)
-      // console.log("newData.filter(item => item?.user?.id === current.id):", newData.filter(item => item?.user?.id === current.id))
-
-      if (filter) {
-        const newData = res?.data.filter((item) => item.status === filter)
-        setCars(newData)
-      } else {
-        setCars(res?.data)
-      }
-    })()
-  }, [filter])
+  const { user } = data || {}
 
   const handleDelete = async (id) => {
     setTimeout(async () => {
@@ -71,19 +52,46 @@ const CarList = ({ filter, setAction }) => {
 
   // jsx funcitons
   const bodyTemplate = ({ rowData, field, rowIndex }) => {
-    const { status } = rowData
+    const { status, user } = rowData
 
     switch (field) {
-
-      case 'status':
-        return <Tag color={status === 'Pending' ? 'gold' : status === "Rejected" ? 'red' : 'green'}>{status}</Tag>
-
       case 'sl':
         return <span>{rowIndex + 1}</span>
+
+      case 'status':
+        return (
+          <Tag color={status === 'Pending' ? 'gold' : status === 'Rejected' ? 'red' : 'green'}>
+            {status}
+          </Tag>
+        )
+
+      case 'user.name':
+        return (
+          <div className="flex items-center justify-start gap-3">
+            <img
+              alt=""
+              className="h-9 w-9 rounded-full shadow-sm"
+              src={`${appConfig.apiBaseUrl}/uploads/${user?.photo || 'user.png'} `}
+            />
+            <div>
+              <h1 className="text-sm">{user?.name}</h1>
+              <span className="text-xs">{user?.phone}</span>
+            </div>
+          </div>
+        )
 
       case 'action':
         return (
           <div>
+            {['Admin', 'Operator'].includes(data?.user?.role) && (
+              <Button
+                title="Switch"
+                size="small"
+                icon={<SwapOutlined />}
+                className="mx-1"
+                onClick={() => setAction({ type: ActionType.APPROVE, payload: rowData })}
+              />
+            )}
             <Button
               title="View"
               size="small"
@@ -129,7 +137,7 @@ const CarList = ({ filter, setAction }) => {
     <main>
       <div className="flex items-center justify-between p-3">
         <div className="text-start">
-          <Button size="small" icon={<PrinterOutlined />}></Button>
+          <Button disabled size="small" icon={<PrinterOutlined />}></Button>
           <Button
             size="small"
             className="mx-1"
@@ -138,7 +146,13 @@ const CarList = ({ filter, setAction }) => {
             loading={loading.exportCsv}
             icon={<FileExcelOutlined />}
           />
-          <Button size="small" className="me-5" title="Export Pdf" icon={<FilePdfOutlined />} />
+          <Button
+            size="small"
+            className="me-5"
+            disabled
+            title="Export Pdf"
+            icon={<FilePdfOutlined />}
+          />
         </div>
         <div className="text-end">
           <Input
@@ -176,22 +190,37 @@ const CarList = ({ filter, setAction }) => {
         ref={dt}
         className="p-datatable-sm rounded-md border text-center"
       >
-        <Column
-          header="#"
-          className="w-[20px] border"
-          body={(rowData, { rowIndex }) => bodyTemplate({ rowData, rowIndex, field: 'sl' })}
-        />
+        {['Admin', 'Operator'].includes(user?.role) ? null : (
+          <Column
+            header="#"
+            className="w-[20px] border"
+            body={(rowData, { rowIndex }) => bodyTemplate({ rowData, rowIndex, field: 'sl' })}
+          />
+        )}
+        {['Admin', 'Operator'].includes(user?.role) && (
+          <Column
+            className="border"
+            field="user.name"
+            body={(rowData, { field }) => bodyTemplate({ rowData, field })}
+            header="Post By"
+          />
+        )}
         <Column className="border" field="name" header="Name" />
         <Column className="border" field="brand.name" header="Brand" />
         <Column className="border" field="model.name" header="Model" />
         <Column className="border" field="modelCode.name" header="Model Code" />
         <Column className="border" field="condition" header="Condition" />
         <Column className="border" field="fuelType" header="Fuel Type" />
-        <Column className="border" field="status" header="Status" body={(rowData, { field }) => bodyTemplate({ rowData, field })} />
+        <Column
+          className="border"
+          field="status"
+          header="Status"
+          body={(rowData, { field }) => bodyTemplate({ rowData, field })}
+        />
         <Column
           header="Option"
           className="w-[10px] border text-center"
-          body={(rowData, { rowIndex }) => bodyTemplate({ rowData, field: 'action' })}
+          body={(rowData) => bodyTemplate({ rowData, field: 'action' })}
         />
       </DataTable>
     </main>

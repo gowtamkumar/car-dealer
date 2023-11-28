@@ -1,7 +1,7 @@
 import { FilterUserDto } from '../dtos/filter-user.dto';
 import { CreateUserDto } from '../dtos/create-user.dto';
 import { UserService } from '../services/user.service';
-import { Body, Controller, Delete, Get, Logger, Patch, Post, Put, Query } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Logger, Param, Patch, Post, Put, Query, UseGuards } from "@nestjs/common";
 import { UUIDParam } from '@common/decorators/http.decorators';
 import { UpdateUserDto } from '../dtos/update-user.dto';
 import { Serialize } from '@common/interceptors/serialize.interceptor';
@@ -10,6 +10,8 @@ import { RequestContext } from '@common/decorators/request-context.decorator';
 import { RequestContextDto } from '@common/dtos/request-context.dto';
 import { UpdatePasswordDto } from '../dtos/update-password.dto';
 import { BaseApiSuccessResponse } from '@common/dtos/base-api-response.dto';
+import { JwtAuthGuard } from '@admin/auth/guards/jwt-auth.guard';
+import { string } from 'joi';
 
 
 @Serialize(UserResponseDto)
@@ -40,6 +42,7 @@ export class UserController {
   }
 
 
+  @UseGuards(JwtAuthGuard)
   @Get('/:id')
   async getUser(
     @RequestContext() ctx: RequestContextDto,
@@ -56,6 +59,21 @@ export class UserController {
       data: user
     }
   }
+
+  @Post('/username')
+  async getUserByUsername(@Body() username: any) {
+    // this.logger.verbose(`User ${username} retriving his profile.`)
+    // const { username } = createUserDto
+    const result = await this.userService.findByUsername(username)
+
+    return {
+      success: true,
+      statusCode: 200,
+      message: `Get by username`,
+      data: result,
+    }
+  }
+
 
 
   @Post('/')
@@ -76,6 +94,7 @@ export class UserController {
   }
 
 
+  @UseGuards(JwtAuthGuard)
   @Put('/:id')
   async updateUser(
     @RequestContext() ctx: RequestContextDto,
@@ -94,6 +113,7 @@ export class UserController {
     }
   }
 
+  @UseGuards(JwtAuthGuard)
   @Patch('/update-password/:id')
   async updatePassword(
     @RequestContext() ctx: RequestContextDto,
@@ -115,6 +135,7 @@ export class UserController {
   }
 
 
+  @UseGuards(JwtAuthGuard)
   @Delete('/:id')
   async deleteUser(
     @RequestContext() ctx: RequestContextDto,
@@ -132,7 +153,6 @@ export class UserController {
     }
   }
 
-  // @UseGuards(JwtAuthGuard, SystemAdminGuard)
   @Post('/initiate')
   async initiateUser(
     @RequestContext() ctx: RequestContextDto

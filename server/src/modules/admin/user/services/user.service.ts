@@ -18,11 +18,10 @@ export class UserService {
   constructor(
     @InjectRepository(UserEntity)
     private readonly userRepo: Repository<UserEntity>,
-  ) {}
+  ) { }
 
   getUsers(ctx: RequestContextDto, filterUserDto: FilterUserDto): Promise<UserEntity[]> {
     this.logger.log(`${this.getUsers.name}Service Called`)
-    const { name, username, role, status } = filterUserDto
     // logic for filter
     return this.userRepo.find()
   }
@@ -41,20 +40,33 @@ export class UserService {
     return this.userRepo.findOne({ where: { id } })
   }
 
-  findUserByUsername(username: string): Promise<UserEntity> {
-    return this.userRepo.findOne({ where: { username } })
+  async findUserByUsername(username: string) {
+    const user = await this.userRepo.findOne({ where: { username } })
+    if (!user) {
+      throw new NotFoundException(`User not found`)
+    }
+    return user
+  }
+
+
+  async findByUsername({ username }) {
+    const user = await this.userRepo.findOne({ where: { username } })
+    if (!user) {
+      throw new NotFoundException(`User not found`)
+    }
+    delete user.password
+    return user
   }
 
   async createUser(ctx: RequestContextDto, createUserDto: CreateUserDto): Promise<UserEntity> {
     this.logger.log(`${this.createUser.name}Service Called`)
     const { username } = createUserDto
-    console.log("🚀 ~ UserService ~ createUserDto:", createUserDto)
 
     const findUser = await this.userRepo.findOne({ where: { username } })
     if (findUser) {
       throw new NotFoundException('User Already Registered')
     }
-  
+
     const hashPassword = await bcrypt.hash(createUserDto.password, 10)
     const user = this.userRepo.create({ ...createUserDto, password: hashPassword })
     await this.userRepo.save(user)
@@ -95,13 +107,13 @@ export class UserService {
     return this.userRepo.save(user)
   }
 
-  async resetPassword(ctx: RequestContextDto, id: string, password: string): Promise<UserDto> {
+  async resetPassword(ctx: RequestContextDto, id: string, newPassword: string): Promise<UserDto> {
     this.logger.log(`${this.resetPassword.name} Called`)
 
     const user = await this.getUser(ctx, id)
 
-    user.password = await bcrypt.hash(password, 10)
-    delete user.password
+    user.password = await bcrypt.hash(newPassword, 10)
+    // delete user.password
     return this.userRepo.save(user)
   }
 

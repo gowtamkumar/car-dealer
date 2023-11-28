@@ -1,3 +1,4 @@
+import { MailService } from './../../../other/mail/services/mail.service';
 import { UserEntity } from './../../user/entities/user.entity'
 import { CreateUserDto } from '@admin/user/dtos/create-user.dto'
 import { UpdatePasswordDto } from '@admin/user/dtos/update-password.dto'
@@ -11,13 +12,17 @@ import { AuthenticationResponseDto } from '../dtos/authentication-response.dto'
 import { ForgotPasswordDto } from '../dtos/forgot-password.dto'
 import { LoginCredentialsDto } from '../dtos/login-credentials.dto'
 import { RegisterCredentialsDto } from '../dtos/register-credentials.dto'
-import { ResetPasswordDto } from '../dtos/reset-password.dto'
+import { ResetPasswordDto } from '../dtos/reset-password.dto';
 
 @Injectable()
 export class AuthService {
   private logger = new Logger(AuthService.name)
 
-  constructor(private readonly userService: UserService, private readonly jwtService: JwtService) {}
+  constructor(
+    private readonly userService: UserService,
+    private readonly jwtService: JwtService,
+    private readonly mailService: MailService
+  ) { }
 
   async register(
     ctx: RequestContextDto,
@@ -79,36 +84,34 @@ export class AuthService {
     return this.userService.updateUser(ctx, ctx.user.id, updateUserDto)
   }
 
+
   async updatePassword(
     ctx: RequestContextDto,
     updatePasswordDto: UpdatePasswordDto,
   ): Promise<UserEntity> {
     this.logger.log(`${this.updatePassword.name}Service Called`)
-    console.log('ssss')
-    console.log('ctx.user', ctx.user)
 
     if (!ctx.user) {
       throw new UnauthorizedException()
     }
-
     return this.userService.updatePassword(ctx, ctx.user.id, updatePasswordDto)
   }
 
-  // TODO
+
   async forgotPassword(ctx: RequestContextDto, forgotPasswordDto: ForgotPasswordDto) {
     this.logger.log(`${this.forgotPassword.name}Service Called`)
-
-    
-
-
-    return 'forgot password'
+    const result = await this.mailService.sendForgotPaswordMail(ctx, forgotPasswordDto)
+    return result
   }
 
   // TODO
-  // async resetPassword(ctx: RequestContextDto, resetPasswordDto: ResetPasswordDto) {
-  //   this.logger.log(`${this.resetPassword.name}Service Called`)
-  //   return 'reset pass'
-  // }
+  async resetPassword(ctx: RequestContextDto, id:string, resetPasswordDto: ResetPasswordDto) {
+    this.logger.log(`${this.resetPassword.name}Service Called`)
+    const { newPassword } = resetPasswordDto
+
+    const user = await this.userService.resetPassword(ctx, id, newPassword);
+    return user
+  }
 
   private generateAccessToken(ctx: RequestContextDto, user: UserDto): Promise<string> {
     this.logger.log(`${this.generateAccessToken.name}Service Called`)

@@ -1,56 +1,31 @@
 'use client'
 import { Card, Input, Button, CardHeader, CardBody, Typography } from '@material-tailwind/react'
 import Link from 'next/link'
-import React, { useEffect, useState } from 'react'
-import { getSession, signIn } from 'next-auth/react'
+import React, { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { toast } from 'react-toastify'
+import { UserResetPassword } from '../../../lib/api'
 
-export default function Login() {
+export default function ResetPassword() {
   const [data, setData] = useState({})
   const router = useRouter()
 
-  // const session = useSession()
-  // console.log("🚀 ~ session:", session)
-  // if (session.status === 'authenticated') {
-  //   router.push('/')
-  // }
-
-
-  useEffect(() => {
-    (async () => {
-      const newSession = await getSession()
-      if (newSession?.token) {
-        router.push('/')
-      }
-    })()
-  }, [])
+  const locData = localStorage.getItem('fromData')
+  const newData = JSON.parse(locData)
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-
-    const { username, password } = data
-
     try {
-      const result = await signIn('credentials', {
-        username,
-        password,
-        redirect: false,
-      })
-      if (result.error) {
-        return toast.error('Wrong username or password')
+      const params = {
+        id: newData.id,
+        api: 'auth/reset-password',
+        data: { newPassword: data.newPassword }
       }
-      if (result.ok) {
-        toast.success('Login successfully')
-      }
+      await UserResetPassword(params)
+      localStorage.clear()
+      router.push('/login')
 
-      if (result.status === 200) {
-        setTimeout(() => {
-          router.push('/')
-        }, 1000)
-      }
-    } catch (err) {
-      console.log(err);
+    } catch (error) {
+      console.log(error);
     }
   }
 
@@ -71,7 +46,7 @@ export default function Login() {
                 </div>
               </Link>
               <Typography variant="h4" className="my-3" color="blue-gray">
-                Login as a Seller
+                Reset Password
               </Typography>
             </CardHeader>
             <CardBody>
@@ -79,36 +54,27 @@ export default function Login() {
                 <div className="p-0">
                   <div className="my-5">
                     <Input
-                      onChange={({ target }) => setData({ ...data, username: target.value })}
+                      onChange={({ target }) => setData({ ...data, newPassword: target.value })}
                       variant="standard"
-                      label="Username"
-                      required
+                      label="New Password"
+                    // required
                     />
                   </div>
-                  <div className="my-5">
-                    <Input
-                      onChange={({ target }) => setData({ ...data, password: target.value })}
-                      variant="standard"
-                      label="Password"
-                      type="password"
-                      required
-                    />
-                  </div>
+
                   <div className="my-5">
                     <Button type='submit' fullWidth variant="gradient" color="red">
-                      Log In
+                      Send
                     </Button>
                   </div>
-                  <hr />
+                  {/* <hr />
                   <div className="my-3 flex items-center justify-between">
-                  
                     <Link className="hover:text-red-300 hover:underline" href="/forgot-password">
                       <span>Forgotten password?</span>
                     </Link>
                     <Link className="hover:text-red-300 hover:underline" href="/signup">
                       <span>Register</span>
                     </Link>
-                  </div>
+                  </div> */}
                 </div>
               </form>
             </CardBody>

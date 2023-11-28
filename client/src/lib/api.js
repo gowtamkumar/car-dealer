@@ -179,7 +179,7 @@ async function Delete(params) {
   return result
 }
 
-export default async function CreateFile(data) {
+async function CreateFile(data) {
   const res = await fetch('http://localhost:3900/api/v1/files/uploads', {
     method: 'POST',
     body: data,
@@ -191,5 +191,51 @@ export default async function CreateFile(data) {
   return res.json()
 }
 
+async function GetUserByUsername(params) {
+  const { data, api } = params
+  const resp = await fetch(`${BASE_URL}/${api}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  })
+  const result = await resp.json()
+  return result
+}
 
-export { Gets, Get, Create, Update, Delete, CreateFile, GetProducts }
+async function SendForgotPassword(params) {
+  const { api, data } = params
+  const resp = await fetch(`${BASE_URL}/${api}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  })
+  const result = await resp.json()
+  return result
+}
+
+async function UserResetPassword(params) {
+  // console.log("🚀 ~ params:", params)
+  // return
+  const { api, data, id } = params
+  const resp = await fetch(`${BASE_URL}/${api}/${id}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  })
+
+  const result = await resp.json()
+  return result
+}
+
+
+
+
+
+
+export { Gets, Get, Create, Update, Delete, CreateFile, GetProducts, GetUserByUsername, SendForgotPassword, UserResetPassword }

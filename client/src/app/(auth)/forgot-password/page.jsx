@@ -1,54 +1,38 @@
 'use client'
 import { Card, Input, Button, CardHeader, CardBody, Typography } from '@material-tailwind/react'
 import Link from 'next/link'
-import React, { useEffect, useState } from 'react'
-import { getSession, signIn } from 'next-auth/react'
+import React, { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { toast } from 'react-toastify'
+import { SendForgotPassword, GetUserByUsername } from '../../../lib/api'
 
-export default function Login() {
+export default function ForgotPassword() {
   const [data, setData] = useState({})
   const router = useRouter()
-
-  // const session = useSession()
-  // console.log("🚀 ~ session:", session)
-  // if (session.status === 'authenticated') {
-  //   router.push('/')
-  // }
-
-
-  useEffect(() => {
-    (async () => {
-      const newSession = await getSession()
-      if (newSession?.token) {
-        router.push('/')
-      }
-    })()
-  }, [])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
 
-    const { username, password } = data
-
     try {
-      const result = await signIn('credentials', {
-        username,
-        password,
-        redirect: false,
-      })
-      if (result.error) {
-        return toast.error('Wrong username or password')
-      }
-      if (result.ok) {
-        toast.success('Login successfully')
+      const { username, email } = data
+
+      const userFindByUserName = { api: 'users/username', data }
+
+      const result = await GetUserByUsername(userFindByUserName)
+
+      if (result.statusCode === 404) {
+        return toast.error(result.errors)
       }
 
-      if (result.status === 200) {
-        setTimeout(() => {
-          router.push('/')
-        }, 1000)
-      }
+      const otp = Math.floor(Math.random() * 1000 * 9000)
+
+      const params = { api: 'auth/forgot-password', data: { username, email, otp: otp } }
+
+      const forgotPassword = await SendForgotPassword(params)
+
+      localStorage.setItem('fromData', JSON.stringify({ id: forgotPassword.data?.id, email, otp: otp }))
+      router.push('/verify')
+
     } catch (err) {
       console.log(err);
     }
@@ -71,7 +55,7 @@ export default function Login() {
                 </div>
               </Link>
               <Typography variant="h4" className="my-3" color="blue-gray">
-                Login as a Seller
+                Forgot Password
               </Typography>
             </CardHeader>
             <CardBody>
@@ -87,27 +71,17 @@ export default function Login() {
                   </div>
                   <div className="my-5">
                     <Input
-                      onChange={({ target }) => setData({ ...data, password: target.value })}
+                      onChange={({ target }) => setData({ ...data, email: target.value })}
                       variant="standard"
-                      label="Password"
-                      type="password"
+                      label="Email"
+                      type="email"
                       required
                     />
                   </div>
                   <div className="my-5">
                     <Button type='submit' fullWidth variant="gradient" color="red">
-                      Log In
+                      Send
                     </Button>
-                  </div>
-                  <hr />
-                  <div className="my-3 flex items-center justify-between">
-                  
-                    <Link className="hover:text-red-300 hover:underline" href="/forgot-password">
-                      <span>Forgotten password?</span>
-                    </Link>
-                    <Link className="hover:text-red-300 hover:underline" href="/signup">
-                      <span>Register</span>
-                    </Link>
                   </div>
                 </div>
               </form>

@@ -6,8 +6,10 @@ import {
   Delete,
   Get,
   Logger,
+  Param,
   Patch,
   Post,
+  Put,
   Req,
   Res,
   UseGuards,
@@ -26,6 +28,7 @@ import { BaseApiSuccessResponse } from '@common/dtos/base-api-response.dto'
 import { UserResponseDto } from '@admin/user/dtos/user-response.dto'
 import { JwtAuthGuard } from '../guards/jwt-auth.guard'
 import { LoginCredentialsDto } from '../dtos/login-credentials.dto'
+import { UUIDParam } from '@common/decorators/http.decorators'
 
 @Controller('auth')
 export class AuthController {
@@ -108,6 +111,8 @@ export class AuthController {
     }
   }
 
+
+
   @Delete('/me')
   async deleteMe(
     @RequestContext() ctx: RequestContextDto,
@@ -171,39 +176,39 @@ export class AuthController {
 
     return {
       success: true,
-      statusCode: ``,
+      statusCode: 200,
       message: `Forgot password`,
       data: result,
     }
   }
 
-  // @Patch('/reset-password')
-  // async resetMyPassword(
-  //   @RequestContext() ctx: RequestContextDto,
-  //   @Body() resetPasswordDto: ResetPasswordDto,
-  // ) {
-  //   this.logger.verbose(`Reset Password`)
+  @Put('/reset-password/:id')
+  async resetMyPassword(
+    @RequestContext() ctx: RequestContextDto,
+    @UUIDParam('id') id: string,
+    @Body() resetPasswordDto: ResetPasswordDto,
+  ) {
+    this.logger.verbose(`Reset Password`)
 
-  //   await this.authService.resetPassword(ctx, resetPasswordDto)
+    await this.authService.resetPassword(ctx,id, resetPasswordDto)
 
-  //   return {
-  //     success: true,
-  //     statusCode: ``,
-  //     message: `Password reset successfull`,
-  //     data: {},
-  //   }
-  // }
+    return {
+      success: true,
+      statusCode: 201,
+      message: `Password reset successfull`,
+    }
+  }
 
   private buildCookieTokenResponse(ctx: RequestContextDto, response: Response, token: string) {
     this.logger.verbose(`Cookie Token Response`)
     const cookieOptions = {
       // expires: new Date(new Date().getTime() + 168 * 60 * 60 * 1000), //7 day  604800 ms
-      expires: new Date(
-        new Date().getTime() + +this.configService.get('JWT_ACCESS_TOKEN_EXPIRES') * 1000 // cookie expires in in ms  1 day
-      ),
       // expires: new Date(
-      //   Date.now() + +this.configService.get('JWT_ACCESS_TOKEN_EXPIRES') * 1000 // cookie expires in in ms
+      //   new Date().getTime() + +this.configService.get('JWT_ACCESS_TOKEN_EXPIRES') * 1000 // cookie expires in in ms  1 day
       // ),
+      expires: new Date(
+        Date.now() + +this.configService.get('JWT_ACCESS_TOKEN_EXPIRES') * 1000 // cookie expires in in ms
+      ),
       // secure: config.SSL && config.NODE_ENV===env_mode.PRODUCTION
     }
     // console.log("cookieOptions", cookieOptions);

@@ -1,10 +1,10 @@
-import { IsDefined, IsJWT, IsNotEmpty, IsString, Length } from "class-validator";
+import { IsDefined, IsJWT, IsNotEmpty, IsString, IsUUID, Length } from "class-validator";
 
 export class ResetPasswordDto {
-  @IsNotEmpty()
-  @IsJWT()
-  @IsDefined()
-  resetPasswordToken: string;
+  // @IsNotEmpty()
+  // @IsJWT()
+  // @IsDefined()
+  // resetPasswordToken: string;
 
   @IsNotEmpty()
   @IsString()

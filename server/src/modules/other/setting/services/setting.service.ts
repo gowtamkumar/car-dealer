@@ -1,4 +1,4 @@
-import { Injectable, Logger, NotFoundException } from '@nestjs/common'
+import { Injectable, InternalServerErrorException, Logger, NotFoundException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { CreateSettingDto, FilterSettingDto, UpdateSettingDto } from '../dtos'
 import { SettingEntity } from '../entities/setting.entity'
@@ -12,7 +12,9 @@ export class SettingService {
   constructor(
     @InjectRepository(SettingEntity)
     private readonly settingRepo: Repository<SettingEntity>,
-  ) {}
+  ) { }
+
+  
 
   getSettings(ctx: RequestContextDto, filterSettingDto: FilterSettingDto): Promise<SettingEntity[]> {
     this.logger.log(`${this.getSettings.name} Service Called`)

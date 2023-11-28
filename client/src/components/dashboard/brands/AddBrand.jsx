@@ -6,8 +6,7 @@ import { ActionType } from '../../../constants/constants'
 import { Button } from '@material-tailwind/react'
 import { toast } from 'react-toastify'
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons'
-import { Create, Update } from '../../../lib/api'
-import CreateFile from '../../../lib/api'
+import { Create, CreateFile, Update } from '../../../lib/api'
 import { useRouter } from 'next/navigation'
 
 const AddBrand = ({ action = {}, setAction }) => {

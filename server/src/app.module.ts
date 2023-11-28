@@ -14,9 +14,22 @@ import { ModelModule } from '@modules/model/model.module'
 import { ModelCodeModule } from '@modules/model-code/model-code.module'
 import { BannerModule } from '@modules/banner/banner.module'
 import { ScheduleModule } from '@nestjs/schedule'
+import { MailerModule } from '@nestjs-modules/mailer'
 
 @Module({
   imports: [
+    // MailerModule.forRoot({
+    //   transport: {
+    //     host: 'smtp.gmail.com',
+    //     port: 465,
+    //     secure: true,
+    //     auth: {
+    //       user: 'gowtampaul0@gmail.com',
+    //       pass: 'sddf mfmj suay wvla',
+    //     },
+    //   },
+      
+    // }),
     ScheduleModule.forRoot(),
     ConfigModule.forRoot({
       isGlobal: true,

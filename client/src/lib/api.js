@@ -60,7 +60,8 @@ async function GetProducts(params) {
     minPrice,
     search,
     lowPrice,
-    highPrice
+    highPrice,
+    conditions
   } = data
 
   // const lowPrice = false
@@ -106,6 +107,9 @@ async function GetProducts(params) {
 
   if (search) {
     queryString += `search=${search}&`
+  }
+  if (conditions) {
+    queryString += `conditions=${conditions}&`
   }
 
   if (color?.length > 0) {

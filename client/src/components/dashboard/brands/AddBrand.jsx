@@ -113,7 +113,7 @@ const AddBrand = ({ action = {}, setAction }) => {
 
   return (
     <Modal
-      title={action.type === ActionType.UPDATE ? 'Update Brand' : 'Create Brand'}
+      title={action.type === ActionType.UPDATE ? 'Update Make' : 'Create Make'}
       width={500}
       zIndex={1050}
       open={action.type === ActionType.CREATE || action.type === ActionType.UPDATE}
@@ -136,7 +136,7 @@ const AddBrand = ({ action = {}, setAction }) => {
           <div>
             <Form.Item
               className="mb-1"
-              label="Brand Logo"
+              label="Make Logo"
               name="fileList"
               getValueFromEvent={normFile}
             >
@@ -160,7 +160,7 @@ const AddBrand = ({ action = {}, setAction }) => {
               <Form.Item
                 name="name"
                 className="mb-1"
-                label="Barnd Name"
+                label="Make Name"
                 rules={[
                   {
                     required: true,

@@ -60,7 +60,10 @@ const SelectItem = ({ active, label, open, data, filterBy, setFilterData, filter
         {(data || []).map((item, idx) => {
           return (
             <div key={idx} className='px-2 '>
-              <Checkbox color='red' onChange={({ target }) => handleSelector(target.checked, item)} label={item.name || item} />
+              <Checkbox
+                color='red'
+                onChange={({ target }) => handleSelector(target.checked, item)}
+                label={item.name || item} />
             </div>
           )
         })}

@@ -14,7 +14,7 @@ export default function Brands() {
   const [brands, setBrands] = useState([])
 
   useEffect(() => {
-    ;(async () => {
+    ; (async () => {
       const params = { api: 'brands' }
       const res = await Promise.resolve(Gets(params))
       setBrands(res?.data)
@@ -28,7 +28,7 @@ export default function Brands() {
         onChange={(key) => setTabKey(key)}
         items={[
           {
-            label: 'All Brands',
+            label: 'All Makes',
             key: 'brand_list',
             children: <BrandList setAction={setAction} brands={brands} />,
           },
@@ -54,7 +54,7 @@ export default function Brands() {
             className="capitalize"
             onClick={() => setAction({ type: ActionType.CREATE })}
           >
-            <PlusOutlined className="mx-1" /> Add Brand
+            <PlusOutlined className="mx-1" /> Add Make
           </Button>
         }
       />

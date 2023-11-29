@@ -42,7 +42,7 @@ const DashboardRoute = [
     color: 'red',
   },
   {
-    title: 'Brand',
+    title: 'Make',
     path: '/dashboard/brand',
     isMenuItem: role !== 'seller',
     icon: CubeTransparentIcon,

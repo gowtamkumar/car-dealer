@@ -6,9 +6,12 @@ import { BiSearchAlt } from 'react-icons/bi'
 import { FireIcon } from '@heroicons/react/24/outline'
 import { Typography } from '@material-tailwind/react'
 import { Gets } from '../../lib/api'
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Pagination } from 'swiper/modules';
 
 const ReconditionCar = () => {
   const [car, setCar] = useState([])
+  const [view, setView] = useState(4)
 
   useEffect(() => {
     ; (async () => {
@@ -18,6 +21,10 @@ const ReconditionCar = () => {
       setCar(filter)
     })()
   }, [])
+
+  useEffect(() => {
+    window.innerWidth > 600 ? setView(4) : setView(1)
+  }, []);
 
   return (
     <section className={`my-5 bg-red-50/5 lg:my-10 py-5 ${car?.length > 0 ? 'block' : 'hidden'}`}>
@@ -40,15 +47,23 @@ const ReconditionCar = () => {
             <span>View All</span>
           </Typography>
         </div>
-        <div className="grid grid-cols-12 gap-5">
+        <Swiper
+          slidesPerView={view}
+          spaceBetween={30}
+          pagination={{
+            clickable: true,
+          }}
+          modules={[Pagination]}
+          className="mySwiper"
+        >
           {
-            (car || []).length > 0 ? (car || []).filter(item => item.status === 'Approved').map((item, idx) => (
-              <div key={idx} className="col-span-6 lg:col-span-3">
+            (car || []).map((item, idx) => (
+              <SwiperSlide key={idx} className="col-span-6 lg:col-span-3">
                 <CardProduct data={item} />
-              </div>
-            )) : null
+              </SwiperSlide>
+            ))
           }
-        </div>
+        </Swiper>
       </div>
     </section>
   )

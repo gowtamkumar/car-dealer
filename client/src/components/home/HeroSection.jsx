@@ -11,7 +11,7 @@ const HeroSection = () => {
     ; (async () => {
       const params = { api: 'banners' }
       const res = await Promise.resolve(Gets(params))
-      setBanners((res.data?.filter(item => item.isActive)))
+      setBanners(((res.data || []).filter(item => item.isActive)))
       // setBanners((res?.data || []).filter(iten).map((item) => ({ ...item, img: item.photo })))
     })()
   }, [])
@@ -72,6 +72,9 @@ const HeroSection = () => {
               </svg>
             </IconButton>
           )
+        }}
+        navigation={() => {
+          if (true) return
         }}
       >
         {(banners || []).map((item, idx) => (

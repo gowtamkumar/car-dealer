@@ -2,20 +2,18 @@
 import React, { useEffect, useState } from 'react'
 import appConfig from '../../../../config'
 import productEnum from '../../../../constants/utils'
-import CreateFile from '../../../../lib/api'
 import dayjs from 'dayjs'
 import { Button } from '@material-tailwind/react'
 import { PlusOutlined } from '@ant-design/icons'
 import { useSession } from 'next-auth/react'
 import { toast } from 'react-toastify'
-import { Create, Get, Gets, Update } from '../../../../lib/api'
+import { Create, Get, Gets, Update, CreateFile } from '../../../../lib/api'
 import { useRouter } from 'next/navigation'
 import {
   DatePicker,
   Divider,
   Form,
   Input,
-  Checkbox,
   InputNumber,
   Select,
   Upload,
@@ -39,7 +37,7 @@ const AddProduct = ({ params }) => {
   const router = useRouter()
 
   useEffect(() => {
-    ;(async () => {
+    ; (async () => {
       if (params.new === 'new') {
         form.resetFields()
         setFormValues({})
@@ -69,7 +67,7 @@ const AddProduct = ({ params }) => {
   }, [params.new])
 
   useEffect(() => {
-    ;(async () => {
+    ; (async () => {
       const brands = await Promise.resolve(Gets({ api: 'brands' }))
       const models = await Promise.resolve(Gets({ api: 'models' }))
       const modelCodes = await Promise.resolve(Gets({ api: 'model-codes' }))
@@ -140,15 +138,10 @@ const AddProduct = ({ params }) => {
 
   const setFormData = (v) => {
     const newData = { ...v }
-    // console.log("newData:", newData)
-
-    if (newData.manufactureDate) newData.manufactureDate = dayjs(newData.manufactureDate)
-    if (newData.registrationDate) newData.registrationDate = dayjs(newData.registrationDate)
-    if (!newData.brandId) newData.modelId = undefined
-    if (!newData.modelId) newData.modelCodeId = undefined
-    if (!newData.divisionId) newData.districtId = undefined
-    if (!newData.districtId) newData.upazilaId = undefined
-
+    if (newData.manufactureDate)
+      newData.manufactureDate = dayjs(newData.manufactureDate)
+    if (newData.registrationDate)
+      newData.registrationDate = dayjs(newData.registrationDate)
     form.setFieldsValue(newData)
     setFormValues(form.getFieldsValue())
     setBackup(newData)
@@ -156,7 +149,6 @@ const AddProduct = ({ params }) => {
 
   const resetFormData = () => {
     form.resetFields()
-
     if (backUp?.id) {
       const newData = { ...backUp }
       if (newData.photos) {
@@ -189,36 +181,6 @@ const AddProduct = ({ params }) => {
       onError({ err })
     }
   }
-
-  // const beforeUpload = (file) => {
-  //   const reader = new FileReader();
-  //   reader.readAsDataURL(file);
-  //   reader.onload = (event) => {
-  //     const img = new Image();
-  //     img.src = event.target.result;
-
-  //     img.onload = () => {
-  //       const canvas = document.createElement('canvas');
-  //       canvas.width = img.width;
-  //       canvas.height = img.height;
-  //       const ctx = canvas.getContext('2d');
-  //       ctx.drawImage(img, 0, 0);
-
-  //       // Add watermark text
-  //       ctx.font = '30px Arial';
-  //       ctx.fillStyle = 'rgba(255, 255, 255, 0.5)';
-  //       ctx.fillText('Your Watermark', 20, canvas.height - 40);
-
-  //       // Convert canvas to a new image with watermark
-  //       const watermarkedImageUrl = canvas.toDataURL('image/png');
-  //       console.log("watermarkedImageUrl:", watermarkedImageUrl)
-
-  //       // Set the state with watermarked image URL
-  //       // setImageUrl(watermarkedImageUrl);
-  //     };
-  //   };
-  //   return false; // Prevent default upload behavior
-  // };
 
   const normFile = (e) => {
     if (Array.isArray(e)) {
@@ -304,7 +266,7 @@ const AddProduct = ({ params }) => {
             name="brandId"
             rules={[
               {
-                required: false, // true
+                required: true, // true
                 message: 'Brand is required',
               },
             ]}
@@ -344,7 +306,7 @@ const AddProduct = ({ params }) => {
             name="modelId"
             rules={[
               {
-                required: false, // true
+                required: true, // true
                 message: 'Model is required',
               },
             ]}
@@ -382,7 +344,7 @@ const AddProduct = ({ params }) => {
             name="modelCodeId"
             rules={[
               {
-                required: false, // true
+                required: true, // true
                 message: 'Model Code is required',
               },
             ]}
@@ -413,7 +375,12 @@ const AddProduct = ({ params }) => {
           <label className="mb-1" htmlFor="name">
             Name
           </label>
-          <Form.Item className="mb-1" name="name">
+          <Form.Item rules={[
+            {
+              required: true, // true
+              message: 'name is required',
+            },
+          ]} className="mb-1" name="name">
             <Input id="name" placeholder="Enter Name" />
           </Form.Item>
         </div>
@@ -721,7 +688,7 @@ const AddProduct = ({ params }) => {
                 name="divisionId"
                 rules={[
                   {
-                    required: false, // true
+                    required: true, // true
                     message: 'Division is required',
                   },
                 ]}
@@ -754,7 +721,7 @@ const AddProduct = ({ params }) => {
                 name="districtId"
                 rules={[
                   {
-                    required: false, // true
+                    required: true, // true
                     message: 'District is required',
                   },
                 ]}
@@ -961,7 +928,7 @@ const AddProduct = ({ params }) => {
                 onPreview={handlePreview}
                 customRequest={customUploadRequest}
                 maxCount={5}
-                // beforeUpload={beforeUpload}
+              // beforeUpload={beforeUpload}
               >
                 {formValues?.fileList?.length >= num ? null : uploadButton}
               </Upload>

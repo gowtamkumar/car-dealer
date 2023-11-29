@@ -15,7 +15,6 @@ const Products = () => {
   const [filterData, setFilterData] = useState({})
   const [cars, setCars] = useState([])
 
-  console.log("filterData:", filterData)
   // ! Query
   const searchParams = useSearchParams()
   const router = useRouter()
@@ -27,10 +26,24 @@ const Products = () => {
 
   useEffect(() => {
     const search = searchParams.get('search')
-    if (search) {
-      setFilterData({ ...filterData, search })
+    const brandId = searchParams.get('brandId')
+    const modelId = searchParams.get('modelId')
+    const condition = searchParams.get('condition')
+
+    if (condition || brandId || modelId) {
+      setFilterData({ ...filterData, condition: condition, brandId: [brandId], modelId: [modelId] })
     }
-    router.push(`/products?page=${currentPage}`);
+    // if (brandId) setFilterData({ ...filterData, brandId: [brandId] })
+    // if (modelId) setFilterData({ ...filterData, modelId: [modelId] })
+
+    if (search) setFilterData({ ...filterData, search })
+
+    // condition && setFilterData({ ...filterData, condition })
+    // brandId && setFilterData({ ...filterData, brandId: [brandId] })
+    // modelId && setFilterData({ ...filterData, modelId: [modelId] })
+    // search && setFilterData({ ...filterData, search })
+
+    // router.push(`/products?page=${currentPage}`);
   }, [searchParams])
 
 
@@ -100,7 +113,6 @@ const Products = () => {
         <div className="col-span-12 px-5 lg:col-span-9">
           <div className="grid grid-cols-12 gap-2">
             <Suspense fallback={<Loading />}>
-
               {cars?.length > 0 ?
                 (cars || [])
                   .filter(item => item.status === 'Approved')
@@ -114,7 +126,7 @@ const Products = () => {
                   )) :
                 (<div className='col-span-12'>
                   <div className='flex flex-col justify-center h-[50vh] items-center'>
-                    <FaCar className='text-red-400 rounded-full my-5 p-5 bg-red-50' size={100} />
+                    <FaCar className='text-red-400 rounded-md my-5 p-5 bg-red-50' size={100} />
                     <h1 className='font-bold'>No Cars Found</h1>
                     <p>Please try searching for something else</p>
                   </div>

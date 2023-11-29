@@ -99,7 +99,7 @@ const ModelCodeList = ({ modelCodes, setAction }) => {
             >
               <Button
                 size="small"
-                className="delIcon"
+                danger
                 loading={loading[`delete_${rowData.id}`]}
                 icon={<RestOutlined />}
               />

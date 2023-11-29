@@ -14,7 +14,7 @@ const CardProduct = ({ data }) => {
     <Card className="relative mb-5 w-full border">
       <div className="overflow-hidden rounded-md">
         <CustomCarousel
-          arrow={true}
+          arrow={false}
           autoPlay={false}
           view={true}
           navigation={false}

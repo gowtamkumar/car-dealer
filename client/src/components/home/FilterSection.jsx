@@ -1,17 +1,56 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button, Typography } from '@material-tailwind/react'
 import { BiSearchAlt } from 'react-icons/bi'
 import Link from 'next/link'
 import { Select } from 'antd'
+import { Gets } from '../../lib/api'
+import { useRouter } from 'next/navigation'
+
 const FilterSection = () => {
-  const [active, setActive] = useState('new')
+  const [active, setActive] = useState({ condition: 'New' })
+  const [apiData, setApiData] = useState({})
+
+  const router = useRouter()
+
+  useEffect(() => {
+    ; (async () => {
+      const brands = await Promise.resolve(Gets({ api: 'brands' }))
+      const models = await Promise.resolve(Gets({ api: 'models' }))
+      setApiData({
+        ...apiData,
+        models: models?.data,
+        brands: brands?.data,
+      })
+    })()
+  }, [])
 
   const filterBy = [
     { key: 'new', title: 'New' },
     { key: 'reconditon', title: 'Reconditon' },
     { key: 'used', title: 'Used' },
   ]
+
+  const handleChange = (key, type) => {
+    setActive({ ...active, [type]: key })
+  }
+
+  const handleFilter = () => {
+    const { brandId, modelId, condition } = active
+
+    let queryString = '';
+    if (condition) {
+      queryString += `condition=${condition}${condition && '&'}`
+    }
+    if (brandId) {
+      queryString += `brandId=${brandId}${brandId && '&'}`
+    }
+    if (modelId) {
+      queryString += `modelId=${modelId}${modelId && '&'}`
+    }
+    router.push(`/products?${queryString}`)
+  }
+
 
   return (
     <section className="container relative z-20 mx-auto w-[90%] rounded-md bg-gray-50 p-5 shadow-lg lg:-mt-12 lg:w-3/5">
@@ -20,10 +59,9 @@ const FilterSection = () => {
           {filterBy.map(({ title, key }, idx) => (
             <div
               key={key}
-              onClick={() => setActive(key)}
-              className={`flex-grow rounded-t-sm ${
-                active === key ? 'bg-gray-50' : 'bg-gray-900 text-white'
-              } cursor-pointer px-8 py-2 text-center text-sm font-bold transition-all duration-150 ease-linear`}
+              onClick={() => handleChange(title, 'condition')}
+              className={`flex-grow rounded-t-sm ${active?.condition === title ? 'bg-gray-50' : 'bg-gray-900 text-white'
+                } cursor-pointer px-8 py-2 text-center text-sm font-bold transition-all duration-150 ease-linear`}
             >
               {title}
             </div>
@@ -51,17 +89,18 @@ const FilterSection = () => {
           <div className="flex-grow">
             <Select
               id="brandId"
-              className="w-full"
-              size="large"
               showSearch
               allowClear
+              className="w-full"
+              onChange={(e) => handleChange(e, 'brandId')}
+              size="large"
               placeholder="Select Brand"
               optionFilterProp="children"
-              filterOption={(input, option) =>
-                option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+              filterOption={(inputValue, option) =>
+                option.children?.toLowerCase().indexOf(inputValue.toLowerCase()) >= 0
               }
             >
-              {[].map((item, idx) => (
+              {(apiData.brands || []).map((item, idx) => (
                 <Select.Option key={idx} value={item.id}>
                   {item.name}
                 </Select.Option>
@@ -70,26 +109,30 @@ const FilterSection = () => {
           </div>
           <div className="flex-grow">
             <Select
-              id="modelId"
-              className="w-full"
-              size="large"
               showSearch
               allowClear
+              size='large'
+              className='w-full'
+              onChange={(e) => handleChange(e, 'modelId')}
               placeholder="Select Model"
               optionFilterProp="children"
-              filterOption={(input, option) =>
-                option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+              filterOption={(inputValue, option) =>
+                option?.children?.toLowerCase().indexOf(inputValue.toLowerCase()) >= 0
               }
             >
-              {[].map((item, idx) => (
-                <Select.Option key={idx} value={item.id}>
-                  {item.name}
-                </Select.Option>
-              ))}
+              {(apiData.models || [])
+                // .filter((item) => item.brandId === formValues.brandId)
+                .map((item, idx) => {
+                  return (
+                    <Select.Option key={idx} value={item.id}>
+                      {item.name}
+                    </Select.Option>
+                  )
+                })}
             </Select>
           </div>
           <div className="hidden flex-grow lg:block">
-            <Button fullWidth variant="gradient">
+            <Button onClick={handleFilter} fullWidth variant="gradient">
               Search
             </Button>
           </div>

@@ -19,6 +19,7 @@ import Loading from './loading'
 import AuthProvider from '../lib/SessionProvider'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '../lib/authOption';
+import BackToTop from '../components/ui/BackToTop';
 // import { authOptions } from './api/auth/[...nextauth]/route';
 
 const fontSans = Inter({
@@ -62,6 +63,7 @@ export default async function RootLayout({ children }) {
         <AuthProvider session={session}>
           <Suspense fallback={<Loading />}>{children}</Suspense>
         </AuthProvider>
+        <BackToTop />
         <ToastContainer />
       </body>
     </html>

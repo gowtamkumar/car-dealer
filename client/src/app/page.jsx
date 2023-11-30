@@ -1,3 +1,5 @@
+'use client'
+import { useEffect, useState } from 'react'
 import FilterSection from '../components/home/FilterSection'
 import HeroSection from '../components/home/HeroSection'
 import NewCarSection from '../components/home/NewCarSection'
@@ -7,6 +9,7 @@ import ReconditionCar from '../components/home/ReconditionCar'
 import SellerAds from '../components/home/SellerAds'
 import NavbarMenu from '../components/layout/Header'
 import Footer from '../components/layout/Footer'
+import BackToTop from '../components/ui/BackToTop'
 
 const page = () => {
   return (
@@ -20,6 +23,7 @@ const page = () => {
         <ReconditionCar />
         <UsedCarSection />
         <SellerAds />
+        <BackToTop />
       </main>
       <Footer />
     </section>

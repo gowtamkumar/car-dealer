@@ -91,8 +91,8 @@ const ModelList = ({ models, setAction }) => {
               icon={<QuestionCircleOutlined style={{ color: 'red' }} />}
             >
               <Button
+                danger
                 size="small"
-                className="delIcon"
                 loading={loading[`delete_${rowData.id}`]}
                 icon={<RestOutlined />}
               />

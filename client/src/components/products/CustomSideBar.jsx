@@ -45,7 +45,7 @@ export default function CustomSideBar({ filterData, setFilterData }) {
         open={open}
         handleOpen={handleOpen}
         filterBy="brandId"
-        label="Brand"
+        label="Make"
         data={apiData.brands}
         setFilterData={setFilterData}
         filterData={filterData}

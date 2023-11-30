@@ -7,9 +7,11 @@ import SingleCar from '../../../components/products/SingleCar'
 
 
 const ProductId = ({ params }) => {
-  const [car, setCar] = useState()
+  const [car, setCar] = useState({})
+  const [related, setRelated] = useState([])
   const router = useRouter()
 
+  console.log("related:", related)
   useEffect(() => {
     ; (async () => {
       if (params.slug === 'slug') {
@@ -18,9 +20,11 @@ const ProductId = ({ params }) => {
         return
       }
       const param = { api: 'products', id: params.slug }
+      const data = { api: 'related', id: params.slug }
       const result = await Promise.resolve(Get(param))
-      setCar(result.data)
-
+      const result1 = await Promise.resolve(Get(data))
+      setCar(result.data || {})
+      setRelated(result1.data || [])
       if (result.errorName) {
         toast.error(`Car Id Not Valid`)
         return router.push('/')

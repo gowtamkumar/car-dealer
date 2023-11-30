@@ -6,8 +6,7 @@ import { ActionType } from '../../../constants/constants'
 import { Button } from '@material-tailwind/react'
 import { toast } from 'react-toastify'
 import { InboxOutlined } from '@ant-design/icons'
-import { Create, Update } from '../../../lib/api'
-import CreateFile from '../../../lib/api'
+import { Create, Update, CreateFile } from '../../../lib/api'
 import { useRouter } from 'next/navigation'
 
 const AddBanner = ({ action = {}, setAction }) => {

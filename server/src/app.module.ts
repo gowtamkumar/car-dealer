@@ -33,7 +33,8 @@ import { MailerModule } from '@nestjs-modules/mailer'
     ScheduleModule.forRoot(),
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: `.env.${process.env.NODE_ENV}`,
+      envFilePath: ['.env'],
+      // envFilePath: `.env.${process.env.NODE_ENV}`,
       validationSchema: configValidationSchema,
       // validate: validateEnv,
       // load: [configuration]

@@ -29,7 +29,7 @@ const BannerList = ({ banners, setAction }) => {
               className="group/item relative col-span-1 h-full w-full overflow-hidden rounded-md border"
             >
               <img
-                src={`${appConfig.apiBaseUrl}/uploads/${item.photo || ''} `}
+                src={`${appConfig.apiBaseUrl}/uploads/${item?.photo || ''} `}
                 alt={`Banner ${idx}`}
                 className="h-[20vh] w-full object-cover  lg:h-[40vh]"
               />
@@ -41,7 +41,7 @@ const BannerList = ({ banners, setAction }) => {
                     Delete
                   </Button>
                   <Button
-                    onClick={() => setAction({ type: ActionType.UPDATE, payload: item })}
+                    onClick={() => setAction({ type: ActionType.UPDATE, payload: { ...item, fileName: item.photo } })}
                     color="blue"
                     className="mx-2"
                   >

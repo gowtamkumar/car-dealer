@@ -8,9 +8,9 @@ export const appConfig = {
   url,
   apiBaseUrl,
   author: {
-    name: 'Masud Pervez || Gowtom Kumar',
-    email: 'masudpervez431@gmail.com',
-    website: '',
+    name: 'RMJ AUTOS',
+    email: 'rmjautos700@gmail.com',
+    website: 'www.rmjautos.com',
   },
   links: {
     linkedIn: '',

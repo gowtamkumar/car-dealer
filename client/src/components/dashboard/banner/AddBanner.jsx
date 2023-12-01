@@ -164,7 +164,7 @@ const AddBanner = ({ action = {}, setAction }) => {
                 onChange={async (v) => {
                   if (!v.fileList.length) {
                     if (formValues?.fileName) {
-                      const params = { api: 'file-delete', data: { photo: formValues.photo } }
+                      const params = { api: 'file-delete', data: { photo: formValues.fileName } }
                       await FileDeleteWithPhoto(params)
                     }
                   }

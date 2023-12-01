@@ -95,7 +95,6 @@ const AddBrand = ({ action = {}, setAction }) => {
 
     try {
       const res = await CreateFile(fmData)
-      console.log("🚀 ~ res:", res)
       if (res.photo.length) {
         setFormData({ fileName: res.photo[0]?.filename, logo: res.photo[0]?.filename })
       }
@@ -156,7 +155,7 @@ const AddBrand = ({ action = {}, setAction }) => {
                 onChange={async (v) => {
                   if (!v.fileList.length) {
                     if (formValues?.fileName) {
-                      const params = { api: 'file-delete', data: { photo: formValues.logo } }
+                      const params = { api: 'file-delete', data: { photo: formValues.fileName } }
                       await FileDeleteWithPhoto(params)
                     }
                   }
@@ -167,7 +166,7 @@ const AddBrand = ({ action = {}, setAction }) => {
               </Upload>
             </Form.Item>
 
-            <Form.Item noStyle name="logo" hidden>
+            <Form.Item name="logo" hidden>
               <Input />
             </Form.Item>
           </div>

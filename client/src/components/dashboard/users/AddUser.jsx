@@ -6,7 +6,7 @@ import { ActionType } from '../../../constants/constants'
 import { Button } from '@material-tailwind/react'
 import { toast } from 'react-toastify'
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons'
-import { Create, Update, CreateFile } from '../../../lib/api'
+import { Create, Update, CreateFile, FileDeleteWithPhoto } from '../../../lib/api'
 
 const AddUser = ({ action = {}, setAction }) => {
   const [formValues, setFormValues] = useState({})
@@ -36,6 +36,7 @@ const AddUser = ({ action = {}, setAction }) => {
 
   const handleSubmit = async (values) => {
     let newData = { ...values }
+    if (newData.fileName) delete newData.fileName
     // return console.log('newData:', newData)
 
     setLoading({ save: true })
@@ -93,7 +94,7 @@ const AddUser = ({ action = {}, setAction }) => {
     try {
       const res = await CreateFile(fmData)
       if (res.photo.length) {
-        setFormData({ photo: res.photo[0]?.filename })
+        setFormData({ fileName: res.photo[0]?.filename, photo: res.photo[0]?.filename })
       }
       onSuccess('Ok')
     } catch (err) {
@@ -130,6 +131,11 @@ const AddUser = ({ action = {}, setAction }) => {
           <Input />
         </Form.Item>
 
+        <Form.Item name="fileName" hidden>
+          <Input />
+        </Form.Item>
+
+
         <div className="flex items-start justify-between gap-5">
           <div>
             <Form.Item
@@ -144,6 +150,18 @@ const AddUser = ({ action = {}, setAction }) => {
                 fileList={formValues.fileList || []}
                 className="avatar-uploader"
                 customRequest={customUploadRequest}
+
+                onChange={async (v) => {
+                  if (!v.fileList.length) {
+                    if (formValues?.fileName) {
+
+                      const params = { api: 'file-delete', data: { photo: formValues.fileName } }
+                      await FileDeleteWithPhoto(params)
+                    }
+                  }
+                }}
+
+
               >
                 {formValues.fileList?.length ? null : uploadButton}
               </Upload>

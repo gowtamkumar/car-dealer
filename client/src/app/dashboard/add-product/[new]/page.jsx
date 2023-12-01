@@ -7,7 +7,7 @@ import { Button } from '@material-tailwind/react'
 import { PlusOutlined } from '@ant-design/icons'
 import { useSession } from 'next-auth/react'
 import { toast } from 'react-toastify'
-import { Create, Get, Gets, Update, CreateFile } from '../../../../lib/api'
+import { Create, Get, Gets, Update, CreateFile, FileDeleteWithPhoto } from '../../../../lib/api'
 import { useRouter } from 'next/navigation'
 import {
   DatePicker,
@@ -21,7 +21,7 @@ import {
 } from 'antd'
 
 const AddProduct = ({ params }) => {
-  const [formValues, setFormValues] = useState({})
+  const [formValues, setFormValues] = useState({ fileList: [] })
   const [backUp, setBackup] = useState({})
   const [previewOpen, setPreviewOpen] = useState(false)
   const [previewImage, setPreviewImage] = useState('')
@@ -44,18 +44,20 @@ const AddProduct = ({ params }) => {
       const result = await Promise.resolve(Get(param))
 
       const newData = { ...result.data }
+      // console.log("🚀 ~ newData:", newData)
 
       if (newData.photos) {
         const file = (newData.photos || []).map((item, idx) => ({
           uid: Math.random() * 1000 + '',
-          name: `photo ${idx}`,
+          name: `photo ${Math.random() * 1000 + ''}`,
           status: 'done',
+          fileName: item,
           url: `${appConfig.apiBaseUrl}/uploads/${item || 'no-data.png'}`,
         }))
         newData.fileList = file
       }
       setFormData(newData)
-
+      // setFormValues(newData)
       if (result.errorName) {
         toast.error(`Car Id Not Valid`)
         return router.push('/dashboard/cars-list')
@@ -96,6 +98,7 @@ const AddProduct = ({ params }) => {
       if (result.errorName) return toast.error(result.message)
       toast.success(`Car ${newData.id ? 'Updated' : 'Created'} Successfully`)
       // router.push('/dashboard/cars-list')
+      setFormValues({})
       form.resetFields()
     }, 100)
   }
@@ -140,6 +143,7 @@ const AddProduct = ({ params }) => {
     if (newData.registrationDate)
       newData.registrationDate = dayjs(newData.registrationDate)
     form.setFieldsValue(newData)
+
     setFormValues(form.getFieldsValue())
     setBackup(newData)
   }
@@ -153,6 +157,7 @@ const AddProduct = ({ params }) => {
           uid: Math.random() * 1000 + '',
           name: `photo ${idx}`,
           status: 'done',
+          fileName: item,
           url: `${appConfig.apiBaseUrl}/uploads/${item || 'no-data.png'}`,
         }))
         newData.fileList = file
@@ -168,9 +173,21 @@ const AddProduct = ({ params }) => {
     // return
     try {
       const res = await CreateFile(fmData)
+      const file = (res.images || []).map((item, idx) => ({
+        uid: Math.random() * 1000 + '',
+        name: `photo ${Math.random() * 10000 + ''}`,
+        status: 'done',
+        fileName: item.filename,
+        url: `${appConfig.apiBaseUrl}/uploads/${item.filename || 'no-data.png'}`,
+      }))
+
       if (res.images?.length) {
-        setFormData({ photos: [...form.getFieldValue()?.photos, res?.images[0]?.filename] })
+        setFormData({
+          fileList: [...form.getFieldValue()?.fileList, ...file],
+          photos: [...form.getFieldValue()?.photos, res?.images[0]?.filename]
+        })
       }
+
       onSuccess('Ok')
     } catch (err) {
       console.log('err', err)
@@ -180,18 +197,21 @@ const AddProduct = ({ params }) => {
   }
 
   const normFile = (e) => {
+    console.log("🚀 ~ e:", e)
     if (Array.isArray(e)) {
       return e
     }
     return e && e.fileList
   }
 
+
+
   return (
     <Form
       layout="vertical"
       form={form}
       onFinish={handleSubmit}
-      onValuesChange={(v, values) => {
+      onValuesChange={(_v, values) => {
         const newData = { ...values }
         if (newData.brandId !== formValues.brandId) newData.modelId = null
         if (newData.modelId !== formValues.modelId) newData.modelCodeId = null
@@ -204,11 +224,17 @@ const AddProduct = ({ params }) => {
       initialValues={{
         status: 'Active',
         photos: [],
+        fileList: []
       }}
     >
       <Form.Item name="id" hidden>
         <Input />
       </Form.Item>
+
+      <Form.Item name="fileList" hidden>
+        <Input />
+      </Form.Item>
+
 
       <div className="grid grid-cols-12 gap-3 px-3 lg:px-0">
         <div className="col-span-12 p-0">
@@ -263,7 +289,7 @@ const AddProduct = ({ params }) => {
             name="brandId"
             rules={[
               {
-                required: true, // true
+                required: true,
                 message: 'Brand is required',
               },
             ]}
@@ -303,7 +329,7 @@ const AddProduct = ({ params }) => {
             name="modelId"
             rules={[
               {
-                required: true, // true
+                required: true,
                 message: 'Model is required',
               },
             ]}
@@ -341,7 +367,7 @@ const AddProduct = ({ params }) => {
             name="modelCodeId"
             rules={[
               {
-                required: true, // true
+                required: true,
                 message: 'Model Code is required',
               },
             ]}
@@ -374,7 +400,7 @@ const AddProduct = ({ params }) => {
           </label>
           <Form.Item rules={[
             {
-              required: true, // true
+              required: true,
               message: 'name is required',
             },
           ]} className="mb-1" name="name">
@@ -685,7 +711,7 @@ const AddProduct = ({ params }) => {
                 name="divisionId"
                 rules={[
                   {
-                    required: true, // true
+                    required: true,
                     message: 'Division is required',
                   },
                 ]}
@@ -718,7 +744,7 @@ const AddProduct = ({ params }) => {
                 name="districtId"
                 rules={[
                   {
-                    required: true, // true
+                    required: true,
                     message: 'District is required',
                   },
                 ]}
@@ -754,7 +780,7 @@ const AddProduct = ({ params }) => {
                 name="upazilaId"
                 rules={[
                   {
-                    required: false, // true
+                    required: false,
                     message: 'District is required',
                   },
                 ]}
@@ -903,7 +929,7 @@ const AddProduct = ({ params }) => {
 
           <div className="grid grid-cols-1 gap-3 px-3">
             <Form.Item
-              name="fileList"
+              // name="fileList"
               label="Photos"
               valuePropName="fileList"
               rules={[
@@ -918,14 +944,26 @@ const AddProduct = ({ params }) => {
                 name="images"
                 listType="picture-card"
                 fileList={formValues?.fileList || []}
-                // onRemove={({ terget }) => {
-                //   console.log('value', terget)
-                // }}
+                onRemove={async (v) => {
+                  console.log("🚀 ~ v:", v)
+                  const find = (form.getFieldValue('photos') || []).filter(
+                    (item) => item !== v.fileName,
+                  )
+                  const newfind = (form.getFieldValue('fileList') || []).filter(
+                    (item) => item.fileName !== v.fileName,
+                  )
+                  setFormData({ photos: find, fileList: newfind })
+
+                  if (v.fileName) {
+                    const params = { api: 'file-delete', data: { photo: v.fileName } }
+                    await FileDeleteWithPhoto(params)
+                  }
+                }}
                 className="avatar-uploader"
                 onPreview={handlePreview}
                 customRequest={customUploadRequest}
+
                 maxCount={5}
-              // beforeUpload={beforeUpload}
               >
                 {formValues?.fileList?.length >= num ? null : uploadButton}
               </Upload>

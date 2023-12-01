@@ -76,7 +76,7 @@ const UserList = ({ users, setAction }) => {
               icon={<FormOutlined />}
               title="Edit"
               className="me-1"
-              onClick={() => setAction({ type: ActionType.UPDATE, payload: rowData })}
+              onClick={() => setAction({ type: ActionType.UPDATE, payload: { ...rowData, fileName: rowData.photo } })}
             />
             <Popconfirm
               title={

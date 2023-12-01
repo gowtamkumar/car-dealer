@@ -50,6 +50,18 @@ const CarList = ({ cars, setAction }) => {
     }, 500)
   }
 
+  const handleClick = (type) => {
+    const newData = { ...data }
+    newData.status = type
+    setTimeout(async () => {
+      const params = { api: 'products', data: newData }
+      const result = newData.id ? await Update(params) : await Create(params)
+      if (result.errorName) return toast.error(result.message)
+      toast.success(`Car Updated Successfully`)
+      setAction({})
+    }, 100)
+  }
+
   // jsx funcitons
   const bodyTemplate = ({ rowData, field, rowIndex }) => {
     const { status, user } = rowData

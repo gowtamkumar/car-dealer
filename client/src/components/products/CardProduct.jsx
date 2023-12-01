@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { BsFillCalendar2MinusFill, BsFillFuelPumpFill, BsSpeedometer2 } from 'react-icons/bs'
 import { IoColorPaletteOutline } from 'react-icons/io5'
 import dayjs from 'dayjs'
+import { Tag } from 'antd'
 
 const CardProduct = ({ data }) => {
   const carName = `${dayjs(data.manufactureDate).format('YYYY')} ${data.name} ${data.brand?.name} ${data.model?.name}`
@@ -27,7 +28,7 @@ const CardProduct = ({ data }) => {
           <div>
             <Typography variant="small" color="blue-gray">
               <span>{data?.brand?.name}</span>
-              <span title='condition' className='absolute top-2 right-2 text-white rounded-md bg-indigo-400 px-2 py-1'>{data?.condition}</span>
+              <Tag title='condition' className='absolute top-2 right-2' color='cyan'>{data?.condition}</Tag>
             </Typography>
             <Typography variant="h5" className="my-1 font-extralight text-gray-900 truncate">
               {carName}
@@ -45,10 +46,14 @@ const CardProduct = ({ data }) => {
               <BsFillFuelPumpFill />
               <small>{data?.fuelType}</small>
             </div>
-            <div title='Registration' className="flex flex-col items-center">
-              <BsFillCalendar2MinusFill />
-              <small>{dayjs(data.registrationDate).format('YYYY')}</small>
-            </div>
+            {
+              data.registrationDate && <div title='Registration' className="flex flex-col items-center">
+                <BsFillCalendar2MinusFill />
+                <small>{dayjs(data.registrationDate).format('YYYY')}</small>
+              </div>
+            }
+
+
             <div title='Color' className="flex flex-col items-center">
               <IoColorPaletteOutline />
               <small>{data.color}</small>

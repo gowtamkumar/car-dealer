@@ -33,7 +33,7 @@ export default function CarStatus({ action = {}, setAction }) {
           <div className="grid grid-cols-2 gap-5">
             <Button
               onClick={() => handleClick('Approved')}
-              variant="gradient"
+              variant="outlined"
               fullWidth
               className={`${data?.status === 'Approved' ? 'hidden' : 'block'}`}
               color="green"
@@ -42,7 +42,7 @@ export default function CarStatus({ action = {}, setAction }) {
             </Button>
             <Button
               onClick={() => handleClick('Rejected')}
-              variant="gradient"
+              variant="outlined"
               fullWidth
               className={`${data?.status === 'Rejected' ? 'hidden' : 'block'}`}
               color="red"
@@ -51,7 +51,7 @@ export default function CarStatus({ action = {}, setAction }) {
             </Button>
             <Button
               onClick={() => handleClick('Pending')}
-              variant="gradient"
+              variant="outlined"
               fullWidth
               className={`${data?.status === 'Pending' ? 'hidden' : 'block'}`}
               color="orange"

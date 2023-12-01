@@ -887,7 +887,7 @@ const AddProduct = ({ params }) => {
               <label className="mb-1" htmlFor="description">
                 Description
               </label>
-              <Form.Item c className="mb-1" name="description">
+              <Form.Item className="mb-1" name="description">
                 <Input.TextArea rows={3} placeholder="Description" />
               </Form.Item>
             </div>

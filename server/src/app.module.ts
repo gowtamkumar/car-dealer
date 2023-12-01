@@ -28,12 +28,11 @@ import { MailerModule } from '@nestjs-modules/mailer'
     //       pass: 'sddf mfmj suay wvla',
     //     },
     //   },
-      
     // }),
     ScheduleModule.forRoot(),
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: ['.env'],
+      envFilePath: ['.env', '.env.development', '.env.production'],
       // envFilePath: `.env.${process.env.NODE_ENV}`,
       validationSchema: configValidationSchema,
       // validate: validateEnv,

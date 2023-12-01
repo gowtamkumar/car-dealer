@@ -4,6 +4,7 @@ import { CreateBrandDto, FilterBrandDto, UpdateBrandDto } from '../dtos'
 import { BrandEntity } from '../entities/brand.entity'
 import { RequestContextDto } from '@common/dtos/request-context.dto'
 import { In, Repository } from 'typeorm'
+import { FileService } from '@modules/other/file/services/file.service'
 
 @Injectable()
 export class BrandService {
@@ -12,6 +13,7 @@ export class BrandService {
   constructor(
     @InjectRepository(BrandEntity)
     private readonly brandRepo: Repository<BrandEntity>,
+    private readonly filerService: FileService
   ) { }
 
   getBrands(ctx: RequestContextDto, filterBrandDto: FilterBrandDto): Promise<BrandEntity[]> {
@@ -67,6 +69,10 @@ export class BrandService {
       throw new NotFoundException(`Brand of id ${id} not found.`)
     }
 
-    return this.brandRepo.remove(result)
+    await this.brandRepo.remove(result)
+    if (result.logo) {
+      await this.filerService.deletePhotoWithFile(result.logo)
+    }
+    return result
   }
 }

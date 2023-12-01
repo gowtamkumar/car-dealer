@@ -42,16 +42,14 @@ import { JwtAuthGuard } from '@admin/auth/guards/jwt-auth.guard'
 export class FileController {
   private logger = new Logger(FileController.name)
 
-  constructor(private fileService: FileService) {}
+  constructor(private fileService: FileService) { }
 
   @Get('/')
   getFiles(
     @RequestContext() ctx: RequestContextDto,
     @Query() filterFileDto: FilterFileDto,
   ): Promise<FileEntity[]> {
-    this.logger.verbose(
-      `User "${ctx.user.username}" retieving all Files. Query: ${JSON.stringify(filterFileDto)}`,
-    )
+    this.logger.verbose(`User "${ctx.user?.username}" retieving all Files`,)
     return this.fileService.getFiles(filterFileDto)
   }
 
@@ -60,7 +58,7 @@ export class FileController {
     @RequestContext() ctx: RequestContextDto,
     @Param('id', ParseUUIDPipe) id: string,
   ): Promise<FileEntity> {
-    this.logger.verbose(`User "${ctx.user.username}" retieving uesr File info. of Id: ${id}`)
+    this.logger.verbose(`User "${ctx.user?.username}" retieving uesr File info. of Id: ${id}`)
     return this.fileService.getFile(id)
   }
   @UseInterceptors(
@@ -94,7 +92,7 @@ export class FileController {
     @Body() createFileDto: CreateFileDto,
   ): Promise<BaseApiSuccessResponse<FileResponseDto[]>> {
     this.logger.verbose(
-      `User "${ctx.user.username}" creating a File. Data: ${JSON.stringify(createFileDto)}`,
+      `User "${ctx.user?.username}" creating a File. Data: ${JSON.stringify(createFileDto)}`,
     )
 
     const rfiles = await this.fileService.createFile(ctx, files, createFileDto)
@@ -114,7 +112,7 @@ export class FileController {
     @Body() updateFileDto: UpdateFileDto,
   ): Promise<FileEntity> {
     this.logger.verbose(
-      `User "${ctx.user.username}" updating File of id #${id}. Data: ${JSON.stringify(
+      `User "${ctx.user?.username}" updating File of id #${id}. Data: ${JSON.stringify(
         updateFileDto,
       )}`,
     )
@@ -166,7 +164,7 @@ export class FileController {
     @Query('filenames') filenames: string[],
     @Body() updateFileDto: UpdateFileDto,
   ) {
-    this.logger.verbose(`User "${ctx.user.username}" updating many files.`)
+    this.logger.verbose(`User "${ctx.user?.username}" updating many files.`)
     // console.log(typeof JSON.parse(filenames+''));
     return this.fileService.updateManyFile(ctx, JSON.parse(filenames + ''), updateFileDto)
   }
@@ -176,7 +174,7 @@ export class FileController {
     @RequestContext() ctx: RequestContextDto,
     @Param('id', ParseUUIDPipe) id: string,
   ): Promise<FileEntity> {
-    this.logger.verbose(`User "${ctx.user.username}" deleting a File. of id: ${id}`)
+    this.logger.verbose(`User "${ctx.user?.username}" deleting a File. of id: ${id}`)
     return this.fileService.deleteFile(id)
   }
 
@@ -187,7 +185,7 @@ export class FileController {
     @UploadedFile() file: Express.Multer.File,
     // @Body() createFileDto: CreateFileDto
   ) {
-    this.logger.verbose(`User "${ctx.user.username}" creating a File.`)
+    this.logger.verbose(`User "${ctx.user?.username}" creating a File.`)
 
     console.log(file)
 
@@ -207,7 +205,7 @@ export class FileController {
     @UploadedFiles() files: Array<Express.Multer.File>,
     // @Body() createFileDto: CreateFileDto
   ) {
-    this.logger.verbose(`User "${ctx.user.username}" uploading files`)
+    this.logger.verbose(`User "${ctx.user?.username}" uploading files`)
     return files
   }
 
@@ -218,8 +216,27 @@ export class FileController {
     @UploadedFiles() files: Array<Express.Multer.File>,
     // @Body() createFileDto: CreateFileDto
   ) {
-    this.logger.verbose(`User "${ctx.user.username}" creating a File.`)
+    this.logger.verbose(`User "${ctx.user?.username}" creating a File.`)
 
     return files
   }
+
+   
+
+  @Post('/file-delete')
+  async deletePhotoWithFile(
+    @Body() deletePhotoWithFile: any,
+  ) {
+   
+    this.logger.verbose(`Photo with File Delete successfully`)
+    const result = await this.fileService.deletePhotoWithFileByName(deletePhotoWithFile)
+
+    return {
+      success: true,
+      statusCode: 201,
+      message: `Setting created`,
+      data: result,
+    }
+  }
+
 }

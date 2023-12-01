@@ -30,10 +30,7 @@ const AddProduct = ({ params }) => {
 
   // hook
   const [form] = Form.useForm()
-  const {
-    data: { user },
-  } = useSession()
-  // const { user = {} } = data || {}
+  const session = useSession()
   const router = useRouter()
 
   useEffect(() => {
@@ -86,11 +83,11 @@ const AddProduct = ({ params }) => {
     })()
   }, [])
 
-  const num = user?.role === 'Seller' ? 3 : 5
+  const num = session.data?.user?.role === 'Seller' ? 3 : 5
 
   const handleSubmit = async (values) => {
     const newData = { ...values }
-    if (user?.role === 'Seller') newData.condition = 'Used'
+    if (session.data?.user?.role === 'Seller') newData.condition = 'Used'
 
     // return console.log('Submit', newData)
     setTimeout(async () => {
@@ -222,7 +219,7 @@ const AddProduct = ({ params }) => {
           </Divider>
         </div>
 
-        {user?.role !== 'Seller' && (
+        {session.data?.user?.role !== 'Seller' && (
           <div className="col-span-12 lg:col-span-3">
             <label className="mb-1" htmlFor="condition">
               Condition <span className="text-red-500">*</span>
@@ -373,7 +370,7 @@ const AddProduct = ({ params }) => {
 
         <div className="col-span-12 lg:col-span-3">
           <label className="mb-1" htmlFor="name">
-            Name
+            Name <span className="text-red-500">*</span>
           </label>
           <Form.Item rules={[
             {

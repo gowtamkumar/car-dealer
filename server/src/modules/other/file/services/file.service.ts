@@ -7,6 +7,7 @@ import { CreateFileDto } from '../dtos/create-file.dto'
 import { FilterFileDto } from '../dtos/filter-file.dto'
 import { UpdateFileDto } from '../dtos/update-file.dto'
 import { FileEntity } from '../entities/file.entity'
+import { join } from 'path'
 const uploadDirectory = 'public/uploads'
 
 @Injectable()
@@ -16,7 +17,7 @@ export class FileService {
   constructor(
     @InjectRepository(FileEntity)
     private readonly fileRepo: Repository<FileEntity>,
-  ) {}
+  ) { }
 
   getFiles(filterFileDto: FilterFileDto): Promise<FileEntity[]> {
     return this.fileRepo.find()
@@ -76,9 +77,9 @@ export class FileService {
   }
 
   createManyFile(ctx: RequestContextDto, files): Promise<FileEntity[]> {
-  
+
     this.logger.log(`${this.createManyFile.name} Called`)
-  
+
     const createFileDtos = []
 
     Object.entries(files).forEach(([fieldname, filesArr]) => {
@@ -122,6 +123,31 @@ export class FileService {
       .execute()
 
     // return files;
+  }
+
+  async deletePhotoWithFileByName(deletePhotoWithFile: any) {
+    const { photo } = deletePhotoWithFile
+    const directory = join(process.cwd(), '/public/uploads')
+    try {
+      const fiel = await Promise.resolve(fs.unlinkSync(`${directory}/` + photo))
+      const deleteFile = await this.fileRepo.findOne({ where: { filename: photo } })
+      await this.fileRepo.remove(deleteFile)
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+
+  async deletePhotoWithFile(filename: string) {
+    const directory = join(process.cwd(), '/public/uploads')
+
+    try {
+      const fiel = await Promise.resolve(fs.unlinkSync(`${directory}/` + filename))
+      const deleteFile = await this.fileRepo.findOne({ where: { filename } })
+      await this.fileRepo.remove(deleteFile)
+    } catch (err) {
+      console.log(err)
+    }
   }
 
   async deleteFile(id: string): Promise<FileEntity> {

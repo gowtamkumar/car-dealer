@@ -8,6 +8,9 @@ import { Transactional } from 'typeorm-transactional-cls-hooked'
 import moment from 'moment'
 import { Cron, CronExpression } from '@nestjs/schedule'
 import { ConditionEnum } from '../enums'
+import fs from 'fs'
+import path, { join } from 'path'
+import { FileService } from '@modules/other/file/services/file.service'
 
 
 @Injectable()
@@ -17,6 +20,7 @@ export class ProductService {
   constructor(
     @InjectRepository(ProductEntity)
     private readonly productRepo: Repository<ProductEntity>,
+    private readonly fileService: FileService,
   ) { }
 
   async getProducts(
@@ -318,6 +322,11 @@ export class ProductService {
     if (!result) {
       throw new NotFoundException(`Product of id ${id} not found`)
     }
+
+    result.photos?.map(async (item) => {
+      await this.fileService.deletePhotoWithFile(item)
+    })
+
     return this.productRepo.remove(result)
   }
 }

@@ -117,7 +117,6 @@ async function GetProducts(params) {
   }
 
 
-  console.log("queryString:", queryString)
 
   try {
     const res = await fetch(`${BASE_URL}/${api}?${queryString}`)
@@ -135,7 +134,9 @@ async function Create(params) {
   try {
     const session = await getSession()
     const { api, data } = params
-    // return console.log('api')
+    // console.log("🚀 ~ data:", data)
+    // console.log('session?.user?.token', session?.user?.token)
+    // return
     const resp = await fetch(`${BASE_URL}/${api}`, {
       method: 'POST',
       headers: {
@@ -195,6 +196,20 @@ async function CreateFile(data) {
   return res.json()
 }
 
+
+async function FileDeleteWithPhoto(params) {
+  const { data, api } = params
+  const resp = await fetch(`${BASE_URL}/files/${api}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  })
+  const result = await resp.json()
+  return result
+}
+
 async function GetUserByUsername(params) {
   const { data, api } = params
   const resp = await fetch(`${BASE_URL}/${api}`, {
@@ -240,6 +255,16 @@ async function UserResetPassword(params) {
 
 
 
-
-
-export { Gets, Get, Create, Update, Delete, CreateFile, GetProducts, GetUserByUsername, SendForgotPassword, UserResetPassword }
+export {
+  Gets,
+  Get,
+  Create,
+  Update,
+  Delete,
+  CreateFile,
+  GetProducts,
+  GetUserByUsername,
+  SendForgotPassword,
+  UserResetPassword,
+  FileDeleteWithPhoto
+}

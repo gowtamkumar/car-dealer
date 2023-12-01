@@ -4,6 +4,7 @@ import { CreateBannerDto, FilterBannerDto, UpdateBannerDto } from '../dtos'
 import { BannerEntity } from '../entities/banner.entity'
 import { RequestContextDto } from '@common/dtos/request-context.dto'
 import { In, Repository } from 'typeorm'
+import { FileService } from '@modules/other/file/services/file.service'
 
 @Injectable()
 export class BannerService {
@@ -12,6 +13,7 @@ export class BannerService {
   constructor(
     @InjectRepository(BannerEntity)
     private readonly bannerRepo: Repository<BannerEntity>,
+    private readonly fileService: FileService
   ) { }
 
   getBanners(ctx: RequestContextDto, filterBannerDto: FilterBannerDto): Promise<BannerEntity[]> {
@@ -61,6 +63,11 @@ export class BannerService {
       throw new NotFoundException(`Banner of id ${id} not found.`)
     }
 
-    return this.bannerRepo.remove(result)
+     await this.bannerRepo.remove(result)
+
+    if (result.photo) {
+      await this.fileService.deletePhotoWithFile(result.photo)
+    }
+    return result
   }
 }

@@ -6,7 +6,7 @@ import { ActionType } from '../../../constants/constants'
 import { Button } from '@material-tailwind/react'
 import { toast } from 'react-toastify'
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons'
-import { Create, CreateFile, Update } from '../../../lib/api'
+import { Create, CreateFile, FileDeleteWithPhoto, Update } from '../../../lib/api'
 import { useRouter } from 'next/navigation'
 
 const AddBrand = ({ action = {}, setAction }) => {
@@ -38,6 +38,7 @@ const AddBrand = ({ action = {}, setAction }) => {
 
   const handleSubmit = async (values) => {
     let newData = { ...values }
+    if (newData.fileName) delete newData.fileName
     // return console.log('newData:', newData)
     setLoading({ save: true })
     setTimeout(async () => {
@@ -94,8 +95,9 @@ const AddBrand = ({ action = {}, setAction }) => {
 
     try {
       const res = await CreateFile(fmData)
+      console.log("🚀 ~ res:", res)
       if (res.photo.length) {
-        setFormData({ logo: res.photo[0]?.filename })
+        setFormData({ fileName: res.photo[0]?.filename, logo: res.photo[0]?.filename })
       }
       onSuccess('Ok')
     } catch (err) {
@@ -128,9 +130,14 @@ const AddBrand = ({ action = {}, setAction }) => {
         autoComplete="off"
         scrollToFirstError={true}
       >
-        <Form.Item noStyle name="id" hidden>
+        <Form.Item name="id" hidden>
           <Input />
         </Form.Item>
+
+        <Form.Item name="fileName" hidden>
+          <Input />
+        </Form.Item>
+
 
         <div className="my-5 flex items-start justify-between gap-4">
           <div>
@@ -146,6 +153,15 @@ const AddBrand = ({ action = {}, setAction }) => {
                 fileList={formValues.fileList || []}
                 className="avatar-uploader"
                 customRequest={customUploadRequest}
+                onChange={async (v) => {
+                  if (!v.fileList.length) {
+                    if (formValues?.fileName) {
+                      const params = { api: 'file-delete', data: { photo: formValues.logo } }
+                      await FileDeleteWithPhoto(params)
+                    }
+                  }
+                }}
+
               >
                 {formValues.fileList?.length ? null : uploadButton}
               </Upload>
@@ -210,7 +226,7 @@ const AddBrand = ({ action = {}, setAction }) => {
           </div>
         </div>
       </Form>
-    </Modal>
+    </Modal >
   )
 }
 

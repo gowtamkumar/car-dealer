@@ -6,7 +6,7 @@ import { ActionType } from '../../../constants/constants'
 import { Button } from '@material-tailwind/react'
 import { toast } from 'react-toastify'
 import { InboxOutlined } from '@ant-design/icons'
-import { Create, Update, CreateFile } from '../../../lib/api'
+import { Create, Update, CreateFile, FileDeleteWithPhoto } from '../../../lib/api'
 import { useRouter } from 'next/navigation'
 
 const AddBanner = ({ action = {}, setAction }) => {
@@ -38,6 +38,10 @@ const AddBanner = ({ action = {}, setAction }) => {
 
   const handleSubmit = async (values) => {
     let newData = { ...values }
+
+
+    if (newData.fileName) delete newData.fileName
+
     // return console.log('newData:', newData)
 
     setLoading({ save: true })
@@ -98,7 +102,7 @@ const AddBanner = ({ action = {}, setAction }) => {
     try {
       const res = await CreateFile(fmData)
       if (res.photo.length) {
-        setFormData({ photo: res.photo[0]?.filename })
+        setFormData({ fileName: res.photo[0]?.filename, photo: res.photo[0]?.filename })
       }
       onSuccess('Ok')
     } catch (err) {
@@ -135,6 +139,10 @@ const AddBanner = ({ action = {}, setAction }) => {
           <Input />
         </Form.Item>
 
+        <Form.Item name="fileName" hidden>
+          <Input />
+        </Form.Item>
+
         <div className="grid flex-grow grid-cols-1 gap-5">
           <div className="col-span-1">
             <Form.Item
@@ -153,6 +161,15 @@ const AddBanner = ({ action = {}, setAction }) => {
                 fileList={formValues.fileList || []}
                 className="avatar-uploader"
                 customRequest={customUploadRequest}
+                onChange={async (v) => {
+                  if (!v.fileList.length) {
+                    if (formValues?.fileName) {
+                      const params = { api: 'file-delete', data: { photo: formValues.photo } }
+                      await FileDeleteWithPhoto(params)
+                    }
+                  }
+                }}
+
               >
                 {formValues.fileList?.length ? null : uploadButton}
               </Upload.Dragger>

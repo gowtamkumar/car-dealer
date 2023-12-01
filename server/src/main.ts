@@ -61,6 +61,8 @@ export async function bootstrap(): Promise<NestExpressApplication> {
     }),
   )
 
+  
+
   const reflector = app.get(Reflector)
 
   app.useGlobalFilters(new AppExceptionFilter(reflector), new QueryFailedErrorFilter(reflector))

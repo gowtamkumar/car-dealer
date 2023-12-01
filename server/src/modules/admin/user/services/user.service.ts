@@ -10,6 +10,7 @@ import { UpdatePasswordDto } from '../dtos/update-password.dto'
 import fs from 'fs'
 import * as bcrypt from 'bcrypt'
 import { UserDto } from '../dtos/user.dto'
+import { FileService } from '@modules/other/file/services/file.service'
 
 @Injectable()
 export class UserService {
@@ -18,6 +19,7 @@ export class UserService {
   constructor(
     @InjectRepository(UserEntity)
     private readonly userRepo: Repository<UserEntity>,
+    private readonly fileService: FileService
   ) { }
 
   getUsers(ctx: RequestContextDto, filterUserDto: FilterUserDto): Promise<UserEntity[]> {
@@ -124,7 +126,12 @@ export class UserService {
     if (!user) {
       throw new NotFoundException(`User of id ${id} not found`)
     }
-    return this.userRepo.remove(user)
+    await this.userRepo.remove(user)
+
+    if (user.photo) {
+      await this.fileService.deletePhotoWithFile(user.photo)
+    }
+    return user
   }
 
   validateUser(user: UserEntity, password: string): Promise<boolean> {

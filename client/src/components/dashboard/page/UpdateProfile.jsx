@@ -5,18 +5,16 @@ import { Upload } from 'antd'
 import { ActionType } from '../../../constants/constants'
 import { Button } from '@material-tailwind/react'
 import { toast } from 'react-toastify'
-import { InboxOutlined } from '@ant-design/icons'
+import { LoadingOutlined, PlusOutlined } from '@ant-design/icons'
 import { Create, Update, CreateFile, FileDeleteWithPhoto } from '../../../lib/api'
-import { useRouter } from 'next/navigation'
 
-const AddBanner = ({ action = {}, setAction }) => {
+const UpdateProfile = ({ action = {}, setAction }) => {
   const [formValues, setFormValues] = useState({})
   const [loading, setLoading] = useState(false)
-
-  // oparetion
   const { payload: data } = action
   const [form] = Form.useForm()
-  const router = useRouter()
+
+  // Mutation
 
   useEffect(() => {
     const newData = { ...data }
@@ -38,30 +36,24 @@ const AddBanner = ({ action = {}, setAction }) => {
 
   const handleSubmit = async (values) => {
     let newData = { ...values }
-
-
     if (newData.fileName) delete newData.fileName
-
     // return console.log('newData:', newData)
 
     setLoading({ save: true })
     setTimeout(async () => {
-      const params = { api: 'banners', data: newData }
+      const params = { api: 'users', data: newData }
       const result = newData.id ? await Update(params) : await Create(params)
       if (result.errorName) return toast.error(result.message)
       setLoading({ save: false })
-      router.refresh()
-      toast.success(`Banner ${newData?.id ? 'Updated' : 'Created'} Successfully`)
+      toast.success(`User ${newData?.id ? 'Updated' : 'Created'} Successfully`)
       setAction({})
     }, 100)
   }
 
   const uploadButton = (
     <div>
-      <p className="ant-upload-drag-icon">
-        <InboxOutlined />
-      </p>
-      <p className="ant-upload-text">Click or drag file to this area to upload</p>
+      {loading.upload ? <LoadingOutlined /> : <PlusOutlined />}
+      <div className="mt-2">Upload</div>
     </div>
   )
 
@@ -120,8 +112,8 @@ const AddBanner = ({ action = {}, setAction }) => {
 
   return (
     <Modal
-      title={action.type === ActionType.UPDATE ? 'Update Banner' : 'Create Banner'}
-      width={500}
+      title="Update Profile"
+      width={650}
       zIndex={1050}
       open={action.type === ActionType.CREATE || action.type === ActionType.UPDATE}
       onCancel={handleClose}
@@ -143,15 +135,11 @@ const AddBanner = ({ action = {}, setAction }) => {
           <Input />
         </Form.Item>
 
-        <div className="grid flex-grow grid-cols-1 gap-5">
-          <div className="col-span-1">
+        <div className="flex items-start justify-between gap-5">
+          <div>
             <Form.Item
               className="mb-1"
-              label={
-                <span>
-                  Banner photo <small className="text-blue-500">( 851 x 315)</small>
-                </span>
-              }
+              label="User Photo"
               name="fileList"
               getValueFromEvent={normFile}
             >
@@ -169,7 +157,6 @@ const AddBanner = ({ action = {}, setAction }) => {
                     }
                   }
                 }}
-
               >
                 {formValues.fileList?.length ? null : uploadButton}
               </Upload>
@@ -179,55 +166,113 @@ const AddBanner = ({ action = {}, setAction }) => {
               <Input />
             </Form.Item>
           </div>
-          <div className="col-span-1">
-            <Form.Item
-              name="title"
-              className="mb-1"
-              label="Banner Name"
-              rules={[
-                {
-                  required: true,
-                  message: 'Name is required',
-                },
-              ]}
-            >
-              <Input placeholder="Enter Banner Name" />
-            </Form.Item>
-          </div>
-          <div className={`col-span-1 `}>
-            <Form.Item hidden={!data?.id} name="status" label="Status" className="mb-1">
-              <Select
-                showSearch
-                allowClear
-                placeholder="Select Status"
-                optionFilterProp="children"
-                filterOption={(input, option) =>
-                  option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-                }
+          <div className="grid flex-grow grid-cols-2 gap-2">
+            <div className="col-span-1">
+              <Form.Item
+                name="name"
+                label="Full Name"
+                className="mb-1"
+                rules={[
+                  {
+                    required: true,
+                    message: 'Name is required',
+                  },
+                ]}
               >
-                {['Active', 'Inactive'].map((item, idx) => (
-                  <Select.Option key={idx} value={item}>
-                    {item}
-                  </Select.Option>
-                ))}
-              </Select>
-            </Form.Item>
-          </div>
+                <Input placeholder="Enter Full Name" />
+              </Form.Item>
+            </div>
 
-          <div className="col-span-1 text-end">
-            <Button variant="text" className="mx-2 capitalize" size="sm" onClick={resetFormData}>
-              Reset
-            </Button>
-            <Button
-              size="sm"
-              variant="gradient"
-              color="blue"
-              type="submit"
-              className="capitalize"
-              loading={loading.submit}
-            >
-              {formValues.id ? 'Update' : 'Submit'}
-            </Button>
+            <div className="col-span-1">
+              <Form.Item
+                name="username"
+                label="User Name"
+                className="mb-1"
+                rules={[
+                  {
+                    required: true,
+                    message: 'UserName is required',
+                  },
+                ]}
+              >
+                <Input disabled placeholder="Enter User Name" />
+              </Form.Item>
+            </div>
+
+            <div className={`col-span-2 ${data?.id && 'hidden'}`}>
+              <Form.Item
+                name="password"
+                label="Password"
+                className="mb-1"
+                hidden={data?.id}
+                rules={[
+                  {
+                    required: true,
+                    message: 'Password is required',
+                  },
+                ]}
+              >
+                <Input.Password placeholder="Enter Password" />
+              </Form.Item>
+            </div>
+
+            <div className="col-span-1">
+              <Form.Item
+                name="phone"
+                label="Phone"
+                className="mb-1"
+                rules={[
+                  {
+                    required: true,
+                    message: 'Phone No is required',
+                  },
+                  {
+                    pattern: /^(?:\+88|01)?(?:\d{11}|\d{13})$/i,
+                    message: 'Wrong format!',
+                  },
+                ]}
+              >
+                <Input placeholder="Enter Phone" />
+              </Form.Item>
+            </div>
+
+            <div className="col-span-1">
+              <Form.Item
+                name="email"
+                label="Email"
+                className="mb-1"
+                rules={[
+                  {
+                    type: 'email',
+                    message: 'Wrong format!',
+                  },
+                ]}
+              >
+                <Input placeholder="Enter Email" />
+              </Form.Item>
+            </div>
+
+            <div className="col-span-2">
+              <Form.Item name="address" label="Address" className="mb-1">
+                <Input.TextArea rows={3} placeholder="Enter Address" />
+              </Form.Item>
+            </div>
+
+            <div className="col-span-2 text-end">
+              <Button variant="text" className="mx-2 capitalize" size="sm" onClick={resetFormData}>
+                Reset
+              </Button>
+              <Button
+                size="sm"
+                variant="gradient"
+                color="blue"
+                type="submit"
+                className="capitalize"
+                loading={loading.submit}
+              >
+                {formValues.id ? 'Update' : 'Submit'}
+              </Button>
+            </div>
           </div>
         </div>
       </Form>
@@ -235,4 +280,4 @@ const AddBanner = ({ action = {}, setAction }) => {
   )
 }
 
-export default AddBanner
+export default UpdateProfile

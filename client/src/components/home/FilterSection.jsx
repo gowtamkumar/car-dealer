@@ -14,7 +14,7 @@ const FilterSection = () => {
   const router = useRouter()
 
   useEffect(() => {
-    ; (async () => {
+    ;(async () => {
       const brands = await Promise.resolve(Gets({ api: 'brands' }))
       const models = await Promise.resolve(Gets({ api: 'models' }))
       setApiData({
@@ -38,7 +38,7 @@ const FilterSection = () => {
   const handleFilter = () => {
     const { brandId, modelId, condition } = active
 
-    let queryString = '';
+    let queryString = ''
     if (condition) {
       queryString += `condition=${condition}${condition && '&'}`
     }
@@ -51,7 +51,6 @@ const FilterSection = () => {
     router.push(`/products?${queryString}`)
   }
 
-
   return (
     <section className="container relative z-20 mx-auto w-[90%] rounded-md bg-gray-50 p-5 shadow-lg lg:-mt-12 lg:w-3/5">
       <div className="absolute -top-8 left-0 z-10">
@@ -60,8 +59,9 @@ const FilterSection = () => {
             <div
               key={key}
               onClick={() => handleChange(title, 'condition')}
-              className={`flex-grow rounded-t-sm ${active?.condition === title ? 'bg-gray-50' : 'bg-gray-900 text-white'
-                } cursor-pointer px-8 py-2 text-center text-sm font-bold transition-all duration-150 ease-linear`}
+              className={`flex-grow rounded-t-sm ${
+                active?.condition === title ? 'bg-gray-50' : 'bg-gray-900 text-white'
+              } cursor-pointer px-8 py-2 text-center text-sm font-bold transition-all duration-150 ease-linear`}
             >
               {title}
             </div>
@@ -111,8 +111,8 @@ const FilterSection = () => {
             <Select
               showSearch
               allowClear
-              size='large'
-              className='w-full'
+              size="large"
+              className="w-full"
               onChange={(e) => handleChange(e, 'modelId')}
               placeholder="Select Model"
               optionFilterProp="children"

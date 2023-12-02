@@ -82,7 +82,7 @@ const productEnum = {
     { label: 'Turbo', value: 'turbo' },
     { label: 'Non Smoker', value: 'nonSmoker' },
   ],
-  numberOfSeat: [1, 2, 3, 4, 5, 6, 7, 8],
+  numberOfSeat: [1, 2, 3, 4, 5, 6, 7, 8, 9],
 }
 
 export default productEnum

@@ -5,15 +5,19 @@ import { Button } from '@material-tailwind/react'
 import dayjs from 'dayjs'
 
 const ProductDetails = ({ data }) => {
-
-  const carName = `${dayjs(data.manufactureDate).format('YYYY')} ${data.name} ${data.brand?.name} ${data.model?.name}`
+  const carName = `${data.manufactureDate && dayjs(data.manufactureDate).format('YYYY')} ${
+    data.name && data.name
+  } ${data.brand && data.brand?.name} ${data.model && data.model?.name}`
 
   return (
     <div className="col-span-12 rounded-md px-5 lg:col-span-7">
       <h1 className="text-2xl font-semibold">{carName}</h1>
       <div className="my-3 flex items-center justify-between gap-4 lg:w-3/5">
         <h1 className="font-bold text-red-400">
-          Registration : <span className="text-gray-700">{dayjs(data.registrationDate).format('YYYY')}</span>
+          Registration :{' '}
+          <span className="text-gray-700">
+            {data.registrationDate ? dayjs(data.registrationDate).format('YYYY') : 'N/A'}
+          </span>
         </h1>
         <h1 className="font-bold text-red-400">
           Category : <span className="text-gray-700">{data?.condition}</span>
@@ -40,7 +44,7 @@ const ProductDetails = ({ data }) => {
           <p className="font-bold text-gray-800">{data.condition}</p>
         </div>
         <div className="flex flex-grow flex-col items-center">
-          <AiOutlineBgColors className="text-6xl text-green-500/50" />
+          <AiOutlineBgColors className={`text-6xl text-green-500/50`} />
           <h1 className="mt-2 text-gray-800/80">Exterior Colour</h1>
           <p className="font-bold text-gray-800">{data.color}</p>
         </div>

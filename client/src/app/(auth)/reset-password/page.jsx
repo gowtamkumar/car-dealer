@@ -18,14 +18,13 @@ export default function ResetPassword() {
       const params = {
         id: newData.id,
         api: 'auth/reset-password',
-        data: { newPassword: data.newPassword }
+        data: { newPassword: data.newPassword },
       }
       await UserResetPassword(params)
       localStorage.clear()
       router.push('/login')
-
     } catch (error) {
-      console.log(error);
+      console.log(error)
     }
   }
 
@@ -50,19 +49,19 @@ export default function ResetPassword() {
               </Typography>
             </CardHeader>
             <CardBody>
-              <form autoComplete='false' onSubmit={handleSubmit}>
+              <form autoComplete="false" onSubmit={handleSubmit}>
                 <div className="p-0">
                   <div className="my-5">
                     <Input
                       onChange={({ target }) => setData({ ...data, newPassword: target.value })}
                       variant="standard"
                       label="New Password"
-                    // required
+                      // required
                     />
                   </div>
 
                   <div className="my-5">
-                    <Button type='submit' fullWidth variant="gradient" color="red">
+                    <Button type="submit" fullWidth variant="gradient" color="red">
                       Send
                     </Button>
                   </div>

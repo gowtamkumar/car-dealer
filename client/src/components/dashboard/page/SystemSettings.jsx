@@ -3,24 +3,48 @@ import React, { useEffect, useState } from 'react'
 import { Button } from '@material-tailwind/react'
 import { Divider, Form, Input, Upload } from 'antd'
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons'
-import { Create, CreateFile, Gets, Update } from '@/lib/api'
+import { Create, CreateFile, FileDeleteWithPhoto, Gets, Update } from '@/lib/api'
 import { toast } from 'react-toastify'
+import appConfig from '@/config'
 
 const SystemSettings = () => {
   const [formValues, setFormValues] = useState({})
   const [data, setData] = useState({})
   const [loading, setLoading] = useState(false)
+  const [form] = Form.useForm()
+
+  useEffect(() => {
+    const newData = { ...data }
+    console.log('newData:', newData)
+    if (newData.logo) {
+      const file = {
+        uid: Math.random() * 1000 + '',
+        name: 'logo',
+        status: 'done',
+        url: `${appConfig.apiBaseUrl}/uploads/${data.logo || 'no-data.png'}`,
+      }
+      newData.fileList = [file]
+    }
+    setFormData(newData)
+    return () => {
+      setFormValues({})
+      form.resetFields()
+    }
+  }, [data])
 
   useEffect(() => {
     ;(async () => {
       const params = { api: 'settings' }
       const res = await Promise.resolve(Gets(params))
-      setData(res?.data[0])
-      setFormData(res?.data[0])
+      if (res?.data) {
+        setData(res?.data[0])
+        setFormData(res?.data[0])
+      } else {
+        setData({})
+        setFormData({})
+      }
     })()
   }, [])
-
-  const [form] = Form.useForm()
 
   const handleSubmit = async (values) => {
     let newData = { ...values }
@@ -37,6 +61,13 @@ const SystemSettings = () => {
     }, 100)
   }
 
+  const uploadButton = (
+    <div>
+      {loading.upload ? <LoadingOutlined /> : <PlusOutlined />}
+      <div className="mt-2">Upload</div>
+    </div>
+  )
+
   const setFormData = (v) => {
     const newData = { ...v }
     form.setFieldsValue(newData)
@@ -52,7 +83,7 @@ const SystemSettings = () => {
           uid: Math.random() * 1000 + '',
           name: 'logo',
           status: 'done',
-          url: `${config.apiBaseUrl}/uploads/${data?.logo}`,
+          url: `${appConfig.apiBaseUrl}/uploads/${data.logo || 'no-data.png'}`,
         }
         newData.fileList = [file]
       }
@@ -68,8 +99,8 @@ const SystemSettings = () => {
 
     try {
       const res = await CreateFile(fmData)
-      if (res.logo.length) {
-        setFormData({ fileName: res.logo[0]?.filename, logo: res.logo[0]?.filename })
+      if (res.photo.length) {
+        setFormData({ fileName: res.photo[0]?.filename, logo: res.photo[0]?.filename })
       }
       onSuccess('Ok')
     } catch (err) {
@@ -80,17 +111,10 @@ const SystemSettings = () => {
 
   const normFile = ({ file, fileList }) => {
     if (file.status === 'removed') {
-      setFormData({ logo: null })
+      setFormData({ photo: null })
     }
     return fileList
   }
-
-  const uploadButton = (
-    <div className="p-10">
-      {loading.upload ? <LoadingOutlined /> : <PlusOutlined />}
-      <div className="mt-2">Upload</div>
-    </div>
-  )
 
   return (
     <section>
@@ -119,7 +143,7 @@ const SystemSettings = () => {
           <div>
             <Form.Item className="mb-1" label="Logo" name="fileList" getValueFromEvent={normFile}>
               <Upload
-                name="logo"
+                name="photo"
                 listType="picture-card"
                 fileList={formValues.fileList || []}
                 className="avatar-uploader"

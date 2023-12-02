@@ -9,16 +9,7 @@ import { useSession } from 'next-auth/react'
 import { toast } from 'react-toastify'
 import { Create, Get, Gets, Update, CreateFile, FileDeleteWithPhoto } from '../../../../lib/api'
 import { useRouter } from 'next/navigation'
-import {
-  DatePicker,
-  Divider,
-  Form,
-  Input,
-  InputNumber,
-  Select,
-  Upload,
-  Modal,
-} from 'antd'
+import { DatePicker, Divider, Form, Input, InputNumber, Select, Upload, Modal } from 'antd'
 
 const AddProduct = ({ params }) => {
   const [formValues, setFormValues] = useState({ fileList: [] })
@@ -34,7 +25,7 @@ const AddProduct = ({ params }) => {
   const router = useRouter()
 
   useEffect(() => {
-    ; (async () => {
+    ;(async () => {
       if (params.new === 'new') {
         form.resetFields()
         setFormValues({})
@@ -66,7 +57,7 @@ const AddProduct = ({ params }) => {
   }, [params.new])
 
   useEffect(() => {
-    ; (async () => {
+    ;(async () => {
       const brands = await Promise.resolve(Gets({ api: 'brands' }))
       const models = await Promise.resolve(Gets({ api: 'models' }))
       const modelCodes = await Promise.resolve(Gets({ api: 'model-codes' }))
@@ -138,10 +129,8 @@ const AddProduct = ({ params }) => {
 
   const setFormData = (v) => {
     const newData = { ...v }
-    if (newData.manufactureDate)
-      newData.manufactureDate = dayjs(newData.manufactureDate)
-    if (newData.registrationDate)
-      newData.registrationDate = dayjs(newData.registrationDate)
+    if (newData.manufactureDate) newData.manufactureDate = dayjs(newData.manufactureDate)
+    if (newData.registrationDate) newData.registrationDate = dayjs(newData.registrationDate)
     form.setFieldsValue(newData)
 
     setFormValues(form.getFieldsValue())
@@ -184,7 +173,7 @@ const AddProduct = ({ params }) => {
       if (res.images?.length) {
         setFormData({
           fileList: [...form.getFieldValue()?.fileList, ...file],
-          photos: [...form.getFieldValue()?.photos, res?.images[0]?.filename]
+          photos: [...form.getFieldValue()?.photos, res?.images[0]?.filename],
         })
       }
 
@@ -197,14 +186,12 @@ const AddProduct = ({ params }) => {
   }
 
   const normFile = (e) => {
-    console.log("🚀 ~ e:", e)
+    console.log('🚀 ~ e:', e)
     if (Array.isArray(e)) {
       return e
     }
     return e && e.fileList
   }
-
-
 
   return (
     <Form
@@ -224,7 +211,7 @@ const AddProduct = ({ params }) => {
       initialValues={{
         status: 'Active',
         photos: [],
-        fileList: []
+        fileList: [],
       }}
     >
       <Form.Item name="id" hidden>
@@ -234,7 +221,6 @@ const AddProduct = ({ params }) => {
       <Form.Item name="fileList" hidden>
         <Input />
       </Form.Item>
-
 
       <div className="grid grid-cols-12 gap-3 px-3 lg:px-0">
         <div className="col-span-12 p-0">
@@ -267,7 +253,7 @@ const AddProduct = ({ params }) => {
                 placeholder="Select Condition"
                 optionFilterProp="children"
                 filterOption={(input, option) =>
-                  option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                  option.children?.toLowerCase().indexOf(input.toLowerCase()) >= 0
                 }
               >
                 {productEnum.condition.map((item, idx) => (
@@ -301,7 +287,7 @@ const AddProduct = ({ params }) => {
               placeholder="Select Brand"
               optionFilterProp="children"
               filterOption={(input, option) =>
-                option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                option.children?.toLowerCase().indexOf(input.toLowerCase()) >= 0
               }
             >
               {(apiData.brands || []).map((item, idx) => (
@@ -342,7 +328,7 @@ const AddProduct = ({ params }) => {
               placeholder="Select Model"
               optionFilterProp="children"
               filterOption={(input, option) =>
-                option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                option.children?.toLowerCase().indexOf(input.toLowerCase()) >= 0
               }
             >
               {(apiData.models || [])
@@ -380,7 +366,7 @@ const AddProduct = ({ params }) => {
               placeholder="Select Model"
               optionFilterProp="children"
               filterOption={(input, option) =>
-                option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                option.children?.toLowerCase().indexOf(input.toLowerCase()) >= 0
               }
             >
               {(apiData.modelCodes || [])
@@ -398,12 +384,16 @@ const AddProduct = ({ params }) => {
           <label className="mb-1" htmlFor="name">
             Name <span className="text-red-500">*</span>
           </label>
-          <Form.Item rules={[
-            {
-              required: true,
-              message: 'name is required',
-            },
-          ]} className="mb-1" name="name">
+          <Form.Item
+            rules={[
+              {
+                required: true,
+                message: 'name is required',
+              },
+            ]}
+            className="mb-1"
+            name="name"
+          >
             <Input id="name" placeholder="Enter Name" />
           </Form.Item>
         </div>
@@ -466,7 +456,7 @@ const AddProduct = ({ params }) => {
               placeholder="Select Fuel Type"
               optionFilterProp="children"
               filterOption={(input, option) =>
-                option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                option.children?.toLowerCase().indexOf(input.toLowerCase()) >= 0
               }
             >
               {productEnum.fuelType.map((item, idx) => (
@@ -499,7 +489,7 @@ const AddProduct = ({ params }) => {
               placeholder="Select Transmission"
               optionFilterProp="children"
               filterOption={(input, option) =>
-                option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                option.children?.toLowerCase().indexOf(input.toLowerCase()) >= 0
               }
             >
               {productEnum.transmission.map((item, idx) => (
@@ -532,7 +522,7 @@ const AddProduct = ({ params }) => {
               placeholder="Select Steering"
               optionFilterProp="children"
               filterOption={(input, option) =>
-                option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                option.children?.toLowerCase().indexOf(input.toLowerCase()) >= 0
               }
             >
               {productEnum.steering.map((item, idx) => (
@@ -558,7 +548,19 @@ const AddProduct = ({ params }) => {
               },
             ]}
           >
-            <InputNumber id="noOfPass" placeholder="Enter Passenser" className="w-full" />
+            <Select
+              id="noOfPass"
+              showSearch
+              allowClear
+              placeholder="Select Passenser"
+              optionFilterProp="children"
+            >
+              {productEnum.numberOfSeat.map((item, idx) => (
+                <Select.Option key={idx} value={item}>
+                  {item}
+                </Select.Option>
+              ))}
+            </Select>
           </Form.Item>
         </div>
 
@@ -621,7 +623,23 @@ const AddProduct = ({ params }) => {
               },
             ]}
           >
-            <InputNumber id="noOfseat" placeholder="Enter No Of seat" className="w-full" />
+            {/* <InputNumber id="noOfseat" placeholder="Enter No Of seat" className="w-full" /> */}
+            <Select
+              id="noOfseat"
+              showSearch
+              allowClear
+              placeholder="Select Seat"
+              optionFilterProp="children"
+              filterOption={(input, option) =>
+                option.children?.toLowerCase().indexOf(input.toLowerCase()) >= 0
+              }
+            >
+              {productEnum.numberOfSeat.map((item, idx) => (
+                <Select.Option key={idx} value={item}>
+                  {item}
+                </Select.Option>
+              ))}
+            </Select>
           </Form.Item>
         </div>
 
@@ -646,7 +664,7 @@ const AddProduct = ({ params }) => {
               placeholder="Select Drivetrain"
               optionFilterProp="children"
               filterOption={(input, option) =>
-                option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                option.children?.toLowerCase().indexOf(input.toLowerCase()) >= 0
               }
             >
               {productEnum.drivetrain.map((item, idx) => (
@@ -680,7 +698,7 @@ const AddProduct = ({ params }) => {
               placeholder="Select Car Feature"
               optionFilterProp="children"
               filterOption={(input, option) =>
-                option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                option.children?.toLowerCase().indexOf(input.toLowerCase()) >= 0
               }
             >
               {productEnum.features.map((item, idx) => (
@@ -723,7 +741,7 @@ const AddProduct = ({ params }) => {
                   placeholder="Select Division"
                   optionFilterProp="children"
                   filterOption={(input, option) =>
-                    option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                    option.children?.toLowerCase().indexOf(input.toLowerCase()) >= 0
                   }
                 >
                   {(apiData.divisions || []).map((item, idx) => (
@@ -757,7 +775,7 @@ const AddProduct = ({ params }) => {
                   placeholder="Select District"
                   optionFilterProp="children"
                   filterOption={(input, option) =>
-                    option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                    option.children?.toLowerCase().indexOf(input.toLowerCase()) >= 0
                   }
                 >
                   {(apiData.districts || [])
@@ -793,7 +811,7 @@ const AddProduct = ({ params }) => {
                   placeholder="Select Upazila"
                   optionFilterProp="children"
                   filterOption={(input, option) =>
-                    option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                    option.children?.toLowerCase().indexOf(input.toLowerCase()) >= 0
                   }
                 >
                   {(apiData.upazilas || [])
@@ -828,7 +846,7 @@ const AddProduct = ({ params }) => {
                   placeholder="Select Body Type"
                   optionFilterProp="children"
                   filterOption={(input, option) =>
-                    option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                    option.children?.toLowerCase().indexOf(input.toLowerCase()) >= 0
                   }
                 >
                   {productEnum.bodyType.map((item, idx) => (
@@ -861,7 +879,7 @@ const AddProduct = ({ params }) => {
                   placeholder="Select Color"
                   optionFilterProp="children"
                   filterOption={(input, option) =>
-                    option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                    option.children?.toLowerCase().indexOf(input.toLowerCase()) >= 0
                   }
                 >
                   {productEnum.color.map((item, idx) => (
@@ -945,7 +963,7 @@ const AddProduct = ({ params }) => {
                 listType="picture-card"
                 fileList={formValues?.fileList || []}
                 onRemove={async (v) => {
-                  console.log("🚀 ~ v:", v)
+                  console.log('🚀 ~ v:', v)
                   const find = (form.getFieldValue('photos') || []).filter(
                     (item) => item !== v.fileName,
                   )
@@ -962,7 +980,6 @@ const AddProduct = ({ params }) => {
                 className="avatar-uploader"
                 onPreview={handlePreview}
                 customRequest={customUploadRequest}
-
                 maxCount={5}
               >
                 {formValues?.fileList?.length >= num ? null : uploadButton}

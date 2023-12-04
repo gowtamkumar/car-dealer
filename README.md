@@ -124,6 +124,8 @@ Update the Node.js project configuration to connect to the PostgreSQL database. 
   // ...
 };
 
+
+
 Replace your_username and your_password with the PostgreSQL database username and password you created.
 
 ## 4. Database Initialization (if needed)

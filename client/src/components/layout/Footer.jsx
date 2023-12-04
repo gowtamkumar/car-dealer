@@ -1,79 +1,85 @@
+'use client'
+import { Gets } from '@/lib/api'
+import { useSession } from 'next-auth/react'
 import Link from 'next/link'
+import { useEffect, useState } from 'react'
 import { AiFillPhone, AiOutlineNotification } from 'react-icons/ai'
 import { BsFacebook, BsInstagram, BsLinkedin } from 'react-icons/bs'
-import { FaAppStore, FaGooglePlay } from 'react-icons/fa'
+import { FaFacebookF, FaTwitter, FaYoutube } from 'react-icons/fa6'
 
 const Footer = () => {
+  const [data, setData] = useState({})
+  const session = useSession()
+  console.log('session:', session)
+
+  useEffect(() => {
+    ;(async () => {
+      const params = { api: 'settings' }
+      const res = await Promise.resolve(Gets(params))
+      if (res?.data) {
+        setData(res?.data[0])
+      } else {
+        setData({})
+      }
+    })()
+  }, [])
+
   return (
     <footer className="inset-0 bg-black/90 text-blue-gray-200">
       <div className="min-h-96 container mx-auto">
-        <div className="mx-5 grid grid-cols-1 gap-5 py-8 md:mx-0 md:grid-cols-2 xl:grid-cols-5">
+        <div className="mx-5 grid grid-cols-1 gap-5 py-8 md:mx-0 md:grid-cols-2 xl:grid-cols-4">
           <div>
-            <h1>SUPPORT</h1>
-            <div className="mb-3 flex flex-row items-center rounded-md p-5 ring-1">
+            <h1 className="mb-2 font-bold">SUPPORT</h1>
+            <div className="mb-3 flex w-4/5 flex-row items-center rounded-md p-5 ring-1">
               <AiFillPhone />
               <div className="mx-3">|</div>
               <div>
-                <span className="text-sm">10AM-7PM</span>
-                <div className="font-bold text-red-500">16793</div>
+                <span className="text-sm">24/7 Service</span>
+                <div className="font-bold text-red-500">{data?.supportPhone}</div>
               </div>
             </div>
-            <div className="mb-5 flex flex-row items-center rounded-md p-5 ring-1">
+            <div className="mb-3 flex w-4/5 flex-row items-center rounded-md p-5 ring-1">
               <AiOutlineNotification />
               <div className="mx-3">|</div>
               <div>
-                <span className="text-sm">Store Locator</span>
+                <span className="text-sm">Our Locator</span>
                 <div className="font-bold text-red-500">Find Our Stores</div>
               </div>
             </div>
             <div></div>
           </div>
           <div>
-            <h1>ABOUT US</h1>
+            <h1 className="mb-3"></h1>
             <ul>
-              <li className="text-slate-400 mb-4">
+              <li className="text-slate-400 mb-2">
                 <Link className="hover:text-red-500 hover:underline" href="/">
-                  EMI Terms
+                  Home
                 </Link>
               </li>
-              <li className="text-slate-400 mb-4">
-                <Link className="hover:text-red-500 hover:underline" href="/">
-                  Privacy Policy
-                </Link>
-              </li>
-              <li className="text-slate-400 mb-4">
-                <Link className="hover:text-red-500 hover:underline" href="/">
-                  Star Point Policy
-                </Link>
-              </li>
-              <li className="text-slate-400 mb-4">
-                <Link className="hover:text-red-500 hover:underline" href="/">
-                  Brands
-                </Link>
-              </li>
-            </ul>
-          </div>
-          <div>
-            <h1 className="h-1"> </h1>
-            <ul>
-              <li className="text-slate-400 mb-4">
-                <Link className="hover:text-red-500 hover:underline" href="/">
+              <li className="text-slate-400 mb-2">
+                <Link className="hover:text-red-500 hover:underline" href="/about">
                   About Us
                 </Link>
               </li>
-              <li className="text-slate-400 mb-4">
-                <Link className="hover:text-red-500 hover:underline" href="/">
-                  Terms & Conditions
+              <li className="text-slate-400 mb-2">
+                <Link className="hover:text-red-500 hover:underline" href="/products">
+                  Cars
                 </Link>
               </li>
-              <li className="text-slate-400 mb-4">
-                <Link className="hover:text-red-500 hover:underline" href="/">
-                  Blog
+              <li className="text-slate-400 mb-2">
+                <Link
+                  className="hover:text-red-500 hover:underline"
+                  href={session.status === 'unauthenticated' ? '/login' : '/dashboard/cars-list'}
+                >
+                  Cars List
                 </Link>
               </li>
-              <li className="mb-4">
-                <Link className="text-red-500 hover:underline" href="/">
-                  Online Service Support
+              <li className="text-slate-400 mb-2">
+                <Link
+                  className="hover:text-red-500 hover:underline"
+                  href={session.status === 'unauthenticated' ? '/login' : '/dashboard/cars-list'}
+                >
+                  Upload Car
                 </Link>
               </li>
             </ul>
@@ -104,54 +110,58 @@ const Footer = () => {
             </ul>
           </div>
           <div>
-            <h1>STAY CONNECTED</h1>
+            <h1 className="mb-2">STAY CONNECTED</h1>
             <ul>
-              <li className="text-slate-400 mb-4">
-                Head Office: 28 Kazi Nazrul Islam Ave,Navana Zohura Square, Dhaka 1000
-              </li>
-              <li className="text-slate-400 mb-4">Email: info@.com</li>
+              <li className="text-slate-400 mb-4 font-bold">{data.fullAddress}</li>
+              <li className="text-slate-400 mb-4">Email: {data.email}</li>
             </ul>
           </div>
         </div>
         <div className="outline-slate-400 flex flex-col items-center justify-between py-4 md:flex-row">
-          <div className="flex flex-col items-center gap-4 md:flex-row">
-            <small className="text-slate-600 text-sm">
-              Experience Star Tech App on your mobile:
-            </small>
-            <div className="flex cursor-pointer flex-row gap-2 rounded-md px-5 py-2  ring-1 md:items-center">
-              <FaGooglePlay />
+          <div className="flex items-center gap-4 md:flex-row">
+            <h1 className="text-slate-600 text-sm">Facebook Page:</h1>
+            <Link
+              href={`${data.facebookUrl}`}
+              className="flex cursor-pointer flex-row gap-2 rounded-md px-5 py-2  ring-1 md:items-center"
+            >
+              <FaFacebookF />
               <span>|</span>
               <div>
-                <small className="text-gray-600">Download on</small>
-                <p className="m-0 text-gray-400">Google Play</p>
+                <small className="text-gray-600">Visit Now</small>
+                <p className="m-0 text-gray-400">Facebook Page</p>
               </div>
-            </div>
-            <div className="flex cursor-pointer flex-row gap-2 rounded-md px-5 py-2  ring-1 md:items-center">
-              <FaAppStore />
-              <span>|</span>
-              <div>
-                <small className="text-gray-600">Download on</small>
-                <p className="m-0 text-gray-400">App Store</p>
-              </div>
-            </div>
+            </Link>
           </div>
           <div>
             <ul className="m-0 p-0">
-              <li className="bg-slate-700 ms-3 inline-block cursor-pointer rounded-full p-3 hover:ring-2">
-                <Link href="/">
-                  <BsFacebook className="text-lg" />
+              {data.facebookUrl && (
+                <Link href={`${data.facebookUrl}`}>
+                  <li className="bg-slate-700 ms-3 inline-block cursor-pointer rounded-full p-3 hover:ring-2">
+                    <BsFacebook className="text-lg" />
+                  </li>
                 </Link>
-              </li>
-              <li className="bg-slate-700 ms-3 inline-block cursor-pointer rounded-full p-3 hover:ring-2">
-                <Link href="/">
-                  <BsLinkedin className="text-lg" />
+              )}
+              {data.instagram && (
+                <Link href={`${data.instagram}`}>
+                  <li className="bg-slate-700 ms-3 inline-block cursor-pointer rounded-full p-3 hover:ring-2">
+                    <BsInstagram className="text-lg" />
+                  </li>
                 </Link>
-              </li>
-              <li className="bg-slate-700 ms-3 inline-block cursor-pointer rounded-full p-3 hover:ring-2">
-                <Link href="/">
-                  <BsInstagram className="textlgl" />
+              )}
+              {data.youtubeUrl && (
+                <Link href={`${data.youtubeUrl}`}>
+                  <li className="bg-slate-700 ms-3 inline-block cursor-pointer rounded-full p-3 hover:ring-2">
+                    <FaYoutube className="text-lg" />
+                  </li>
                 </Link>
-              </li>
+              )}
+              {data.twitter && (
+                <Link href={`${data.twitter}`}>
+                  <li className="bg-slate-700 ms-3 inline-block cursor-pointer rounded-full p-3 hover:ring-2">
+                    <FaTwitter className="text-lg" />
+                  </li>
+                </Link>
+              )}
             </ul>
           </div>
         </div>

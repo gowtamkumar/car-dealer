@@ -5,15 +5,13 @@ import { toast } from 'react-toastify'
 import { useRouter } from 'next/navigation'
 import SingleCar from '../../../components/products/SingleCar'
 
-
 const ProductId = ({ params }) => {
   const [car, setCar] = useState({})
   const [related, setRelated] = useState([])
   const router = useRouter()
 
-  console.log("related:", related)
   useEffect(() => {
-    ; (async () => {
+    ;(async () => {
       if (params.slug === 'slug') {
         form.resetFields()
         setFormValues({})
@@ -32,9 +30,7 @@ const ProductId = ({ params }) => {
     })()
   }, [params.new])
 
-  return (
-    <SingleCar data={car || []} />
-  )
+  return <SingleCar data={car || []} />
 }
 
 export default ProductId

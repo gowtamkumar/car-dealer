@@ -127,28 +127,6 @@ const Dashboard = () => {
               </div>
             </div>
           </div>
-
-          {/* <div className="col-span-12 my-3 lg:col-span-4">
-            <div className="mb-3 rounded-sm border p-2 shadow-red-500 transition-all duration-200 ease-in-out hover:shadow-md">
-              <h1 className="border-b p-2 text-lg font-bold text-green-400">Approved</h1>
-              <p className="px-2 pt-4 text-4xl text-green-400">00</p>
-              <p className="p-2">Approved this month</p>
-            </div>
-          </div>
-          <div className="col-span-12 my-3 lg:col-span-4">
-            <div className="mb-3 rounded-sm border p-2 shadow-red-500 transition-all duration-200 ease-in-out hover:shadow-md">
-              <h1 className="border-b p-2 text-lg font-bold text-orange-500">Pending</h1>
-              <p className="px-2 pt-4 text-4xl text-orange-500">00</p>
-              <p className="p-2">Pending this month</p>
-            </div>
-          </div>
-          <div className="col-span-12 my-3 lg:col-span-4">
-            <div className="hover:shadow-m shadow-red-500d mb-3 rounded-sm border p-2 transition-all duration-200 ease-in-out">
-              <h1 className="border-b p-2 text-lg font-bold text-red-400">Rejected</h1>
-              <p className="px-2 pt-4 text-4xl text-red-400">00</p>
-              <p className="p-2">Rejected this month</p>
-            </div>
-          </div> */}
         </div>
       </section>
 

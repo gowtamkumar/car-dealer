@@ -9,7 +9,7 @@ import {
 } from '@material-tailwind/react'
 import { ChevronDownIcon } from '@heroicons/react/24/outline'
 
-const SelectItem = ({
+const Features = ({
   active,
   label,
   open,
@@ -25,13 +25,13 @@ const SelectItem = ({
   const handleSelector = (value, values) => {
     const newData = [...filter]
     if (!value) {
-      const result = newData.filter((item) => item !== (values.id || values))
+      const result = newData.filter((item) => item.value !== values.value)
       setFilter(result)
       setFilterData({ ...filterData, [filterBy]: result })
     }
     if (value) {
-      setFilter([...filter, values.id || values])
-      setFilterData({ ...filterData, [filterBy]: [...filter, values.id || values] })
+      setFilter([...filter, values.value || values])
+      setFilterData({ ...filterData, [filterBy]: [...filter, values.value] })
     }
   }
 
@@ -66,14 +66,15 @@ const SelectItem = ({
         </Typography>
       </AccordionHeader>
 
-      <AccordionBody className="pt-0">
+      <AccordionBody className="mb-5 h-[40vh] overflow-auto pt-2">
         {(data || []).map((item, idx) => {
           return (
-            <div key={idx} className="px-2 ">
+            <div key={idx} className="px-2">
               <Checkbox
                 color="red"
                 onChange={({ target }) => handleSelector(target.checked, item)}
-                label={item.name || item}
+                label={item.label || item}
+                className="inline-block"
               />
             </div>
           )
@@ -83,4 +84,4 @@ const SelectItem = ({
   )
 }
 
-export default SelectItem
+export default Features

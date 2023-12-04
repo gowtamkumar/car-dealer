@@ -1,5 +1,5 @@
 'use client'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   Navbar,
   Collapse,
@@ -31,6 +31,8 @@ import UserDropDwon from '../ui/UserDropDwon'
 import dashboardRoute from '../dashboard/_dashboardRoute'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
+import appConfig from '@/config'
+import { Gets } from '@/lib/api'
 
 function NavListMenu({ session }) {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false)
@@ -63,7 +65,7 @@ function NavListMenu({ session }) {
         handler={setIsMenuOpen}
         offset={{ mainAxis: 20 }}
         placement="bottom"
-      // allowHover={true}
+        // allowHover={true}
       >
         <MenuHandler>
           <Typography as="div" variant="small" className="font-normal">
@@ -76,13 +78,15 @@ function NavListMenu({ session }) {
               Menu
               <ChevronDownIcon
                 strokeWidth={2.5}
-                className={`hidden h-3 w-3 transition-transform lg:block ${isMenuOpen ? 'rotate-180' : ''
-                  }`}
+                className={`hidden h-3 w-3 transition-transform lg:block ${
+                  isMenuOpen ? 'rotate-180' : ''
+                }`}
               />
               <ChevronDownIcon
                 strokeWidth={2.5}
-                className={`block h-3 w-3 transition-transform lg:hidden ${isMobileMenuOpen ? 'rotate-180' : ''
-                  }`}
+                className={`block h-3 w-3 transition-transform lg:hidden ${
+                  isMobileMenuOpen ? 'rotate-180' : ''
+                }`}
               />
             </ListItem>
           </Typography>
@@ -177,8 +181,21 @@ export default function NavbarMenu() {
   const handleSearch = () => {
     router.push(`/products?search=${query || ''}`)
   }
+  const [settings, setSettings] = useState({})
 
-  React.useEffect(() => {
+  useEffect(() => {
+    ;(async () => {
+      const params = { api: 'settings' }
+      const res = await Promise.resolve(Gets(params))
+      if (res?.data) {
+        setSettings(res?.data[0])
+      } else {
+        setSettings({})
+      }
+    })()
+  }, [])
+
+  useEffect(() => {
     window.addEventListener('resize', () => window.innerWidth >= 960 && setOpenNav(false))
   }, [])
 
@@ -186,7 +203,11 @@ export default function NavbarMenu() {
     <Navbar className="fixed inset-0 top-0 z-50 h-max max-w-full rounded-none px-4 py-2 shadow-sm lg:px-8">
       <div className="container mx-auto flex items-center justify-between text-blue-gray-900">
         <Typography as={Link} href="/" variant="h6" className="mr-4 cursor-pointer py-1.5 lg:ml-2">
-          <img src="/logo.png" className="h-8 w-auto" alt="logo" />
+          <img
+            src={`${appConfig.apiBaseUrl}/uploads/${settings.logo || 'logo.png'}`}
+            className="h-11 w-auto"
+            alt="logo"
+          />
         </Typography>
         <div className="hidden items-center gap-2 lg:flex">
           <NavList session={session} />
@@ -260,7 +281,11 @@ export default function NavbarMenu() {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
           />
-          <Button size="sm" onClick={handleSearch} className="!absolute right-1 top-1 rounded bg-red-400">
+          <Button
+            size="sm"
+            onClick={handleSearch}
+            className="!absolute right-1 top-1 rounded bg-red-400"
+          >
             Search
           </Button>
         </div>

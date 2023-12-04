@@ -61,7 +61,8 @@ async function GetProducts(params) {
     search,
     lowPrice,
     highPrice,
-    conditions
+    conditions,
+    productFeature
   } = data
 
   // const lowPrice = false
@@ -72,6 +73,9 @@ async function GetProducts(params) {
 
   if (brandId?.length > 0) {
     queryString += `brandId=${brandId.join(',')}${brandId && '&'}`
+  }
+  if (productFeature?.length > 0) {
+    queryString += `productFeature=${productFeature.join(',')}${productFeature && '&'}`
   }
 
   if (modelId?.length > 0) {
@@ -115,8 +119,7 @@ async function GetProducts(params) {
   if (color?.length > 0) {
     queryString += `color=${color.join(',')}${color && '&'}`
   }
-
-
+  console.log("queryString:", queryString)
 
   try {
     const res = await fetch(`${BASE_URL}/${api}?${queryString}`)

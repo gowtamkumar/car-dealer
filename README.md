@@ -111,22 +111,16 @@ Before setting up the PostgreSQL database for My Rmj-Autos App, ensure that you 
 
 ### d. Update Node.js Project Configuration
 
-Update the Node.js project configuration to connect to the PostgreSQL database. Locate the configuration file in the server folder (e.g., `server/config/config.js`).
+Update the Node.js project configuration to connect to the PostgreSQL database. Locate the configuration file in the server folder (e.g., `server/.env.development`).
 
 ```javascript
 // Example configuration for PostgreSQL
-module.exports = {
-  // ...
-  database: {
-    client: 'pg',
-    connection: {
-      host: 'localhost',
-      user: 'your_username',
-      password: 'your_password',
-      database: 'rmj_autos', // Replace with your actual database name
-    },
-    // Additional configuration options if needed
-  },
+# Database environment variables
+   DB_HOST=127.0.0.1
+   DB_PORT=5432
+   DB_USERNAME=postgres
+   DB_PASSWORD=101
+   DB_DATABASE=rmj_autos
   // ...
 };
 

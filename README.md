@@ -124,3 +124,9 @@ Update the Node.js project configuration to connect to the PostgreSQL database. 
   // ...
 };
 
+Replace your_username and your_password with the PostgreSQL database username and password you created.
+
+## 4. Database Initialization (if needed)
+If your application requires specific tables or schema, provide instructions for initializing the database schema. This may include running database migration scripts or setting up initial data.
+
+

@@ -14,7 +14,7 @@ const FilterSection = () => {
   const router = useRouter()
 
   useEffect(() => {
-    ;(async () => {
+    ; (async () => {
       const brands = await Promise.resolve(Gets({ api: 'brands' }))
       const models = await Promise.resolve(Gets({ api: 'models' }))
       setApiData({
@@ -37,6 +37,7 @@ const FilterSection = () => {
 
   const handleFilter = () => {
     const { brandId, modelId, condition } = active
+    console.log("🚀 ~ active:", active)
 
     let queryString = ''
     if (condition) {
@@ -59,9 +60,8 @@ const FilterSection = () => {
             <div
               key={key}
               onClick={() => handleChange(title, 'condition')}
-              className={`flex-grow rounded-t-sm ${
-                active?.condition === title ? 'bg-gray-50' : 'bg-gray-900 text-white'
-              } cursor-pointer px-8 py-2 text-center text-sm font-bold transition-all duration-150 ease-linear`}
+              className={`flex-grow rounded-t-sm ${active?.condition === title ? 'bg-gray-50' : 'bg-gray-900 text-white'
+                } cursor-pointer px-8 py-2 text-center text-sm font-bold transition-all duration-150 ease-linear`}
             >
               {title}
             </div>

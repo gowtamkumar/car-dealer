@@ -126,7 +126,3 @@ If your application requires specific tables or schema, provide instructions for
    DB_DATABASE=rmj_autos
   // ...
 };
-
-
-
-

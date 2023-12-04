@@ -109,9 +109,12 @@ Before setting up the PostgreSQL database for My Rmj-Autos App, ensure that you 
 
 2. Enter a username and set a password for the database user. Assign necessary privileges, and link the user to the newly created database.
 
-### d. Update Node.js Project Configuration
 
+## 4. Database Initialization (if needed)
 Update the Node.js project configuration to connect to the PostgreSQL database. Locate the configuration file in the server folder (e.g., `server/.env.development`).
+
+Replace DB_USERNAME and DB_PASSWORD with the PostgreSQL database username and password you created.
+If your application requires specific tables or schema, provide instructions for initializing the database schema. This may include running database migration scripts or setting up initial data.
 
 ```javascript
 // Example configuration for PostgreSQL
@@ -125,10 +128,5 @@ Update the Node.js project configuration to connect to the PostgreSQL database. 
 };
 
 
-
-Replace your_username and your_password with the PostgreSQL database username and password you created.
-
-## 4. Database Initialization (if needed)
-If your application requires specific tables or schema, provide instructions for initializing the database schema. This may include running database migration scripts or setting up initial data.
 
 

@@ -1,6 +1,6 @@
 # Rmj Autos App
 
-This refers to the collection of documents that provides information about a project and its processes. It includes all the necessary details about the project, such as its objectives, scope, timeline, budget, and resources. The project documentation is used to keep track of progress, identify risks, and ensure that all stakeholders are on the same page. Proper documentation is crucial for the success of any project.
+This refers to the collection of documents that provide information about a project and its processes. It includes all the necessary details about the project, such as its objectives, scope, timeline, budget, and resources. The project documentation is used to keep track of progress, identify risks, and ensure that all stakeholders are on the same page. Proper documentation is crucial for the success of any project.
 
 ## Prerequisites
 
@@ -12,31 +12,31 @@ Welcome to the client-side documentation for My Rmj-Autos App!
 
 ## Installation
 
-1. Navigate to the `client` folder:
+i. Navigate to the `client` folder:
 
    ```bash
    cd client
    ```
 
-2. Install All Packages:
+ii. Install All Packages:
 
    ```bash
    npm install
    ```
 
-3. Run the application:
+iii. Run the application:
 
    ```bash
    npm run dev
    ```
 
-4. Build the application:
+iv. Build the application:
 
    ```bash
    npm run build
    ```
 
-5. Run the application in `Production`:
+v. Run the application in `Production`:
 
    ```bash
    npm run start

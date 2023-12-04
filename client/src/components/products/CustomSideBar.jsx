@@ -4,15 +4,15 @@ import { Gets } from '../../lib/api'
 import productEnum from '../../constants/utils'
 import SelectItem from './utils/SelectItem'
 import PriceRange from './utils/PriceRange'
-import NumberOfSeat from './utils/NumberOfSeat'
 import SelectColor from './utils/SelectColor'
+import Features from './utils/Features'
 
 export default function CustomSideBar({ filterData, setFilterData }) {
   const [apiData, setApiData] = useState({})
   const [open, setOpen] = useState(0)
 
   useEffect(() => {
-    ; (async () => {
+    ;(async () => {
       try {
         const brands = await Gets({ api: 'brands' })
         const models = await Gets({ api: 'models' })
@@ -29,17 +29,13 @@ export default function CustomSideBar({ filterData, setFilterData }) {
     })()
   }, [])
 
-
   const handleOpen = (value) => {
     setOpen(open === value ? null : value)
   }
 
   return (
     <>
-      <PriceRange
-        filterData={filterData}
-        setFilterData={setFilterData}
-      />
+      <PriceRange filterData={filterData} setFilterData={setFilterData} />
       <SelectItem
         active={0}
         open={open}
@@ -70,18 +66,28 @@ export default function CustomSideBar({ filterData, setFilterData }) {
         setFilterData={setFilterData}
         filterData={filterData}
       />
-      <NumberOfSeat
+      <SelectItem
         active={3}
         open={open}
         handleOpen={handleOpen}
         filterBy="noOfseat"
-        label="Number Of Seat"
+        label="No Of Seat"
         data={productEnum.numberOfSeat}
         setFilterData={setFilterData}
         filterData={filterData}
       />
-      <SelectColor
+      <Features
         active={4}
+        open={open}
+        handleOpen={handleOpen}
+        filterBy="productFeature"
+        label="Features"
+        data={productEnum.features}
+        setFilterData={setFilterData}
+        filterData={filterData}
+      />
+      <SelectColor
+        active={5}
         open={open}
         handleOpen={handleOpen}
         filterBy="color"

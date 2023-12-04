@@ -3,16 +3,24 @@ import { BsFuelPumpDiesel, BsSpeedometer2 } from 'react-icons/bs'
 import { AiOutlineBgColors, AiOutlineCar } from 'react-icons/ai'
 import { Button } from '@material-tailwind/react'
 import dayjs from 'dayjs'
+import { FiShare2 } from 'react-icons/fi'
+import ShareButton from '../shared/ShareButton'
+import appConfig from '@/config'
+import { usePathname } from 'next/navigation'
 
 const ProductDetails = ({ data }) => {
   const carName = `${data.manufactureDate && dayjs(data.manufactureDate).format('YYYY')} ${
     data.name && data.name
   } ${data.brand && data.brand?.name} ${data.model && data.model?.name}`
 
+  const pathName = usePathname()
+  const postUrl = appConfig.url + pathName
+  const postTitle = 'Check out this awesome post!'
+
   return (
     <div className="col-span-12 rounded-md px-5 lg:col-span-7">
       <h1 className="text-2xl font-semibold">{carName}</h1>
-      <div className="my-3 flex items-center justify-between gap-4 lg:w-3/5">
+      <div className="my-3 flex items-center justify-between gap-4">
         <h1 className="font-bold text-red-400">
           Registration :{' '}
           <span className="text-gray-700">
@@ -22,9 +30,10 @@ const ProductDetails = ({ data }) => {
         <h1 className="font-bold text-red-400">
           Category : <span className="text-gray-700">{data?.condition}</span>
         </h1>
-        {/* <h1 className="font-bold text-red-400">
-          Views : <span className="text-gray-700">400</span>
-        </h1> */}
+        <ShareButton url={postUrl} title={postTitle} />
+        {/* <Button variant="text" className="flex items-center gap-2" color="red">
+          <FiShare2 /> Share
+        </Button> */}
       </div>
       <h1 className="my-5 text-4xl text-gray-900/80">৳ {data.price}</h1>
       <div className="my-5 flex flex-wrap items-start justify-between gap-4 lg:w-4/5">

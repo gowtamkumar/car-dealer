@@ -24,10 +24,22 @@ Welcome to the client-side documentation for My Rmj-Autos App!
    npm install
    ```
 
-2. Run the application:
+3. Run the application:
 
    ```bash
    npm run dev
+   ```
+
+ 4. Build the application:
+
+   ```bash
+   npm run build
+   ```
+
+5. Run the application in `Production`:
+
+   ```bash
+   npm run start
    ```
 
 ## 2. Server Installation
@@ -48,7 +60,7 @@ Welcome to the server-side documentation for My Rmj-Autos App!
    npm install
    ```
 
-2. Run the application:
+3. Run the application:
 
    ```bash
    npm run dev

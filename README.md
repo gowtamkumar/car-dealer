@@ -109,8 +109,8 @@ Before setting up the PostgreSQL database for My Rmj-Autos App, ensure that you 
 
 2. Enter a username and set a password for the database user. Assign necessary privileges, and link the user to the newly created database.
 
-
 ## 4. Database Initialization (if needed)
+
 Update the Node.js project configuration to connect to the PostgreSQL database. Locate the configuration file in the server folder (e.g., `server/.env.development`).
 
 Replace DB_USERNAME and DB_PASSWORD with the PostgreSQL database username and password you created.
@@ -125,4 +125,13 @@ If your application requires specific tables or schema, provide instructions for
    DB_PASSWORD=101
    DB_DATABASE=rmj_autos
   // ...
-};
+
+```
+
+## 5. Verify Database Connection
+
+Run the application and verify that it successfully connects to the PostgreSQL database.
+
+```bash
+  npm run dev
+```

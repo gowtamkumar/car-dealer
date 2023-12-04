@@ -148,7 +148,7 @@ export class AuthController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Patch('/update-password/:id')
+  @Put('/update-password/:id')
   async updatePassword(
     @RequestContext() ctx: RequestContextDto,
     @Body() updatePasswordDto: UpdatePasswordDto,
@@ -190,7 +190,7 @@ export class AuthController {
   ) {
     this.logger.verbose(`Reset Password`)
 
-    await this.authService.resetPassword(ctx,id, resetPasswordDto)
+    await this.authService.resetPassword(ctx, id, resetPasswordDto)
 
     return {
       success: true,
@@ -212,7 +212,7 @@ export class AuthController {
       // secure: config.SSL && config.NODE_ENV===env_mode.PRODUCTION
     }
     // console.log("cookieOptions", cookieOptions);
-    
+
     response.status(200).cookie('token', token, cookieOptions)
   }
 }

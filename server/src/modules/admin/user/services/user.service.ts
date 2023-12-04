@@ -32,6 +32,7 @@ export class UserService {
     this.logger.log(`${this.getUser.name}Service Called`)
 
     const user = await this.userRepo.findOne({ where: { id } })
+    delete user.password
     if (!user) {
       throw new NotFoundException(`User of id ${id} not found`)
     }

@@ -33,9 +33,10 @@ const SystemSettings = () => {
   }, [data])
 
   useEffect(() => {
-    ;(async () => {
+    ; (async () => {
       const params = { api: 'settings' }
       const res = await Promise.resolve(Gets(params))
+
       if (res?.data) {
         setData(res?.data[0])
         setFormData(res?.data[0])
@@ -259,8 +260,17 @@ const SystemSettings = () => {
             </div>
 
             <div className="col-span-7">
-              <Form.Item name="fullAddress" label="Full Address" className="mb-1">
-                <Input.TextArea placeholder="Enter Full Address" />
+              <Form.Item name="fullAddress"
+                rules={[
+                  {
+                    required: true,
+                    message: 'Full Address is required',
+                  },
+                ]}
+                label="Full Address"
+                className="mb-1"
+              >
+                <Input placeholder="Enter Full Address" />
               </Form.Item>
             </div>
 

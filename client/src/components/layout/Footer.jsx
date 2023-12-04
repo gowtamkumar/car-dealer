@@ -12,7 +12,7 @@ const Footer = () => {
   const session = useSession()
 
   useEffect(() => {
-    ;(async () => {
+    ; (async () => {
       const params = { api: 'settings' }
       const res = await Promise.resolve(Gets(params))
       if (res?.data) {
@@ -111,8 +111,8 @@ const Footer = () => {
           <div>
             <h1 className="mb-2">STAY CONNECTED</h1>
             <ul>
-              <li className="text-slate-400 mb-4 font-bold">{data.fullAddress}</li>
-              <li className="text-slate-400 mb-4">Email: {data.email}</li>
+              <li className="text-slate-400 mb-4 font-bold">{data?.fullAddress}</li>
+              <li className="text-slate-400 mb-4">Email: {data?.email}</li>
             </ul>
           </div>
         </div>
@@ -120,7 +120,7 @@ const Footer = () => {
           <div className="flex items-center gap-4 md:flex-row">
             <h1 className="text-slate-600 text-sm">Facebook Page:</h1>
             <Link
-              href={`${data.facebookUrl}`}
+              href={`${data?.facebookUrl}`}
               className="flex cursor-pointer flex-row gap-2 rounded-md px-5 py-2  ring-1 md:items-center"
             >
               <FaFacebookF />
@@ -133,29 +133,29 @@ const Footer = () => {
           </div>
           <div>
             <ul className="m-0 p-0">
-              {data.facebookUrl && (
-                <Link href={`${data.facebookUrl}`}>
+              {data?.facebookUrl && (
+                <Link href={`${data?.facebookUrl}`}>
                   <li className="bg-slate-700 ms-3 inline-block cursor-pointer rounded-full p-3 hover:ring-2">
                     <BsFacebook className="text-lg" />
                   </li>
                 </Link>
               )}
-              {data.instagram && (
-                <Link href={`${data.instagram}`}>
+              {data?.instagram && (
+                <Link href={`${data?.instagram}`}>
                   <li className="bg-slate-700 ms-3 inline-block cursor-pointer rounded-full p-3 hover:ring-2">
                     <BsInstagram className="text-lg" />
                   </li>
                 </Link>
               )}
-              {data.youtubeUrl && (
-                <Link href={`${data.youtubeUrl}`}>
+              {data?.youtubeUrl && (
+                <Link href={`${data?.youtubeUrl}`}>
                   <li className="bg-slate-700 ms-3 inline-block cursor-pointer rounded-full p-3 hover:ring-2">
                     <FaYoutube className="text-lg" />
                   </li>
                 </Link>
               )}
-              {data.twitter && (
-                <Link href={`${data.twitter}`}>
+              {data?.twitter && (
+                <Link href={`${data?.twitter}`}>
                   <li className="bg-slate-700 ms-3 inline-block cursor-pointer rounded-full p-3 hover:ring-2">
                     <FaTwitter className="text-lg" />
                   </li>

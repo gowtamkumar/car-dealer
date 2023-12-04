@@ -2,25 +2,25 @@
 import React, { useEffect, useState } from 'react'
 import { Get } from '@/lib/api'
 import { Button, Typography } from '@material-tailwind/react'
-import { useSession } from 'next-auth/react'
+import { getSession } from 'next-auth/react'
 import { ActionType } from '@/constants/constants'
 import { Tag } from 'antd'
 import appConfig from '@/config'
 import SystemSettings from '@/components/dashboard/page/SystemSettings'
 import UpdateProfile from '@/components/dashboard/page/UpdateProfile'
+import UpdatePassword from '@/components/dashboard/page/UpdatePasswrod'
 
 const Dashboard = () => {
   const [action, setAction] = useState({})
   const [data, setData] = useState({})
 
   // query
-  const session = useSession()
-
   useEffect(() => {
-    ;(async () => {
-      const params = { api: 'users', id: session?.data?.user?.id }
+    ; (async () => {
+      const newsession = await getSession()
+      const params = { api: 'users', id: newsession?.user?.id }
       const res = await Promise.resolve(Get(params))
-      setData(res.data || [])
+      setData(res.data || {})
     })()
   }, [action])
 
@@ -44,10 +44,26 @@ const Dashboard = () => {
               variant="text"
               className="my-2 capitalize"
               fullWidth
+
               size="sm"
               color="blue"
             >
               Edit Profile
+            </Button>
+            <Button
+              onClick={() =>
+                setAction({
+                  key: "UpdatePassword",
+                  payload: data,
+                })
+              }
+              variant="text"
+              className="my-2 capitalize"
+              fullWidth
+              size="sm"
+              color="blue"
+            >
+              Update Password
             </Button>
           </div>
           <div className="col-span-12 lg:col-span-10">
@@ -130,9 +146,10 @@ const Dashboard = () => {
         </div>
       </section>
 
-      {session?.data?.user?.role === 'Admin' && <SystemSettings />}
+      {data?.role === 'Admin' && <SystemSettings />}
 
       {action.type === ActionType.UPDATE && <UpdateProfile action={action} setAction={setAction} />}
+      {action.key === "UpdatePassword" && <UpdatePassword action={action} setAction={setAction} />}
     </main>
   )
 }

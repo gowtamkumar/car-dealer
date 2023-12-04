@@ -65,7 +65,7 @@ function NavListMenu({ session }) {
         handler={setIsMenuOpen}
         offset={{ mainAxis: 20 }}
         placement="bottom"
-        // allowHover={true}
+      // allowHover={true}
       >
         <MenuHandler>
           <Typography as="div" variant="small" className="font-normal">
@@ -78,15 +78,13 @@ function NavListMenu({ session }) {
               Menu
               <ChevronDownIcon
                 strokeWidth={2.5}
-                className={`hidden h-3 w-3 transition-transform lg:block ${
-                  isMenuOpen ? 'rotate-180' : ''
-                }`}
+                className={`hidden h-3 w-3 transition-transform lg:block ${isMenuOpen ? 'rotate-180' : ''
+                  }`}
               />
               <ChevronDownIcon
                 strokeWidth={2.5}
-                className={`block h-3 w-3 transition-transform lg:hidden ${
-                  isMobileMenuOpen ? 'rotate-180' : ''
-                }`}
+                className={`block h-3 w-3 transition-transform lg:hidden ${isMobileMenuOpen ? 'rotate-180' : ''
+                  }`}
               />
             </ListItem>
           </Typography>
@@ -184,7 +182,7 @@ export default function NavbarMenu() {
   const [settings, setSettings] = useState({})
 
   useEffect(() => {
-    ;(async () => {
+    ; (async () => {
       const params = { api: 'settings' }
       const res = await Promise.resolve(Gets(params))
       if (res?.data) {
@@ -204,7 +202,7 @@ export default function NavbarMenu() {
       <div className="container mx-auto flex items-center justify-between text-blue-gray-900">
         <Typography as={Link} href="/" variant="h6" className="mr-4 cursor-pointer py-1.5 lg:ml-2">
           <img
-            src={`${appConfig.apiBaseUrl}/uploads/${settings.logo || 'logo.png'}`}
+            src={`${appConfig.apiBaseUrl}/uploads/${settings?.logo || 'logo.png'}`}
             className="h-11 w-auto"
             alt="logo"
           />

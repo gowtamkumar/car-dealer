@@ -65,3 +65,68 @@ Welcome to the server-side documentation for My Rmj-Autos App!
    ```bash
    npm run dev
    ```
+
+   # PostgreSQL Database Setup for My Rmj-Autos App (Node.js Project)
+
+## 1. Database Requirements
+
+Before setting up the PostgreSQL database for My Rmj-Autos App, ensure that you have the following prerequisites:
+
+- PostgreSQL Database Server Installed
+- pgAdmin Installed (for managing PostgreSQL databases)
+
+## 2. PostgreSQL Installation
+
+### a. Install PostgreSQL Database Server
+
+1. Download and install PostgreSQL from the official website: [PostgreSQL Downloads](https://www.postgresql.org/download/).
+
+2. Follow the installation instructions provided by the PostgreSQL installer.
+
+### b. Install pgAdmin
+
+1. Download and install pgAdmin from the official website: [pgAdmin Downloads](https://www.pgadmin.org/download/).
+
+2. Follow the installation instructions provided by the pgAdmin installer.
+
+## 3. Database Setup and Configuration
+
+### a. Launch pgAdmin
+
+1. Start pgAdmin after the installation.
+
+2. Connect to your PostgreSQL server using the connection details provided during installation.
+
+### b. Create a Database
+
+1. In pgAdmin, right-click on "Databases" and choose "Create > Database."
+
+2. Enter a name for your database (e.g., `rmj_autos`) and configure any additional settings if necessary.
+
+### c. Create Database User
+
+1. In pgAdmin, right-click on "Login/Group Roles" and choose "Create > Login/Group Role."
+
+2. Enter a username and set a password for the database user. Assign necessary privileges, and link the user to the newly created database.
+
+### d. Update Node.js Project Configuration
+
+Update the Node.js project configuration to connect to the PostgreSQL database. Locate the configuration file in the server folder (e.g., `server/config/config.js`).
+
+```javascript
+// Example configuration for PostgreSQL
+module.exports = {
+  // ...
+  database: {
+    client: 'pg',
+    connection: {
+      host: 'localhost',
+      user: 'your_username',
+      password: 'your_password',
+      database: 'rmj_autos', // Replace with your actual database name
+    },
+    // Additional configuration options if needed
+  },
+  // ...
+};
+

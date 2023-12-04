@@ -66,7 +66,7 @@ Welcome to the server-side documentation for My Rmj-Autos App!
    npm run dev
    ```
 
-   # PostgreSQL Database Setup for My Rmj-Autos App (Node.js Project)
+# PostgreSQL Database Setup for My Rmj-Autos App (Node.js Project)
 
 ## 1. Database Requirements
 

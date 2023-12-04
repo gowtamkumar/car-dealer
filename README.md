@@ -1,12 +1,12 @@
 # Rmj Autos App
 
-This refers to the collection of documents that provide information about a project and its processes. It includes all the necessary details about the project, such as its objectives, scope, timeline, budget, and resources. The project documentation is used to keep track of progress, identify risks, and ensure that all stakeholders are on the same page. Proper documentation is crucial for the success of any project.
+Project documentation is a collection of documents containing information about a project and its processes. It provides all the necessary details about the project, such as its objectives, scope, timeline, budget, and resources. The project documentation is crucial in keeping track of progress, identifying risks, and ensuring that all stakeholders have the same understanding of the project. Proper documentation is essential for the success of any project.
 
 ## Prerequisites
 
 Make sure you have Node.js and npm installed on your machine.
 
-## 1. Client Installation
+# 1. Client Installation
 
 Welcome to the client-side documentation for My Rmj-Autos App!
 
@@ -42,31 +42,31 @@ v. Run the application in `Production`:
    npm run start
    ```
 
-## 2. Server Installation
+# 2. Server Installation
 
 Welcome to the server-side documentation for My Rmj-Autos App!
 
 ## Installation
 
-1. Navigate to the `server` folder:
+i. Navigate to the `server` folder:
 
    ```bash
    cd server
    ```
 
-2. Install All Packages:
+ii. Install All Packages:
 
    ```bash
    npm install
    ```
 
-3. Run the application:
+iii. Run the application:
 
    ```bash
    npm run dev
    ```
 
-# PostgreSQL Database Setup for My Rmj-Autos App (Node.js Project)
+# 3. PostgreSQL Database Setup for My Rmj-Autos App (Node.js Project)
 
 ## 1. Database Requirements
 

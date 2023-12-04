@@ -30,7 +30,7 @@ Welcome to the client-side documentation for My Rmj-Autos App!
    npm run dev
    ```
 
- 4. Build the application:
+4. Build the application:
 
    ```bash
    npm run build

@@ -266,7 +266,8 @@ const UpdateProfile = ({ action = {}, setAction }) => {
                 size="sm"
                 variant="gradient"
                 color="blue"
-                type="submit"
+                // type="submit"
+                onClick={() => handleSubmit(formValues)}
                 className="capitalize"
                 loading={loading.submit}
               >

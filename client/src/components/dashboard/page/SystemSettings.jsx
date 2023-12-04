@@ -36,6 +36,7 @@ const SystemSettings = () => {
     ;(async () => {
       const params = { api: 'settings' }
       const res = await Promise.resolve(Gets(params))
+      
       if (res?.data) {
         setData(res?.data[0])
         setFormData(res?.data[0])

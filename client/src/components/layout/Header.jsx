@@ -200,7 +200,7 @@ export default function NavbarMenu() {
   }, [])
 
   return (
-    <Navbar className="fixed inset-0 top-0 z-50 h-max max-w-full rounded-none px-4 py-2 shadow-sm lg:px-8">
+    <Navbar className="fixed inset-0 top-0 z-50 h-max max-w-full rounded-none px-4 py-0 shadow-sm lg:px-8">
       <div className="container mx-auto flex items-center justify-between text-blue-gray-900">
         <Typography as={Link} href="/" variant="h6" className="mr-4 cursor-pointer py-1.5 lg:ml-2">
           <img

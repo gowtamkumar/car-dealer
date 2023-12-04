@@ -42,3 +42,4 @@ lerna-debug.log*
 !public/uploads/no-data.png
 !public/uploads/no-images.svg
 !public/uploads/user.png
+!public/uploads/logo.png

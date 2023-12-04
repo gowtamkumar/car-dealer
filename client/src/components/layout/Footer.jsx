@@ -10,7 +10,6 @@ import { FaFacebookF, FaTwitter, FaYoutube } from 'react-icons/fa6'
 const Footer = () => {
   const [data, setData] = useState({})
   const session = useSession()
-  console.log('session:', session)
 
   useEffect(() => {
     ;(async () => {

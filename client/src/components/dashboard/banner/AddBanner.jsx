@@ -5,7 +5,7 @@ import { Upload } from 'antd'
 import { ActionType } from '../../../constants/constants'
 import { Button } from '@material-tailwind/react'
 import { toast } from 'react-toastify'
-import { InboxOutlined } from '@ant-design/icons'
+import { LoadingOutlined, PlusOutlined } from '@ant-design/icons'
 import { Create, Update, CreateFile, FileDeleteWithPhoto } from '../../../lib/api'
 import { useRouter } from 'next/navigation'
 
@@ -58,10 +58,8 @@ const AddBanner = ({ action = {}, setAction }) => {
 
   const uploadButton = (
     <div>
-      <p className="ant-upload-drag-icon">
-        <InboxOutlined />
-      </p>
-      <p className="ant-upload-text">Click or drag file to this area to upload</p>
+      {loading.upload ? <LoadingOutlined /> : <PlusOutlined />}
+      <div className="mt-2">Upload</div>
     </div>
   )
 

@@ -8,7 +8,8 @@ import dayjs from 'dayjs'
 import { Tag } from 'antd'
 
 const CardProduct = ({ data }) => {
-  const carName = `${dayjs(data.manufactureDate).format('YYYY')} ${data.name} ${data.brand?.name} ${data.model?.name}`
+  const carName = `${data.manufactureDate && dayjs(data.manufactureDate).format('YYYY')} ${data.name && data.name
+    } ${data.brand && data.brand?.name} ${data.model && data.model?.name}`
 
 
   return (

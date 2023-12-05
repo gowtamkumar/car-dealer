@@ -67,8 +67,11 @@ export class ProductService {
     qb.leftJoin('product.user', 'user')
     qb.leftJoin('product.model', 'model')
     qb.leftJoin('product.modelCode', 'modelCode')
-    // product Feature
-    if (productFeature) qb.andWhere('product.productFeature IN (:...productFeature)', { productFeature: productFeature.split(',') })
+
+
+
+    if (productFeature) qb.andWhere(":productFeature = ANY ( string_to_array(product.productFeature, ','))", { productFeature: productFeature })
+    //  qb.andWhere('product.productFeature IN (:...productFeature)', { productFeature: productFeature.split(',') })
     if (brandId) qb.andWhere('product.brandId IN (:...brandIds)', { brandIds: brandId.split(',') })
     if (modelId) qb.andWhere('product.modelId IN (:...modelIds)', { modelIds: modelId.split(',') })
     if (modelCodeId) qb.andWhere('product.modelCodeId IN (:...modelCodeIds)', { modelCodeIds: modelCodeId.split(',') })

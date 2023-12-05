@@ -1,7 +1,7 @@
 'use client'
 import { getSession } from 'next-auth/react'
 
-const BASE_URL = 'http://localhost:3900/api/v1'
+const BASE_URL = 'http://184.94.212.7:3900/api/v1'
 
 async function Gets(params) {
   try {
@@ -188,7 +188,7 @@ async function Delete(params) {
 }
 
 async function CreateFile(data) {
-  const res = await fetch('http://localhost:3900/api/v1/files/uploads', {
+  const res = await fetch(`${BASE_URL}/files/uploads`, {
     method: 'POST',
     body: data,
   })

@@ -14,7 +14,7 @@ export default function UserDropDwon() {
 
   const handleSignOut = () => {
     signOut()
-    router.refresh()
+    router.push('/')
   }
 
   return (

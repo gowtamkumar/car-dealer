@@ -48,24 +48,24 @@ const Footer = () => {
             <div></div>
           </div>
           <div>
-            <h1 className="mb-3"></h1>
+            <h1 className="mb-3 font-bold"></h1>
             <ul>
-              <li className="text-slate-400 mb-2">
+              <li className="text-slate-400 mb-4">
                 <Link className="hover:text-red-500 hover:underline" href="/">
                   Home
                 </Link>
               </li>
-              <li className="text-slate-400 mb-2">
+              <li className="text-slate-400 mb-4">
                 <Link className="hover:text-red-500 hover:underline" href="/about">
                   About Us
                 </Link>
               </li>
-              <li className="text-slate-400 mb-2">
+              <li className="text-slate-400 mb-4">
                 <Link className="hover:text-red-500 hover:underline" href="/products">
                   Cars
                 </Link>
               </li>
-              <li className="text-slate-400 mb-2">
+              <li className="text-slate-400 mb-4">
                 <Link
                   className="hover:text-red-500 hover:underline"
                   href={session.status === 'unauthenticated' ? '/login' : '/dashboard/cars-list'}
@@ -84,26 +84,21 @@ const Footer = () => {
             </ul>
           </div>
           <div>
-            <h1 className="h-1"> </h1>
+            <h1 className="mb-3"></h1>
             <ul>
               <li className="text-slate-400 mb-4">
-                <Link className="hover:text-red-500 hover:underline" href="/">
-                  Online Delivery
+                <Link className="hover:text-red-500 hover:underline" href="/privacy">
+                  Privacy Policy
                 </Link>
               </li>
               <li className="text-slate-400 mb-4">
-                <Link className="hover:text-red-500 hover:underline" href="/">
-                  Return & Return Policy
+                <Link className="hover:text-red-500 hover:underline" href="/terms-policy">
+                  Terms and Conditions
                 </Link>
               </li>
               <li className="text-slate-400 mb-4">
-                <Link className="hover:text-red-500 hover:underline" href="/">
-                  Contact Us
-                </Link>
-              </li>
-              <li className="mb-4">
-                <Link className="text-red-500 hover:underline" href="/">
-                  Camplain / Advice
+                <Link className="hover:text-red-500 hover:underline" href="/cookies-policy">
+                  Cookies Policy
                 </Link>
               </li>
             </ul>

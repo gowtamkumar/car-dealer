@@ -14,10 +14,6 @@ const Dashboard = () => {
   const [action, setAction] = useState({})
   const [data, setData] = useState({})
   const [reports, setReports] = useState({})
-
-  const [cars, setCars] = useState([])
-  // console.log("🚀 ~ cars:", cars)
-  console.log("🚀 ~ reports:", reports)
   // query
   useEffect(() => {
     ; (async () => {
@@ -33,7 +29,6 @@ const Dashboard = () => {
         let rejected = 0
         let approved = 0
 
-
         newData.forEach((item, index) => {
           if (item.status === "Pending") {
             pending = pending + 1
@@ -42,32 +37,28 @@ const Dashboard = () => {
             rejected = rejected + 1
           }
           if (item.status === "Approved") {
-            approved = pending + 1
+            approved = approved + 1
           }
         })
-        // console.log("🚀 ~ approved:", rejected)
-
-        setCars(newData)
         setReports({ pending: pending, approved: approved, rejected: rejected, total: (newData.length || 0) })
       } else {
-        let pending = 0
-        let rejected = 0
-        let approved = 0
+        let pending = 0;
+        let rejected = 0;
+        let approved = 0;
 
-          (result.data || []).forEach((item, index) => {
-            if (item.status === "Pending") {
-              pending = pending + 1
-            }
-            if (item.status === "Rejected") {
-              rejected = rejected + 1
-            }
-            if (item.status === "Approved") {
-              approved = pending + 1
-            }
-          })
+        (result.data || []).forEach((item, index) => {
+          if (item.status === "Pending") {
+            pending = pending + 1
+          }
+          if (item.status === "Rejected") {
+            rejected = rejected + 1
+          }
+          if (item.status === "Approved") {
+            approved = approved + 1
+          }
+        })
 
         setReports({ pending: pending, approved: approved, rejected: rejected, total: (result.data.length || 0) })
-        setCars(result.data || [])
         setData(res.data)
       }
 

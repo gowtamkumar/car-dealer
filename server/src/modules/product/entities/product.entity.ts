@@ -167,8 +167,8 @@ export class ProductEntity {
   })
   user: UserEntity
 
-  @Column({ name: 'product_feature', type: 'simple-array' })
-  productFeature: string[]
+  @Column({ name: 'product_feature',  type: 'simple-array' })
+  productFeature: any[]
 
   @Column({ type: 'enum', enum: ProductStatusEnum, default: ProductStatusEnum.Pending })
   status: ProductStatusEnum

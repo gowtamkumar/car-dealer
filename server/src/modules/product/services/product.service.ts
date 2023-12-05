@@ -59,8 +59,6 @@ export class ProductService {
       highPrice
     } = filterProductDto
 
-
-
     // service time Start
     const start = process.hrtime()
     const qb = this.productRepo.createQueryBuilder('product')
@@ -124,6 +122,7 @@ export class ProductService {
 
     return result
   }
+
 
   async getProduct(ctx: RequestContextDto, id: string): Promise<ProductEntity> {
     this.logger.log(`${this.getProduct.name}Service Called`)

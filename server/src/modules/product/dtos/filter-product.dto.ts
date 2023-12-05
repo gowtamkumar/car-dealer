@@ -10,7 +10,7 @@ import {
   TransmissionEnum,
 } from '../enums'
 import { Transform } from 'class-transformer'
-import { ProductFeatureEnum } from '../enums/product-Feature.enum'
+import { ProductFeatureEnum } from '../enums/product-feature.enum'
 
 export class FilterProductDto {
   @IsString()

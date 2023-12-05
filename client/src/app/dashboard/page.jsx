@@ -1,6 +1,6 @@
 'use client'
 import React, { useEffect, useState } from 'react'
-import { Get } from '@/lib/api'
+import { Get, Gets } from '@/lib/api'
 import { Button, Typography } from '@material-tailwind/react'
 import { getSession } from 'next-auth/react'
 import { ActionType } from '@/constants/constants'
@@ -13,19 +13,69 @@ import UpdatePassword from '@/components/dashboard/page/UpdatePasswrod'
 const Dashboard = () => {
   const [action, setAction] = useState({})
   const [data, setData] = useState({})
+  const [reports, setReports] = useState({})
 
+  const [cars, setCars] = useState([])
+  // console.log("🚀 ~ cars:", cars)
+  console.log("🚀 ~ reports:", reports)
   // query
   useEffect(() => {
     ; (async () => {
       const newsession = await getSession()
       const params = { api: 'users', id: newsession?.user?.id }
+      const productParams = { api: 'products' }
       const res = await Promise.resolve(Get(params))
-      setData(res.data || {})
+      const result = await Promise.resolve(Gets(productParams))
+
+      if (newsession?.user?.role !== 'Admin') {
+        const newData = (result.data || []).filter((item) => item?.userId === newsession?.user?.id)
+        let pending = 0
+        let rejected = 0
+        let approved = 0
+
+
+        newData.forEach((item, index) => {
+          if (item.status === "Pending") {
+            pending = pending + 1
+          }
+          if (item.status === "Rejected") {
+            rejected = rejected + 1
+          }
+          if (item.status === "Approved") {
+            approved = pending + 1
+          }
+        })
+        // console.log("🚀 ~ approved:", rejected)
+
+        setCars(newData)
+        setReports({ pending: pending, approved: approved, rejected: rejected, total: (newData.length || 0) })
+      } else {
+        let pending = 0
+        let rejected = 0
+        let approved = 0
+
+          (result.data || []).forEach((item, index) => {
+            if (item.status === "Pending") {
+              pending = pending + 1
+            }
+            if (item.status === "Rejected") {
+              rejected = rejected + 1
+            }
+            if (item.status === "Approved") {
+              approved = pending + 1
+            }
+          })
+
+        setReports({ pending: pending, approved: approved, rejected: rejected, total: (result.data.length || 0) })
+        setCars(result.data || [])
+        setData(res.data)
+      }
+
     })()
   }, [action])
 
   return (
-    <main className="mx-aut container py-5">
+    <main className="mx-auto container py-5">
       <section>
         <div className="grid grid-cols-12 gap-5">
           <div className="col-span-12 flex flex-col items-center justify-center lg:col-span-2">
@@ -105,7 +155,7 @@ const Dashboard = () => {
                   All Car
                 </Typography>
                 <Typography variant="lead" color="current" className="m-0 text-2xl font-semibold">
-                  {'00'}
+                  {reports.total || 0}
                 </Typography>
               </div>
             </div>
@@ -116,7 +166,7 @@ const Dashboard = () => {
                   Active Car
                 </Typography>
                 <Typography variant="lead" color="blue" className="m-0 text-2xl font-semibold">
-                  {'00'}
+                  {reports.approved || 0}
                 </Typography>
               </div>
             </div>
@@ -127,7 +177,7 @@ const Dashboard = () => {
                   Pending Car
                 </Typography>
                 <Typography variant="lead" color="orange" className="m-0 text-2xl font-semibold">
-                  {'00'}
+                  {reports.pending || 0}
                 </Typography>
               </div>
             </div>
@@ -138,7 +188,7 @@ const Dashboard = () => {
                   Rejected Car
                 </Typography>
                 <Typography variant="lead" color="red" className="m-0 text-2xl font-semibold">
-                  {'00'}
+                  {reports.rejected || 0}
                 </Typography>
               </div>
             </div>

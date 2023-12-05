@@ -21,7 +21,7 @@ export default function Cars() {
   const { user } = data || {}
 
   useEffect(() => {
-    ;(async () => {
+    ; (async () => {
       const params = { api: 'products' }
       const res = await Promise.resolve(Gets(params))
       if (user?.role !== 'Admin') {

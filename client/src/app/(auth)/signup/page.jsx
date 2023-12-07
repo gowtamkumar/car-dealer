@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation'
 import { toast } from 'react-toastify'
 import { getSession } from 'next-auth/react'
 import { createUser } from '../../../lib/createUser'
+import { Create } from '@/lib/api'
 
 export default function Signup() {
   const [data, setData] = useState({})
@@ -31,8 +32,10 @@ export default function Signup() {
   const handleSubmit = async (e) => {
     e.preventDefault()
     // return console.log(data);
+
+    const params = { api: 'users', data: data }
     try {
-      const result = await createUser(data)
+      const result = await Create(params)
       if (result.statusCode === 400) {
         return toast.error('Password must be 8 to 20 characters')
       }

@@ -1,5 +1,5 @@
 export async function createUser(data) {
-  const res = await fetch('http://localhost:3900/api/v1/users', {
+  const res = await fetch(`${process.env.NEXT_SERVER_URL}/api/v1/users'`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

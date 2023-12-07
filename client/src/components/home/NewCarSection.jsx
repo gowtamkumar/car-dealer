@@ -17,7 +17,7 @@ const NewCarSection = () => {
     ; (async () => {
       const params = { api: 'products' }
       const res = await Promise.resolve(Gets(params))
-      const filter = (res.data || []).filter(item => item.condition === 'New')
+      const filter = (res?.data || []).filter(item => item.condition === 'New')
       setCar(filter)
     })()
   }, [])
@@ -27,10 +27,10 @@ const NewCarSection = () => {
   }, []);
 
   return (
-    <section className={`my-5 bg-red-50/5 lg:my-10 p-5 ${car?.length > 0 ? 'block' : 'hidden'}`}>
+    <section className={`my-5 bg-red-50/5 lg:my-10 ${car?.length > 0 ? 'block' : 'hidden'}`}>
       <div className="container mx-auto">
-        <div className="flex items-center justify-between">
-          <h1 className="py-2 text-2xl font-semibold">
+        <div className="flex items-center justify-between lg:px-0 px-2">
+          <h1 className="py-2 lg:text-2xl text-lg font-semibold">
             <FireIcon className="me-2 inline-block h-[24px] w-[24px] text-red-500" />
             <span className="italic text-red-400">Featured</span>{' '}
             <span className="font-light">New Car</span>

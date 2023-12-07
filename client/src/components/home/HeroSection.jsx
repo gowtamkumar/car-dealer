@@ -8,7 +8,7 @@ const HeroSection = () => {
   const [banners, setBanners] = useState([])
 
   useEffect(() => {
-    ;(async () => {
+    ; (async () => {
       const params = { api: 'banners' }
       const res = await Promise.resolve(Gets(params))
       setBanners((res?.data || []).filter((item) => item.isActive))
@@ -76,16 +76,20 @@ const HeroSection = () => {
           if (true) return
         }}
       >
-        {(banners || []).map((item, idx) => (
-          <div key={idx} className="relative h-full w-full">
-            <img
-              src={`${appConfig.apiBaseUrl}/uploads/${item.photo || 'user.png'} `}
-              alt={`Banner ${idx}`}
-              className="h-[30vh] w-full object-cover  lg:h-[65vh]"
-            />
-            <div className="absolute inset-0 grid h-full w-full place-items-center bg-black/5" />
-          </div>
-        ))}
+        {(banners || []).length > 0 ?
+          (banners || []).map((item, idx) => (
+            <div key={idx} className="relative h-full w-full">
+              <img
+                src={`${appConfig.apiBaseUrl}/uploads/${item.photo || 'user.png'} `}
+                alt={`Banner ${idx}`}
+                className="h-[30vh] w-full object-cover  lg:h-[65vh]"
+              />
+              <div className="absolute inset-0 grid h-full w-full place-items-center bg-black/5" />
+            </div>
+          )) : (
+            <div className='bg-gray-50 h-[30vh] lg:h-[65vh] w-full'></div>
+          )
+        }
       </Carousel>
     </section>
   )

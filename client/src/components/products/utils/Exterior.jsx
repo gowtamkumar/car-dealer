@@ -28,16 +28,15 @@ const Exterior = ({
 
   return (
     <Accordion
-      open={open === active}
+      open={true} //open === active
       className="mb-2 rounded-md border bg-white px-2 shadow-md"
       icon={
         <div className="flex items-center gap-2">
           <ChevronDownIcon
             strokeWidth={2.5}
-            onClick={() => handleOpen(active)}
-            className={`mx-auto h-4 w-4 transition-transform ${
-              open === active ? 'rotate-180' : ''
-            }`}
+            onClick={() => handleOpen(active)} //open === active
+            className={`mx-auto h-4 w-4 transition-transform ${true ? 'rotate-180' : ''
+              }`}
           />
         </div>
       }
@@ -57,9 +56,8 @@ const Exterior = ({
             <div
               key={idx}
               onClick={() => handleSelector(item)}
-              className={`${
-                filter.includes(item) && 'border-4'
-              } flex h-9 w-9 cursor-pointer items-center justify-center rounded-full hover:bg-gray-200`}
+              className={`${filter.includes(item) && 'border-4'
+                } flex h-9 w-9 cursor-pointer items-center justify-center rounded-full hover:bg-gray-200`}
             >
               {item}
             </div>

@@ -1,5 +1,5 @@
 'use client'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useRef, useState } from 'react'
 import {
   FormOutlined,
   RestOutlined,
@@ -15,10 +15,11 @@ import { DataTable } from 'primereact/datatable'
 import { Column } from 'primereact/column'
 import { Button, Tag, Empty, Popconfirm } from 'antd'
 import { Input, Spinner } from '@material-tailwind/react'
-import { Delete, Gets } from '../../../lib/api'
+import { Delete } from '../../../lib/api'
 import { useRouter } from 'next/navigation'
 import { useSession } from 'next-auth/react'
 import appConfig from '../../../config'
+import { toast } from 'react-toastify'
 
 const CarList = ({ cars, setAction }) => {
   const [globalFilter, setGlobalFilter] = useState('')

@@ -203,7 +203,7 @@ export default function NavbarMenu() {
         <Typography as={Link} href="/" variant="h6" className="mr-4 cursor-pointer py-1.5 lg:ml-2">
           <img
             src={`${appConfig.apiBaseUrl}/uploads/${settings?.logo || 'logo.png'}`}
-            className="h-11 w-auto"
+            className="lg:h-11 h-8 w-auto"
             alt="logo"
           />
         </Typography>

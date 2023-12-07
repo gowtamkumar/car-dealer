@@ -20,12 +20,13 @@ const Features = ({
   handleOpen,
 }) => {
   const [filter, setFilter] = useState([])
-  // const [open, setOpen] = useState(false)
 
   const handleSelector = (value, values) => {
     const newData = [...filter]
+
     if (!value) {
-      const result = newData.filter((item) => item.value !== values.value)
+      const result = newData.filter((item) => item !== values.value)
+      console.log("result:", result)
       setFilter(result)
       setFilterData({ ...filterData, [filterBy]: result })
     }
@@ -35,10 +36,6 @@ const Features = ({
     }
   }
 
-  // const handleClear = () => {
-  //   setFilterData({ ...filterData, [filterBy]: [] })
-  //   setFilter([])
-  // }
 
   return (
     <Accordion
@@ -46,13 +43,11 @@ const Features = ({
       className="mb-2 rounded-md border bg-white px-2 shadow-md"
       icon={
         <div className="flex items-center gap-2">
-          {/* {open === active && <span className='text-sm text-gray-800 hover:text-red-500 transition-all ease-in-out duration-100' onClick={handleClear}>Clear</span>} */}
           <ChevronDownIcon
             strokeWidth={2.5}
             onClick={() => handleOpen(active)}
-            className={`mx-auto h-4 w-4 transition-transform ${
-              open === active ? 'rotate-180' : ''
-            }`}
+            className={`mx-auto h-4 w-4 transition-transform ${open === active ? 'rotate-180' : ''
+              }`}
           />
         </div>
       }

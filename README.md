@@ -1,4 +1,4 @@
-# Rmj Autos App
+# Car Dealer App
 
 Project documentation is a collection of documents containing information about a project and its processes. It provides all the necessary details about the project, such as its objectives, scope, timeline, budget, and resources. The project documentation is crucial in keeping track of progress, identifying risks, and ensuring that all stakeholders have the same understanding of the project. Proper documentation is essential for the success of any project.
 
@@ -8,7 +8,7 @@ Make sure you have Node.js and npm installed on your machine.
 
 # 1. Client Installation
 
-Welcome to the client-side documentation for My Rmj-Autos App!
+Welcome to the client-side documentation for My car-dealers App!
 
 ## Installation
 
@@ -44,7 +44,7 @@ v. Run the application in `Production`:
 
 # 2. Server Installation
 
-Welcome to the server-side documentation for My Rmj-Autos App!
+Welcome to the server-side documentation for My car-dealers App!
 
 ## Installation
 
@@ -66,11 +66,11 @@ iii. Run the application:
    npm run dev
    ```
 
-# 3. PostgreSQL Database Setup for My Rmj-Autos App (Node.js Project)
+# 3. PostgreSQL Database Setup for My car-dealers App (Node.js Project)
 
 ## 1. Database Requirements
 
-Before setting up the PostgreSQL database for My Rmj-Autos App, ensure that you have the following prerequisites:
+Before setting up the PostgreSQL database for My car-dealers App, ensure that you have the following prerequisites:
 
 - PostgreSQL Database Server Installed
 - pgAdmin Installed (for managing PostgreSQL databases)
@@ -101,7 +101,7 @@ Before setting up the PostgreSQL database for My Rmj-Autos App, ensure that you 
 
 1. In pgAdmin, right-click on "Databases" and choose "Create > Database."
 
-2. Enter a name for your database (e.g., `rmj_autos`) and configure any additional settings if necessary.
+2. Enter a name for your database (e.g., `car_autos`) and configure any additional settings if necessary.
 
 ### c. Create Database User
 

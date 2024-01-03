@@ -8,7 +8,7 @@ const TearmsAndCondition = () => {
       </div>
       <div className='text-gray-800 py-5'>
         <h1 className='text-lg mb-3' >
-          Welcome to RMJAUTOS, where we value transparency, fairness and the satisfaction of every user. By engaging with our platform, you agree to adhere to the following terms and conditions:
+          Welcome to carAUTOS, where we value transparency, fairness and the satisfaction of every user. By engaging with our platform, you agree to adhere to the following terms and conditions:
         </h1>
         <ul>
           <li className='mb-3'>
@@ -16,7 +16,7 @@ const TearmsAndCondition = () => {
               1. *Acceptance of Terms:*
             </h1>
             <p className='text-base'>
-              - By accessing and using RMJAUTOS, you acknowledge and agree to these terms in their entirety. Please read them carefully before proceeding. </p>
+              - By accessing and using carAUTOS, you acknowledge and agree to these terms in their entirety. Please read them carefully before proceeding. </p>
           </li>
           <li className='mb-3'>
             <h1 className='font-bold text-lg'>
@@ -55,7 +55,7 @@ const TearmsAndCondition = () => {
               6. *Transaction Security:*
             </h1>
             <p className='text-base'>
-              - RMJAUTOS employs industry-standard security measures to safeguard transactions. However, users are encouraged to take necessary precautions, such as verifying the identity of the counterparty.</p>
+              - carAUTOS employs industry-standard security measures to safeguard transactions. However, users are encouraged to take necessary precautions, such as verifying the identity of the counterparty.</p>
           </li>
           <li className='mb-3'>
             <h1 className='font-bold text-lg'>
@@ -71,34 +71,34 @@ const TearmsAndCondition = () => {
               8. *Intellectual Property:*
             </h1>
             <p className='text-base'>
-              - All content on RMJAUTOS, including logos, text and images, is protected by intellectual property laws. Users are not permitted to use, reproduce or distribute any content without explicit permission.
+              - All content on carAUTOS, including logos, text and images, is protected by intellectual property laws. Users are not permitted to use, reproduce or distribute any content without explicit permission.
             </p>
           </li>
           <li className='mb-3'>
             <h1 className='font-bold text-lg'>
               9. *Termination of Accounts:*</h1>
             <p className='text-base'>
-              - RMJAUTOS reserves the right to terminate user accounts that violate our terms and conditions, exhibit fraudulent behavior or engage in any form of misconduct.</p>
+              - carAUTOS reserves the right to terminate user accounts that violate our terms and conditions, exhibit fraudulent behavior or engage in any form of misconduct.</p>
           </li>
           <li className='mb-3'>
             <h1 className='font-bold text-lg'>
               10. *Privacy:*
             </h1>
             <p className='text-base'>
-              - User data is handled as per our Privacy Policy. By using RMJAUTOS, you consent to the collection, use and sharing of your information as outlined in the Privacy Policy.
+              - User data is handled as per our Privacy Policy. By using carAUTOS, you consent to the collection, use and sharing of your information as outlined in the Privacy Policy.
             </p>
           </li>
           <li className='mb-3'>
             <p className='text-lg text-black'>
-              Please take the time to review these terms thoroughly. Your use of RMJAUTOS implies your acceptance of these conditions. We are committed to providing a secure and enjoyable platform for all users. </p>
+              Please take the time to review these terms thoroughly. Your use of carAUTOS implies your acceptance of these conditions. We are committed to providing a secure and enjoyable platform for all users. </p>
           </li>
         </ul>
         <div className='text-center my-5 font-semibold'>
           <p className='text-base'>
-            For the complete details, please visit <span className='text-red-300 font-bold cursor-pointer hover:underline'>www.rmjautos.com/terms</span>
+            For the complete details, please visit <span className='text-red-300 font-bold cursor-pointer hover:underline'>www.carautos.com/terms</span>
           </p>
           <p className='text-base'>
-            If you have any questions or concerns, feel free to reach out to us at <span className='text-red-300 font-bold cursor-pointer hover:underline'>rmjautos007@gmail.com</span>.</p>
+            If you have any questions or concerns, feel free to reach out to us at <span className='text-red-300 font-bold cursor-pointer hover:underline'>carautos007@gmail.com</span>.</p>
         </div>
       </div>
     </div>

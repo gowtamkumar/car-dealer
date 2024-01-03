@@ -4,11 +4,11 @@ const Privacy = () => {
   return (
     <div className='border p-4 shadow-sm rounded-sm'>
       <div>
-        <h1 className='border-b text-xl font-bold text-gray-800 py-2'>Privacy Policy of RMJ Autos.</h1>
+        <h1 className='border-b text-xl font-bold text-gray-800 py-2'>Privacy Policy of Car Dealer.</h1>
       </div>
       <div className='text-gray-800 py-5'>
         <h1 className='text-lg mb-3' >
-          At RMJAUTOS, we are committed to safeguarding your privacy and ensuring the security of your personal information. By using our platform, you are consenting to the practices outlined in this Privacy Policy.
+          At carAUTOS, we are committed to safeguarding your privacy and ensuring the security of your personal information. By using our platform, you are consenting to the practices outlined in this Privacy Policy.
         </h1>
         <ul>
           <li className='mb-3'>
@@ -16,7 +16,7 @@ const Privacy = () => {
               1. *Information We Collect:*
             </h1>
             <p className='text-base'>
-              - When you register on RMJAUTOS, we collect basic information such as your name, contact details and address. Additionally, we may gather data related to your car preferences and transactions.
+              - When you register on carAUTOS, we collect basic information such as your name, contact details and address. Additionally, we may gather data related to your car preferences and transactions.
             </p>
           </li>
           <li className='mb-3'>
@@ -40,7 +40,7 @@ const Privacy = () => {
               4. *Third-Party Services:*
             </h1>
             <p className='text-base'>
-              - RMJAUTOS may use third-party services for analytics, payment processing, and other functionalities. These third parties are contractually obligated to handle your data securely and in accordance with applicable privacy laws.
+              - carAUTOS may use third-party services for analytics, payment processing, and other functionalities. These third parties are contractually obligated to handle your data securely and in accordance with applicable privacy laws.
             </p>
           </li>
           <li className='mb-3'>
@@ -56,7 +56,7 @@ const Privacy = () => {
               6. *User Control Over Information:*
             </h1>
             <p className='text-base'>
-              - You have the right to access, modify or delete your personal information. If you wish to update your details or have concerns about the information we hold, please contact us at <span className='text-red-300 font-bold cursor-pointer hover:underline'>rmjautos007@gmail.com</span> .
+              - You have the right to access, modify or delete your personal information. If you wish to update your details or have concerns about the information we hold, please contact us at <span className='text-red-300 font-bold cursor-pointer hover:underline'>carautos007@gmail.com</span> .
             </p>
           </li>
           <li className='mb-3'>
@@ -64,7 +64,7 @@ const Privacy = () => {
               7. *Children's Privacy:*
             </h1>
             <p className='text-base'>
-              - RMJAUTOS is not intended for individuals under the age of 13. We do not knowingly collect or store personal information from children. If you believe that we have unintentionally collected such information, please contact us for prompt removal.
+              - carAUTOS is not intended for individuals under the age of 13. We do not knowingly collect or store personal information from children. If you believe that we have unintentionally collected such information, please contact us for prompt removal.
             </p>
 
           </li>
@@ -81,16 +81,16 @@ const Privacy = () => {
               9. *Contact Information:*
             </h1>
             <p className='text-base'>
-              - For any privacy-related inquiries or concerns, please reach out to us at <span className='text-red-300 font-bold cursor-pointer hover:underline'>rmjautos007@gmail.com</span> .
+              - For any privacy-related inquiries or concerns, please reach out to us at <span className='text-red-300 font-bold cursor-pointer hover:underline'>carautos007@gmail.com</span> .
             </p>
           </li>
         </ul>
         <div className='text-center my-5 font-semibold'>
           <p className='text-base'>
-            For the complete details, please visit <span className='text-red-300 font-bold cursor-pointer hover:underline'>www.rmjautos.com/privacy</span>
+            For the complete details, please visit <span className='text-red-300 font-bold cursor-pointer hover:underline'>www.carautos.com/privacy</span>
           </p>
           <p className='text-base'>
-            By using RMJAUTOS, you acknowledge that you have read, understood and agreed to the terms outlined in this Privacy Policy. Your privacy is our priority and we are dedicated to maintaining the trust you place in us.
+            By using carAUTOS, you acknowledge that you have read, understood and agreed to the terms outlined in this Privacy Policy. Your privacy is our priority and we are dedicated to maintaining the trust you place in us.
           </p>
 
         </div>

@@ -50,7 +50,7 @@ const TearmsAndCondition = () => {
         </ul>
         <div className='text-center my-5 font-semibold'>
           <p className='text-base'>
-            Read the full Cookies Policy <span className='text-red-300 font-bold cursor-pointer hover:underline'>www.rmjautos.com/cookies</span>.</p>
+            Read the full Cookies Policy <span className='text-red-300 font-bold cursor-pointer hover:underline'>www.carautos.com/cookies</span>.</p>
         </div>
       </div>
     </div>

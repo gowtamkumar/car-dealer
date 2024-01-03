@@ -58,7 +58,7 @@ const options = {
     //   winston.format.timestamp(),
     //   winston.format.ms(),
     //   nestWinstonModuleUtilities.format.nestLike(
-    //     'rmjauto', { prettyPrint: true }
+    //     'carauto', { prettyPrint: true }
     //   ),
     // ),
   },
@@ -106,7 +106,7 @@ export const winstonOptions: WinstonModuleOptions = {
     winston.format.ms(),
     // winston.format.simple(),
     // winston.format.printf((info) => `[${info.timestamp}] ${info.level}: ${info.message}`),
-    nestWinstonModuleUtilities.format.nestLike('rmj-auto', { prettyPrint: true }),
+    nestWinstonModuleUtilities.format.nestLike('car-dealer', { prettyPrint: true }),
   ),
   exitOnError: false,
 }

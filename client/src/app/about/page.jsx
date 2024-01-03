@@ -19,15 +19,15 @@ const About = () => {
               <h1 className="text-3xl font-bold text-gray-900 dark:text-white md:text-5xl xl:text-6xl">
                 Unlock Your Drive at{' '}
                 <span className="to-violet-500 bg-gradient-to-r from-red-500 to-red-700  bg-clip-text text-transparent">
-                  RMJ Autos
+                  Car Dealer
                 </span>
                 <span className="text-primary dark:text-white">
                   Where Every Mile Feels Like a Journey.
                 </span>
               </h1>
               <p className="mt-8 text-gray-700 dark:text-gray-300">
-                Welcome to RMJAUTOS, where I, Siddhartha Shankar Das, am delighted to invite you
-                into our dynamic automotive universe. At RMJAUTOS, we don't just sell cars; we craft
+                Welcome to carAUTOS, where I, Siddhartha Shankar Das, am delighted to invite you
+                into our dynamic automotive universe. At carAUTOS, we don't just sell cars; we craft
                 experiences, cater to aspirations and foster a community of passionate car
                 enthusiasts.
               </p>
@@ -51,7 +51,7 @@ const About = () => {
                   Buy Recondition Car
                 </h6>
                 <p className="mt-2 text-gray-500">
-                  Look for reputable dealerships or sellers that specialize in reconditioned cars.
+                  Look for reputable Dealerhips or sellers that specialize in reconditioned cars.
                   Check reviews and ratings to ensure their credibility.
                 </p>
               </div>
@@ -150,7 +150,7 @@ const About = () => {
             </h2>
             <p className="text-gray-600 dark:text-gray-300">
               Embark on a journey with us as we envision a future where your car-buying experience
-              transcends the ordinary. RMJAUTOS is more than a marketplace; it's a haven for
+              transcends the ordinary. carAUTOS is more than a marketplace; it's a haven for
               automotive dreams, a place where the pursuit of driving excellence meets the art of
               seamless transactions.
             </p>
@@ -247,7 +247,7 @@ const About = () => {
                     Empowerment Through Listings
                   </h5>
                   <p className="text-gray-600 dark:text-gray-300">
-                    RMJAUTOS is not just a marketplace; it's a platform for empowerment. Sellers can
+                    carAUTOS is not just a marketplace; it's a platform for empowerment. Sellers can
                     effortlessly list their cars for sale, reaching a broad audience of potential
                     buyers. We believe in making the process simple, transparent, and rewarding for
                     all.
@@ -285,7 +285,7 @@ const About = () => {
                     Passionate Commitment
                   </h5>
                   <p className="text-gray-600 dark:text-gray-300">
-                    At the heart of RMJAUTOS is a team of car enthusiasts, dedicated to making your
+                    At the heart of carAUTOS is a team of car enthusiasts, dedicated to making your
                     automotive journey memorable. We thrive on the passion that drives us and the
                     satisfaction that comes from connecting people with their perfect cars.
                   </p>

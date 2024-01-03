@@ -10,7 +10,7 @@ export default function Verify() {
   const [time, setTime] = useState(60)
   const router = useRouter()
 
-  const locData = localStorage?.getItem('fromData')
+  const locData = window.localStorage?.getItem('fromData')
   const newData = JSON.parse(locData)
 
   useEffect(() => {
@@ -25,7 +25,7 @@ export default function Verify() {
 
     if (time === 0) {
       newData.otp = null
-      localStorage?.setItem('fromData', JSON.stringify(newData))
+      window.localStorage?.setItem('fromData', JSON.stringify(newData))
     }
     return () => {
       clearInterval(interval)

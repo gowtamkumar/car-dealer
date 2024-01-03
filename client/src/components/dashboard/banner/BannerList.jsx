@@ -4,7 +4,6 @@ import appConfig from '../../../config'
 import { Button } from '@material-tailwind/react'
 import { ActionType } from '../../../constants/constants'
 import { toast } from 'react-toastify'
-import { FaCar } from 'react-icons/fa6'
 import { Empty } from 'antd';
 
 

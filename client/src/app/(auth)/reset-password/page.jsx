@@ -9,7 +9,7 @@ export default function ResetPassword() {
   const [data, setData] = useState({})
   const router = useRouter()
 
-  const locData = localStorage.getItem('fromData')
+  const locData = window.localStorage?.getItem('fromData')
   const newData = JSON.parse(locData)
 
   const handleSubmit = async (e) => {
@@ -21,7 +21,7 @@ export default function ResetPassword() {
         data: { newPassword: data.newPassword },
       }
       await UserResetPassword(params)
-      localStorage.clear()
+      window.localStorage?.clear()
       router.push('/login')
     } catch (error) {
       console.log(error)
@@ -56,7 +56,7 @@ export default function ResetPassword() {
                       onChange={({ target }) => setData({ ...data, newPassword: target.value })}
                       variant="standard"
                       label="New Password"
-                      // required
+                    // required
                     />
                   </div>
 

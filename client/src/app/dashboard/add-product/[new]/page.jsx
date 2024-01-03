@@ -12,7 +12,7 @@ import { useRouter } from 'next/navigation'
 import { DatePicker, Divider, Form, Input, InputNumber, Select, Upload, Modal } from 'antd'
 
 const AddProduct = ({ params }) => {
-  const [formValues, setFormValues] = useState({ fileList: [] })
+  const [formValues, setFormValues] = useState({ fileList: [], photos: [] })
   const [backUp, setBackup] = useState({})
   const [previewOpen, setPreviewOpen] = useState(false)
   const [previewImage, setPreviewImage] = useState('')
@@ -25,7 +25,7 @@ const AddProduct = ({ params }) => {
   const router = useRouter()
 
   useEffect(() => {
-    ;(async () => {
+    ; (async () => {
       if (params.new === 'new') {
         form.resetFields()
         setFormValues({})
@@ -57,7 +57,7 @@ const AddProduct = ({ params }) => {
   }, [params.new])
 
   useEffect(() => {
-    ;(async () => {
+    ; (async () => {
       const brands = await Promise.resolve(Gets({ api: 'brands' }))
       const models = await Promise.resolve(Gets({ api: 'models' }))
       const modelCodes = await Promise.resolve(Gets({ api: 'model-codes' }))
@@ -75,6 +75,8 @@ const AddProduct = ({ params }) => {
       })
     })()
   }, [])
+
+  console.log("formValues", formValues);
 
   const num = session.data?.user?.role === 'Seller' ? 3 : 5
 
@@ -162,7 +164,9 @@ const AddProduct = ({ params }) => {
     // return
     try {
       const res = await CreateFile(fmData)
-      const file = (res.images || []).map((item, idx) => ({
+      console.log("🚀 ~ res:", res)
+
+      const newfile = (res.images || []).map((item, idx) => ({
         uid: Math.random() * 1000 + '',
         name: `photo ${Math.random() * 10000 + ''}`,
         status: 'done',
@@ -170,12 +174,18 @@ const AddProduct = ({ params }) => {
         url: `${appConfig.apiBaseUrl}/uploads/${item.filename || 'no-data.png'}`,
       }))
 
-      if (res.images?.length) {
-        setFormData({
-          fileList: [...form.getFieldValue()?.fileList, ...file],
-          photos: [...form.getFieldValue()?.photos, res?.images[0]?.filename],
-        })
-      }
+      const newFileName = res?.images?.length ? res?.images[0]?.filename : null
+
+      setFormData({
+        fileList: [...form.getFieldValue()?.fileList, ...newfile],
+        photos: [...form.getFieldValue()?.photos, newFileName],
+      })
+      // if (res.images?.length) {
+      //   setFormData({
+      //     fileList: [...form.getFieldValue()?.fileList, ...file],
+      //     photos: [...form.getFieldValue()?.photos, ...res?.images[0]?.filename],
+      //   })
+      // }
 
       onSuccess('Ok')
     } catch (err) {
@@ -964,6 +974,7 @@ const AddProduct = ({ params }) => {
                 fileList={formValues?.fileList || []}
                 onRemove={async (v) => {
                   console.log('🚀 ~ v:', v)
+
                   const find = (form.getFieldValue('photos') || []).filter(
                     (item) => item !== v.fileName,
                   )

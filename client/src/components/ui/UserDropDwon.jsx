@@ -13,8 +13,9 @@ export default function UserDropDwon() {
   } = useSession()
 
   const handleSignOut = () => {
+    console.log("dd");
     signOut()
-    router.push('/')
+    // router.push('/')
   }
 
   return (

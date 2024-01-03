@@ -138,8 +138,10 @@ const Dashboard = () => {
             </div>
           </div>
 
-          <div className="col-span-12 my-8 flex items-center justify-between gap-5">
-            <div className="flex flex-grow flex-row items-center gap-4 rounded-sm p-4 shadow-sm hover:shadow-md ">
+        </div>
+        <div className="grid gap-5 grid-cols-12">
+          <div className="lg:col-span-3 col-span-12">
+            <div className="flex flex-row items-center gap-4 rounded-sm p-4 shadow-sm hover:shadow-md ">
               <img className="h-12 w-12" src="/svg/delivery.svg" alt="" />
               <div>
                 <Typography variant="h6" color="blue-gray" className="m-0">
@@ -150,7 +152,9 @@ const Dashboard = () => {
                 </Typography>
               </div>
             </div>
-            <div className="flex flex-grow flex-row items-center gap-4 rounded-sm p-4 shadow-sm hover:shadow-md ">
+          </div>
+          <div className="lg:col-span-3 col-span-12">
+            <div className="flex flex-row items-center gap-4 rounded-sm p-4 shadow-sm hover:shadow-md ">
               <img className="h-12 w-12" src="/svg/order.svg" alt="" />
               <div>
                 <Typography variant="h6" color="blue-gray" className="m-0">
@@ -161,7 +165,9 @@ const Dashboard = () => {
                 </Typography>
               </div>
             </div>
-            <div className="flex flex-grow flex-row items-center gap-4 rounded-sm p-4 shadow-sm hover:shadow-md ">
+          </div>
+          <div className="lg:col-span-3 col-span-12">
+            <div className="flex flex-row items-center gap-4 rounded-sm p-4 shadow-sm hover:shadow-md ">
               <img className="h-12 w-12" src="/svg/online.svg" alt="" />
               <div>
                 <Typography variant="h6" color="blue-gray" className="m-0">
@@ -172,7 +178,9 @@ const Dashboard = () => {
                 </Typography>
               </div>
             </div>
-            <div className="flex flex-grow flex-row items-center gap-4 rounded-sm p-4 shadow-sm hover:shadow-md ">
+          </div>
+          <div className="lg:col-span-3 col-span-12">
+            <div className="flex flex-row items-center gap-4 rounded-sm p-4 shadow-sm hover:shadow-md ">
               <img className="h-12 w-12" src="/svg/payment.svg" alt="" />
               <div>
                 <Typography variant="h6" color="blue-gray" className="m-0">

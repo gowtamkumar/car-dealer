@@ -69,8 +69,8 @@ const FilterSection = () => {
         </div>
       </div>
       <div>
-        <div className="flex flex-col items-center justify-between lg:flex-row">
-          <h1 className="font-karol-sans flex-grow text-lg font-semibold lg:text-3xl">
+        <div className="flex flex-col lg:items-center justify-between lg:flex-row">
+          <h1 className="font-karol-sans flex-grow text-xl font-semibold lg:text-3xl">
             Find your <span className="font-gill-sans-nova italic text-red-400">Perfect</span> car
           </h1>
           <Typography
@@ -78,7 +78,7 @@ const FilterSection = () => {
             href="/products"
             variant="small"
             color="blue-gray"
-            className="group/item cursor-pointer font-normal hover:underline"
+            className="group/item cursor-pointer font-normal hover:underline hidden lg:block"
           >
             <BiSearchAlt className="inline-block transition-all duration-150 ease-linear group-hover/item:-translate-x-2" />
             <span>Advanced Search</span>

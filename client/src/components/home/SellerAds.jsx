@@ -20,7 +20,7 @@ const SellerAds = () => {
     <section className="my-5 bg-red-50/5 lg:mt-10">
       <div className="container mx-auto px-5">
         <div className="grid min-h-[40vh] grid-cols-12 items-center gap-5">
-          <div className="col-span-12 lg:col-span-6 ">
+          <div className="col-span-12 lg:col-span-6 lg:text-start text-center">
             <h1 className="text-4xl font-bold">Sell your car</h1>
             <p className="my-3 text-xl font-medium">
               Easily create an advert for your car and reach millions of potential buyers per month

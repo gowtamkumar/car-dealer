@@ -93,7 +93,7 @@ const ProductSpacification = ({ data }) => {
       </div>
       <div className="col-span-12 py-2">
         <h1 className="px-3 text-2xl font-semibold lg:px-0">Car Features</h1>
-        <div className="my-3 grid grid-cols-6 gap-3 px-3 lg:px-0">
+        <div className="my-3 grid lg:grid-cols-6 grid-cols-2 gap-3 px-3 lg:px-0">
           {productEnum.features.map((item, idx) => (
             <div
               key={idx}
@@ -111,7 +111,6 @@ const ProductSpacification = ({ data }) => {
       </div>
       <div className="col-span-12 p-2">
         <h1 className="px-3 text-2xl font-semibold lg:px-0">Description</h1>
-
         <p className="my-3 w-full text-gray-800/90 lg:w-4/5">{data.description}</p>
       </div>
     </div>

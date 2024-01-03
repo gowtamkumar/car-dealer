@@ -12,6 +12,7 @@ import Footer from '../components/layout/Footer'
 import BackToTop from '../components/ui/BackToTop'
 
 const page = () => {
+
   return (
     <section className="cscroll relative z-10 flex min-h-screen flex-col overflow-auto">
       <NavbarMenu />

@@ -28,6 +28,7 @@ const BackToTop = () => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
+
   return (
     <div>{
       isVisible &&

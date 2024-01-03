@@ -47,7 +47,6 @@ const Products = () => {
   }, [searchParams])
 
 
-
   useEffect(() => {
     ; (async () => {
       const params = { api: 'products', data: filterData }

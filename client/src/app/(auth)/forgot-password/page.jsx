@@ -30,7 +30,7 @@ export default function ForgotPassword() {
 
       const forgotPassword = await SendForgotPassword(params)
 
-      localStorage.setItem('fromData', JSON.stringify({ id: forgotPassword.data?.id, email, otp: otp }))
+      window.localStorage?.setItem('fromData', JSON.stringify({ id: forgotPassword.data?.id, email, otp: otp }))
       router.push('/verify')
 
     } catch (err) {

@@ -2,6 +2,7 @@
 import React, { useState } from 'react'
 import { Carousel, Dialog, IconButton } from '@material-tailwind/react'
 import appConfig from '../../config'
+import Image from 'next/image'
 
 const CustomCarousel = ({ data, height, navigation, arrow, opacity, view, autoPlay }) => {
   const [open, setOpen] = useState(false)
@@ -19,6 +20,7 @@ const CustomCarousel = ({ data, height, navigation, arrow, opacity, view, autoPl
       setActive(null)
     }
   }
+
   return (
     <div>
       <Carousel
@@ -111,7 +113,8 @@ const CustomCarousel = ({ data, height, navigation, arrow, opacity, view, autoPl
 
       <Dialog size="xl" className="min-h-[70vh] overflow-hidden" open={open} handler={handleOpen}>
         <div className="relative h-[60vh] w-full">
-          <img
+          <Image
+            placeholder='blur'
             src={`${appConfig.apiBaseUrl}/uploads/${imgList[active] || 'no-data.png'}`}
             alt={`Banner ${imgList[0]?.key}`}
             className={`h-full w-full cursor-pointer object-cover `}
@@ -128,7 +131,7 @@ const CustomCarousel = ({ data, height, navigation, arrow, opacity, view, autoPl
               key={idx}
               className="relative cursor-pointer overflow-hidden"
             >
-              <img src={`${appConfig.apiBaseUrl}/uploads/${item || 'no-data.png'}`} className="h-20 w-20 rounded-md" alt="" />
+              <Image placeholder='blur' src={`${appConfig.apiBaseUrl}/uploads/${item || 'no-data.png'}`} className="h-20 w-20 rounded-md" alt="" />
               <div
                 className={`absolute inset-0 grid h-full w-full place-items-center transition-all  duration-200 ease-linear ${active !== idx && 'bg-black/70'
                   }`}

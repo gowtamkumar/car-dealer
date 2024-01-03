@@ -120,10 +120,10 @@ If your application requires specific tables or schema, provide instructions for
 // Example configuration for PostgreSQL
 # Database environment variables
    DB_HOST=127.0.0.1
-   DB_PORT=5432
+   DB_PORT=
    DB_USERNAME=postgres
-   DB_PASSWORD=101
-   DB_DATABASE=rmj_autos
+   DB_PASSWORD=
+   DB_DATABASE=
   // ...
 
 ```

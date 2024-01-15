@@ -1,12 +1,7 @@
 import React from 'react'
-import Image from 'next/image'
 
-const loading = () => {
+export default function Loading() {
   return (
-    <div className="flex min-h-[90vh] items-center justify-center">
-      <Image src="/loading.gif" width={400} height={400} alt="loading.." />
-    </div>
+    <div>Loading...</div>
   )
 }
-
-export default loading

@@ -53,8 +53,6 @@ const CardProduct = ({ data }) => {
                 <small>{dayjs(data.registrationDate).format('YYYY')}</small>
               </div>
             }
-
-
             <div title='Color' className="flex flex-col items-center">
               <IoColorPaletteOutline />
               <small>{data.color}</small>

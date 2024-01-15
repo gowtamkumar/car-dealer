@@ -12,7 +12,7 @@ export default function CustomSideBar({ filterData, setFilterData }) {
   const [open, setOpen] = useState(0)
 
   useEffect(() => {
-    ;(async () => {
+    ; (async () => {
       try {
         const brands = await Gets({ api: 'brands' })
         const models = await Gets({ api: 'models' })
@@ -41,7 +41,7 @@ export default function CustomSideBar({ filterData, setFilterData }) {
         open={open}
         handleOpen={handleOpen}
         filterBy="brandId"
-        label="Make"
+        label="Brand"
         data={apiData.brands}
         setFilterData={setFilterData}
         filterData={filterData}

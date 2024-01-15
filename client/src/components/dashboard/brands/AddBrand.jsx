@@ -18,6 +18,7 @@ const AddBrand = ({ action = {}, setAction }) => {
   const [form] = Form.useForm()
   const router = useRouter()
 
+
   useEffect(() => {
     const newData = { ...data }
     if (newData.logo) {

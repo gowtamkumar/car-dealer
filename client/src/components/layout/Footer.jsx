@@ -159,12 +159,12 @@ const Footer = () => {
             </ul>
           </div>
         </div>
-        <div className="flex flex-col justify-between py-4 md:flex-row">
-          <small>© 2023 Masud Pervez | All rights reserved</small>
+        {/* <div className="flex flex-col justify-between py-4 md:flex-row">
+          <small>© 2023 Gowtam Kumar | All rights reserved</small>
           <div>
-            <small>Powered By: Masud Pervez</small>
+            <small>Powered By: Gowtam Kumar</small>
           </div>
-        </div>
+        </div> */}
       </div>
     </footer>
   )

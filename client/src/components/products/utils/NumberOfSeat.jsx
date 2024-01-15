@@ -35,9 +35,8 @@ const NumberOfSeat = ({
           <ChevronDownIcon
             strokeWidth={2.5}
             onClick={() => handleOpen(active)}
-            className={`mx-auto h-4 w-4 transition-transform ${
-              open === active ? 'rotate-180' : ''
-            }`}
+            className={`mx-auto h-4 w-4 transition-transform ${open === active ? 'rotate-180' : ''
+              }`}
           />
         </div>
       }
@@ -57,9 +56,8 @@ const NumberOfSeat = ({
             <div
               key={idx}
               onClick={() => handleSelector(item)}
-              className={`${
-                filter.includes(item) && 'border-4'
-              } flex h-9 w-9 cursor-pointer items-center justify-center rounded-full hover:bg-gray-200`}
+              className={`${filter.includes(item) && 'border-4'
+                } flex h-9 w-9 cursor-pointer items-center justify-center rounded-full hover:bg-gray-200`}
             >
               {item}
             </div>

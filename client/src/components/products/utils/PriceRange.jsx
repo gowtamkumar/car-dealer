@@ -4,7 +4,7 @@ import { Typography } from '@material-tailwind/react'
 import { InputNumber, Slider } from 'antd'
 
 const PriceRange = ({ filterData, setFilterData }) => {
-  const [range, setRange] = useState({ minPrice: 0, maxPrice: 99999 })
+  const [range, setRange] = useState({})
 
   const handleChange = (value, type) => {
     if (type === 'minPrice') {
@@ -31,7 +31,8 @@ const PriceRange = ({ filterData, setFilterData }) => {
 
       <div className="px-5">
         <Slider
-          max={99999999}
+          max={range.maxPrice || 99999999}
+
           onChange={(e) => handleChange(e, 'slider')}
           range
           defaultValue={[range.minPrice, range.maxPrice]}
@@ -41,14 +42,14 @@ const PriceRange = ({ filterData, setFilterData }) => {
       <div className="flex items-center justify-between px-5 py-2">
         <InputNumber
           onChange={(e) => handleChange(e, 'minPrice')}
-          min={0}
+          min={1}
           width={20}
           value={range?.minPrice}
           placeholder="Min Amount"
         />
         <InputNumber
           onChange={(e) => handleChange(e, 'maxPrice')}
-          min={0}
+          min={1}
           width={20}
           value={range?.maxPrice}
           placeholder="Max Amount"

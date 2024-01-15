@@ -35,11 +35,6 @@ const SelectItem = ({
     }
   }
 
-  // const handleClear = () => {
-  //   setFilterData({ ...filterData, [filterBy]: [] })
-  //   setFilter([])
-  // }
-
   return (
     <Accordion
       open={open === active}
@@ -49,10 +44,9 @@ const SelectItem = ({
           {/* {open === active && <span className='text-sm text-gray-800 hover:text-red-500 transition-all ease-in-out duration-100' onClick={handleClear}>Clear</span>} */}
           <ChevronDownIcon
             strokeWidth={2.5}
-            onClick={() => handleOpen(active)}
-            className={`mx-auto h-4 w-4 transition-transform ${
-              open === active ? 'rotate-180' : ''
-            }`}
+            // onClick={() => handleOpen(active)}
+            className={`mx-auto h-4 w-4 transition-transform ${open === active ? 'rotate-180' : ''
+              }`}
           />
         </div>
       }

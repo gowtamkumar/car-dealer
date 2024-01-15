@@ -1,20 +1,20 @@
 'use client'
 import React, { useState } from 'react'
-import {
-  Typography,
-  Accordion,
-  AccordionHeader,
-  AccordionBody,
-  Avatar,
-} from '@material-tailwind/react'
+import { Typography, Accordion, AccordionHeader, AccordionBody } from '@material-tailwind/react'
 import { ChevronDownIcon } from '@heroicons/react/24/outline'
 import { getColor } from '../../dashboard/profile/utils'
 
-const SelectColor = (params) => {
+const SelectColor = ({
+  label,
+  data,
+  filterBy,
+  setFilterData,
+  filterData,
+  active,
+  open,
+  handleOpen,
+}) => {
   const [filter, setFilter] = useState([])
-
-  // params
-  const { label, data, filterBy, setFilterData, filterData, active, open, handleOpen } = params
 
   const handleSelector = (item) => {
     if (filter.includes(item)) {
@@ -27,25 +27,15 @@ const SelectColor = (params) => {
     }
   }
 
-  // const handleClear = () => {
-  //   setFilter([])
-  //   setFilterData({ ...filterData, [filterBy]: [] })
-  // }
-
   return (
     <Accordion
       open={open === active}
       className="mb-2 rounded-md border bg-white px-2 shadow-md"
       icon={
-        <>
-          {/* <span onClick={handleClear}>Clear</span> */}
-          <ChevronDownIcon
-            strokeWidth={2.5}
-            className={`mx-auto h-4 w-4 transition-transform ${
-              open === active ? 'rotate-180' : ''
-            }`}
-          />
-        </>
+        <ChevronDownIcon
+          strokeWidth={2.5}
+          className={`mx-auto h-4 w-4 transition-transform ${open === active ? 'rotate-180' : ''}`}
+        />
       }
     >
       <AccordionHeader
@@ -62,10 +52,8 @@ const SelectColor = (params) => {
           {data.map((item, idx) => (
             <div
               title={item}
-              className={`${getColor(item)} h-9 w-9 shadow-sm ${
-                filter.includes(item) && 'border-4 shadow-xl'
-              } cursor-pointer rounded-full border`}
-              src=""
+              className={`${getColor(item)} h-9 w-9 shadow-sm ${filter.includes(item) && 'border-4 shadow-xl'
+                } cursor-pointer rounded-full border`}
               onClick={() => handleSelector(item)}
               key={idx}
             />

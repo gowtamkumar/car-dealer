@@ -22,15 +22,13 @@ import { ProductService } from '../services/product.service'
 export class ProductController {
   private logger = new Logger(ProductController.name)
 
-  constructor(private readonly productService: ProductService) {}
+  constructor(private readonly productService: ProductService) { }
 
   @Get('/')
   async getProducts(
     @RequestContext() ctx: RequestContextDto,
     @Query() filterProductDto: any,
   ): Promise<BaseApiSuccessResponse<ProductDto[]>> {
-    console.log("🚀 ~ ProductController ~ filterProductDto:", filterProductDto)
- 
     this.logger.verbose(`User "${ctx.user?.username}" retieving products.`)
 
     const result = await this.productService.getProducts(ctx, filterProductDto)
@@ -43,25 +41,6 @@ export class ProductController {
       data: result,
     }
   }
-  
-  // @UseGuards(JwtAuthGuard)
-  // @Get('/delete-expire')
-  // async getUsedExpireDeleteProducts(
-  //   @RequestContext() ctx: RequestContextDto,
-  //   @Query() filterProductDto: FilterProductDto,
-  // ): Promise<BaseApiSuccessResponse<ProductDto[]>> {
-  //   this.logger.verbose(`User "${ctx.user?.username}" retieving products.`)
-
-  //   const result = await this.productService.getUsedExpireDeleteProducts(ctx, filterProductDto)
-
-  //   return {
-  //     success: true,
-  //     statusCode: 200,
-  //     message: `Delete all used expired products`,
-  //     totalRecords: result.length,
-  //     data: result,
-  //   }
-  // }
 
 
   @Get('/:id')

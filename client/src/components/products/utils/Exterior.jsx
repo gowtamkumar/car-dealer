@@ -34,7 +34,7 @@ const Exterior = ({
         <div className="flex items-center gap-2">
           <ChevronDownIcon
             strokeWidth={2.5}
-            onClick={() => handleOpen(active)} //open === active
+            // onClick={() => handleOpen(active)} 
             className={`mx-auto h-4 w-4 transition-transform ${true ? 'rotate-180' : ''
               }`}
           />

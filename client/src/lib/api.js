@@ -1,4 +1,4 @@
-'use client'
+// 'use client'
 import { getSession } from 'next-auth/react'
 
 const BASE_URL = process.env.NEXT_SERVER_URL + '/api/v1'
@@ -62,14 +62,15 @@ async function GetProducts(params) {
     lowPrice,
     highPrice,
     conditions,
-    productFeature
+    productFeature,
+    status
   } = data
 
   // const lowPrice = false
   // const highPrice = true
   // const search = ""
 
-  let queryString = '';
+  let queryString = 'status=Approved&';
 
   if (brandId?.length > 0) {
     queryString += `brandId=${brandId.join(',')}${brandId && '&'}`
@@ -116,10 +117,13 @@ async function GetProducts(params) {
     queryString += `conditions=${conditions}&`
   }
 
+  if (conditions) {
+    queryString += `conditions=${conditions}&`
+  }
+
   if (color?.length > 0) {
     queryString += `color=${color.join(',')}${color && '&'}`
   }
-  console.log("queryString:", queryString)
 
   try {
     const res = await fetch(`${BASE_URL}/${api}?${queryString}`)
@@ -137,9 +141,7 @@ async function Create(params) {
   try {
     const session = await getSession()
     const { api, data } = params
-    // console.log("🚀 ~ data:", data)
-    // console.log('session?.user?.token', session?.user?.token)
-    // return
+
     const resp = await fetch(`${BASE_URL}/${api}`, {
       method: 'POST',
       headers: {

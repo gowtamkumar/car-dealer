@@ -13,6 +13,7 @@ export default function Brands() {
   const [action, setAction] = useState({})
   const [brands, setBrands] = useState([])
 
+
   useEffect(() => {
     ; (async () => {
       const params = { api: 'brands' }
@@ -36,14 +37,18 @@ export default function Brands() {
             label: 'Active',
             key: 'active',
             children: (
-              <BrandList setAction={setAction} brands={brands.filter((item) => item.isActive)} />
+              <BrandList setAction={setAction}
+                brands={brands.filter((item) => item.isActive)}
+              />
             ),
           },
           {
             label: 'Inactive',
             key: 'inactive',
             children: (
-              <BrandList setAction={setAction} brands={brands.filter((item) => !item.isActive)} />
+              <BrandList setAction={setAction}
+                brands={brands.filter((item) => !item.isActive)}
+              />
             ),
           },
         ]}
@@ -58,9 +63,10 @@ export default function Brands() {
           </Button>
         }
       />
-      {action.type === ActionType.CREATE && <AddBrand action={action} setAction={setAction} />}
-      {action.type === ActionType.UPDATE && <AddBrand action={action} setAction={setAction} />}
-      {/* {action.type === ActionType.VIEW && <PurchaseDetails action={action} setAction={setAction} />} */}
+      <AddBrand action={action} setAction={setAction} />
+
+      {/* {action.type === ActionType.CREATE && <AddBrand action={action} setAction={setAction} />}
+      {action.type === ActionType.UPDATE && <AddBrand action={action} setAction={setAction} />} */}
     </div>
   )
 }

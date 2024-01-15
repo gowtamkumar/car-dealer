@@ -13,8 +13,9 @@ export default function Models() {
   const [action, setAction] = useState({})
   const [models, setModels] = useState([])
 
+
   useEffect(() => {
-    ;(async () => {
+    ; (async () => {
       const params = { api: 'models' }
       const res = await Promise.resolve(Gets(params))
       setModels(res.data || [])

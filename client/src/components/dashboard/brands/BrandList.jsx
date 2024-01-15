@@ -24,19 +24,6 @@ const BrandList = ({ brands, setAction }) => {
   // query
   const dt = useRef(null)
 
-  // useEffect(() => {
-  //   ; (async () => {
-  //     const params = { api: 'brands' }
-  //     const res = await Promise.resolve(Gets(params))
-  //     if (isActive) {
-  //       const newData = res?.data.filter((item) => item.isActive === isActive)
-  //       setBrands(newData)
-  //     } else {
-  //       setBrands(res?.data)
-  //     }
-  //   })()
-  // }, [])
-
   const handleDelete = async (id) => {
     setTimeout(async () => {
       const params = { api: 'brands', id }

@@ -56,7 +56,8 @@ export class ProductService {
       maxPrice,
       accidentHistory,
       lowPrice,
-      highPrice
+      highPrice,
+      status
     } = filterProductDto
 
     // service time Start
@@ -81,6 +82,7 @@ export class ProductService {
     if (color) qb.andWhere('product.color IN (:...colors)', { colors: color.split(',') })
 
 
+    if (status) qb.andWhere({ status })
     if (condition) qb.andWhere({ condition })
     if (auction) qb.andWhere({ auction })
     if (accidentHistory) qb.andWhere({ accidentHistory })

@@ -15,7 +15,6 @@ const SystemSettings = () => {
 
   useEffect(() => {
     const newData = { ...data }
-    console.log('newData:', newData)
     if (newData.logo) {
       const file = {
         uid: Math.random() * 1000 + '',

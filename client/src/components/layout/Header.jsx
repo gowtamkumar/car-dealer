@@ -135,7 +135,7 @@ function NavList({ session = {} }) {
 
       {session?.status === 'authenticated' && (
         <>
-          <Typography
+          {/* <Typography
             as={Link}
             href="/dashboard/add-product/new"
             variant="small"
@@ -159,7 +159,7 @@ function NavList({ session = {} }) {
               <QueueListIcon className="h-[18px] w-[18px]" />
               Car List
             </ListItem>
-          </Typography>
+          </Typography> */}
 
           {user?.role !== 'Seller' && <NavListMenu session={session} />}
         </>

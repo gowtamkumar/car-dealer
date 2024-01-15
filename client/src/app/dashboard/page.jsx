@@ -57,11 +57,9 @@ const Dashboard = () => {
             approved = approved + 1
           }
         })
-
         setReports({ pending: pending, approved: approved, rejected: rejected, total: (result.data.length || 0) })
-        setData(res.data)
       }
-
+      setData(res.data)
     })()
   }, [action])
 

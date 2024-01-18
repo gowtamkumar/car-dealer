@@ -111,7 +111,7 @@ const SystemSettings = () => {
 
   const normFile = ({ file, fileList }) => {
     if (file.status === 'removed') {
-      setFormData({ photo: null })
+      setFormData({ logo: null })
     }
     return fileList
   }
@@ -151,7 +151,7 @@ const SystemSettings = () => {
                 onChange={async (v) => {
                   if (!v.fileList.length) {
                     if (formValues?.fileName) {
-                      const params = { api: 'file-delete', data: { photo: formValues.fileName } }
+                      const params = { api: 'file-delete', data: { logo: formValues.fileName } }
                       await FileDeleteWithPhoto(params)
                     }
                   }

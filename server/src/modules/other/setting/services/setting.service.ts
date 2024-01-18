@@ -15,7 +15,6 @@ export class SettingService {
   ) { }
 
   
-
   getSettings(ctx: RequestContextDto, filterSettingDto: FilterSettingDto): Promise<SettingEntity[]> {
     this.logger.log(`${this.getSettings.name} Service Called`)
     return this.settingRepo.find()
@@ -43,6 +42,7 @@ export class SettingService {
     id: string,
     updateSettingDto: UpdateSettingDto,
   ): Promise<SettingEntity> {
+    console.log("🚀 ~ SettingService ~ updateSettingDto:", updateSettingDto)
     this.logger.log(`${this.updateSetting.name} Service Called`)
 
     const result = await this.settingRepo.findOne({ where: { id } })
